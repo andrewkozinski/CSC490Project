@@ -34,3 +34,8 @@ async def add_movie(movie_title: str, movie_director: str, movie_year: int):
         "year": movie_year
     }
     return {"message": "movie added", "movie_id": new_id}
+
+# Get all movies in the movies dictionary
+@app.get("/movies/all")
+async def get_all_movies():
+    return movies
