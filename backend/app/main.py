@@ -13,17 +13,22 @@ movies = {
         3: {"name": "Superman 2", "director": "James Gunn", "year": 2027}
     }
 
+# Get all movies in the movies dictionary
+@app.get("/movies/all")
+async def get_all_movies():
+    return movies
+
 # Example of a path operation with a path parameter
 # In actual practice, this would fetch an item from the database or fetch from whatever API we're working with.
 @app.get("/movies/{movie_id}")
-async def get_movie(movie_id):
-    # Using a hashmap/dictionary here for simplicity
-    # We'd actually fetch this from a database or some other data source
-    #item dict of movies with their details
-    return movies.get(movie_id, {"message": "movie not found"}) #return the item if found, otherwise return a not found message
+async def get_movie(movie_id: int):
+    # We'd actually fetch this from a database or some other data source,
+    # but for this example, we're just using a dict/hashmap to emulate that
+    # return the item if found, otherwise return a not found message
+    return movies.get(movie_id, {"message": "movie not found"})
 
 # Post request example for adding a new item to the items dictionary
-@app.post("/movies/")
+@app.post("movies/add")
 async def add_movie(movie_title: str, movie_director: str, movie_year: int):
     new_id = max(movies.keys()) + 1 # Generate a new ID by incrementing the highest existing ID
 
@@ -34,8 +39,3 @@ async def add_movie(movie_title: str, movie_director: str, movie_year: int):
         "year": movie_year
     }
     return {"message": "movie added", "movie_id": new_id}
-
-# Get all movies in the movies dictionary
-@app.get("/movies/all")
-async def get_all_movies():
-    return movies
