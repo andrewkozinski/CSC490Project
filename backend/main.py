@@ -2,6 +2,8 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+
+# Base route to test if the server is running
 @app.get("/")
 async def root():
     return {"message": "Hello World!"}
