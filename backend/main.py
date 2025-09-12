@@ -28,7 +28,7 @@ async def get_movie(movie_id: int):
     return movies.get(movie_id, {"message": "movie not found"})
 
 # Post request example for adding a new item to the items dictionary
-@app.post("movies/add")
+@app.post("/movies/add")
 async def add_movie(movie_title: str, movie_director: str, movie_year: int):
     new_id = max(movies.keys()) + 1 # Generate a new ID by incrementing the highest existing ID
 
