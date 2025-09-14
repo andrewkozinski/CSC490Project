@@ -1,6 +1,8 @@
 from fastapi import FastAPI
+from routes.movies import router as movies_router
 
 app = FastAPI()
+app.include_router(movies_router) #includes the API router from routes/movies.py
 
 
 # Base route to test if the server is running
