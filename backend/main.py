@@ -2,8 +2,6 @@ from fastapi import FastAPI
 from routes.movies import router as movies_router
 
 app = FastAPI()
-app.include_router(movies_router) #includes the API router from routes/movies.py
-
 
 # Base route to test if the server is running
 @app.get("/")
@@ -18,9 +16,9 @@ movies = {
     }
 
 # Get all movies in the movies dictionary
-@app.get("/movies/all")
-async def get_all_movies():
-    return movies
+#@app.get("/movies/all")
+#async def get_all_movies():
+#    return movies
 
 # Example of a path operation with a path parameter
 # In actual practice, this would fetch an item from the database or fetch from whatever API we're working with.
@@ -43,3 +41,6 @@ async def add_movie(movie_title: str, movie_director: str, movie_year: int):
         "year": movie_year
     }
     return {"message": "movie added", "movie_id": new_id}
+
+# Routes from routes directory
+app.include_router(movies_router, prefix="/movies") #includes the API router from routes/movies.py
