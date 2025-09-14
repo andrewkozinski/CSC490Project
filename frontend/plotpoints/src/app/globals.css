@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 :root {
+  --gradient: linear-gradient(to bottom, #F3E9DC, #B0E0E6);
   --background: #F3E9DC;
   --foreground: #171717;
 }
@@ -47,7 +48,8 @@
 }
 
 body {
-  background: var(--background);
+  background: var(--gradient);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: "Inria Serif", serif, Inter;
 }
