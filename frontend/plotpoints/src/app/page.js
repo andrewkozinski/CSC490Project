@@ -5,11 +5,8 @@ import Button from "./components/Button";
 export default function Home() {
   return (
     <div>
-      <TextBox/>
-      <Test heading="The heading" subheading="this is a description"/>
-      <div className="absolute top-0 right-0 m-4">
+      <Test heading="WELCOME TO PLOT POINTS!" subheading="We are developing a movie, TV show, and book review site to help individuals share their thoughts and opinions on movies and shows they’ve seen or books they’ve read with their friends, family, and anyone else online, in order to have a better idea as to where they should choose to spend their time on certain media over another."/>
       <Button>Sign In</Button>
       </div>
-    </div>
   );
 }
