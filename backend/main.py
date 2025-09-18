@@ -23,7 +23,7 @@ movies = {
 
 # Example of a path operation with a path parameter
 # In actual practice, this would fetch an item from the database or fetch from whatever API we're working with.
-@app.get("/movies/{movie_id}")
+@app.get("/example/movies/{movie_id}")
 async def get_movie(movie_id: int):
     # We'd actually fetch this from a database or some other data source,
     # but for this example, we're just using a dict/hashmap to emulate that
@@ -31,7 +31,7 @@ async def get_movie(movie_id: int):
     return movies.get(movie_id, {"message": "movie not found"})
 
 # Post request example for adding a new item to the items dictionary
-@app.post("/movies/add")
+@app.post("/example/movies/add")
 async def add_movie(movie_title: str, movie_director: str, movie_year: int):
     new_id = max(movies.keys()) + 1 # Generate a new ID by incrementing the highest existing ID
 
