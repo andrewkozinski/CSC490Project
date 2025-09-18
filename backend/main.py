@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routes.movies import router as movies_router
+from routes.auth import router as auth_router
 
 app = FastAPI()
 
@@ -44,3 +45,4 @@ async def add_movie(movie_title: str, movie_director: str, movie_year: int):
 
 # Routes from routes directory
 app.include_router(movies_router, prefix="/movies") #includes the API router from routes/movies.py
+app.include_router(auth_router, prefix="/auth") #includes the API router from routes/auth.py
