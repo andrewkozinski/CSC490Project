@@ -3,6 +3,7 @@ import os
 from fastapi import FastAPI
 from routes.movies import router as movies_router
 from routes.auth import router as auth_router
+from fastapi.middleware.cors import CORSMiddleware
 
 # Database connection
 import pyodbc
@@ -67,3 +68,12 @@ async def add_movie(movie_title: str, movie_director: str, movie_year: int):
 # Routes from routes directory
 app.include_router(movies_router, prefix="/movies") #includes the API router from routes/movies.py
 app.include_router(auth_router, prefix="/auth") #includes the API router from routes/auth.py
+
+# CORS settings
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
