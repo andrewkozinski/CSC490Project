@@ -51,5 +51,5 @@ body {
   background: var(--gradient);
   background-attachment: fixed; /* Stops the gradient from repeating throughout the page. */
   color: var(--foreground);
-  font-family: "Inria Serif", serif, Inter;
+  font-family: "Inria Serif", serif;
 }
