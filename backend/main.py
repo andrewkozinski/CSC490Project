@@ -1,6 +1,27 @@
+import os
+
 from fastapi import FastAPI
 from routes.movies import router as movies_router
 from routes.auth import router as auth_router
+
+# Database connection
+import pyodbc
+from dotenv import load_dotenv
+
+# Load .env
+load_dotenv()
+
+# Get connection string for connection
+connection_string = (
+    f'DRIVER={{ODBC Driver 18 for SQL Server}};'
+    f'SERVER={os.getenv("server")};'
+    f'DATABASE={os.getenv("database")};'
+    f'UID={os.getenv("username")};'
+    f'PWD={os.getenv("password")}'
+)
+
+# Start connection
+pyodbc.connect(connection_string)
 
 app = FastAPI()
 
