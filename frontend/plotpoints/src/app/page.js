@@ -1,10 +1,10 @@
-import Header from "./components/Header";
+import TextBox from "./components/TextBox";
 import Test from "./components/Test";
 
 export default function Home() {
   return (
     <div>
-      <Header/>
+      <TextBox/>
       <Test heading="The heading" subheading="this is a description"/>
     </div>
   );
