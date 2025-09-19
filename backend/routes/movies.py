@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-import requests
+import httpx
+import os
 router = APIRouter()
 
 TMDB_API_KEY = "key here"
