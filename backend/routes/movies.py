@@ -1,6 +1,8 @@
 from fastapi import APIRouter
-
+import requests
 router = APIRouter()
+
+TMDB_API_KEY = "key here"
 
 # Dictionary to simulate a database or API fetching movies
 movies = {
@@ -13,3 +15,6 @@ movies = {
 async def get_all_movies():
     return movies
 
+
+@router.get("/search")
+async def search_movies(query: str, page: int = 1):
