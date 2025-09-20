@@ -6,3 +6,4 @@ class Movie(BaseModel):
     director: str
     year: str
     release_date: str
+    overview: str
