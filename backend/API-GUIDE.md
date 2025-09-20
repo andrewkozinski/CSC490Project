@@ -8,7 +8,7 @@ This guide provides an overview of the available API routes in the backend. Each
 
 ## Books (`books.py`)
 - **GET books/search** : Search for books by title.
-- **GET books/{book_id}**: Get detailed information about a specific book by its Google Books API ID.1
+- **GET books/{book_id}**: Get detailed information about a specific book by its Google Books API ID.
 
 ## Movies (`movies.py`)
 - **GET movies/search** : Search for movies by title.
