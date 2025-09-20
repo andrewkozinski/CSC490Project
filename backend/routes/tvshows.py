@@ -95,6 +95,7 @@ async def get_tvshow(tv_id: int):
 
         created_by = [creator['name'] for creator in item.get('created_by', [])]
 
+        #Note: the API sometimes has its genre as an empty array, so not every response has a genre
         tv_show = TvShow(
             id=str(item['id']),
             title=item['name'],
