@@ -57,6 +57,7 @@ async def search_movies(query: str, page: int = 1):
             movie = Movie(
                 id=str(item['id']),
                 title=item['title'],
+                genre=[GENRE_ID_TO_NAME.get(genre_id, "Unknown") for genre_id in item.get('genre_ids', [])],
                 director=director['name'] if director else "Unknown",
                 year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
                 release_date=item.get('release_date', "N/A"),
@@ -93,6 +94,13 @@ async def get_movie(movie_id: int):
             raise HTTPException(status_code=movie_response.status_code, detail="Movie not found")
 
         movie_details = movie_response.json()
+        # genre in details response is contained like this:
+        # "genres": [
+        # {
+        #    "id": 18,
+        #    "name": "Drama"
+        # }
+        # ],
 
         credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={TMDB_API_KEY}"
         credits_response = await client.get(credits_url)
@@ -108,6 +116,7 @@ async def get_movie(movie_id: int):
         movie = Movie(
             id=str(movie_details['id']),
             title=movie_details['title'],
+            genre=[genre['name'] for genre in movie_details.get('genres', [])],
             director=director['name'] if director else "Unknown",
             year=movie_details['release_date'].split('-')[0] if movie_details.get('release_date') else "Unknown",
             release_date=movie_details.get('release_date', "N/A"),
