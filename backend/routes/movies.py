@@ -1,9 +1,11 @@
 from fastapi import APIRouter
 import httpx
 import os
+from dotenv import load_dotenv
 router = APIRouter()
 
-TMDB_API_KEY = "key here"
+load_dotenv()
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
 # Dictionary to simulate a database or API fetching movies
 movies = {
@@ -19,3 +21,8 @@ async def get_all_movies():
 
 @router.get("/search")
 async def search_movies(query: str, page: int = 1):
+    url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={query}&page={page}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        return response.json()
