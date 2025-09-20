@@ -14,3 +14,10 @@ async def login(request: LoginRequest):
         return {"token": "DUMMY-TOKEN"}
     raise HTTPException(status_code=401, detail="Invalid username or password"
 )
+
+@router.post("/register")
+async def register(request: LoginRequest):
+    # Dummy registration logic
+    if request.username and request.password:
+        return {"message": "User registered successfully"}
+    raise HTTPException(status_code=400, detail="Invalid registration details")
