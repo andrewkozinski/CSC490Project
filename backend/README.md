@@ -32,3 +32,12 @@ Activate the virtual environment:
 5. The FastAPI server should now be running at these URLs:
     - API Root (should just show a json response of hello world): `http://127.0.0.1:8000/`
     - API Docs (fancy API documentation): `http://127.0.0.1:8000/docs`
+
+## .env File:
+Make sure to create a `.env` file in the `backend` directory with the following content:
+```
+TMDB_API_KEY=your_tmdb_api_key_here
+TMBD_API_READ_ACCESS_TOKEN=your_tmdb_read_access_token_here
+```
+
+The keys can be found in the Discord in #environment-files or you can create your own account on https://www.themoviedb.org/ and generate your own API keys.
