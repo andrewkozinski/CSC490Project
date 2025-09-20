@@ -9,6 +9,31 @@ router = APIRouter()
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
+# A movie response has a genre id list, we need to map those ids to genre names
+# Usually, to grab this information you'd need the following:
+# "https://api.themoviedb.org/3/genre/movie/list?api_key={TMDB_API_KEY}"
+GENRE_ID_TO_NAME = {
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western"
+}
+
 #Returns movie information in the Movie model format
 @router.get("/search")
 async def search_movies(query: str, page: int = 1):
@@ -17,7 +42,6 @@ async def search_movies(query: str, page: int = 1):
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
-
 
         movies = []
         for item in data.get('results', []):
