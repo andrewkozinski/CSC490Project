@@ -8,3 +8,4 @@ class TvShow(BaseModel):
     release_date: str
     seasons: int
     episodes: int
+    img: str
