@@ -8,6 +8,7 @@ class Book(BaseModel):
     description: str
     authors: List[str]
     date_published: str
+    categories: List[str]
     pageCount: int
     thumbnailUrl: str
     thumbnailExtraLargeUrl: str
