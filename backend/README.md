@@ -48,7 +48,7 @@ The backend is deployed on Render. It will be set up to automatically deploy whe
 The deployed backend can be accessed at:
 https://csc490project.onrender.com/
 
-Since we are using the **free tier** of Render, the server may take a **few seconds** (at most a minute) to wake up if it has been inactive for a while. Usually the server will spin down after 15 minutes of inactivity.
+Since we are using the **free tier** of Render, the server typically takes on average 30 seconds (at most a minute) to wake up if it has been inactive for a while. Usually the server will spin down after 15 minutes of inactivity.
 
 **Beta version** of the backend is also deployed at:
 https://beta-csc490project.onrender.com/
