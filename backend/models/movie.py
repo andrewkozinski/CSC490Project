@@ -7,3 +7,4 @@ class Movie(BaseModel):
     year: str
     release_date: str
     overview: str
+    img: str
