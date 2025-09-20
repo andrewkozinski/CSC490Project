@@ -45,12 +45,16 @@ async def search_books(query: str, page: int = 1):
             else:
                 item['volumeInfo']['imageLinks'] = {'large': ''}
 
+            #get categories out of details response because that's not in a search query directly
+            item['volumeInfo']['categories'] = detail_item['volumeInfo'].get('categories', ['N/A'])
+
             book = Book(
                 id=item['id'],
                 title=item['volumeInfo'].get('title', 'N/A'),
                 description=item['volumeInfo'].get('description', 'N/A'),
                 authors=item['volumeInfo'].get('authors', ['N/A']),
                 date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
+                categories=item['volumeInfo'].get('categories', ['N/A']),
                 pageCount=item['volumeInfo'].get('pageCount', 0),
                 thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
                 thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
