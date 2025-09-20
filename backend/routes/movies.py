@@ -9,8 +9,48 @@ router = APIRouter()
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
+#Returns movie information in the Movie model format
 @router.get("/search")
 async def search_movies(query: str, page: int = 1):
+    url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={query}&page={page}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+
+        movies = []
+        for item in data.get('results', []):
+
+            #Get director information from the movie details endpoint
+            credits_url = f"https://api.themoviedb.org/3/movie/{item['id']}/credits?api_key={TMDB_API_KEY}"
+            credits_response = await client.get(credits_url)
+            if credits_response.status_code != 200:
+                continue  # Skip if we can't get credits
+            credits_details = credits_response.json()
+            director = next((member for member in credits_details['crew'] if member['job'] == 'Director'), None)
+
+            movie = Movie(
+                id=str(item['id']),
+                title=item['title'],
+                director=director['name'] if director else "Unknown",
+                year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
+                release_date=item.get('release_date', "N/A"),
+                overview=item.get('overview', "No overview available."),
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+            )
+            movies.append(movie)
+
+        return {
+            "page": data.get('page', 1),
+            "total_results": data.get('total_results', 0),
+            "total_pages": data.get('total_pages', 1),
+            "results": movies
+        }
+
+# Detailed search that returns the full JSON response from TMDB
+@router.get("/search/detailed")
+async def search_movies_detailed(query: str, page: int = 1):
     url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={query}&page={page}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
@@ -47,7 +87,8 @@ async def get_movie(movie_id: int):
             director=director['name'] if director else "Unknown",
             year=movie_details['release_date'].split('-')[0] if movie_details.get('release_date') else "Unknown",
             release_date=movie_details.get('release_date', "N/A"),
-            overview=movie_details.get('overview', "No overview available.")
+            overview=movie_details.get('overview', "No overview available."),
+            img = "https://image.tmdb.org/t/p/w500" + movie_details['poster_path'] if movie_details.get('poster_path') else ""
         )
 
         return movie
