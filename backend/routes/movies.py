@@ -46,7 +46,8 @@ async def get_movie(movie_id: int):
             title=movie_details['title'],
             director=director['name'] if director else "Unknown",
             year=movie_details['release_date'].split('-')[0] if movie_details.get('release_date') else "Unknown",
-            release_date=movie_details.get('release_date', "N/A")
+            release_date=movie_details.get('release_date', "N/A"),
+            overview=movie_details.get('overview', "No overview available.")
         )
 
         return movie
