@@ -1,9 +1,9 @@
 import os
-
 from fastapi import FastAPI
 from routes.movies import router as movies_router
 from routes.auth import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
 app = FastAPI()
 
