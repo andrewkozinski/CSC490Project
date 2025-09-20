@@ -21,7 +21,6 @@ async def search_books(query: str, page: int = 1):
 
         books = []
         for item in data.get('items', []):
-
             """
             book model
                 id: str
@@ -34,6 +33,18 @@ async def search_books(query: str, page: int = 1):
                 isbn_10: str
                 isbn_13: str
             """
+
+            #To get extra large thumbnail, we need to call into the same route as book details
+            #As that thumbnail is not included in the search results
+            detail_url = f"https://www.googleapis.com/books/v1/volumes/{item['id']}"
+            detail_response = await client.get(detail_url)
+            detail_response.raise_for_status()
+            detail_item = detail_response.json()
+            if 'imageLinks' in detail_item['volumeInfo']:
+                item['volumeInfo']['imageLinks']['large'] = detail_item['volumeInfo']['imageLinks'].get('large', '')
+            else:
+                item['volumeInfo']['imageLinks'] = {'large': ''}
+
             book = Book(
                 id=item['id'],
                 title=item['volumeInfo'].get('title', 'N/A'),
@@ -42,6 +53,7 @@ async def search_books(query: str, page: int = 1):
                 date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
                 pageCount=item['volumeInfo'].get('pageCount', 0),
                 thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
+                thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
                 isbn_10=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_10'),
                 isbn_13=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_13'),
             )
