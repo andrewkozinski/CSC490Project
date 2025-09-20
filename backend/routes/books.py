@@ -47,7 +47,11 @@ async def search_books(query: str, page: int = 1):
             )
             books.append(book)
 
-        return books
+        return {
+            "page": page,
+            "total_results": data.get('totalItems', 0),
+            "results": books
+        }
 
 
 @router.get("/{book_id}")
