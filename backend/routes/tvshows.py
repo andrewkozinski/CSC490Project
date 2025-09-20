@@ -98,6 +98,7 @@ async def get_tvshow(tv_id: int):
         tv_show = TvShow(
             id=str(item['id']),
             title=item['name'],
+            genre=[genre['name'] for genre in item.get('genres', [])],
             created_by=created_by or ["N/A"],
             release_date=item.get('first_air_date', "N/A"),
             seasons=item.get('number_of_seasons', 0),
