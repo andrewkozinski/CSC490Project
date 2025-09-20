@@ -28,13 +28,23 @@ async def search_tvshows(query: str, page: int = 1):
         """
         tv_shows = []
         for item in data.get('results', []):
+
+            #Grab more detailed information for each tv show
+            #to get number of seasons and episodes
+            detail_url = f"https://api.themoviedb.org/3/tv/{item['id']}?api_key={TMDB_API_KEY}"
+            detail_response = await client.get(detail_url)
+            detail_response.raise_for_status()
+            detail_item = detail_response.json()
+            #get created_by from detail_item as a list of strings
+            created_by=[creator['name'] for creator in detail_item.get('created_by', [])]
+
             tv_show = TvShow(
                 id=str(item['id']),
                 title=item['name'],
-                director="N/A", #Temporarily N/A
+                created_by=created_by or ["N/A"],
                 release_date=item.get('first_air_date', "N/A"),
-                seasons=item.get('number_of_seasons', 0),
-                episodes=item.get('number_of_episodes', 0),
+                seasons=detail_item.get('number_of_seasons', 0),
+                episodes=detail_item.get('number_of_episodes', 0),
                 img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
             )
             tv_shows.append(tv_show)
@@ -65,10 +75,12 @@ async def get_tvshow(tv_id: int):
         response.raise_for_status()
         item = response.json()
 
+        created_by = [creator['name'] for creator in item.get('created_by', [])]
+
         tv_show = TvShow(
             id=str(item['id']),
             title=item['name'],
-            director="N/A",  # Director info is not typically available for TV shows in TMDB
+            created_by=created_by or ["N/A"],
             release_date=item.get('first_air_date', "N/A"),
             seasons=item.get('number_of_seasons', 0),
             episodes=item.get('number_of_episodes', 0),
