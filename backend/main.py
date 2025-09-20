@@ -48,8 +48,8 @@ async def add_movie(movie_title: str, movie_director: str, movie_year: int):
     return {"message": "movie added", "movie_id": new_id}
 
 # Routes from routes directory
-app.include_router(movies_router, prefix="/movies") #includes the API router from routes/movies.py
 app.include_router(auth_router, prefix="/auth") #includes the API router from routes/auth.py
+app.include_router(movies_router, prefix="/movies") #includes the API router from routes/movies.py
 app.include_router(tv_router, prefix="/tvshows") #includes the API router from routes/tvshows.py
 
 # CORS settings
