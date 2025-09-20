@@ -79,7 +79,6 @@ async def get_book_details(book_id: str):
         #Need to call another route to get ISBN because for some reason
         #Google Books API doesn't include it in the direct book details response
         #But it does include it in the search response
-
         title = item['volumeInfo'].get('title', 'N/A')
         search_url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title}&maxResults=1"
         search_response = await client.get(search_url)
@@ -99,6 +98,7 @@ async def get_book_details(book_id: str):
             description=item['volumeInfo'].get('description', 'N/A'),
             authors=item['volumeInfo'].get('authors', ['N/A']),
             date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
+            categories=item['volumeInfo'].get('categories', ['N/A']),
             pageCount=item['volumeInfo'].get('pageCount', 0),
             thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
             thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
