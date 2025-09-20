@@ -1,5 +1,11 @@
+import os
 from fastapi import FastAPI
 from routes.movies import router as movies_router
+from routes.auth import router as auth_router
+from routes.tvshows import router as tv_router
+from routes.books import router as book_router
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
 app = FastAPI()
 
@@ -22,7 +28,7 @@ movies = {
 
 # Example of a path operation with a path parameter
 # In actual practice, this would fetch an item from the database or fetch from whatever API we're working with.
-@app.get("/movies/{movie_id}")
+@app.get("/example/movies/{movie_id}")
 async def get_movie(movie_id: int):
     # We'd actually fetch this from a database or some other data source,
     # but for this example, we're just using a dict/hashmap to emulate that
@@ -30,7 +36,7 @@ async def get_movie(movie_id: int):
     return movies.get(movie_id, {"message": "movie not found"})
 
 # Post request example for adding a new item to the items dictionary
-@app.post("/movies/add")
+@app.post("/example/movies/add")
 async def add_movie(movie_title: str, movie_director: str, movie_year: int):
     new_id = max(movies.keys()) + 1 # Generate a new ID by incrementing the highest existing ID
 
@@ -43,4 +49,16 @@ async def add_movie(movie_title: str, movie_director: str, movie_year: int):
     return {"message": "movie added", "movie_id": new_id}
 
 # Routes from routes directory
+app.include_router(auth_router, prefix="/auth") #includes the API router from routes/auth.py
 app.include_router(movies_router, prefix="/movies") #includes the API router from routes/movies.py
+app.include_router(tv_router, prefix="/tvshows") #includes the API router from routes/tvshows.py
+app.include_router(book_router, prefix="/books") #includes the API router from routes/books.py
+
+# CORS settings
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
