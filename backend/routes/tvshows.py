@@ -8,6 +8,23 @@ router = APIRouter()
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
+#genre id helper function for TV Shows as some extra mappings exist
+GENRE_ID_TO_NAME = {
+    10759: "Action & Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    10762: "Kids",
+    9648: "Mystery",
+    10763: "News",
+    10764: "Reality",
+    10765: "Sci-Fi & Fantasy",
+    10766: "Soap"
+}
+
 @router.get("/search")
 async def search_tvshows(query: str, page: int = 1):
     url = f"https://api.themoviedb.org/3/search/tv?api_key={TMDB_API_KEY}&query={query}&page={page}"
@@ -41,6 +58,7 @@ async def search_tvshows(query: str, page: int = 1):
             tv_show = TvShow(
                 id=str(item['id']),
                 title=item['name'],
+                genre=[GENRE_ID_TO_NAME.get(genre_id, "Unknown") for genre_id in item.get('genre_ids', [])], #map genre ids to names
                 created_by=created_by or ["N/A"],
                 release_date=item.get('first_air_date', "N/A"),
                 seasons=detail_item.get('number_of_seasons', 0),
