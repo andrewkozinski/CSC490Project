@@ -1,0 +1,92 @@
+from fastapi import APIRouter, HTTPException
+import httpx
+from models.book import Book
+
+router = APIRouter()
+
+#Helper function to get isbn out of the industry_identifiers in the google books api response
+def get_isbn(industry_identifiers, type):
+    for identifier in industry_identifiers:
+        if identifier['type'] == type:
+            return identifier.get("identifier")
+    return 'N/A'
+
+@router.get("/search")
+async def search_books(query: str, page: int = 1):
+    url = f"https://www.googleapis.com/books/v1/volumes?q={query}&startIndex={(page-1)*10}&maxResults=10&"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        books = []
+        for item in data.get('items', []):
+
+            """
+            book model
+                id: str
+                title: str
+                description: str
+                authors: List[str]
+                date_published: str
+                pageCount: int
+                thumbnailUrl: str
+                isbn_10: str
+                isbn_13: str
+            """
+            book = Book(
+                id=item['id'],
+                title=item['volumeInfo'].get('title', 'N/A'),
+                description=item['volumeInfo'].get('description', 'N/A'),
+                authors=item['volumeInfo'].get('authors', ['N/A']),
+                date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
+                pageCount=item['volumeInfo'].get('pageCount', 0),
+                thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
+                isbn_10=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_10'),
+                isbn_13=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_13'),
+            )
+            books.append(book)
+
+        return books
+
+
+@router.get("/{book_id}")
+async def get_book_details(book_id: str):
+    url = f"https://www.googleapis.com/books/v1/volumes/{book_id}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="Book not found")
+        response.raise_for_status()
+        item = response.json()
+
+        #Need to call another route to get ISBN because for some reason
+        #Google Books API doesn't include it in the direct book details response
+        #But it does include it in the search response
+
+        title = item['volumeInfo'].get('title', 'N/A')
+        search_url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title}&maxResults=1"
+        search_response = await client.get(search_url)
+        search_response.raise_for_status()
+        search_data = search_response.json()
+        industry_identifiers = search_data.get('items', [{}])[0].get('volumeInfo', {}).get('industryIdentifiers', [])
+        isbn_10 = get_isbn(industry_identifiers, 'ISBN_10')
+        isbn_13 = get_isbn(industry_identifiers, 'ISBN_13')
+
+        #Also grab description because that's also not in the details response for some reason
+        if 'description' not in item['volumeInfo']:
+            item['volumeInfo']['description'] = search_data.get('items', [{}])[0].get('volumeInfo', {}).get('description', 'N/A')
+
+        book = Book(
+            id=item['id'],
+            title=item['volumeInfo'].get('title', 'N/A'),
+            description=item['volumeInfo'].get('description', 'N/A'),
+            authors=item['volumeInfo'].get('authors', ['N/A']),
+            date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
+            pageCount=item['volumeInfo'].get('pageCount', 0),
+            thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
+            thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
+            isbn_10=isbn_10,
+            isbn_13=isbn_13,
+        )
+        return book
