@@ -7,6 +7,18 @@ from routes.books import router as book_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
+import oracledb
+
+oracledb.init_oracle_client(lib_dir=r"C:\Program Files\instantclient_23_9")
+
+connection = oracledb.connect(
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASS"),
+        dsn=os.getenv("DB_DSN")
+    )
+print("Connection established")
+connection.close()
+
 app = FastAPI()
 
 # Base route to test if the server is running
