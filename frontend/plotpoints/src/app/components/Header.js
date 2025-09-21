@@ -14,7 +14,7 @@ export default function Header() {
       </div>
       <nav className ="flex gap-5 mx-5">
         <a className="headingStyling" href="/signup">Sign Up</a>
-        <a className="headingStyling" href="/signup">Sign In</a>
+        <a className="headingStyling" href="/signin">Sign In</a>
       </nav>
     </header>
   );
