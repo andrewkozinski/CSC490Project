@@ -20,6 +20,7 @@ def start_connection():
         print("Database error: ", e)
         return None, None
 
+# Stop connection
 def stop_connection(connection, cursor):
     if cursor:
         cursor.close()
