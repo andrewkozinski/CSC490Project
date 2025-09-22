@@ -6,6 +6,7 @@ from routes.tvshows import router as tv_router
 from routes.books import router as book_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+import requests
 
 import oracledb
 
@@ -32,6 +33,7 @@ try:
     connection.close()
 except oracledb.DatabaseError as e:
     print("Database error: ", e)
+    print("Your public ip: ", requests.get('https://api.ipify.org').text)
 
 app = FastAPI()
 
