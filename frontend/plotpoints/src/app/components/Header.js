@@ -14,15 +14,18 @@ export default function Header() {
         <a className="headingStyling whitespace-nowrap" href="/tv">TV Shows</a>
         <a className="headingStyling" href="/books">Books</a>
       </div>
-      <nav className ="flex gap-5 mx-5">
-        <a className="headingStyling" href="/signup">Sign Up</a>
-        <a className="headingStyling" href="/signin">Sign In</a>
+      <nav className ="grid gap-10 mx-5 grid-rows-2">
+        <div>
+          <a className="headingStyling" href="/signup">Sign Up</a>
+          <a className="headingStyling" href="/signin">Sign In</a>
+        </div>
+        
         <div className="app">
-       <input
-         className="search headingStyling"
-         placeholder="Search..."
-         onChange={(e) => setQuery(e.target.value.toLowerCase())}
-       />
+          <input
+           className="search headingStyling flex-wrap"
+           placeholder="Search..."
+           onChange={(e) => setQuery(e.target.value.toLowerCase())}
+          />
        {/* <ul className="list">
          {Users.filter((asd) =>
            asd.first_name.toLowerCase().includes(query)
