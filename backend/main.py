@@ -9,15 +9,29 @@ from dotenv import load_dotenv
 
 import oracledb
 
-oracledb.init_oracle_client(lib_dir=r"C:\Program Files\instantclient_23_9")
+#oracledb.init_oracle_client(lib_dir=r"C:\Program Files\instantclient_23_9")
 
-connection = oracledb.connect(
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASS"),
-        dsn=os.getenv("DB_DSN")
-    )
-print("Connection established")
-connection.close()
+try:
+    connection = oracledb.connect(
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASS"),
+            dsn=os.getenv("DB_DSN"),
+        )
+
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM USERS")
+    row = cursor.fetchall()
+    print("Connected")
+    if row:
+        print("Users found")
+        for row in row:
+            print(row)
+    else:
+        print("No result")
+    cursor.close()
+    connection.close()
+except oracledb.DatabaseError as e:
+    print("Database error: ", e)
 
 app = FastAPI()
 
