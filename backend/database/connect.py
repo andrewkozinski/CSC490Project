@@ -1,6 +1,10 @@
 import oracledb
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
+
 # Begin connection and return cursor
 def start_connection():
     try:
@@ -14,7 +18,10 @@ def start_connection():
         return connection, cursor
     except oracledb.DatabaseError as e:
         print("Database error: ", e)
+        return None, None
 
 def stop_connection(connection, cursor):
-    connection.close()
-    cursor.close()
+    if cursor:
+        cursor.close()
+    if connection:
+        connection.close()
