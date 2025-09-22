@@ -5,12 +5,10 @@ from routes.auth import router as auth_router
 from routes.tvshows import router as tv_router
 from routes.books import router as book_router
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
+
 import requests
 
 import oracledb
-
-#oracledb.init_oracle_client(lib_dir=r"C:\Program Files\instantclient_23_9")
 
 try:
     connection = oracledb.connect(
