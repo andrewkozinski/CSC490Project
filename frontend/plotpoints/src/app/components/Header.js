@@ -1,4 +1,6 @@
+'use client';
 import "./Header.css";
+
 
 export default function Header() {
   return (
@@ -15,6 +17,22 @@ export default function Header() {
       <nav className ="flex gap-5 mx-5">
         <a className="headingStyling" href="/signup">Sign Up</a>
         <a className="headingStyling" href="/signin">Sign In</a>
+        <div className="app">
+       <input
+         className="search headingStyling"
+         placeholder="Search..."
+         onChange={(e) => setQuery(e.target.value.toLowerCase())}
+       />
+       {/* <ul className="list">
+         {Users.filter((asd) =>
+           asd.first_name.toLowerCase().includes(query)
+         ).map((user) => (
+           <li className="listItem" key={user.id}>
+             {user.first_name}
+           </li>
+         ))}
+       </ul> */}
+     </div>
       </nav>
     </header>
   );
