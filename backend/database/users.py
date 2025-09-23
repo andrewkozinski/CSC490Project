@@ -64,6 +64,18 @@ def delete_user(user_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+def print_user():
+    connection, cursor = connect.start_connection()
+    cursor.execute("SELECT * FROM USERS")
+    row = cursor.fetchall()
+    if row:
+        for row in row:
+            print(row)
+    else:
+        print("No result")
+
+print_user()
+
 # add_user(
 #     "100",
 #     "JohnSmith2",
@@ -71,4 +83,4 @@ def delete_user(user_id):
 #     "john2@gmail.com"
 # )
 
-delete_user("100")
+# delete_user("100")
