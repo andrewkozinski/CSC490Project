@@ -1,16 +1,81 @@
+"use client";
+import { useState } from "react";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL; //get the API URL from environment variable
+
 export default function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSignIn = async () => {
+    setLoading(true);
+    setError("");
+
+    console.log(apiUrl);
+
+    try {
+      const res = await fetch(`${apiUrl}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Something went wrong");
+        console.log(data)
+        setLoading(false);
+        return;
+      }
+
+      // Handle successful login, e.g., save token
+      console.log("Login successful:", data);
+      setLoading(false);
+      // You can redirect the user after login
+      // router.push("/dashboard");
+    } catch (err) {
+      setError(`Network Error: ${err.message}`);
+      console.log(err);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <div className="flex flex-1 justify-center items-center">
         <div className="flex flex-col gap-4 w-1/4">
-          <TextField label="Email" type="email" name="email" placeholder="Enter your email" />
-          <TextField label="Password" type="password" name="password" placeholder="Enter your password" />
-          <p className="mt-4 text-blue-500 cursor-pointer hover:underline">
-            Submit
+          <TextField
+            label="Email"
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && <p className="text-red-500">{error}</p>}
+          <p
+            className={`mt-4 text-blue-500 cursor-pointer hover:underline ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={loading ? undefined : handleSignIn}
+          >
+            {loading ? "Submitting..." : "Submit"}
           </p>
         </div>
       </div>
