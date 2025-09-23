@@ -5,8 +5,8 @@ export default function Header() {
   return (
     /// Changed it so that its a flex box that contains the left side for the title and sections
     /// and right side for Sign-in/Sign-up and search bar
-    <header className="w-full mx-5 mt-2 flex justify-between items-center">
-      <div className="flex max-w-sm items-end gap-20">
+    <header className="w-full mt-2 pb-3 flex justify-between items-center border-b-2">
+      <div className="flex mx-5 max-w-sm items-end gap-20">
         {/* <img src="images/plotpointslogo.png" alt="Plot Points Text" width={100} height={100}/> */}
         <a className="inria-serif-regular text-4xl inline-block text-center" href="./">PLOT POINTS</a>
         <a className="text" href="/movies">Movies</a>
