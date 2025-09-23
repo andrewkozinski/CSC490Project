@@ -24,7 +24,7 @@ export default function SignIn() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Something went wrong");
+        setError(data.detail || "Something went wrong");
         console.log(data)
         setLoading(false);
         return;
