@@ -9,6 +9,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -34,6 +35,8 @@ export default function SignIn() {
       console.log("Login successful:", data);
       setLoading(false);
       // Redirect the user after login most likely, use router probably for the best
+      
+      router.push("/"); // Redirect to dashboard or any other page
     } catch (err) {
       setError(`Network Error: ${err.message}`);
       console.log(err);
