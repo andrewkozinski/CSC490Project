@@ -14,14 +14,14 @@ export default function Header() {
         <a className="text" href="/books">Books</a>
       </div>
 
-      <nav className ="grid grid-rows-2 mr-5 items-baseline">
+      <nav className ="grid grid-rows-2 mr-5">
         <div>
-          <a className="text fields brown mr-10 mt-1" href="/signup">Sign Up</a>
-          <a className="text fields blue" href="/signin">Sign In</a>
+          <a className="text fields brown shadow mr-10 mt-1" href="/signup">Sign Up</a>
+          <a className="text fields blue shadow" href="/signin">Sign In</a>
         </div>
-        <div className="text mt-2 mr-5 items-baseline">
+        <div>
           <input 
-            className="fields search blue headingStyling"
+            className="text fields shadow search blue mt-2 mr-5"
             placeholder="Search"
             onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
