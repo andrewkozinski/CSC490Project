@@ -6,33 +6,6 @@ from routes.tvshows import router as tv_router
 from routes.books import router as book_router
 from fastapi.middleware.cors import CORSMiddleware
 
-import requests
-
-import oracledb
-
-try:
-    connection = oracledb.connect(
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASS"),
-            dsn=os.getenv("DB_DSN"),
-        )
-
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM USERS")
-    row = cursor.fetchall()
-    print("Connected")
-    if row:
-        print("Users found")
-        for row in row:
-            print(row)
-    else:
-        print("No result")
-    cursor.close()
-    connection.close()
-except oracledb.DatabaseError as e:
-    print("Database error: ", e)
-    print("Your public ip: ", requests.get('https://api.ipify.org').text)
-
 app = FastAPI()
 
 # Base route to test if the server is running
