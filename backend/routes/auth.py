@@ -7,6 +7,11 @@ class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
+class SignUpRequest(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
+
 @router.post("/login")
 async def login(request: LoginRequest):
     # Dummy authentication logic
@@ -16,7 +21,7 @@ async def login(request: LoginRequest):
 )
 
 @router.post("/register")
-async def register(request: LoginRequest):
+async def register(request: SignUpRequest):
     # Dummy registration logic
     if request.username and request.password:
         return {"message": "User registered successfully"}
