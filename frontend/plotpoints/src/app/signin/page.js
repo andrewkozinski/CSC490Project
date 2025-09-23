@@ -3,8 +3,6 @@ import { useState } from "react";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL; //get the API URL from environment variable
-
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,14 +13,10 @@ export default function SignIn() {
     setLoading(true);
     setError("");
 
-    console.log(apiUrl);
-
     try {
-      const res = await fetch(`${apiUrl}/auth/login`, {
+      const res = await fetch("/api/signin", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -35,11 +29,10 @@ export default function SignIn() {
         return;
       }
 
-      // Handle successful login, e.g., save token
+      // Handle successful login logic should go here
       console.log("Login successful:", data);
       setLoading(false);
-      // You can redirect the user after login
-      // router.push("/dashboard");
+      // Redirect the user after login most likely
     } catch (err) {
       setError(`Network Error: ${err.message}`);
       console.log(err);
