@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
-import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -11,36 +12,21 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSignIn = async () => {
-    setLoading(true);
+  const handleSignIn = async (e) => {
+    e.preventDefault();
     setError("");
-
-    try {
-      const res = await fetch("/api/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.detail || "Something went wrong");
-        console.log(data)
-        setLoading(false);
-        return;
-      }
-
-      // Handle successful login logic should go here
-      console.log("Login successful:", data);
+    setLoading(true);
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+    if (result?.error) {
       setLoading(false);
-      // Redirect the user after login most likely, use router probably for the best
-      
-      router.push("/"); // Redirect to homepage or any other page
-    } catch (err) {
-      setError(`Network Error: ${err.message}`);
-      console.log(err);
+      setError("Invalid email or password");
+    } else {
       setLoading(false);
+      router.push("/"); // Redirect to home
     }
   };
 
