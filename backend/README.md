@@ -45,7 +45,7 @@ The keys can be found in the Discord in #environment-files or you can create you
 ## Render Deployment:
 The backend is deployed on Render. It will be set up to automatically deploy when changes are pushed to the main branch. 
 
-The deployed backend can be accessed at:
+The deployed backend (which points to the main branch) can be accessed at:
 https://csc490project.onrender.com/
 
 Since we are using the **free tier** of Render, the server typically takes on average 30 seconds (at most a minute) to wake up if it has been inactive for a while. Usually the server will spin down after 15 minutes of inactivity.
