@@ -44,5 +44,6 @@ async def login(request: LoginRequest):
 async def register(request: SignUpRequest):
     # Dummy registration logic
     if request.username and request.password:
-        return {"message": "User registered successfully"}
+        token = create_jwt_token({"sub": request.email, "username": request.username})
+        return {"token": token}
     raise HTTPException(status_code=400, detail="Invalid registration details")
