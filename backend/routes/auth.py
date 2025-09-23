@@ -37,7 +37,12 @@ async def login(request: LoginRequest):
     # Dummy authentication logic
     if request.email == "admin@gmail.com" and request.password == "password":
         token = create_jwt_token({"sub": request.email, "username": "admin"})
-        return {"token": token}
+        return {
+            "user_id": 1,
+            "name": "admin",
+            "email": request.email,
+            "token": token
+        }
     raise HTTPException(status_code=401, detail="Invalid username or password")
 
 @router.post("/register")
