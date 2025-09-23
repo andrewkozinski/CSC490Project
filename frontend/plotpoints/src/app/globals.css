@@ -6,16 +6,14 @@
   --gradient: linear-gradient(to bottom, #F3E9DC 60%, #B0E0E6);
   --background: #F3E9DC;
   --foreground: #171717;
+  --color-blue: #B0E0E6;
 }
 
-/*
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-*/
+
+/* @theme {
+  --color-blue: #B0E0E6;
+} */
+
 
 @media (prefers-color-scheme: dark) { /* Dark mode variables, changes the background and foreground based on device theme. Can be removed if we don't need this.*/
   :root {

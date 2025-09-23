@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <div>
       <Header/>
-      <Test heading="The heading" subheading="this is a description"/>
     </div>
   );
 }
