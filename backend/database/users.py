@@ -122,7 +122,7 @@ def update_username(user_id, new_username):
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error updating username:", error_obj.message)
+        print("Database error updating USERNAME:", error_obj.message)
 
     finally:
         connect.stop_connection(connection, cursor)
@@ -158,7 +158,43 @@ def update_email(user_id, new_email):
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error updating username:", error_obj.message)
+        print("Database error updating EMAIL:", error_obj.message)
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def update_password(user_id, new_hashed_password):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return
+
+    try:
+        cursor.execute(
+            """
+            UPDATE USERS
+            SET HASHED_PASSWORD = :1
+            WHERE USER_ID = :2
+            """,
+            (new_hashed_password, user_id)
+        )
+
+        if cursor.rowcount == 0:  # no rows updated
+            print(f"Error: USER_ID {user_id} does not exist.")
+        else:
+            connection.commit()
+            print(f"Hashed Password for USER_ID {user_id} updated successfully to '{new_hashed_password}'.")
+
+    except oracledb.IntegrityError as e:
+        error_obj, = e.args
+        if "ORA-00001" in error_obj.message and "HASHED_PASSWORD" in error_obj.message:
+            print(f"Error: HASHED_PASSWORD '{new_hashed_password}' already exists.")
+        else:
+            print("Integrity error:", error_obj.message)
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error updating HASHED_PASSWORD:", error_obj.message)
 
     finally:
         connect.stop_connection(connection, cursor)
