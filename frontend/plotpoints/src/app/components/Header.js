@@ -13,26 +13,18 @@ export default function Header() {
         <a className="headingStyling whitespace-nowrap" href="/tv">TV Shows</a>
         <a className="headingStyling" href="/books">Books</a>
       </div>
-      <nav className ="grid p-2 grid-rows-2 mr-5">
+
+      <nav className ="grid p-2 grid-rows-2 mr-5 border-brown rounded-lg items-baseline">
         <div>
-          <a className="headingStyling" href="/signup">Sign Up</a>
-          <a className="headingStyling" href="/signin">Sign In</a>
+          <a className="blue headingStyling" href="/signup">Sign Up</a>
+          <a className="blue headingStyling" href="/signin">Sign In</a>
         </div>
-        <div className="bg-[#B0E0E6] opacity-60 mr-5 items-baseline">
+        <div className="blue rounded-lg mr-5 items-baseline">
           <input 
             className="search headingStyling"
-            placeholder="Search..."
+            placeholder="Search"
             onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
-       {/* <ul className="list">
-         {Users.filter((asd) =>
-           asd.first_name.toLowerCase().includes(query)
-         ).map((user) => (
-           <li className="listItem" key={user.id}>
-             {user.first_name}
-           </li>
-         ))}
-         </ul> */}
         </div>
       </nav>
     </header>

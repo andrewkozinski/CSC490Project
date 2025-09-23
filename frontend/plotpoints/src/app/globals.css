@@ -7,6 +7,7 @@
   --background: #F3E9DC;
   --foreground: #171717;
   --color-blue: #B0E0E6;
+  --color-brown: #7e675b;
 }
 
 
@@ -51,4 +52,9 @@ body {
   background-attachment: fixed; /* Stops the gradient from repeating throughout the page. */
   color: var(--foreground);
   font-family: "Inter", sans-serif;
+}
+
+.blue {
+  background-color: #b0e0e666;
+  border-radius: 10px;
 }

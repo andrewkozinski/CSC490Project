@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 
+:root {
+    --color-blue: #B0E0E6;
+}
 
 .header {
     background-color: #000000;
@@ -11,4 +14,12 @@
 
 .headingStyling {
     @apply text-xl inline-block items-baseline;
+}
+
+.signUpButton {
+    @apply text-black border border-[#7E675B] rounded-lg mx-5
+}
+
+.signInButton {
+    @apply text-black border border-[#7E675B] rounded-lg mx-5
 }
