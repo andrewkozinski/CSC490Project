@@ -1,5 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
+import Header from "../components/Header";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
@@ -9,6 +10,7 @@ export default function SessionInfo() {
 
   return (
     <div>
+      <Header/>
       <h3>Session Data:</h3>
       <pre>{JSON.stringify(session, null, 2)}</pre>
     </div>
