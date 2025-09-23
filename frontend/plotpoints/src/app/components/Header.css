@@ -8,8 +8,11 @@
     display: inline-block;
 }
 
+.hoverCat {
+    @apply hover:text-[#ffa2e9];
+}
 .text {
-    @apply text-xl inline-block items-baseline;
+    @apply text-xl rounded-lg inline-block items-baseline;
 }
 
 .fields {
