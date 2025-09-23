@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -32,7 +33,7 @@ export default function SignIn() {
       // Handle successful login logic should go here
       console.log("Login successful:", data);
       setLoading(false);
-      // Redirect the user after login most likely
+      // Redirect the user after login most likely, use router probably for the best
     } catch (err) {
       setError(`Network Error: ${err.message}`);
       console.log(err);
