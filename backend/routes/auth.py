@@ -1,16 +1,16 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 router = APIRouter()
 
 class LoginRequest(BaseModel):
-    username: str
+    email: EmailStr
     password: str
 
 @router.post("/login")
 async def login(request: LoginRequest):
     # Dummy authentication logic
-    if request.username == "admin" and request.password == "password":
+    if request.email == "admin@gmail.com" and request.password == "password":
         return {"token": "DUMMY-TOKEN"}
     raise HTTPException(status_code=401, detail="Invalid username or password"
 )
