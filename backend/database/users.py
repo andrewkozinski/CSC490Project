@@ -1,8 +1,9 @@
 import connect
 import oracledb
 
-def add_user(user_id, username, hashed_password, email):
+def add_user(username, hashed_password, email):
     connection, cursor = connect.start_connection()
+    user_id = get_new_user_id()
     if not connection or not cursor:
         print("Failed to connect to database.")
         return
@@ -74,8 +75,33 @@ def print_user():
     else:
         print("No result")
 
-print_user()
+def get_new_user_id():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
 
+    try:
+        cursor.execute("SELECT MAX(USER_ID) FROM USERS")
+        result = cursor.fetchone()
+
+        if result and result[0] is not None:
+            return result[0] + 1 # Add one to maximum existing user id
+        else:
+            print("No users found in the database.")
+            return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching max USER_ID:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+delete_user("101")
+print_user()
+print(get_new_user_id())
 # add_user(
 #     "100",
 #     "JohnSmith2",
@@ -83,4 +109,4 @@ print_user()
 #     "john2@gmail.com"
 # )
 
-# delete_user("100")
+#delete_user("100")
