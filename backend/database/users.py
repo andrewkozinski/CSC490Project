@@ -199,7 +199,7 @@ def update_password(user_id, new_hashed_password):
     finally:
         connect.stop_connection(connection, cursor)
 
-#print_user()
+# print_user()
 # add_user(
 #      "JohnSmith2",
 #      "123",
@@ -207,5 +207,5 @@ def update_password(user_id, new_hashed_password):
 # )
 # update_username(4,"John")
 # update_email(4,"john@gmail.com")
-#update_password(4, "456")
-#print_user()
+# update_password(4, "456")
+# print_user()
