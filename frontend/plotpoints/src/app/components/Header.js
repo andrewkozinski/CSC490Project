@@ -13,7 +13,6 @@ export default function Header() {
         <a className="text whitespace-nowrap" href="/tv">TV Shows</a>
         <a className="text" href="/books">Books</a>
       </div>
-
       <nav className ="grid grid-rows-2 mr-5">
         <div>
           <a className="text fields brown shadow mr-10 mt-1" href="/signup">Sign Up</a>
@@ -23,7 +22,6 @@ export default function Header() {
           <input 
             className="text fields shadow search blue mt-2 mr-5"
             placeholder="Search"
-            onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
         </div>
       </nav>
