@@ -199,14 +199,13 @@ def update_password(user_id, new_hashed_password):
     finally:
         connect.stop_connection(connection, cursor)
 
-delete_user("101")
-print_user()
-print(get_new_user_id())
+#print_user()
 # add_user(
-#     "100",
-#     "JohnSmith2",
-#     "123",
-#     "john2@gmail.com"
+#      "JohnSmith2",
+#      "123",
+#      "john2@gmail.com"
 # )
-
-#delete_user("100")
+# update_username(4,"John")
+# update_email(4,"john@gmail.com")
+#update_password(4, "456")
+#print_user()
