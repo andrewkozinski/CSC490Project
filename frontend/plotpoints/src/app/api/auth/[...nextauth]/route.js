@@ -37,7 +37,8 @@ export const authOptions = {
   pages: {
     signIn: "/signin",
     error: "/signin" // Redirect to sign-in page on error
-  }
+  },
+  secret: process.env.NEXTAUTH_SECRET
 };
 
 const handler = NextAuth(authOptions);
