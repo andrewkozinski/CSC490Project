@@ -36,7 +36,7 @@ export default function SignIn() {
       setLoading(false);
       // Redirect the user after login most likely, use router probably for the best
       
-      router.push("/"); // Redirect to dashboard or any other page
+      router.push("/"); // Redirect to homepage or any other page
     } catch (err) {
       setError(`Network Error: ${err.message}`);
       console.log(err);
