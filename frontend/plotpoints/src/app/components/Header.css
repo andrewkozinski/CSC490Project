@@ -12,14 +12,26 @@
     display: inline-block;
 }
 
-.headingStyling {
+.text {
     @apply text-xl inline-block items-baseline;
 }
 
-.signUpButton {
-    @apply text-black border border-[#7E675B] rounded-lg mx-5
+.fields {
+    @apply text-xl rounded-lg p-1 px-3 border-transparent;
 }
 
-.signInButton {
-    @apply text-black border border-[#7E675B] rounded-lg mx-5
+.blue {
+    background-color: #b0e0e666;
+    /* border-radius: 10px;
+    border-color: #00000000; */
+}
+
+.brown {
+    background-color: #7e675b66;
+    /* border-radius: 10px;
+    border-color: #00000000; */
+}
+
+.search {
+    max-width: full;
 }

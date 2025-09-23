@@ -6,22 +6,22 @@ export default function Header() {
     /// Changed it so that its a flex box that contains the left side for the title and sections
     /// and right side for Sign-in/Sign-up and search bar
     <header className="w-full mx-5 mt-2 flex justify-between items-center">
-      <div className="flex max-w-sm items-end gap-25">
+      <div className="flex max-w-sm items-end gap-20">
         {/* <img src="images/plotpointslogo.png" alt="Plot Points Text" width={100} height={100}/> */}
         <a className="inria-serif-regular text-4xl inline-block text-center" href="./">PLOT POINTS</a>
-        <a className="headingStyling" href="/movies">Movies</a>
-        <a className="headingStyling whitespace-nowrap" href="/tv">TV Shows</a>
-        <a className="headingStyling" href="/books">Books</a>
+        <a className="text" href="/movies">Movies</a>
+        <a className="text whitespace-nowrap" href="/tv">TV Shows</a>
+        <a className="text" href="/books">Books</a>
       </div>
 
-      <nav className ="grid p-2 grid-rows-2 mr-5 border-brown rounded-lg items-baseline">
+      <nav className ="grid grid-rows-2 mr-5 items-baseline">
         <div>
-          <a className="blue headingStyling" href="/signup">Sign Up</a>
-          <a className="blue headingStyling" href="/signin">Sign In</a>
+          <a className="text fields brown mr-10 mt-1" href="/signup">Sign Up</a>
+          <a className="text fields blue" href="/signin">Sign In</a>
         </div>
-        <div className="blue rounded-lg mr-5 items-baseline">
+        <div className="text mt-2 mr-5 items-baseline">
           <input 
-            className="search headingStyling"
+            className="fields search blue headingStyling"
             placeholder="Search"
             onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
