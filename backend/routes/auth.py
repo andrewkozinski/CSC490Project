@@ -36,9 +36,9 @@ class SignUpRequest(BaseModel):
 async def login(request: LoginRequest):
     # Dummy authentication logic
     if request.email == "admin@gmail.com" and request.password == "password":
-        return {"token": "DUMMY-TOKEN"}
-    raise HTTPException(status_code=401, detail="Invalid username or password"
-)
+        token = create_jwt_token({"sub": request.email})
+        return {"token": token}
+    raise HTTPException(status_code=401, detail="Invalid username or password")
 
 @router.post("/register")
 async def register(request: SignUpRequest):
