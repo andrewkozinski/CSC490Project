@@ -18,7 +18,7 @@ export default function Header() {
           <a className="headingStyling" href="/signup">Sign Up</a>
           <a className="headingStyling" href="/signin">Sign In</a>
         </div>
-        <div className="bg-blue opacity-60 mr-5 items-baseline">
+        <div className="bg-[#B0E0E6] opacity-60 mr-5 items-baseline">
           <input 
             className="search headingStyling"
             placeholder="Search..."
