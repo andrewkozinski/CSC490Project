@@ -1,3 +1,5 @@
+from pydantic import EmailStr
+
 import database.connect
 import oracledb
 from database import connect
@@ -227,6 +229,32 @@ def get_all_users():
 
     finally:
         connect.stop_connection(connection, cursor)
+
+# Fetch user by email
+def get_by_email(email: EmailStr):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return []
+
+    try:
+        cursor.execute("SELECT * FROM USERS WHERE EMAIL = :1", (email,))
+        row = cursor.fetchone()
+        if row:
+            user = {
+                "USER_ID": row[0],
+                "USERNAME": row[1],
+                "HASHED_PASSWORD": row[2],
+                "EMAIL": row[3]
+            }
+            return user
+        else:
+            print(f"No user found with EMAIL '{email}'.")
+            return None
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching user by email:", error_obj.message)
+        return None
 
 # print_user()
 # add_user(
