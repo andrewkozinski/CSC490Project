@@ -1,11 +1,10 @@
-import {NextResponse} from 'next/server';
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    // Parse the JSON body
     const body = await req.json();
 
-    // Call your backend
+    // Call into backend
     const response = await fetch(`${process.env.API_URL}/auth/register`, {
       method: "POST",
       headers: {
@@ -16,12 +15,14 @@ export async function POST(req) {
 
     const data = await response.json();
 
-    return NextResponse.json(data, { status: response.status });
+    //If response failed, return error message
+    if (!response.ok) {
+      return NextResponse.json({ error: data.detail || "Signup failed" }, { status: response.status });
+    }
+    //Response success happiness
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
