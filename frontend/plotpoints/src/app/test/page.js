@@ -9,7 +9,7 @@ export default function SessionInfo() {
   return (
     <>
       <Header />
-      <div>
+      <div className="flex flex-col items-center justify-center">
         {/*To explain how the ? operator works it checks the boolean value to the left of the equals
        If the value is true, it returns the value to the right of the colon. 
        If the value is false, it returns the value to the right of the colon.
@@ -28,7 +28,7 @@ export default function SessionInfo() {
           </>
         ) : (
           /*Not loading and there is an active user session*/
-          <div>
+          <div className="flex flex-col items-center">
             <h3>Session Data:</h3>
             <pre>{JSON.stringify(session, null, 2)}</pre>
             <Image
