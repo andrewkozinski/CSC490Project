@@ -1,15 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 
-
 .header {
     background-color: #000000;
     font-size: 20px;
     font-family: Inter;
-    padding-left: 20px;
     display: inline-block;
 }
 
-.headingStyling {
-    @apply text-xl inline-block items-baseline;
+.hoverCat {
+    @apply hover:text-[#ffa2e9];
+}
+.text {
+    @apply text-xl rounded-lg inline-block items-baseline;
+}
+
+.fields {
+    @apply text-xl rounded-lg p-1 px-4 border-transparent;
+}
+
+.shadow {
+    box-shadow: 10px, 10px;
+}
+
+.blue {
+    background-color: #b0e0e68f;
+}
+
+.brown {
+    background-color: #7e675b8f;
+}
+
+.search {
+    max-width: full;
 }
