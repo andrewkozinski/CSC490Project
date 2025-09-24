@@ -3,8 +3,9 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, EmailStr
 import jwt
+import bcrypt
 from datetime import datetime, timedelta, timezone
-from database.users import get_all_users
+from database.users import get_all_users, get_by_email, add_user
 
 # Load environment variables
 load_dotenv()
@@ -35,24 +36,34 @@ class SignUpRequest(BaseModel):
 
 @router.post("/login")
 async def login(request: LoginRequest):
-    # Dummy authentication logic
-    if request.email == "admin@gmail.com" and request.password == "password":
-        token = create_jwt_token({"sub": request.email, "username": "admin"})
-        return {
-            "user_id": 1,
-            "name": "admin",
-            "email": request.email,
-            "token": token
-        }
-    raise HTTPException(status_code=401, detail="Invalid username or password")
+
+    #Actually call into the DB
+    user = get_by_email(request.email)
+    if user:
+        # Verify the hashed password
+        if bcrypt.checkpw(request.password.encode(), user["HASHED_PASSWORD"]):
+            token = create_jwt_token({"sub": request.email, "username": user["USERNAME"]})
+            return {
+                "user_id": user["USER_ID"],
+                "name": user["USERNAME"],
+                "email": request.email,
+                "token": token
+            }
+        else:
+            raise HTTPException(status_code=401, detail="Invalid username or password")
+    return None
 
 @router.post("/register")
 async def register(request: SignUpRequest):
     if request.username and request.password:
+        #Hash the password
+        hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        #Insert into DB here
+        user_id = add_user(request.username, hashed_password, request.email)
+        #Create JWT token
         token = create_jwt_token({"sub": request.email, "username": request.username})
-        #Dummy logic for now, will update to use db soon
         return {
-            "id": 1,
+            "id": user_id,
             "username": request.username,
             "email": request.email,
             "token": token
