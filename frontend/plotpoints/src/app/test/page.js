@@ -14,19 +14,28 @@ export default function SessionInfo() {
        If the value is true, it returns the value to the right of the colon. 
        If the value is false, it returns the value to the right of the colon.
        */}
-        {status === "loading" ? (
+
+        {status === "loading" ? 
+        
+        (
           /*Loading state*/
           <>
             <p>Loading...</p>
             <Image src="/images/spr_tenna_t_pose_big.gif" alt="Loading" width={500} height={300} />
           </>
-        ) : !session ? (
+        ) 
+        
+        : !session ? //Not loading but now checks if there is a session
+        
+        (
           /*Not loading but no session state*/
           <>
             <p>No session found</p>
             <Image src="/images/sad-tenna.gif" alt="No session" width={500} height={300} />
           </>
-        ) : (
+        ) 
+        : 
+        (
           /*Not loading and there is an active user session*/
           <div className="flex flex-col items-center">
             <h3>Session Data:</h3>
@@ -44,7 +53,8 @@ export default function SessionInfo() {
               Sign out
             </button>
           </div>
-        )}
+        )
+        }
       </div>
 
     </>
