@@ -14,37 +14,26 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
     setLoading(true);
     setError("");
-
-    try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.detail || "Something went wrong");
-        console.log(data)
-        setLoading(false);
-        return;
-      }
-
-      // Handle successful login logic should go here
-      console.log("Login successful:", data);
+    e.preventDefault();
+    
+    //Call into api/signup
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, username, password }),
+    });
+    
+    const data = await res.json();//Get the json response
+    
+    if (!res.ok) {
+      setError(data.error || "Signup failed");
       setLoading(false);
-      // Redirect the user after login most likely, use router probably for the best
-      
-      router.push("/"); // Redirect to homepage or any other page
-    } catch (err) {
-      setError(`Network Error: ${err.message}`);
-      console.log(err);
-      setLoading(false);
+    } 
+    else {
+      router.push("/signin"); // Redirect to sign-in page
     }
   };
 
