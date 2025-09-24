@@ -21,6 +21,8 @@ def add_user(username, hashed_password, email):
         )
         connection.commit()
         print("User added successfully.")
+        # Return the new user ID
+        return user_id
 
     except oracledb.IntegrityError as e:
         # ORA-00001 occurs when a unique constraint is violated
