@@ -41,7 +41,7 @@ async def login(request: LoginRequest):
     user = get_by_email(request.email)
     if user:
         # Verify the hashed password
-        if bcrypt.checkpw(request.password.encode(), user["HASHED_PASSWORD"]):
+        if bcrypt.checkpw(request.password.encode('utf-8'), user["HASHED_PASSWORD"].encode('utf-8')):
             token = create_jwt_token({"sub": request.email, "username": user["USERNAME"]})
             return {
                 "user_id": user["USER_ID"],
