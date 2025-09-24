@@ -1,5 +1,6 @@
-import connect
+import database.connect
 import oracledb
+from database import connect
 
 def add_user(username, hashed_password, email):
     connection, cursor = connect.start_connection()
@@ -195,6 +196,34 @@ def update_password(user_id, new_hashed_password):
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error updating HASHED_PASSWORD:", error_obj.message)
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def get_all_users():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return []
+
+    try:
+        cursor.execute("SELECT * FROM USERS")
+        rows = cursor.fetchall()
+        users = []
+        for row in rows:
+            user = {
+                "USER_ID": row[0],
+                "USERNAME": row[1],
+                "HASHED_PASSWORD": row[2],
+                "EMAIL": row[3]
+            }
+            users.append(user)
+        return users
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching users:", error_obj.message)
+        return []
 
     finally:
         connect.stop_connection(connection, cursor)
