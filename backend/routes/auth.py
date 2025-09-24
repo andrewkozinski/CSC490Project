@@ -47,8 +47,13 @@ async def login(request: LoginRequest):
 
 @router.post("/register")
 async def register(request: SignUpRequest):
-    # Dummy registration logic
     if request.username and request.password:
         token = create_jwt_token({"sub": request.email, "username": request.username})
-        return {"token": token}
+        #Dummy logic for now, will update to use db soon
+        return {
+            "id": 1,
+            "username": request.username,
+            "email": request.email,
+            "token": token
+        }
     raise HTTPException(status_code=400, detail="Invalid registration details")
