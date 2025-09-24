@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, EmailStr
 import jwt
 from datetime import datetime, timedelta, timezone
+from database.users import get_all_users
 
 # Load environment variables
 load_dotenv()
@@ -57,3 +58,11 @@ async def register(request: SignUpRequest):
             "token": token
         }
     raise HTTPException(status_code=400, detail="Invalid registration details")
+
+@router.post("/getallusers")
+async def get_users():
+    users = get_all_users()
+    print(users)
+    if users is not None:
+        return {"users": users}
+    raise HTTPException(status_code=500, detail="Error fetching users")
