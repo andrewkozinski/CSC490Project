@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr
 import jwt
 import bcrypt
 from datetime import datetime, timedelta, timezone
-from database.users import get_all_users, get_by_email, add_user
+from users import get_all_users, get_by_email, add_user
 
 # Load environment variables
 load_dotenv()
