@@ -1,15 +1,14 @@
 from pydantic import EmailStr
 
-import database.connect
 import oracledb
-from database import connect
+import connect
 
 def add_user(username, hashed_password, email):
     connection, cursor = connect.start_connection()
     user_id = get_new_user_id()
     if not connection or not cursor:
         print("Failed to connect to database.")
-        return
+        return None
 
     try:
         cursor.execute(
@@ -258,13 +257,4 @@ def get_by_email(email: EmailStr):
         print("Database error fetching user by email:", error_obj.message)
         return None
 
-# print_user()
-# add_user(
-#      "JohnSmith2",
-#      "123",
-#      "john2@gmail.com"
-# )
-# update_username(4,"John")
-# update_email(4,"john@gmail.com")
-# update_password(4, "456")
-# print_user()
+print_user()
