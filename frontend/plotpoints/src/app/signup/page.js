@@ -1,4 +1,5 @@
 "use client";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
 import { useState } from "react";
@@ -84,6 +85,7 @@ export default function SignUp() {
           
         </div>
       </div>
+      <Footer/>
     </div>
     );
 }

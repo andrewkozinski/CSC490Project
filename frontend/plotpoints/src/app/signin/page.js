@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
 
@@ -62,6 +63,7 @@ export default function SignIn() {
           </p>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
