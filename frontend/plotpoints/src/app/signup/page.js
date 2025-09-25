@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
 
@@ -17,6 +18,7 @@ export default function SignUp() {
           </p>
         </div>
       </div>
+      <Footer/>
     </div>
     );
 }
