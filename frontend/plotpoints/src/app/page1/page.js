@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "./favicon.ico"
+import "../favicon.ico"
 
 function ThePage() {
   return (
