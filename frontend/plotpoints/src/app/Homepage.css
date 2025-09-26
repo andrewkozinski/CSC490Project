@@ -13,6 +13,7 @@
     max-width: 110;
     max-height: 169;
     border-radius: 5;
+    transition: all 0.3s ease-in-out;
 }
 
 .image:hover {
