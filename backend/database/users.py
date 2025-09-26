@@ -2,6 +2,7 @@ from pydantic import EmailStr
 
 import oracledb
 from database import connect
+import connect
 
 def add_user(username, hashed_password, email):
     connection, cursor = connect.start_connection()
@@ -69,7 +70,7 @@ def delete_user(user_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-def print_user():
+def print_users():
     connection, cursor = connect.start_connection()
     cursor.execute("SELECT * FROM USERS")
     row = cursor.fetchall()
@@ -257,4 +258,21 @@ def get_by_email(email: EmailStr):
         print("Database error fetching user by email:", error_obj.message)
         return None
 
-print_user()
+def valid_user_id(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+    try:
+        cursor.execute("SELECT * FROM USERS WHERE USER_ID = :1", (user_id,))
+        row = cursor.fetchone()
+        if row:
+            return True
+        else:
+            return False
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching user by ID:", error_obj.message)
+
+
+print_users()
