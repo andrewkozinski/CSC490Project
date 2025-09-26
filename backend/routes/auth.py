@@ -19,6 +19,14 @@ def create_jwt_token(data: dict, expires_delta: timedelta = timedelta(hours=1)):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
+#Function to verify if a token is expired or not
+def verify_jwt_token(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token has expired")
+    except jwt.InvalidTokenError:
 
 # Routing setup:
 router = APIRouter()
@@ -42,7 +50,7 @@ async def login(request: LoginRequest):
     if user:
         # Verify the hashed password
         if bcrypt.checkpw(request.password.encode('utf-8'), user["HASHED_PASSWORD"].encode('utf-8')):
-            token = create_jwt_token({"sub": request.email, "username": user["USERNAME"]})
+            token = create_jwt_token({"sub": request.email, "username": user["USERNAME"], "user_id": user["USER_ID"]})
             return {
                 "user_id": user["USER_ID"],
                 "name": user["USERNAME"],
