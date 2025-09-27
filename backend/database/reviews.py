@@ -1,6 +1,8 @@
 import oracledb
-import connect
-from users import valid_user_id
+#import connect
+from database import connect
+#from users import valid_user_id
+from .users import valid_user_id
 
 
 def get_new_review_id():
@@ -96,6 +98,36 @@ def print_reviews():
             print(row)
     else:
         print("No result")
+
+def get_all_reviews():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute("SELECT * FROM REVIEWS")
+        rows = cursor.fetchall()
+        reviews = []
+        for row in rows:
+            review = {
+                "review_id": row[0],
+                "user_id": row[1],
+                "media_id": row[2],
+                "media_type": row[3],
+                "rating": row[4],
+                "review_text": row[5]
+            }
+            reviews.append(review)
+        return reviews
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching reviews:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
 
 #print_reviews()
 #add_review(4,1,"a",5,"")
