@@ -7,3 +7,4 @@ dotenv
 oracledb
 requests
 PyJWT
+bcrypt
