@@ -219,7 +219,14 @@ def get_reviews_by_user_id_and_media_type(user_id, media_type):
     try:
         cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1 AND MEDIA_TYPE = :2", (user_id,media_type))
         rows = cursor.fetchall()
-        return rows
+
+        #Format reviews
+        reviews = []
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
+
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching reviews by user ID and media type:", error_obj.message)
