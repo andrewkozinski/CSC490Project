@@ -32,8 +32,8 @@ async def create_review(review: CreateReviewRequest):
         HTTPException(status_code=500, detail="Failed to create review. Please try again.")
 
 @router.put("/edit/{review_id}")
-async def edit_review(review_id: int):
-    result = reviews.edit_review(review_id)
+async def edit_review(review_id: int, review_text: str):
+    result = reviews.edit_review(review_id, review_text)
     if result is False:
         raise HTTPException(status_code=404, detail="An error occurred, review not found.")
     return {"message": "Review updated successfully"}
