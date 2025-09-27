@@ -268,10 +268,43 @@ def get_reviews_by_user_id_and_media_id_and_media_type(user_id, media_id, media_
     finally:
         connect.stop_connection(connection, cursor)
 
+def edit_review(review_id, review_text):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            UPDATE REVIEWS
+            SET REVIEW_TEXT = :1
+            WHERE REVIEW_ID = :2
+            """,
+            (review_text, review_id)
+        )
+
+        if cursor.rowcount == 0:  # no rows updated
+            print(f"Error: REVIEW_ID {review_id} does not exist.")
+            return False
+        else:
+            connection.commit()
+            print(f"REVIEW_TEXT for REVIEW_ID {review_id} updated successfully.")
+            return True
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error modifying review text:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
 
 
 #print_reviews()
 #add_review(4,1,"a",5,"")
 #print_reviews()
 #delete_review(1)
+#print_reviews()
+#edit_review(1, "best movie ever omg!")
 #print_reviews()
