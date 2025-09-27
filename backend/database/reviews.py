@@ -136,6 +136,23 @@ def get_all_reviews():
     finally:
         connect.stop_connection(connection, cursor)
 
+def get_reviews_by_media_type(media_type):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+    try:
+        cursor.execute("SELECT * FROM REVIEWS WHERE MEDIA_TYPE = :1", (media_type,))
+        rows = cursor.fetchall()
+        return rows
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching reviews by media type:", error_obj.message)
+        return None
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
 #print_reviews()
 #add_review(4,1,"a",5,"")
 #print_reviews()
