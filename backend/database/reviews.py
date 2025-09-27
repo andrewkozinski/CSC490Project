@@ -153,6 +153,28 @@ def get_reviews_by_media_type(media_type):
     finally:
         connect.stop_connection(connection, cursor)
 
+#gets all reviews for the media item. It finds all reviews that users have written for the specific item.
+def get_reviews_by_media_id_and_type(media_id, media_type):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+    try:
+        if media_type == "book":
+            cursor.execute("SELECT get_book_id(:1) FROM REVIEWS", (media_id,))
+            result = cursor.fetchone()
+            db_media_id = result[0]
+        else:
+            db_media_id = media_id
+        cursor.execute("SELECT * FROM REVIEWS WHERE MEDIA_ID = :1 AND MEDIA_TYPE = :2", (db_media_id, media_type))
+        rows = cursor.fetchall()
+        return rows
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching reviews by media ID and type:", error_obj.message)
+        return None
+    finally:
+        connect.stop_connection(connection, cursor)
 
 
 
