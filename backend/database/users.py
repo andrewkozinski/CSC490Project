@@ -8,8 +8,7 @@ def add_user(username, hashed_password, email):
     connection, cursor = connect.start_connection()
     user_id = get_new_user_id()
     if not connection or not cursor:
-        print("Failed to connect to database.")
-        return None
+        return {"error": "Failed to connect to database.", "code": 500}
 
     try:
         cursor.execute(
@@ -20,26 +19,20 @@ def add_user(username, hashed_password, email):
             (user_id, username, hashed_password, email)
         )
         connection.commit()
-        print("User added successfully.")
-        # Return the new user ID
-        return user_id
+        return {"user_id": user_id}
 
     except oracledb.IntegrityError as e:
-        # ORA-00001 occurs when a unique constraint is violated
         error_obj, = e.args
         if "ORA-00001" in error_obj.message:
-            if "USER_ID" in error_obj.message:
-                print(f"Error: USER_ID {user_id} already exists.")
-            elif "USERNAME" in error_obj.message:
-                print(f"Error: USERNAME '{username}' already exists.")
+            if "USERNAME" in error_obj.message:
+                return {"error": f"USERNAME '{username}' already exists.", "code": 409}
             elif "EMAIL" in error_obj.message:
-                print(f"Error: EMAIL '{email}' already exists.")
-        else:
-            print("Integrity error:", error_obj.message)
+                return {"error": f"EMAIL '{email}' already exists.", "code": 409}
+        return {"error": "Integrity error: " + error_obj.message, "code": 400}
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error inserting user:", error_obj.message)
+        return {"error": "Database error: " + error_obj.message, "code": 500}
 
     finally:
         connect.stop_connection(connection, cursor)
