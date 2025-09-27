@@ -1,12 +1,14 @@
-import connect
+from pydantic import EmailStr
+
 import oracledb
+from database import connect
+#import connect
 
 def add_user(username, hashed_password, email):
     connection, cursor = connect.start_connection()
     user_id = get_new_user_id()
     if not connection or not cursor:
-        print("Failed to connect to database.")
-        return
+        return {"error": "Failed to connect to database.", "code": 500}
 
     try:
         cursor.execute(
@@ -17,24 +19,20 @@ def add_user(username, hashed_password, email):
             (user_id, username, hashed_password, email)
         )
         connection.commit()
-        print("User added successfully.")
+        return {"user_id": user_id}
 
     except oracledb.IntegrityError as e:
-        # ORA-00001 occurs when a unique constraint is violated
         error_obj, = e.args
         if "ORA-00001" in error_obj.message:
-            if "USER_ID" in error_obj.message:
-                print(f"Error: USER_ID {user_id} already exists.")
-            elif "USERNAME" in error_obj.message:
-                print(f"Error: USERNAME '{username}' already exists.")
+            if "USERNAME" in error_obj.message:
+                return {"error": f"USERNAME '{username}' already exists.", "code": 409}
             elif "EMAIL" in error_obj.message:
-                print(f"Error: EMAIL '{email}' already exists.")
-        else:
-            print("Integrity error:", error_obj.message)
+                return {"error": f"EMAIL '{email}' already exists.", "code": 409}
+        return {"error": "Integrity error: " + error_obj.message, "code": 400}
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error inserting user:", error_obj.message)
+        return {"error": "Database error: " + error_obj.message, "code": 500}
 
     finally:
         connect.stop_connection(connection, cursor)
@@ -65,7 +63,7 @@ def delete_user(user_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-def print_user():
+def print_users():
     connection, cursor = connect.start_connection()
     cursor.execute("SELECT * FROM USERS")
     row = cursor.fetchall()
@@ -199,13 +197,72 @@ def update_password(user_id, new_hashed_password):
     finally:
         connect.stop_connection(connection, cursor)
 
-# print_user()
-# add_user(
-#      "JohnSmith2",
-#      "123",
-#      "john2@gmail.com"
-# )
-# update_username(4,"John")
-# update_email(4,"john@gmail.com")
-# update_password(4, "456")
-# print_user()
+def get_all_users():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return []
+
+    try:
+        cursor.execute("SELECT * FROM USERS")
+        rows = cursor.fetchall()
+        users = []
+        for row in rows:
+            user = {
+                "USER_ID": row[0],
+                "USERNAME": row[1],
+                "HASHED_PASSWORD": row[2],
+                "EMAIL": row[3]
+            }
+            users.append(user)
+        return users
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching users:", error_obj.message)
+        return []
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+# Fetch user by email
+def get_by_email(email: EmailStr):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return []
+
+    try:
+        cursor.execute("SELECT * FROM USERS WHERE EMAIL = :1", (email,))
+        row = cursor.fetchone()
+        if row:
+            user = {
+                "USER_ID": row[0],
+                "USERNAME": row[1],
+                "HASHED_PASSWORD": row[2],
+                "EMAIL": row[3]
+            }
+            return user
+        else:
+            print(f"No user found with EMAIL '{email}'.")
+            return None
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching user by email:", error_obj.message)
+        return None
+
+def valid_user_id(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+    try:
+        cursor.execute("SELECT * FROM USERS WHERE USER_ID = :1", (user_id,))
+        row = cursor.fetchone()
+        if row:
+            return True
+        else:
+            return False
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching user by ID:", error_obj.message)
