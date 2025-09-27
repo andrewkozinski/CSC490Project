@@ -1,0 +1,43 @@
+from http.client import HTTPException
+
+from fastapi import APIRouter
+from pydantic import BaseModel
+from backend.database import reviews
+
+class CreateReviewRequest(BaseModel):
+    user_id: int
+    media_id: int
+    media_type: str  # "movie", "tvshow", "book"
+    rating: int
+    review_text: str
+
+class DeleteReviewRequest(BaseModel):
+    review_id: int
+
+router = APIRouter()
+
+#Need routes to post, get, update, delete reviews
+@router.post("/create")
+async def create_review(review: CreateReviewRequest):
+    review_id = reviews.add_review(
+        user_id=review.user_id,
+        media_id=review.media_id,
+        media_type=review.media_type,
+        rating=review.rating,
+        review_text=review.review_text
+    )
+    if review_id is not None:
+        return {"message": "Review created successfully", "review_id": review_id}
+    else:
+        HTTPException(status_code=500, detail="Failed to create review. Please try again.")
+
+@router.put("/update")
+async def update_review():
+    return {"message": "TO BE IMPLEMENTED. REVIEW NOT ACTUALLY UPDATED"}
+
+@router.delete("/delete/{review_id}")
+async def delete_review(review_id: int):
+    result = reviews.delete_review(review_id)
+    if result is False:
+        raise HTTPException(status_code=404, detail="Review not found")
+    return {"message": "Review deleted successfully"}
