@@ -4,6 +4,7 @@ from routes.movies import router as movies_router
 from routes.auth import router as auth_router
 from routes.tvshows import router as tv_router
 from routes.books import router as book_router
+from routes.reviews import router as review_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -52,6 +53,7 @@ app.include_router(auth_router, prefix="/auth") #includes the API router from ro
 app.include_router(movies_router, prefix="/movies") #includes the API router from routes/movies.py
 app.include_router(tv_router, prefix="/tvshows") #includes the API router from routes/tvshows.py
 app.include_router(book_router, prefix="/books") #includes the API router from routes/books.py
+app.include_router(review_router, prefix="/reviews") #includes the API router from routes/reviews.py
 
 # CORS settings
 app.add_middleware(
