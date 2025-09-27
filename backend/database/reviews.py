@@ -194,7 +194,15 @@ def get_reviews_by_user_id(user_id):
     try:
         cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1", (user_id,))
         rows = cursor.fetchall()
+
+        reviews = []
+
+        #Format the reviews into a list of dictionaries for the front end to more easily access the data
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
         return rows
+
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching reviews by user ID:", error_obj.message)
