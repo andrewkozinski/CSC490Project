@@ -65,14 +65,20 @@ async def login(request: LoginRequest):
 @router.post("/register")
 async def register(request: SignUpRequest):
     if request.username and request.password:
+
         #Hash the password
         hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        #Insert into DB here
-        user_id = add_user(request.username, hashed_password, request.email)
-        #Create JWT token
+
+        #Actually call into the DB
+        result = add_user(request.username, hashed_password, request.email)
+        #Check for errors during user creation
+        if "error" in result:
+            raise HTTPException(status_code=result["code"], detail=result["error"])
+
+        #Create a JWT token for the newly registered user
         token = create_jwt_token({"sub": request.email, "username": request.username})
         return {
-            "id": user_id,
+            "id": result["user_id"],
             "username": request.username,
             "email": request.email,
             "token": token
