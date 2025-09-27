@@ -4,6 +4,15 @@ from database import connect
 #from users import valid_user_id
 from .users import valid_user_id
 
+def format_review(row):
+    return {
+        "review_id": row[0],
+        "user_id": row[1],
+        "media_id": row[2],
+        "media_type": row[3],
+        "rating": row[4],
+        "review_text": row[5]
+    }
 
 def get_new_review_id():
     connection, cursor = connect.start_connection()
@@ -168,7 +177,12 @@ def get_reviews_by_media_id_and_type(media_id, media_type):
             db_media_id = media_id
         cursor.execute("SELECT * FROM REVIEWS WHERE MEDIA_ID = :1 AND MEDIA_TYPE = :2", (db_media_id, media_type))
         rows = cursor.fetchall()
-        return rows
+
+        reviews = []
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching reviews by media ID and type:", error_obj.message)
@@ -185,7 +199,15 @@ def get_reviews_by_user_id(user_id):
     try:
         cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1", (user_id,))
         rows = cursor.fetchall()
-        return rows
+
+        reviews = []
+
+        #Format the reviews into a list of dictionaries for the front end to more easily access the data
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
+
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching reviews by user ID:", error_obj.message)
@@ -202,7 +224,14 @@ def get_reviews_by_user_id_and_media_type(user_id, media_type):
     try:
         cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1 AND MEDIA_TYPE = :2", (user_id,media_type))
         rows = cursor.fetchall()
-        return rows
+
+        #Format reviews
+        reviews = []
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
+
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching reviews by user ID and media type:", error_obj.message)
@@ -225,7 +254,13 @@ def get_reviews_by_user_id_and_media_id_and_media_type(user_id, media_id, media_
             db_media_id = media_id
         cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3", (user_id,media_id, media_type))
         rows = cursor.fetchall()
-        return rows
+
+        reviews = []
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
+
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching reviews by user ID and media ID and media_type:", error_obj.message)
