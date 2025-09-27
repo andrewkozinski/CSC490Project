@@ -70,3 +70,11 @@ async def get_reviews_by_user(user_id: int):
     if reviews_by_user is None:
         raise HTTPException(status_code=500, detail="Failed to fetch reviews. Please try again.")
     return {"reviews": reviews_by_user}
+
+#Get all reviews made by a user id for a specific media type
+@router.get("/by_user_and_media_type/{user_id}/{media_type}")
+async def get_reviews_by_user_and_media_type(user_id: int, media_type: str):
+    reviews_by_user_and_type = reviews.get_reviews_by_user_id_and_media_type(user_id, media_type.lower())
+    if reviews_by_user_and_type is None:
+        raise HTTPException(status_code=500, detail="Failed to fetch reviews. Please try again.")
+    return {"reviews": reviews_by_user_and_type}
