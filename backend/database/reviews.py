@@ -176,6 +176,23 @@ def get_reviews_by_media_id_and_type(media_id, media_type):
     finally:
         connect.stop_connection(connection, cursor)
 
+#get reviews by user id
+def get_reviews_by_user_id(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+    try:
+        cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1", (user_id,))
+        rows = cursor.fetchall()
+        return rows
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching reviews by user ID:", error_obj.message)
+        return None
+    finally:
+        connect.stop_connection(connection, cursor)
+
 
 
 
