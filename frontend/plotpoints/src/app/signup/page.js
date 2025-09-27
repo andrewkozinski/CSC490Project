@@ -76,6 +76,7 @@ export default function SignUp() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          {error && <p className="text-red-500">{error}</p>}
           <p 
             className="text-blue-500 cursor-pointer hover:underline"
             onClick={loading ? undefined : handleSignUp}
