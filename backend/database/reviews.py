@@ -4,6 +4,15 @@ from database import connect
 #from users import valid_user_id
 from .users import valid_user_id
 
+def format_review(row):
+    return {
+        "review_id": row[0],
+        "user_id": row[1],
+        "media_id": row[2],
+        "media_type": row[3],
+        "rating": row[4],
+        "review_text": row[5]
+    }
 
 def get_new_review_id():
     connection, cursor = connect.start_connection()
