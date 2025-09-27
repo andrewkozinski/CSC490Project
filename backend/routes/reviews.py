@@ -46,3 +46,12 @@ async def delete_review(review_id: int):
 async def get_all_reviews():
     all_reviews = reviews.get_all_reviews()
     return {"reviews": all_reviews}
+
+#get all reviews by media type: book, tv shows, movies
+@router.get("/by_media_type/{media_type}")
+async def get_reviews_by_media_type(media_type: str):
+    reviews_by_type = reviews.get_reviews_by_media_type(media_type)
+    if reviews_by_type is None:
+        raise HTTPException(status_code=500, detail="Failed to fetch reviews. Please try again.")
+    return {"reviews": reviews_by_type}
+
