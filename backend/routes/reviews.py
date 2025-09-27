@@ -2,7 +2,7 @@ from http.client import HTTPException
 
 from fastapi import APIRouter
 from pydantic import BaseModel
-from backend.database import reviews
+from database import reviews
 
 class CreateReviewRequest(BaseModel):
     user_id: int
@@ -41,3 +41,8 @@ async def delete_review(review_id: int):
     if result is False:
         raise HTTPException(status_code=404, detail="Review not found")
     return {"message": "Review deleted successfully"}
+
+@router.get("/all")
+async def get_all_reviews():
+    all_reviews = reviews.get_all_reviews()
+    return {"reviews": all_reviews}
