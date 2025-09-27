@@ -1,4 +1,5 @@
 "use client";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
 import { useState } from "react";
@@ -75,6 +76,7 @@ export default function SignUp() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          {error && <p className="text-red-500">{error}</p>}
           <p 
             className="text-blue-500 cursor-pointer hover:underline"
             onClick={loading ? undefined : handleSignUp}
@@ -84,6 +86,7 @@ export default function SignUp() {
           
         </div>
       </div>
+      <Footer/>
     </div>
     );
 }

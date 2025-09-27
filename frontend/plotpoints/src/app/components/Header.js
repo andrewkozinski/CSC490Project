@@ -5,14 +5,14 @@ export default function Header() {
   return (
     /// Changed it so that its a flex box that contains the left side for the title and sections
     /// and right side for Sign-in/Sign-up and search bar
-    <header className="w-full mt-2 pb-3 flex justify-between items-center border-b">
-      <div className="flex mx-5 max-w-sm items-end gap-20">
+    <header className="mt-2 pb-3 flex justify-between items-center border-b">
+      <nav className="flex mx-5 max-w-sm items-end gap-20">
         {/* <img src="images/plotpointslogo.png" alt="Plot Points Text" width={100} height={100}/> */}
         <a className="inria-serif-regular text-4xl inline-block text-center" href="./">PLOT POINTS</a>
         <a className="text hoverCat" href="/movies">Movies</a>
         <a className="text hoverCat whitespace-nowrap" href="/tv">TV Shows</a>
         <a className="text hoverCat" href="/books">Books</a>
-      </div>
+      </nav>
       <nav className ="grid grid-rows-2 mr-5">
         <div>
           <a className="text fields brown shadow mr-10 mt-1 hover:bg-black" href="/signup">Sign Up</a>

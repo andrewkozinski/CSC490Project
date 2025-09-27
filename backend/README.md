@@ -38,6 +38,9 @@ Make sure to create a `.env` file in the `backend` directory with the following 
 ```
 TMDB_API_KEY=your_tmdb_api_key_here
 TMBD_API_READ_ACCESS_TOKEN=your_tmdb_read_access_token_here
+DB_USER=(VAL HERE)
+DB_PASS=(VAL HERE)
+DB_DSN=(VAL HERE)
 ```
 
 The keys can be found in the Discord in #environment-files or you can create your own account on https://www.themoviedb.org/ and generate your own API keys.
@@ -45,7 +48,7 @@ The keys can be found in the Discord in #environment-files or you can create you
 ## Render Deployment:
 The backend is deployed on Render. It will be set up to automatically deploy when changes are pushed to the main branch. 
 
-The deployed backend can be accessed at:
+The deployed backend (which points to the main branch) can be accessed at:
 https://csc490project.onrender.com/
 
 Since we are using the **free tier** of Render, the server typically takes on average 30 seconds (at most a minute) to wake up if it has been inactive for a while. Usually the server will spin down after 15 minutes of inactivity.
