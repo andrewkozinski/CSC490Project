@@ -34,7 +34,7 @@ def add_review(user_id, media_id, media_type, rating, review_text):
                 result = cursor.fetchone()
                 db_media_id = result[0]
             else:
-                db_media_id = int(media_id)
+                db_media_id = media_id
 
             cursor.execute(
                 """
@@ -136,6 +136,7 @@ def get_all_reviews():
     finally:
         connect.stop_connection(connection, cursor)
 
+#get all reviews by media type: book, tv shows, movies
 def get_reviews_by_media_type(media_type):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -151,6 +152,9 @@ def get_reviews_by_media_type(media_type):
         return None
     finally:
         connect.stop_connection(connection, cursor)
+
+
+
 
 
 #print_reviews()
