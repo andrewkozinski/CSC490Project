@@ -29,6 +29,13 @@ def add_review(user_id, media_id, media_type, rating, review_text):
         return None
     if valid_user_id(user_id):
         try:
+            if media_type == "book":
+                cursor.execute("SELECT get_book_id(:1) FROM dual", (media_id,))
+                result = cursor.fetchone()
+                db_media_id = result[0]
+            else:
+                db_media_id = int(media_id)
+
             cursor.execute(
                 """
                 INSERT INTO REVIEWS (REVIEW_ID, USER_ID, MEDIA_ID, MEDIA_TYPE, RATING, REVIEW_TEXT)
