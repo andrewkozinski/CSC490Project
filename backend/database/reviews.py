@@ -201,7 +201,7 @@ def get_reviews_by_user_id(user_id):
         for row in rows:
             review = format_review(row)
             reviews.append(review)
-        return rows
+        return reviews
 
     except oracledb.Error as e:
         error_obj, = e.args
