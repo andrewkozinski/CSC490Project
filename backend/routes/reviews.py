@@ -58,7 +58,7 @@ async def get_reviews_by_media_type(media_type: str):
 #Get all reviews by a media type and id
 @router.get("/by_media/{media_type}/{media_id}")
 async def get_reviews_by_media(media_type: str, media_id: str):
-    reviews_by_media = reviews.get_reviews_by_media_id_and_type(media_type.lower(), media_id)
+    reviews_by_media = reviews.get_reviews_by_media_id_and_type(media_id, media_type.lower())
     if reviews_by_media is None:
         raise HTTPException(status_code=500, detail="Failed to fetch reviews. Please try again.")
     return {"reviews": reviews_by_media}
