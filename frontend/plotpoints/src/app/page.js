@@ -46,6 +46,21 @@ export default function Home() {
           <p className="flex whitespace-nowrap">A unified review site for movies, tv shows and books</p>
         </div>
         <div className="flex grid -mt-5 float:right wrapper">
+
+          {/* this commented out block contains the way to display data fetched from the backend
+          <h1 className="font-bold pb-5">Trending Movies (backend data)</h1>
+          <div className="flex grid grid-cols-6 gap-2 pb-10 max-w-800">
+            {trendingMovies.results.map((movie) => (
+              <img key={movie.id} className="image" src={movie.img} alt={movie.title} />
+            ))}
+          </div>
+          <h1 className="font-bold pb-5">Trending Shows (backend data)</h1>
+          <div className="flex grid grid-cols-6 gap-2 pb-10 max-w-800">
+            {trendingShows.results.map((show) => (
+              <img key={show.id} className="image" src={show.img} alt={show.title} />
+            ))}
+          </div> */}
+
           <h1 className="font-bold pb-5">Trending Movies</h1>
             <div className="flex grid grid-cols-6 gap-2 pb-10 max-w-800">
               <img className="image" src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg" alt="Kpop Demon Hunters"/>
