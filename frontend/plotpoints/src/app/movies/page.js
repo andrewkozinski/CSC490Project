@@ -41,6 +41,29 @@ export default function Movies() {
     <div>
       <Header />
       <main className="p-6">
+
+        {/* Takes the response out of the backend and uses the images from the response in the backend */}
+        {/*
+        Example of how responses look like right now and are stored in the state variables above:
+        {
+        page: 1,
+        results: [Array of movies],  (each movie has an id, title, genre, img, overview, release_date, title, and year parameter)
+        total_pages: 500,
+        total_results: 10000
+        }
+        
+        */}
+        <GenreContainer label="Horror Movies">
+          {horrorMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
+        
         <GenreContainer label="Horror Movies">
           <img
             src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
