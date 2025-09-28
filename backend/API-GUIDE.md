@@ -13,11 +13,13 @@ This guide provides an overview of the available API routes in the backend. Each
 ## Movies (`movies.py`)
 - **GET movies/search** : Search for movies by title.
 - **GET movies/search/detailed** : Search for movies by title and return the raw API response from TMDB.
+- **GET movies/genre/{genre_id}** : Get a list of movies by genre using the TMDB genre ID.
 - **GET movies/{movie_id}** : Get detailed information about a specific movie by its TMDB API ID.
 
 ## TV Shows (`tvshows.py`)
 - **GET tvshows/search**: Search for TV shows by title.
 - **GET tvshows/search/detailed**: Search for TV shows by title and return the raw API response from TMDB.
+- **GET tvshows/genre/{genre_id}**: Get a list of TV shows by genre using the TMDB genre ID.
 - **GET tvshows/{tvshow_id}**: Get detailed information about a specific TV show by its TMDB API ID.
 - **GET tvshows/detailed/{tvshow_id}**: Get detailed information about a specific TV show by its TMDB API ID and return the raw API response from TMDB.
 
@@ -51,6 +53,29 @@ A movie object typically includes:
 - `overview`: Brief summary of the movie
 - `img`: URL to a poster image of the movie
 
+LIST OF GENRES SUPPORT BY THE API:
+(id to name mapping)
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western"
+
+
 ### TV Shows:
 A TV show object typically includes:
 - `id`: ID associated with the TV Show in TMDB API
@@ -62,5 +87,20 @@ A TV show object typically includes:
 - `episodes`: Number of episodes
 - `img`: URL to a poster image of the TV show
 
+LIST OF GENRES SUPPORT BY THE API:
+(id to name mapping)
+    10759: "Action & Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    10762: "Kids",
+    9648: "Mystery",
+    10763: "News",
+    10764: "Reality",
+    10765: "Sci-Fi & Fantasy",
+    10766: "Soap"
 
 For more details, refer to the respective route files, use the FastAPI docs to test the routes, or contact anyone working on the backend. 
