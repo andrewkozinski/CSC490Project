@@ -63,7 +63,38 @@ export default function Movies() {
             />
           ))}
         </GenreContainer>
+        <GenreContainer label="Comedy Movies">
+          {comedyMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
+        <GenreContainer label="Science Fiction Movies">
+          {sciFiMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
+        <GenreContainer label="Drama Movies">
+          {dramaMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
         
+        {/* OLD PLACEHOLDER CONTENT
         <GenreContainer label="Horror Movies">
           <img
             src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
@@ -192,6 +223,7 @@ export default function Movies() {
             className="cover"
           />
         </GenreContainer>
+        */}
       </main>
       <Footer />
     </div>
