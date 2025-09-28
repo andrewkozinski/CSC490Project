@@ -1,8 +1,42 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import './Homepage.css';
 
+
 export default function Home() {
+
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [trendingShows, setTrendingShows] = useState([]);
+  const [trendingBooks, setTrendingBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTrendingData = async () => {
+      try {
+        const moviesResponse = await fetch('/api/movies/trending');
+        const showsResponse = await fetch('/api/tv/trending');
+        //const booksResponse = await fetch('/api/books/trending'); DOES NOT EXIST YET!!! 
+        const moviesData = await moviesResponse.json();
+        const showsData = await showsResponse.json();
+        //const booksData = await booksResponse.json();
+        console.log(moviesData);
+        console.log(showsData);
+        setTrendingMovies(moviesData);
+        setTrendingShows(showsData);
+        //setTrendingBooks(booksData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching trending data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchTrendingData();
+  }, []);
+
   return (
     <div>
       <Header/>
