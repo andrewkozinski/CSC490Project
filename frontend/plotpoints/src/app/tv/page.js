@@ -39,6 +39,51 @@ export default function TV() {
     <div>
       <Header />
       <main className="p-6">
+
+        {/* Genre Containers */}
+
+        <GenreContainer label ="Kids Shows">
+          {kidsShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
+        <GenreContainer label ="Drama Shows">
+          {dramaShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
+        <GenreContainer label ="Comedy Shows">
+          {comedyShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
+        <GenreContainer label ="Crime Shows">
+          {crimeShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="cover"
+            />
+          ))}
+        </GenreContainer>
+
+        {/* Commented out placeholder images
         <GenreContainer label="Kids Shows">
           <img
             src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
@@ -167,6 +212,7 @@ export default function TV() {
             className="cover"
           />
         </GenreContainer>
+        */}
       </main>
       <Footer />
     </div>
