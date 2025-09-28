@@ -1,6 +1,6 @@
 export async function GET() {
     try {
-        const response = await fetch(`${process.env.API_URL}/movies/trending`);
+        const response = await fetch(`${process.env.API_URL}/movies/search/trending`);
         if (!response.ok) {
             return new Response(
                 JSON.stringify({ error: "Failed to fetch trending movies" }),
