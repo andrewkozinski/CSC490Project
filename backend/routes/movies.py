@@ -35,24 +35,25 @@ GENRE_ID_TO_NAME = {
 }
 
 GENRE_NAME_TO_ID = {
-    "Action": 28,
-    "Adventure": 12,
-    "Animation": 16,
-    "Comedy": 35,
-    "Crime": 80,
-    "Documentary": 99,
-    "Drama": 18,
-    "Family": 10751,
-    "Fantasy": 14,
-    "History": 36,
-    "Music": 10402,
-    "Mystery": 9648,
-    "Romance": 10749,
-    "Science Fiction": 878,
-    "TV Movie": 10770,
-    "Thriller": 53,
-    "War": 10752,
-    "Western": 37
+    "action": 28,
+    "adventure": 12,
+    "animation": 16,
+    "comedy": 35,
+    "crime": 80,
+    "documentary": 99,
+    "drama": 18,
+    "family": 10751,
+    "fantasy": 14,
+    "history": 36,
+    "music": 10402,
+    "mystery": 9648,
+    "romance": 10749,
+    "science fiction": 878,
+    "sci-fi": 878, #allow sci-fi as well
+    "tv movie": 10770,
+    "thriller": 53,
+    "war": 10752,
+    "western": 37
 }
 
 #Returns movie information in the Movie model format
