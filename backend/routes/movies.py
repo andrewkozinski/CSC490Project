@@ -113,7 +113,7 @@ async def search_movies_by_genre(genre_name: str, page: int = 1):
     #                if name.lower() == genre_name.lower()), None)
 
     #Use the genre_name_to_id dictionary to get the genre id
-    genre_id = GENRE_NAME_TO_ID.get(genre_name.title())
+    genre_id = GENRE_NAME_TO_ID.get(genre_name.lower())
 
     if genre_id is None:
         raise HTTPException(status_code=400, detail="Invalid genre name")
