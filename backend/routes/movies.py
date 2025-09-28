@@ -107,8 +107,13 @@ async def search_movies_detailed(query: str, page: int = 1):
 @router.get("/search/genre/{genre_name}")
 async def search_movies_by_genre(genre_name: str, page: int = 1):
     # Find the genre ID from the name
-    genre_id = next((id for id, name in GENRE_ID_TO_NAME.items()
-                    if name.lower() == genre_name.lower()), None)
+
+    #genre_id = next((id for id, name in GENRE_ID_TO_NAME.items()
+    #                if name.lower() == genre_name.lower()), None)
+
+    #Use the genre_name_to_id dictionary to get the genre id
+    genre_id = GENRE_NAME_TO_ID.get(genre_name.title())
+
     if genre_id is None:
         raise HTTPException(status_code=400, detail="Invalid genre name")
     url = f"https://api.themoviedb.org/3/discover/movie?api_key={TMDB_API_KEY}&with_genres={genre_id}&page={page}"
