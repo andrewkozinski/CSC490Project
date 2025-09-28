@@ -45,6 +45,7 @@ GENRE_NAME_TO_ID = {
     "family": 10751,
     "fantasy": 14,
     "history": 36,
+    "horror": 27,
     "music": 10402,
     "mystery": 9648,
     "romance": 10749,
