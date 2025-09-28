@@ -1,8 +1,42 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import GenreContainer from "../components/GenreContainer";
 import Footer from "../components/Footer";
 
 export default function Movies() {
+
+  const [horrorMovies, setHorrorMovies] = useState([]);
+  const [dramaMovies, setDramaMovies] = useState([]);
+  const [comedyMovies, setComedyMovies] = useState([]);
+  const [sciFiMovies, setSciFiMovies] = useState([]);
+
+  //Handles fetching movies from the backend
+  useEffect(() => {
+    // Fetch movies for each genre
+    const fetchMovies = async (genre, setMovies) => {
+      try {
+        const res = await fetch(`/api/movies/genre/${genre}`);
+        if (!res.ok) throw new Error("Failed to fetch movies");
+        const data = await res.json();
+        setMovies(data.results || []);
+        console.log("GENRE: " + genre);
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    
+    // Fetch movies for each genre
+    fetchMovies("horror", setHorrorMovies);
+    fetchMovies("drama", setDramaMovies);
+    fetchMovies("comedy", setComedyMovies);
+    fetchMovies("science fiction", setSciFiMovies);
+
+    
+  }, []);
+
   return (
     <div>
       <Header />
