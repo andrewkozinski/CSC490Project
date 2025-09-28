@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import GenreContainer from "../components/GenreContainer";
 import Footer from "../components/Footer";
 
-export default function Books() {
+export default function Movies() {
   return (
     <div>
       <Header />
