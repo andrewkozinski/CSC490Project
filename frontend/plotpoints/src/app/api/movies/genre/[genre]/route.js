@@ -11,7 +11,12 @@ export async function GET(req, context) {
     }
 
     const data = await response.json();
-    return new Response(JSON.stringify(data), { status: 200 });
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, max-age=3600'
+      }
+    });
   } catch (error) {
     console.error(error);
     return new Response(
