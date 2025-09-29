@@ -55,6 +55,7 @@ A movie object typically includes:
 
 LIST OF GENRES SUPPORT BY THE API:
 (id to name mapping)
+
     28: "Action",
     12: "Adventure",
     16: "Animation",
@@ -89,6 +90,7 @@ A TV show object typically includes:
 
 LIST OF GENRES SUPPORT BY THE API:
 (id to name mapping)
+
     10759: "Action & Adventure",
     16: "Animation",
     35: "Comedy",
