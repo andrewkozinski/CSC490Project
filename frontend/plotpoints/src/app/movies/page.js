@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 export default function Movies() {
 
   const [horrorMovies, setHorrorMovies] = useState([]);
-  const [dramaMovies, setDramaMovies] = useState([]);
+  const [historyMovies, setHistoryMovies] = useState([]);
   const [comedyMovies, setComedyMovies] = useState([]);
   const [sciFiMovies, setSciFiMovies] = useState([]);
 
@@ -30,7 +30,7 @@ export default function Movies() {
     
     // Fetch movies for each genre
     fetchMovies("horror", setHorrorMovies);
-    fetchMovies("drama", setDramaMovies);
+    fetchMovies("history", setHistoryMovies);
     fetchMovies("comedy", setComedyMovies);
     fetchMovies("science fiction", setSciFiMovies);
 
@@ -83,8 +83,8 @@ export default function Movies() {
             />
           ))}
         </GenreContainer>
-        <GenreContainer label="Drama Movies">
-          {dramaMovies.map((movie) => (
+        <GenreContainer label="History Movies">
+          {historyMovies.map((movie) => (
             <img
               key={movie.id}
               src={movie.img}
