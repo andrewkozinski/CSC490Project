@@ -19,36 +19,36 @@ export default function SignUp() {
     setLoading(true);
     setError("");
     e.preventDefault();
-    
+
     //Call into api/signup
     const res = await fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, username, password }),
     });
-    
-    const data = await res.json();//Get the json response
-    
+
+    const data = await res.json(); //Get the json response
+
     if (!res.ok) {
       setError(data.error || "Signup failed");
       setLoading(false);
-    } 
-    else {
+    } else {
       router.push("/signin"); // Redirect to sign-in page
     }
   };
 
   return (
     ////Flex box to make space for image on the right*/
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex min-h-screen mt-20 mx-20">
-        <div className="flex flex-col gap-2">
-          <TextField 
-            label="Username" 
-            type="text" 
-            name="username" 
-            placeholder="Enter your username" 
+      <div className="flex flex-1 justify-center items-center">
+        <div className="flex flex-col gap-4 w-1/6">
+          <h1 className="text-2xl inline-block text-center">Sign Up</h1>
+          <TextField
+            label="Username"
+            type="text"
+            name="username"
+            placeholder="Username" 
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -56,7 +56,7 @@ export default function SignUp() {
             label="Email" 
             type="email" 
             name="email" 
-            placeholder="Enter your email" 
+            placeholder="Email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             />
@@ -64,26 +64,27 @@ export default function SignUp() {
             label="Password" 
             type="password" 
             name="password" 
-            placeholder="Enter your password" 
+            placeholder="Password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <TextField 
-            label="Re-Enter Password" 
+            label="Confirm Password" 
             type="password" 
             name="confirmPassword" 
-            placeholder="Re-enter your password" 
+            placeholder="Confirm password" 
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           {error && <p className="text-red-500">{error}</p>}
-          <p 
-            className="text-blue-500 cursor-pointer hover:underline"
-            onClick={loading ? undefined : handleSignUp}
-          >
-          {loading ? "Submitting..." : "Submit"}
-          </p>
-          
+          <div className="flex justify-center">
+            <button
+              className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center"
+              onClick={loading ? undefined : handleSignUp}
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+          </div>
         </div>
       </div>
       <Footer/>
