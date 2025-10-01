@@ -19,21 +19,20 @@ export default function SignUp() {
     setLoading(true);
     setError("");
     e.preventDefault();
-    
+
     //Call into api/signup
     const res = await fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, username, password }),
     });
-    
-    const data = await res.json();//Get the json response
-    
+
+    const data = await res.json(); //Get the json response
+
     if (!res.ok) {
       setError(data.error || "Signup failed");
       setLoading(false);
-    } 
-    else {
+    } else {
       router.push("/signin"); // Redirect to sign-in page
     }
   };
@@ -42,13 +41,13 @@ export default function SignUp() {
     ////Flex box to make space for image on the right*/
     <div>
       <Header />
-      <div className="flex min-h-screen mt-20 mx-20">
-        <div className="flex flex-col gap-2">
-          <TextField 
-            label="Username" 
-            type="text" 
-            name="username" 
-            placeholder="Enter your username" 
+      <div className="flex min-h-screen items-center justify-center px-4">
+        <div className="flex flex-col gap-4 w-full max-w-sm">
+          <TextField
+            label="Username"
+            type="text"
+            name="username"
+            placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -77,13 +76,14 @@ export default function SignUp() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           {error && <p className="text-red-500">{error}</p>}
-          <p 
-            className="text-blue-500 cursor-pointer hover:underline"
-            onClick={loading ? undefined : handleSignUp}
-          >
-          {loading ? "Submitting..." : "Submit"}
-          </p>
-          
+          <div className="flex justify-center">
+            <button
+              className="brown border-grey-300 m-4 text-black py-2 px-4 rounded-lg justify-center"
+              onClick={loading ? undefined : handleSignUp}
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+          </div>
         </div>
       </div>
       <Footer/>

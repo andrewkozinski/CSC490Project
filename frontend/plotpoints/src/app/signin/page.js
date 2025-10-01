@@ -53,17 +53,18 @@ export default function SignIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p className="text-red-500">{error}</p>}
-          <p
-            className={`mt-4 text-blue-500 cursor-pointer hover:underline ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={loading ? undefined : handleSignIn}
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </p>
+          <div className="flex justify-center">
+            <button
+              onClick={loading ? undefined : handleSignIn}
+              className="brown text-black m-4 py-2 px-6 rounded-lg justify center"
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+          </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
