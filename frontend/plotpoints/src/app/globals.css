@@ -47,7 +47,7 @@
   font-style: italic;
 }
 .cover {
-  border-radius: 1rem;
+  border-radius: 5;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   width: 150px;
   height: 225px;
@@ -58,6 +58,7 @@
 .cover:hover {
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease-in-out;
 }
 
 body {
