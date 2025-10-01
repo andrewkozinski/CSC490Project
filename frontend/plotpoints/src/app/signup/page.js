@@ -42,12 +42,12 @@ export default function SignUp() {
     <div>
       <Header />
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="flex flex-col gap-4 w-full max-w-sm">
+        <div className="flex flex-col gap-4 w-full max-w-sm w-1/5">
           <TextField
             label="Username"
             type="text"
             name="username"
-            placeholder="Enter your username"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -55,7 +55,7 @@ export default function SignUp() {
             label="Email" 
             type="email" 
             name="email" 
-            placeholder="Enter your email" 
+            placeholder="Email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             />
@@ -63,7 +63,7 @@ export default function SignUp() {
             label="Password" 
             type="password" 
             name="password" 
-            placeholder="Enter your password" 
+            placeholder="Password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -71,7 +71,7 @@ export default function SignUp() {
             label="Re-Enter Password" 
             type="password" 
             name="confirmPassword" 
-            placeholder="Re-enter your password" 
+            placeholder="Confirm password" 
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

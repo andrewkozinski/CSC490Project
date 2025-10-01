@@ -9,7 +9,7 @@ export default function TextField({ label, type = "text", name, placeholder, val
         name={name}
         id={name}
         placeholder={placeholder}
-        className="border blue text-black p-4 border-gray-300 rounded-lg p-2 text-center"
+        className="border blue text-black p-4 border-gray-300 rounded-lg p-2"
         value={value}
         onChange={onChange}
       />
