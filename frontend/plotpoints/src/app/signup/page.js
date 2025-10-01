@@ -41,13 +41,14 @@ export default function SignUp() {
     ////Flex box to make space for image on the right*/
     <div>
       <Header />
-      <div className="flex min-h-screen items-center justify-center px-4">
+      <div className="flex min-h-screen items-center-top justify-center p-10">
         <div className="flex flex-col gap-4 w-full max-w-sm w-1/5">
+          <h1 className="text-2xl inline-block text-center">Sign Up</h1>
           <TextField
             label="Username"
             type="text"
             name="username"
-            placeholder="Username"
+            placeholder="Username" 
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -68,7 +69,7 @@ export default function SignUp() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <TextField 
-            label="Re-Enter Password" 
+            label="Confirm Password" 
             type="password" 
             name="confirmPassword" 
             placeholder="Confirm password" 
