@@ -36,6 +36,7 @@ export default function SignIn() {
       <Header />
       <div className="flex flex-1 justify-center items-center">
         <div className="flex flex-col gap-4 w-1/6">
+          <h1 className="text-2xl inline-block text-center">Sign In</h1>
           <TextField
             label="Email"
             type="email"
@@ -56,7 +57,7 @@ export default function SignIn() {
           <div className="flex justify-center">
             <button
               onClick={loading ? undefined : handleSignIn}
-              className="brown text-black m-4 py-2 px-6 rounded-lg justify center"
+              className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center"
               disabled={loading}
             >
               {loading ? "Submitting..." : "Submit"}

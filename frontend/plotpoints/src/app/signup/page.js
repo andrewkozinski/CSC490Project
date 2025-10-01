@@ -39,10 +39,10 @@ export default function SignUp() {
 
   return (
     ////Flex box to make space for image on the right*/
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex min-h-screen items-center-top justify-center p-10">
-        <div className="flex flex-col gap-4 w-full max-w-sm w-1/5">
+      <div className="flex flex-1 justify-center items-center">
+        <div className="flex flex-col gap-4 w-1/6">
           <h1 className="text-2xl inline-block text-center">Sign Up</h1>
           <TextField
             label="Username"
@@ -79,7 +79,7 @@ export default function SignUp() {
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-center">
             <button
-              className="brown border-grey-300 m-4 text-black py-2 px-4 rounded-lg justify-center"
+              className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center"
               onClick={loading ? undefined : handleSignUp}
             >
               {loading ? "Submitting..." : "Submit"}
