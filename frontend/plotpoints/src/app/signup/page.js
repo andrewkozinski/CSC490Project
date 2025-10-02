@@ -30,7 +30,19 @@ export default function SignUp() {
     const data = await res.json();//Get the json response
     
     if (!res.ok) {
-      setError(data.error || "Signup failed");
+      console.log(data.error);
+
+      let message = "Signup failed";
+      if (typeof data.error === "string") {
+        message = data.error;
+      } else if (Array.isArray(data.error)) {
+        // If FastAPI has a validation error, it'll be an array of errors
+        message = data.error.map((err) => err.msg).join(", ");
+      } else if (typeof data.error === "object") {
+        message = JSON.stringify(data.error);
+      }
+
+      setError(message);
       setLoading(false);
     } 
     else {
