@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -15,11 +14,27 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSignUp = async (e) => {
-    setLoading(true);
-    setError("");
     e.preventDefault();
     
+    if(!isValidEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
     //Call into api/signup
     const res = await fetch("/api/signup", {
       method: "POST",
@@ -71,7 +86,7 @@ export default function SignUp() {
             placeholder="Enter your email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            />
+          />
           <TextField 
             label="Password" 
             type="password" 
@@ -90,15 +105,14 @@ export default function SignUp() {
           />
           {error && <p className="text-red-500">{error}</p>}
           <p 
-            className="text-blue-500 cursor-pointer hover:underline"
-            onClick={loading ? undefined : handleSignUp}
+            className={`text-blue-500 cursor-pointer hover:underline ${loading ? "opacity-50 pointer-events-none" : ""}`}
+            onClick={handleSignUp}
           >
-          {loading ? "Submitting..." : "Submit"}
+            {loading ? "Submitting..." : "Submit"}
           </p>
-          
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
-    );
+  );
 }
