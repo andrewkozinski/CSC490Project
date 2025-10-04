@@ -15,7 +15,7 @@ def get_isbn(industry_identifiers, type):
 #If large image link is not available, use thumbnail link instead
 #If neither are available, use placeholder image link with the text "No Image"
 def clean_image_links(volume_info):
-    placeholder = "https://placehold.co/600x400?text=No+Image"
+    placeholder = "https://placehold.co/100x100?text=No+Image"
     image_links = volume_info.get('imageLinks', {})
     large = image_links.get('large', image_links.get('thumbnail', placeholder))
     thumbnail = image_links.get('thumbnail', placeholder)
