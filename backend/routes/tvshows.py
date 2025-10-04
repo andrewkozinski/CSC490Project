@@ -63,7 +63,8 @@ async def search_tvshows(query: str, page: int = 1):
                 release_date=item.get('first_air_date', "N/A"),
                 seasons=detail_item.get('number_of_seasons', 0),
                 episodes=detail_item.get('number_of_episodes', 0),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "",
+                description = item.get('overview', "No overview available.")
             )
             tv_shows.append(tv_show)
 
@@ -116,7 +117,8 @@ async def search_tvshows_by_genre(genre_name: str, page: int = 1):
                 release_date=item.get('first_air_date', "N/A"),
                 seasons=detail_item.get('number_of_seasons', 0),
                 episodes=detail_item.get('number_of_episodes', 0),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "",
+                description=item.get('overview', "No overview available.")
             )
             tv_shows.append(tv_show)
 
@@ -155,7 +157,8 @@ async def get_trending_tvshows(page: int = 1):
                 release_date=item.get('first_air_date', "N/A"),
                 seasons=detail_item.get('number_of_seasons', 0),
                 episodes=detail_item.get('number_of_episodes', 0),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "",
+                description=item.get('overview', "No overview available.")
             )
             tv_shows.append(tv_show)
 
@@ -187,7 +190,8 @@ async def get_tvshow(tv_id: int):
             release_date=item.get('first_air_date', "N/A"),
             seasons=item.get('number_of_seasons', 0),
             episodes=item.get('number_of_episodes', 0),
-            img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+            img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "",
+            description = item.get('overview', "No overview available.")
         )
         return tv_show
 
