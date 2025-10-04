@@ -53,6 +53,7 @@ export default function Books() {
                       key={book.id}
                       src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
                       title={book.title}
+                      alt={book.title}
                       className="cover"
                       onClick={() => window.location.href = `/books/review/${book.id}`}
                       style={{ cursor: 'pointer' }}
@@ -68,6 +69,7 @@ export default function Books() {
                       key={book.id}
                       src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
                       title={book.title}
+                      alt={book.title}
                       className="cover"
                       onClick={() => window.location.href = `/books/review/${book.id}`}
                       style={{ cursor: 'pointer' }}
@@ -83,6 +85,7 @@ export default function Books() {
                       key={book.id}
                       src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
                       title={book.title}
+                      alt={book.title}
                       className="cover"
                       onClick={() => window.location.href = `/books/review/${book.id}`}
                       style={{ cursor: 'pointer' }}
