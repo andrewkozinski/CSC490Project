@@ -1,12 +1,14 @@
+import Footer from "@/app/components/Footer";
 import Header from "../../components/Header";
+import Rating from "../../components/Rating";
 
 
 function OtherPage() {
     return (
         <div>
             <Header/>
-            <h1>Other Page</h1>
-            <p>This is another page content.</p>
+            <Rating/>
+            <Footer/>
         </div>
     );
 }
