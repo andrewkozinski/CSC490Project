@@ -2,6 +2,7 @@
 const nextConfig = {
     images: {
         domains: ["books.google.com", "placehold.co"],
+        dangerouslyAllowSVG: true
     },
 };
 
