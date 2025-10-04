@@ -1,5 +1,6 @@
 import Header from "../../components/Header";
 
+
 function OtherPage() {
     return (
         <div>
