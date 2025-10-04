@@ -42,6 +42,8 @@ class SignUpRequest(BaseModel):
     username: str
     email: EmailStr
     password: str
+class TokenRequest(BaseModel):
+    token: str
 
 @router.post("/login")
 async def login(request: LoginRequest):
@@ -92,9 +94,6 @@ async def get_users():
     if users is not None:
         return {"users": users}
     raise HTTPException(status_code=500, detail="Error fetching users")
-
-class TokenRequest(BaseModel):
-    token: str
 
 #Check if a token is valid
 @router.post("/verifytoken")
