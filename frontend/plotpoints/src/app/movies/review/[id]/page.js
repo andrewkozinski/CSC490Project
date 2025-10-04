@@ -72,15 +72,7 @@ function MovieReviewPage({params}) {
         <div className="flex flex-col justify-end w-2/3 h-1/2 flex-initial">
           <p>Description:</p>
           <p className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            {movieDetails && movieDetails.overview ? movieDetails.overview : "No description available."}
           </p>
           <div>
             <p>Comments:</p>
