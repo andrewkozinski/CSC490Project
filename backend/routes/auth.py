@@ -93,9 +93,12 @@ async def get_users():
         return {"users": users}
     raise HTTPException(status_code=500, detail="Error fetching users")
 
+class TokenRequest(BaseModel):
+    token: str
+
 #Check if a token is valid
 @router.post("/verifytoken")
-async def verify_token(token: str):
-    print("Request made by token: ", token)
-    payload = verify_jwt_token(token)
+async def verify_token(request: TokenRequest):
+    print("Request made by token: ", request.token)
+    payload = verify_jwt_token(request.token)
     return {"valid": True, "payload": payload}
