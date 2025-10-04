@@ -1,8 +1,50 @@
+"use client";
+
+import { useState, useEffect} from "react";
+import React from "react";
+
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 
 function MovieReviewPage({params}) {
+
+  //Grab the ID from the URL
+  const unwrappedParams = React.use(params);
+  const id = unwrappedParams.id;
+  console.log("Movie ID from URL: " + id);
+  //Movie Details State
+  const [movieDetails, setMovieDetails] = useState(null);
+  // Need to fetch data using this ID to get the details of the movie
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      try {
+        const response = await fetch(`/api/movies/details/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch movie details");
+        }
+        const data = await response.json();
+        console.log("Fetched Movie Details:", data);
+        setMovieDetails(data);
+      }
+      catch (error) {
+        console.error("Error fetching movie details:", error);
+        setMovieDetails(null);
+      }
+    };
+
+    fetchMovieDetails();
+  }, []);
+  
+  if(!movieDetails) {
+    return (
+      <>
+        <Header />
+        <p>Loading Movie Details...</p>
+      </>
+    );
+  }
+
   return (
     <div>
       <Header />
