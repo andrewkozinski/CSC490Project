@@ -112,7 +112,7 @@ async def get_book_details(book_id: str):
         return book
 
 #Get by genre/category
-@router.get("/genre/{category}")
+@router.get("/search/genre/{category}")
 async def get_books_by_genre(category: str, page: int = 1):
     url = f"https://www.googleapis.com/books/v1/volumes?q=subject:{category}&startIndex={(page-1)*10}&maxResults=10&"
     async with httpx.AsyncClient() as client:
