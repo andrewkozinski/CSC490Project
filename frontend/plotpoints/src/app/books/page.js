@@ -46,7 +46,51 @@ export default function Books() {
       <main className="p-6">
       
         {/* Genre Containers */}
+        
+        <GenreContainer label="Romance Books">
+                  {romanceBooks.map((book) => (
+                    <Image
+                      key={book.id}
+                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
+                      title={book.title}
+                      className="cover"
+                      onClick={() => window.location.href = `/books/review/${book.id}`}
+                      style={{ cursor: 'pointer' }}
+                      width={1000}
+                      height={1500}
+                    />
+                  ))}
+        </GenreContainer>
 
+        <GenreContainer label="Crime Books">
+                  {crimeBooks.map((book) => (
+                    <Image
+                      key={book.id}
+                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
+                      title={book.title}
+                      className="cover"
+                      onClick={() => window.location.href = `/books/review/${book.id}`}
+                      style={{ cursor: 'pointer' }}
+                      width={1000}
+                      height={1500}
+                    />
+                  ))}
+        </GenreContainer>
+
+        <GenreContainer label="Fantasy Books">
+                  {fantasyBooks.map((book) => (
+                    <Image
+                      key={book.id}
+                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
+                      title={book.title}
+                      className="cover"
+                      onClick={() => window.location.href = `/books/review/${book.id}`}
+                      style={{ cursor: 'pointer' }}
+                      width={1000}
+                      height={1500}
+                    />
+                  ))}
+        </GenreContainer>
 
 
         {/* Old placeholder images
