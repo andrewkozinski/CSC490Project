@@ -8,7 +8,7 @@ export default function Header() {
     <header className="mt-2 pb-3 flex justify-between items-center border-b">
       <nav className="flex mx-5 max-w-sm items-end gap-20">
         {/* <img src="images/plotpointslogo.png" alt="Plot Points Text" width={100} height={100}/> */}
-        <a className="inria-serif-regular text-4xl inline-block text-center" href="./">PLOT POINTS</a>
+        <a className="inria-serif-regular text-4xl inline-block text-center" href="/">PLOT POINTS</a>
         <a className="text hoverCat" href="/movies">Movies</a>
         <a className="text hoverCat whitespace-nowrap" href="/tv">TV Shows</a>
         <a className="text hoverCat" href="/books">Books</a>
