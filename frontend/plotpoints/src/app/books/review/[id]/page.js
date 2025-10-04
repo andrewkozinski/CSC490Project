@@ -1,8 +1,50 @@
+"use client";
+
+import { useState, useEffect} from "react";
+import React from "react";
+
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 
-function BookReviewPage() {
+function BookReviewPage({params}) {
+
+  //Grab the ID from the URL
+  const unwrappedParams = React.use(params);
+  const id = unwrappedParams.id;
+  console.log("Book ID from URL: " + id);
+  
+  //Book Details State
+  const [bookDetails, setBookDetails] = useState(null);
+
+  // Need to fetch data using this ID to get the details of the book
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        const response = await fetch(`/api/books/details/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch book details");
+        }
+        const data = await response.json();
+        console.log("Fetched Book Details:", data);
+        setBookDetails(data);
+      } catch (error) {
+        console.error("Error fetching book details:", error);
+      }
+    };
+
+    fetchBookDetails();
+  }, []);
+
+  if(!bookDetails) {
+    return (
+      <>
+        <Header />
+        <p>Loading Book Details...</p>
+      </>
+    );
+  }
+
   return (
     <div>
       <Header />
