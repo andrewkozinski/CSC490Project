@@ -36,6 +36,16 @@ function TvReviewPage({params}) {
     fetchTvDetails();
   }, []);
 
+  if(!tvDetails) {
+    return (
+      <>
+        <Header />
+        <p>Loading TV Show Details...</p>
+      </>
+
+    );
+  }
+
   return (
     <div>
       <Header />
