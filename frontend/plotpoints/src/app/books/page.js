@@ -51,7 +51,7 @@ export default function Books() {
                   {romanceBooks.map((book) => (
                     <Image
                       key={book.id}
-                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
+                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
                       title={book.title}
                       alt={book.title}
                       className="cover"
@@ -67,7 +67,7 @@ export default function Books() {
                   {crimeBooks.map((book) => (
                     <Image
                       key={book.id}
-                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
+                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
                       title={book.title}
                       alt={book.title}
                       className="cover"
@@ -83,7 +83,7 @@ export default function Books() {
                   {fantasyBooks.map((book) => (
                     <Image
                       key={book.id}
-                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/600x400?text=No+Image"}
+                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
                       title={book.title}
                       alt={book.title}
                       className="cover"
