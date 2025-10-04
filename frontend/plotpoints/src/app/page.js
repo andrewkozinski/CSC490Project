@@ -77,6 +77,7 @@ export default function Home() {
             <img className="image" src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg" alt="One Battle After Another"/>
             <img className="image" src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg" alt="Demon Slayer"/>
           </GenreContainer>
+          {/* this commented out block contains the way to display data fetched from the backend
           <h1 className="font-bold pb-5">Trending Movies (backend data)</h1>
           <div className="flex grid grid-cols-6 gap-2 pb-10 max-w-800">
             {trendingMovies?.results?.map((movie) => (

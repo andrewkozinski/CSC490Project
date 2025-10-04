@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -15,10 +14,26 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSignUp = async (e) => {
+    e.preventDefault();
+    
+    if(!isValidEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     setLoading(true);
     setError("");
-    e.preventDefault();
 
     //Call into api/signup
     const res = await fetch("/api/signup", {
@@ -30,7 +45,19 @@ export default function SignUp() {
     const data = await res.json(); //Get the json response
 
     if (!res.ok) {
-      setError(data.error || "Signup failed");
+      console.log(data.error);
+
+      let message = "Signup failed";
+      if (typeof data.error === "string") {
+        message = data.error;
+      } else if (Array.isArray(data.error)) {
+        // If FastAPI has a validation error, it'll be an array of errors
+        message = data.error.map((err) => err.msg).join(", ");
+      } else if (typeof data.error === "object") {
+        message = JSON.stringify(data.error);
+      }
+
+      setError(message);
       setLoading(false);
     } else {
       router.push("/signin"); // Redirect to sign-in page
@@ -59,7 +86,7 @@ export default function SignUp() {
             placeholder="Email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            />
+          />
           <TextField 
             label="Password" 
             type="password" 
@@ -87,7 +114,7 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
-    );
+  );
 }

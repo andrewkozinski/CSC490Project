@@ -38,7 +38,6 @@ export default function SignIn() {
         <div className="flex flex-col gap-4 w-1/6">
           <h1 className="text-2xl inline-block text-center">Sign In</h1>
           <TextField
-            label="Email"
             type="email"
             name="email"
             placeholder="Email"
@@ -46,7 +45,6 @@ export default function SignIn() {
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            label="Password"
             type="password"
             name="password"
             placeholder="Password"
