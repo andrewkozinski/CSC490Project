@@ -92,3 +92,9 @@ async def get_users():
     if users is not None:
         return {"users": users}
     raise HTTPException(status_code=500, detail="Error fetching users")
+
+#Check if a token is valid
+@router.post("/verifytoken")
+async def verify_token(token: str):
+    payload = verify_jwt_token(token)
+    return {"valid": True, "payload": payload}
