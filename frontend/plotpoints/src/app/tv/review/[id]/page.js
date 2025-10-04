@@ -1,6 +1,8 @@
 import Footer from "@/app/components/Footer";
-import Header from "../../components/Header";
-import Rating from "../../components/Rating";
+import Header from "../../../components/Header";
+import Rating from "../../../components/Rating";
+
+
 
 function OtherPage() {
   return (
@@ -17,6 +19,7 @@ function OtherPage() {
           <Rating />
           <p>Viewer Rating</p>
           <Rating />
+          <p></p>
           <textarea
             type="text"
             className="w-3/4 my-5 py-2 px-2 h-25 flex-initial border border-gray-400 rounded-md align-top resize-none"
