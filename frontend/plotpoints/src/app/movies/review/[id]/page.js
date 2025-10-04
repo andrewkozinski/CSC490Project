@@ -1,6 +1,6 @@
 import Footer from "@/app/components/Footer";
-import Header from "../../components/Header";
-import Rating from "../../components/Rating";
+import Header from "../../../components/Header";
+import Rating from "../../../components/Rating";
 
 function OtherPage() {
   return (
@@ -15,7 +15,7 @@ function OtherPage() {
           />
           <p>Your Rating</p>
           <Rating />
-          <p>Reader Rating</p>
+          <p>Audience Rating</p>
           <Rating />
           <textarea
             type="text"
