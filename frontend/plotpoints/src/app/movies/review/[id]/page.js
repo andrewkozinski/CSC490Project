@@ -51,8 +51,9 @@ function MovieReviewPage({params}) {
       <div className="flex m-5">
         <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
           <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
+            src={movieDetails && movieDetails.img ? movieDetails.img : "https://placehold.co/600x400?text=No+Image"}
+            title={movieDetails ? movieDetails.title : "Movie Poster"}
+            alt={movieDetails ? movieDetails.title : "Movie Poster"}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
           />
           <p>Your Rating</p>
