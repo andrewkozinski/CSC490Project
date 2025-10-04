@@ -1,10 +1,41 @@
+"use client";
+
+import { useState, useEffect, use } from "react";
+import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 
 
-
 function TvReviewPage({params}) {
+
+  //Grab the ID from the URL
+  const unwrappedParams = React.use(params);
+  const id = unwrappedParams.id;
+  console.log("TV Show ID from URL: " + id);
+  
+  //Tv Show Details State
+  const [tvDetails, setTvDetails] = useState(null);
+
+  // Need to fetch data using this ID to get the details of the TV show
+  useEffect(() => {
+    const fetchTvDetails = async () => {
+      try {
+        const response = await fetch(`/api/tv/details/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch TV show details");
+        }
+        const data = await response.json();
+        console.log("Fetched TV Show Details:", data);
+        setTvDetails(data);
+      } catch (error) {
+        console.error("Error fetching TV show details:", error);
+      }
+    };
+
+    fetchTvDetails();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -19,7 +50,6 @@ function TvReviewPage({params}) {
           <Rating />
           <p>Viewer Rating</p>
           <Rating />
-          <p>{params.id}</p>
           <textarea
             type="text"
             className="w-3/4 my-5 py-2 px-2 h-25 flex-initial border border-gray-400 rounded-md align-top resize-none"
@@ -32,15 +62,7 @@ function TvReviewPage({params}) {
         <div className="flex flex-col justify-end w-2/3 h-1/2 flex-initial">
           <p>Description:</p>
           <p className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            {tvDetails ? tvDetails.description : "No description available."}
           </p>
           <div>
             <p>Comments:</p>
