@@ -2,7 +2,7 @@ import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 
-function OtherPage() {
+function BookReviewPage() {
   return (
     <div>
       <Header />
@@ -49,4 +49,4 @@ function OtherPage() {
   );
 }
 
-export default OtherPage;
+export default BookReviewPage;
