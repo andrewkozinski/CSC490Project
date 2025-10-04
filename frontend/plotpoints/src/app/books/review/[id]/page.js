@@ -1,6 +1,6 @@
 import Footer from "@/app/components/Footer";
-import Header from "../../components/Header";
-import Rating from "../../components/Rating";
+import Header from "../../../components/Header";
+import Rating from "../../../components/Rating";
 
 function OtherPage() {
   return (
