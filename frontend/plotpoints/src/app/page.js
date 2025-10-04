@@ -89,7 +89,7 @@ export default function Home() {
             {trendingShows?.results?.map((show) => (
               <img key={show.id} className="image" src={show.img} alt={show.title} />
             ))}
-          </div> 
+          </div> */}
 
     
         </div>
