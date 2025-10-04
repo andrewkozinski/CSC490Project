@@ -4,7 +4,7 @@ import Rating from "../../../components/Rating";
 
 
 
-function TvReviewPage() {
+function TvReviewPage({params}) {
   return (
     <div>
       <Header />
@@ -19,7 +19,7 @@ function TvReviewPage() {
           <Rating />
           <p>Viewer Rating</p>
           <Rating />
-          <p></p>
+          <p>{params.id}</p>
           <textarea
             type="text"
             className="w-3/4 my-5 py-2 px-2 h-25 flex-initial border border-gray-400 rounded-md align-top resize-none"
