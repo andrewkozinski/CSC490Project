@@ -96,5 +96,6 @@ async def get_users():
 #Check if a token is valid
 @router.post("/verifytoken")
 async def verify_token(token: str):
+    print("Request made by token: ", token)
     payload = verify_jwt_token(token)
     return {"valid": True, "payload": payload}
