@@ -49,6 +49,8 @@ export default function TV() {
               src={show.img}
               title={show.name}
               className="cover"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>
@@ -59,6 +61,8 @@ export default function TV() {
               src={show.img}
               title={show.name}
               className="cover"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>
@@ -69,6 +73,8 @@ export default function TV() {
               src={show.img}
               title={show.name}
               className="cover"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>
@@ -79,6 +85,8 @@ export default function TV() {
               src={show.img}
               title={show.name}
               className="cover"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>
