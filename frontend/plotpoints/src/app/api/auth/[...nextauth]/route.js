@@ -10,7 +10,6 @@ export const authOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // Call your FastAPI backend
         const res = await fetch(`${process.env.API_URL}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -32,7 +31,21 @@ export const authOptions = {
     })
   ],
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    //maxAge: 60 * 60, // 1 hour in seconds
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if(user?.token) {
+        token.accessToken = user.token;
+      }
+      return token
+    },
+    async session({ session, token }) {
+      session.user.id = token.sub; // Add user ID to session
+      session.accessToken = token.accessToken; // Add access token to session
+      return session;
+    },
   },
   pages: {
     signIn: "/signin",
