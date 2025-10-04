@@ -4,7 +4,7 @@ import Rating from "../../../components/Rating";
 
 
 
-function OtherPage() {
+function TvReviewPage() {
   return (
     <div>
       <Header />
@@ -52,4 +52,4 @@ function OtherPage() {
   );
 }
 
-export default OtherPage;
+export default TvReviewPage;
