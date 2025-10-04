@@ -1,12 +1,55 @@
+"use client";
+
+import { useState, useEffect} from "react";
+import Image from "next/image";
+import React from "react";
+
 import Header from "../components/Header";
 import GenreContainer from "../components/GenreContainer";
 import Footer from "../components/Footer";
 
 export default function Books() {
+
+  const [romanceBooks, setRomanceBooks] = useState([]);
+  const [crimeBooks, setCrimeBooks] = useState([]);
+  const [fantasyBooks, setFantasyBooks] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBooks = async (genre, setBooks) => {
+      try {
+        const res = await fetch(`/api/books/genre/${genre}`);
+        if (!res.ok) throw new Error("Failed to fetch books");
+        const data = await res.json();
+        setBooks(data.results || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    const fetchAllBooks = async () => {
+      await Promise.all([
+        fetchBooks("romance", setRomanceBooks),
+        fetchBooks("crime", setCrimeBooks),
+        fetchBooks("fantasy", setFantasyBooks),
+      ]);
+      setIsLoading(false);
+    };
+
+    fetchAllBooks();
+  }, []);
+
   return (
     <div>
       <Header />
       <main className="p-6">
+      
+        {/* Genre Containers */}
+
+
+
+        {/* Old placeholder images
         <GenreContainer label="Romance Books">
           <img
             src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
@@ -135,6 +178,7 @@ export default function Books() {
             className="cover"
           />
         </GenreContainer>
+        */}
       </main>
       <Footer />
     </div>
