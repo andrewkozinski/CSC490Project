@@ -61,6 +61,7 @@
   transition: all 0.3s ease-in-out;
 }
 
+
 body {
   background: var(--gradient);
   background-attachment: fixed; /* Stops the gradient from repeating throughout the page. */
