@@ -43,7 +43,8 @@ function TvReviewPage({params}) {
         <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
           <img
             src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
+            title={tvDetails ? tvDetails.title : "TV Show Poster"}
+            alt={tvDetails ? tvDetails.title : "TV Show Poster"}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
           />
           <p>Your Rating</p>
