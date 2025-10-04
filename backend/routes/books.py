@@ -96,6 +96,12 @@ async def get_book_details(book_id: str):
         if 'description' not in item['volumeInfo']:
             item['volumeInfo']['description'] = search_data.get('items', [{}])[0].get('volumeInfo', {}).get('description', 'N/A')
 
+        #If extra large thumbnail is not in the details response, set it to thumbnail url, if thumbnail url is empty as well, then set it to placeholder https://placehold.co/600x400?text=No+Image
+        if 'imageLinks' in item['volumeInfo']:
+            item['volumeInfo']['imageLinks']['large'] = item['volumeInfo']['imageLinks'].get('large', item['volumeInfo']['imageLinks'].get('thumbnail', 'https://placehold.co/600x400?text=No+Image'))
+        else:
+            item['volumeInfo']['imageLinks'] = {'large': 'https://placehold.co/600x400?text=No+Image', 'thumbnail': 'https://placehold.co/600x400?text=No+Image'}
+
         book = Book(
             id=item['id'],
             title=item['volumeInfo'].get('title', 'N/A'),
