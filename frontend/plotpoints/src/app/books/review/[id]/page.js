@@ -7,6 +7,8 @@ import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 
+import Image from "next/image";
+
 function BookReviewPage({params}) {
 
   //Grab the ID from the URL
@@ -50,10 +52,13 @@ function BookReviewPage({params}) {
       <Header />
       <div className="flex m-5">
         <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
+          <Image
+            src={bookDetails.thumbnailExtraLargeUrl || ""}
+            title={bookDetails.title || ""}
+            alt={bookDetails.title || ""}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
+            width={1000}
+            height={1000}
           />
           <p>Your Rating</p>
           <Rating />
