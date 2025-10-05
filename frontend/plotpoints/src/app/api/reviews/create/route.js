@@ -5,7 +5,7 @@ export async function POST(request) {
     const body = await request.json()
     const { media_id, media_type, rating, review_text, jwt_token } = body
 
-    const res = await fetch(`${process.env.BACKEND_URL}/reviews/create`, {
+    const res = await fetch(`${process.env.API_URL}/reviews/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
