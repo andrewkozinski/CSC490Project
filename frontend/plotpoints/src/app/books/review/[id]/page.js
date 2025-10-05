@@ -36,7 +36,7 @@ function BookReviewPage({params}) {
     };
 
     fetchBookDetails();
-  }, []);
+  }, [id]);
 
   if(!bookDetails) {
     return (

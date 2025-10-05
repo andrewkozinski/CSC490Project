@@ -55,7 +55,7 @@ export default function SignIn() {
           <div className="flex justify-center">
             <button
               onClick={loading ? undefined : handleSignIn}
-              className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center"
+              className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center "
               disabled={loading}
             >
               {loading ? "Submitting..." : "Submit"}

@@ -11,3 +11,4 @@ class TvShow(BaseModel):
     seasons: int
     episodes: int
     img: str
+    description: str = "No description available."
