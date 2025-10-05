@@ -1,8 +1,8 @@
 from pydantic import EmailStr
 
 import oracledb
-#from database import connect
-import connect
+from database import connect
+#import connect
 
 def add_user(username, hashed_password, email):
     connection, cursor = connect.start_connection()
