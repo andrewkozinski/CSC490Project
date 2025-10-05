@@ -1,15 +1,43 @@
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import Star from "./Star";
+
 
 export default function Rating({ label, placeholder, id, avgRating, media}) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
+  const session = useSession();
 
-  const handlePost = () => {
+  const handlePost = async () => {
+
     console.log(`Post for ${id}:`);
     console.log(`Rating: ${rating} stars`);
     console.log(`Review: ${review}`);
+
+    //console.log(`JWT Token: ${session?.data?.accessToken}`);
+    
+    const res = await fetch('/api/reviews/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        media_id: 1,
+        media_type: media,
+        rating: rating,
+        review_text: review,
+        jwt_token: session?.data?.accessToken,
+      }),
+    });
+
+    //If the response is a 401 Unauthorized, the user is not logged in, redirect to signin page
+    if (res.status === 401) {
+      console.log("User not logged in, redirecting to signin page");
+      window.location.href = "/signin";
+      return;
+    }
+
+    const data = await res.json();
+    console.log(data);
   };
 
   return (
