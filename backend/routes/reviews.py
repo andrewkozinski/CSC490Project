@@ -3,6 +3,7 @@ from http.client import HTTPException
 from fastapi import APIRouter
 from pydantic import BaseModel
 from database import reviews
+from routes.auth import verify_jwt_token
 
 class CreateReviewRequest(BaseModel):
     user_id: int
@@ -10,6 +11,7 @@ class CreateReviewRequest(BaseModel):
     media_type: str  # "movie", "tvshow", "book"
     rating: int
     review_text: str
+    jwt_token: str # JWT token for authentication
 
 class DeleteReviewRequest(BaseModel):
     review_id: int
@@ -19,6 +21,10 @@ router = APIRouter()
 #Need routes to post, get, update, delete reviews
 @router.post("/create")
 async def create_review(review: CreateReviewRequest):
+
+    #Need to validate the JWT token here before allowing the user to create a review
+    verify_jwt_token(review.jwt_token)
+
     review_id = reviews.add_review(
         user_id=review.user_id,
         media_id=review.media_id,
