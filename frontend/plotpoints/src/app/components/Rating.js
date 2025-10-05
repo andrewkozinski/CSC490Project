@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Star from "./Star";
 
-export default function Rating({ label, placeholder, id, avgRating }) {
+export default function Rating({ label, placeholder, id, avgRating, media}) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
@@ -56,15 +56,13 @@ export default function Rating({ label, placeholder, id, avgRating }) {
       <textarea
         value={review}
         onChange={(e) => setReview(e.target.value.slice(0, 100))}
-        className="w-3/4 my-3 py-2 px-3 border border-gray-400 rounded-md resize-none text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        className="w-3/4 my-3 py-2 px-3 h-30 flex-initial border border-gray-400 rounded-md resize-none text-sm "
         placeholder={placeholder}
         maxLength={100}
       />
       <button
         className="cursor-pointer brown text-black font-medium shadow mt-3 py-2 px-6 rounded-lg transition"
-        onClick={() =>
-          console.log(`Posted for ${id}: ${rating} stars, "${review}"`)
-        }
+        onClick={handlePost}
       >
         Post!
       </button>

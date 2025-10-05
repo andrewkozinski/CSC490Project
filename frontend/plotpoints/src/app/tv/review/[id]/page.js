@@ -57,18 +57,13 @@ function TvReviewPage({params}) {
             alt={tvDetails ? tvDetails.title : "TV Show Poster"}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
           />
-          <p>Your Rating</p>
-          <Rating />
-          <p>Viewer Rating</p>
-          <Rating />
-          <textarea
-            type="text"
-            className="w-3/4 my-5 py-2 px-2 h-25 flex-initial border border-gray-400 rounded-md align-top resize-none"
-            placeholder="Enter your text here"
-          />
-          <button className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center hover:cursor-pointer">
-            Post!
-          </button>
+          <Rating
+            id = {id}
+            label = "Your rating"
+            placeholder="Write a review!"
+            media="show"
+            avgRating= "4"> {/* need to change later*/}
+          </Rating>
         </div>
         <div className="flex flex-col justify-end w-2/3 h-1/2 flex-initial">
           <p>Description:</p>
