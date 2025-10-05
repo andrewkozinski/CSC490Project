@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 export async function POST(request) {
   try {
     const body = await request.json()
-    const { user_id, media_id, media_type, rating, review_text, jwt_token } = body
+    const { media_id, media_type, rating, review_text, jwt_token } = body
 
     const res = await fetch(`${process.env.BACKEND_URL}/reviews/create`, {
       method: 'POST',
@@ -12,7 +12,6 @@ export async function POST(request) {
         'Authorization': `Bearer ${jwt_token}`,
       },
       body: JSON.stringify({
-        user_id,
         media_id,
         media_type,
         rating,
