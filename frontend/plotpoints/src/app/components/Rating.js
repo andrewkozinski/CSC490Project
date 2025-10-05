@@ -1,17 +1,73 @@
+import { useState } from "react";
 import Star from "./Star";
 
-export default function Rating() {
+export default function Rating({ label, placeholder, id, avgRating }) {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [review, setReview] = useState("");
+
+  const handlePost = () => {
+    console.log(`Post for ${id}:`);
+    console.log(`Rating: ${rating} stars`);
+    console.log(`Review: ${review}`);
+  };
+
   return (
-    //reverse in order to make stars fill up properly
-    <div className="flex flex-row-reverse justify-center p-4">
-      {[...Array(5)].map((_, i) => (
-        <a
-          key={i}
-          className="cursor-pointer peer peer-hover:fill-yellow-500 hover:fill-yellow-400 fill-transparent stroke-neutral-950"
-        >
-          <Star className="w-8 h-8" />
-        </a>
-      ))}
+    <div className="flex flex-col items-center p-4 w-full max-w-md mx-auto">
+      <p>Audience Rating</p>
+      {/* Average Rating (Read-Only) */}
+      <div className="flex flex-row justify-center mb-3">
+        {[...Array(5)].map((_, i) => {
+          const value = i + 1;
+          return (
+            <Star
+              key={value}
+              className={`w-8 h-8 ${
+                value <= avgRating
+                  ? "fill-yellow-500 stroke-neutral-950"
+                  : "fill-transparent stroke-neutral-950"
+              }`}
+            />
+          );
+        })}
+      </div>
+      {label}
+      <div className="flex flex-row justify-center mb-4">
+        {[...Array(5)].map((_, i) => {
+          const value = i + 1;
+          return (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setRating(value)}
+              onMouseEnter={() => setHover(value)}
+              onMouseLeave={() => setHover(0)}
+              className={`cursor-pointer ${
+                value <= (hover || rating)
+                  ? "fill-yellow-500 stroke-neutral-950"
+                  : "fill-transparent stroke-neutral-950"
+              }`}
+            >
+              <Star className="w-8 h-8" />
+            </button>
+          );
+        })}
+      </div>
+      <textarea
+        value={review}
+        onChange={(e) => setReview(e.target.value.slice(0, 100))}
+        className="w-3/4 my-3 py-2 px-3 border border-gray-400 rounded-md resize-none text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        placeholder={placeholder}
+        maxLength={100}
+      />
+      <button
+        className="cursor-pointer brown text-black font-medium shadow mt-3 py-2 px-6 rounded-lg transition"
+        onClick={() =>
+          console.log(`Posted for ${id}: ${rating} stars, "${review}"`)
+        }
+      >
+        Post!
+      </button>
     </div>
   );
 }
