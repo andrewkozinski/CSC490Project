@@ -58,7 +58,6 @@ function MovieReviewPage({params}) {
           />
           <Rating
             id = {id}
-            label = "Your rating"
             placeholder="Write a review!"
             media="movie"
             avgRating= "4"> {/* need to change later*/}

@@ -31,7 +31,7 @@ export default function Rating({ label, placeholder, id, avgRating, media}) {
           );
         })}
       </div>
-      {label}
+      <p>Your Rating</p>
       <div className="flex flex-row justify-center mb-4">
         {[...Array(5)].map((_, i) => {
           const value = i + 1;

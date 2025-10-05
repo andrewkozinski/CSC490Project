@@ -62,7 +62,6 @@ function BookReviewPage({params}) {
           />
           <Rating
             id = {id}
-            label = "Your rating"
             placeholder="Write a review!"
             media="book"
             avgRating= "4"> {/* need to change later*/}
