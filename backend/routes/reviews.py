@@ -3,7 +3,7 @@ from http.client import HTTPException
 from fastapi import APIRouter
 from pydantic import BaseModel
 from database import reviews
-from routes.auth import verify_jwt_token
+from routes.auth import verify_jwt_token, get_user_id_from_token
 
 class CreateReviewRequest(BaseModel):
     #user_id: int #Commented out since JWT token will provide user id
