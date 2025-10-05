@@ -21,7 +21,7 @@ export default function Rating({ label, placeholder, id, avgRating, media}) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        media_id: 1,
+        media_id: id,
         media_type: media,
         rating: rating,
         review_text: review,
