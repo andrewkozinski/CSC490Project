@@ -1,6 +1,6 @@
 import oracledb
-import connect
-#from database import connect
+#import connect
+from database import connect
 
 def get_new_comm_id():
     connection, cursor = connect.start_connection()
@@ -53,34 +53,37 @@ def add_comment(review_id, user_id, comm_text, parent_comm_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-# def delete_review(review_id):
-#     connection, cursor = connect.start_connection()
-#     if not connection or not cursor:
-#         print("Failed to connect to database.")
-#         return
-#
-#     try:
-#         cursor.execute(
-#             """
-#             DELETE FROM REVIEWS WHERE REVIEW_ID = :1
-#             """,
-#             (review_id,)
-#         )
-#         if cursor.rowcount == 0:  # nothing deleted
-#             print(f"Error: REVIEW_ID {review_id} does not exist.")
-#             return False
-#         else:
-#             connection.commit()
-#             print(f"Review with REVIEW_ID {review_id} deleted successfully.")
-#             return True
-#
-#     except oracledb.Error as e:
-#         error_obj, = e.args
-#         print("Database error deleting review:", error_obj.message)
-#         return False
-#
-#     finally:
-#         connect.stop_connection(connection, cursor)
+def delete_comment(comm_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        new_text = "deleted comment"
+        cursor.execute(
+            """
+            UPDATE COMMENTS 
+                SET COMM_TEXT = :1
+            WHERE COMM_ID = :2
+            """,
+            (new_text, comm_id)
+        )
+        if cursor.rowcount == 0:  # nothing deleted
+            print(f"Error: COMM_ID {comm_id} does not exist.")
+            return False
+        else:
+            connection.commit()
+            print(f"Comment with COMM_ID {comm_id} deleted successfully.")
+            return True
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting review:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
 
 def print_comments():
     connection, cursor = connect.start_connection()
