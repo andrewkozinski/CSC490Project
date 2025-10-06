@@ -29,6 +29,10 @@ def verify_jwt_token(token: str):
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
+def get_user_id_from_token(token: str):
+    payload = verify_jwt_token(token)
+    return payload.get("user_id")
+
 # Routing setup:
 router = APIRouter()
 
