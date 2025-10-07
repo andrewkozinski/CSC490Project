@@ -1,6 +1,5 @@
 import oracledb
 import connect
-from reviews import add_review
 
 def get_top_books_reviewed():
     connection, cursor = connect.start_connection()
@@ -11,26 +10,21 @@ def get_top_books_reviewed():
     try:
         cursor.execute(
             """
-            SELECT MEDIA_ID, COUNT(*) AS REVIEW_COUNT
-            FROM REVIEWS
-            WHERE MEDIA_TYPE = 'book'
-            GROUP BY MEDIA_ID
-            ORDER BY COUNT(*) DESC
-            FETCH FIRST 15 ROWS ONLY
+            SELECT b.BOOK_STR, COUNT(*) AS REVIEWS_COUNT
+            FROM REVIEWS r
+                JOIN BOOKID_MAPPING b ON r.MEDIA_ID = b.BOOK_ID
+                WHERE r.MEDIA_TYPE = 'book'
+                GROUP BY b.BOOK_STR
+                ORDER BY COUNT(*) DESC
+                FETCH FIRST 15 ROWS ONLY
             """
         )
         results = cursor.fetchall()
 
-        books_count = []
-        for media_id, review_count in results:
-            cursor.execute("SELECT ADMIN.get_book_str(:1) FROM dual", (media_id,))
-            book_results = cursor.fetchone()
-            original_book_id = book_results[0] if book_results else None
-
-            books_count.append({
-                'book_id': original_book_id,
-                'review_count': review_count
-            })
+        books_count = [
+            {'book_id': book_str, 'reviews_count': reviews_count}
+            for book_str, reviews_count in results
+        ]
         return books_count
 
     except oracledb.Error as e:
