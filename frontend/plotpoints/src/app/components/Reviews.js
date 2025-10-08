@@ -1,7 +1,7 @@
 export default function Reviews() {
   return (
     <div className="flex-col">
-      <div className="flex items-center w-full h-30 border-2 rounded-md p-3">
+      <div className="flex items-center w-full h-30 border-2 rounded-md p-3 cursor-pointer">
         {/* Avatar circle */}
         <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-200 border-2 m-2">
           <svg
@@ -27,46 +27,52 @@ export default function Reviews() {
       </div>
       <div className="flex h-10 border-2 border-t-0 rounded-md justify-between px-3">
         <div className="flex my-2 mx-2">
-            {/* # of ratings */}
+          {/* # of ratings */}
           <p className="mr-3">+1000</p>
           {/* plus */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
+          <button className="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
 
           <p>|</p>
 
           {/* minus */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
-          </div>
-          <div className="flex items-center">
-          <p>Comments</p>
-          <p className="p-1">+</p>
+          <button className="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
         </div>
+        <button>
+        <div className="flex items-center">
+          <p>Comments</p>
+          <p className="cursor-pointer p-1">+</p>
+        </div>
+        </button>
       </div>
     </div>
   );

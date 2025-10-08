@@ -47,7 +47,7 @@ function MovieReviewPage({ params }) {
     <div>
       <Header />
       <div className="flex m-5 h-screen">
-        <div className="flex w-1/3 flex-initial flex-col items-center">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
           <img
             src={
               movieDetails && movieDetails.img
@@ -73,14 +73,15 @@ function MovieReviewPage({ params }) {
           <div className="flex flex-col h-full flex-initial">
             <p className="text-lg">Description:</p>
             <div className="flex p-4 border-2 rounded-xl h-[25vh] w-auto my-2 flex-initial flex-col">
+              <p className="text-xl font-bold">Title: {movieDetails.title}</p>
               <p className="flex flex-grow">
                 {movieDetails && movieDetails.overview
                   ? movieDetails.overview
                   : "No description available."}
               </p>
               <div>
-                <p>Director:</p>
-                <p>Date Released:</p>
+                <p>Director: {movieDetails.director}</p>
+                <p>Date Released: {movieDetails.release_date}</p>
                 <p>Streaming Links:</p>
               </div>
             </div>
