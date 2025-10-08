@@ -1,5 +1,6 @@
 'use client';
 import "./Header.css";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -7,13 +8,13 @@ export default function Header() {
     /// and right side for Sign-in/Sign-up and search bar
     <header className="mt-2 pb-3 flex justify-between items-center border-b">
       <nav className="flex mx-5 max-w-sm items-end gap-20">
-        <a className="inria-serif-regular text-3xl inline-block text-center" href="./">PLOT POINTS</a>
-        <a className="text hoverCat" href="/movies">Movies</a>
-        <a className="text hoverCat whitespace-nowrap" href="/tv">TV Shows</a>
-        <a className="text hoverCat" href="/books">Books</a>
+        <Link className="inria-serif-regular text-3xl inline-block text-center" href="/">PLOT POINTS</Link>
+        <Link className="text hoverCat" href="/movies">Movies</Link>
+        <Link className="text hoverCat whitespace-nowrap" href="/tv">TV Shows</Link>
+        <Link className="text hoverCat" href="/books">Books</Link>
       </nav>
       <nav className ="flex grid grid-rows-2">
-        <div className="flex justify-start items-center mr-2 -m-3 pt-1">
+        <div className="flex justify-end items-center mr-2 -m-3">
           <img 
             src="/images/notifbell.png"
             className="icon"
