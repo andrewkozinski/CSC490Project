@@ -1,6 +1,7 @@
 import oracledb
 import connect
 
+#get the first 15 books with the most reviews
 def get_top_books_reviewed():
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
