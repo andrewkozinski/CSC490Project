@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import React from "react";
-
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
@@ -47,7 +46,7 @@ function MovieReviewPage({ params }) {
     <div>
       <Header />
       <div className="flex m-5 h-screen">
-        <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
+        <div className="flex w-1/3 flex-initial flex-col items-center">
           <img
             src={
               movieDetails && movieDetails.img
@@ -68,11 +67,11 @@ function MovieReviewPage({ params }) {
             {/* need to change later*/}
           </Rating>
         </div>
-        <div className="flex flex-col">
+        <div className="m-5 mt-10 flex flex-col">
           {/*description box*/}
-          <div className="flex flex-col h-full basis-1/2 flex-initial">
-            <p>Description:</p>
-            <div className="flex p-4 border-2 rounded-xl h-[50vh] w-auto my-2 flex-initial flex-col">
+          <div className="flex flex-col h-full flex-initial">
+            <p className="text-lg">Description:</p>
+            <div className="flex p-4 border-2 rounded-xl h-[25vh] w-auto my-2 flex-initial flex-col">
               <p className="flex flex-grow">
                 {movieDetails && movieDetails.overview
                   ? movieDetails.overview
