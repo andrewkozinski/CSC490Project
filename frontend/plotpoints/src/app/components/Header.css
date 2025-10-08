@@ -18,6 +18,8 @@
 
 .fields {
     font-size: 15px;
+    width: fit-content;
+    
     @apply rounded-lg p-1 px-4 border-transparent;
 }
 
@@ -41,6 +43,10 @@
 .icon {
     width: 55px;
     height: 55px;
+}
+
+.icon:hover {
+    cursor: pointer;
 }
 
 
