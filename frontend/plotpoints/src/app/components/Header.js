@@ -19,9 +19,11 @@ export default function Header() {
           <Link className="text fields brown shadow mr-10 mt-1" href="/signup">Sign Up</Link>
           <Link className="text fields blue shadow" href="/signin">Sign In</Link>
         </div>
-        <div className="search">
+        <div className="fields grid grid-cols-2 shadow search blue mt-2 items-center">
+          <img className="h-4 w-4 -ml-2" src="/images/search.svg">
+          </img>
           <input 
-            className="text fields shadow search blue mt-2 mr-5 justify-end"
+            className="-ml-30"
             placeholder="Search"
           />
         </div>

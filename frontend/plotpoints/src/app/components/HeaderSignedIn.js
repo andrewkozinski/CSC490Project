@@ -1,5 +1,6 @@
 'use client';
 import "./Header.css";
+import "./ProfileIcon.css";
 import Link from "next/link";
 
 export default function Header() {
@@ -20,15 +21,25 @@ export default function Header() {
             className="icon"
           > 
           </img>
-          <img 
+          <div className="dropdown">
+            <img 
             src="/images/profileicon.png"
-            className="icon"
-          > 
-          </img>
+            className="icon"> 
+            </img> 
+            <div className="dropdown-content -ml-19">
+              <a href="#">My Profile</a>
+              <a href="#">Settings</a>
+              <a href="#">Sign Out</a>
+            </div>
+          </div>
+
+          
         </div>
-        <div className="">
+        <div className="fields grid grid-cols-2 shadow search blue mt-2 mr-5 items-center">
+          <img className="h-4 w-4 -ml-2" src="/images/search.svg">
+          </img>
           <input 
-            className="text fields shadow search blue mt-2 mr-5"
+            className="-ml-30 focus:ring-transparent"
             placeholder="Search"
           />
         </div>

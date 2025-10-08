@@ -11,6 +11,7 @@
 .hoverCat {
     @apply hover:text-[#ffa2e9];
 }
+
 .text {
     font-size: 15px;
     @apply rounded-lg inline-block items-baseline;
@@ -18,9 +19,7 @@
 
 .fields {
     font-size: 15px;
-    width: fit-content;
-    
-    @apply rounded-lg p-1 px-4 border-transparent;
+    @apply rounded-lg p-1 px-4;
 }
 
 .shadow {
@@ -48,5 +47,6 @@
 .icon:hover {
     cursor: pointer;
 }
+
 
 
