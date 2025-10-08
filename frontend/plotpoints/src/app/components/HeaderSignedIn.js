@@ -7,18 +7,25 @@ export default function Header() {
     /// and right side for Sign-in/Sign-up and search bar
     <header className="mt-2 pb-3 flex justify-between items-center border-b">
       <nav className="flex mx-5 max-w-sm items-end gap-20">
-        {/* <img src="images/plotpointslogo.png" alt="Plot Points Text" width={100} height={100}/> */}
-        <a className="inria-serif-regular text-4xl inline-block text-center" href="./">PLOT POINTS</a>
+        <a className="inria-serif-regular text-3xl inline-block text-center" href="./">PLOT POINTS</a>
         <a className="text hoverCat" href="/movies">Movies</a>
         <a className="text hoverCat whitespace-nowrap" href="/tv">TV Shows</a>
         <a className="text hoverCat" href="/books">Books</a>
       </nav>
-      <nav className ="grid grid-rows-2 mr-5">
-        <div>
-          <a className="text fields brown shadow mr-10 mt-1 hover:bg-black" href="/signup">Sign Up</a>
-          <a className="text fields blue shadow" href="/signin">Sign In</a>
+      <nav className ="flex grid grid-rows-2">
+        <div className="flex justify-start items-center mr-2 -m-3 pt-1">
+          <img 
+            src="/images/notifbell.png"
+            className="icon"
+          > 
+          </img>
+          <img 
+            src="/images/profileicon.png"
+            className="icon"
+          > 
+          </img>
         </div>
-        <div>
+        <div className="">
           <input 
             className="text fields shadow search blue mt-2 mr-5"
             placeholder="Search"

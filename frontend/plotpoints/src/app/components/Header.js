@@ -14,14 +14,14 @@ export default function Header() {
         <Link className="text hoverCat whitespace-nowrap" href="/tv">TV Shows</Link>
         <Link className="text hoverCat" href="/books">Books</Link>
       </nav>
-      <nav className ="grid grid-rows-2 mr-5">
+      <nav className ="grid grid-rows-2 mr-5 justify-end">
         <div>
           <Link className="text fields brown shadow mr-10 mt-1 hover:bg-black" href="/signup">Sign Up</Link>
           <Link className="text fields blue shadow" href="/signin">Sign In</Link>
         </div>
-        <div>
+        <div className="search">
           <input 
-            className="text fields shadow search blue mt-2 mr-5"
+            className="text fields shadow search blue mt-2 mr-5 justify-end"
             placeholder="Search"
           />
         </div>
