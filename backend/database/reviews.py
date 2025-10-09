@@ -299,12 +299,3 @@ def edit_review(review_id, review_text):
 
     finally:
         connect.stop_connection(connection, cursor)
-
-
-#print_reviews()
-#add_review(4,1,"a",5,"")
-#print_reviews()
-#delete_review(1)
-#print_reviews()
-#edit_review(1, "best movie ever omg!")
-#print_reviews()
