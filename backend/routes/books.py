@@ -175,6 +175,7 @@ async def get_books_by_genre(category: str, page: int = 1):
             "results": books
         }
 
+#Get trending books - we define trending as the books with the most reviews in our database
 @router.get("/search/trending")
 async def get_trending_books():
     #Google Books API doesn't have a trending route
