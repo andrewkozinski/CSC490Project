@@ -297,8 +297,3 @@ def valid_user_id(user_id):
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching user by ID:", error_obj.message)
-
-#print_users()
-#delete_user(8)
-#delete_user_permanent(12)
-#print_users()
