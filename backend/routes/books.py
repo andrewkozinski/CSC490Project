@@ -186,4 +186,4 @@ async def get_trending_books():
         #Only the id is returned, we need all the information so why not just call the details route we have set up in this file
         book_details = await get_book_details(book_id=book['book_id'])
         response.append(book_details)
-    return {"results": response}
+    return {"total_results": len(response), "results": response}
