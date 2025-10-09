@@ -5,7 +5,7 @@ import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
-import Reviews from "../../../components/Reviews"
+import Reviews from "../../../components/Reviews";
 
 function MovieReviewPage({ params }) {
   //Grab the ID from the URL
@@ -64,7 +64,6 @@ function MovieReviewPage({ params }) {
             media="movie"
             avgRating="4"
           >
-            {" "}
             {/* need to change later*/}
           </Rating>
         </div>
@@ -72,7 +71,7 @@ function MovieReviewPage({ params }) {
           {/*description box*/}
           <div className="flex flex-col h-full flex-initial">
             <p className="text-lg">Description:</p>
-            <div className="flex p-4 border-2 rounded-xl h-[25vh] w-auto my-2 flex-initial flex-col">
+            <div className="flex p-4 border-2 rounded-xl h-[25vh] my-2 flex-initial flex-col">
               <p className="text-xl font-bold">Title: {movieDetails.title}</p>
               <p className="flex flex-grow">
                 {movieDetails && movieDetails.overview

@@ -1,9 +1,12 @@
+import Comment from "./Comment";
+import CommentList from "./CommentList";
 export default function Reviews() {
   return (
-    <div className="flex-col">
-      <div className="flex items-center w-full h-30 border-2 rounded-md p-3 cursor-pointer">
+    <div className="flex flex-col">
+      <div className="flex items-center w-3/4 h-30 border-2 rounded-md p-3">
         {/* Avatar circle */}
-        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-200 border-2 m-2">
+        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-200 border-2 m-2 cursor-pointer">
+          {/*placeholder image*/}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -20,60 +23,59 @@ export default function Reviews() {
           </svg>
         </div>
         {/* Example review content */}
-        <div className="flex flex-col mx-5">
-          <p className="font-medium text-sm">Anonymous</p>
-          <p className="text-gray-700 text-sm">This movie was great!</p>
+        <div className="flex flex-col mx-5 justify-between h-full">
+          <div>
+            <p className="underline underline-offset-4">Anonymous</p>
+            <p className="mt-3 text-gray-700 text-sm">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the{" "}
+            </p>
+          </div>
+          <div className="flex items-center">
+            {/* # of ratings */}
+            <p className="mr-3 text-sm text-gray-700">+ 1000</p>
+            {/* plus */}
+            <button className="cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </button>
+            <p>|</p>
+            {/* minus */}
+            <button className="cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-      <div className="flex h-10 border-2 border-t-0 rounded-md justify-between px-3">
-        <div className="flex my-2 mx-2">
-          {/* # of ratings */}
-          <p className="mr-3">+1000</p>
-          {/* plus */}
-          <button className="cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-          </button>
-
-          <p>|</p>
-
-          {/* minus */}
-          <button className="cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-          </button>
-        </div>
-        <button>
-        <div className="flex items-center">
-          <p>Comments</p>
-          <p className="cursor-pointer p-1">+</p>
-        </div>
-        </button>
+          <div className="flex items-center">
+          {/*CommentsList here (need to finish component)*/}
       </div>
+      <Comment></Comment>
     </div>
   );
 }
