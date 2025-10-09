@@ -1,7 +1,12 @@
+"use client";
+import { useSession, signOut } from "next-auth/react";
+import Header from "../components/HeaderSignedIn";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
+
 
 export default function About() {
+  const { data: loggedIn} = useSession();
+
   return (
     <div>
       <Header/>
