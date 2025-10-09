@@ -180,4 +180,9 @@ async def get_trending_books():
     #Google Books API doesn't have a trending route
     #So we're instead returning the 15 books with the most reviews from the DB
     books = get_top_books_reviewed()
-    return {"results": books}
+    response = []
+    for book in books:
+        #Only the id is returned, we need all the information so why not just call the details route we have set up in this file
+        book_details = await get_book_details(book_id=book['book_id'])
+        response.append(book_details)
+    return response
