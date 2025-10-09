@@ -31,6 +31,12 @@ export default function SignIn() {
     }
   };
 
+  const handleEnterKey = (event) => {
+    if(event.key === 'Enter') {
+      handleSignIn();
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -43,6 +49,7 @@ export default function SignIn() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           <TextField
             type="password"
@@ -50,12 +57,13 @@ export default function SignIn() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-center">
             <button
               onClick={loading ? undefined : handleSignIn}
-              className="brown text-black shadow m-4 py-2 px-6 rounded-lg"
+              className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center"
               disabled={loading}
             >
               {loading ? "Submitting..." : "Submit"}
