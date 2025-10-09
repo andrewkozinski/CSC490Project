@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 
 
 export default function About() {
-  const { data: session, status } = useSession();
-  
+  const { data: loggedIn} = useSession();
+
   return (
     <div>
       <Header/>

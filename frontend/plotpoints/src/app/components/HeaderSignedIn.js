@@ -27,19 +27,18 @@ export default function Header() {
             className="icon"> 
             </img> 
             <div className="dropdown-content -ml-19">
-              <a href="#">My Profile</a>
-              <a href="#">Settings</a>
-              <a href="#">Sign Out</a>
+              <a className ="hover:rounded-tr-sm hover:rounded-tl-sm" href="/">My Profile</a>
+              <a  href="/">Settings</a>
+              <a className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/">Sign Out</a>
             </div>
           </div>
 
-          
         </div>
         <div className="fields grid grid-cols-2 shadow search blue mt-2 mr-5 items-center">
           <img className="h-4 w-4 -ml-2" src="/images/search.svg">
           </img>
           <input 
-            className="-ml-30 focus:ring-transparent"
+            className="-ml-30"
             placeholder="Search"
           />
         </div>
