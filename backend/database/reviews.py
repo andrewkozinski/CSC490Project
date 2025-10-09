@@ -2,7 +2,7 @@ import oracledb
 #import connect
 from database import connect
 #from users import valid_user_id
-from users import valid_user_id
+from database.users import valid_user_id
 
 def format_review(row):
     return {
