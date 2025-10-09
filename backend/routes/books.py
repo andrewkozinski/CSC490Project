@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 import httpx
 from models.book import Book
+from database.trending_books import get_top_books_reviewed
 
 router = APIRouter()
 
@@ -173,3 +174,10 @@ async def get_books_by_genre(category: str, page: int = 1):
             "total_results": data.get('totalItems', 0),
             "results": books
         }
+
+@router.get("/search/trending")
+async def get_trending_books():
+    #Google Books API doesn't have a trending route
+    #So we're instead returning the 15 books with the most reviews from the DB
+    books = get_top_books_reviewed()
+    return {"results": books}
