@@ -7,7 +7,7 @@ from routes.auth import verify_jwt_token, get_user_id_from_token
 
 class CreateReviewRequest(BaseModel):
     #user_id: int #Commented out since JWT token will provide user id
-    media_id: int
+    media_id: str
     media_type: str  # "movie", "tvshow", "book"
     rating: int
     review_text: str
