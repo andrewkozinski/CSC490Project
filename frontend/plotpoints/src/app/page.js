@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import './Homepage.css';
 import GenreContainer from "./components/GenreContainer";
+import Image from "next/image";
 
 
 export default function Home() {
@@ -19,15 +20,16 @@ export default function Home() {
       try {
         const moviesResponse = await fetch('/api/movies/trending');
         const showsResponse = await fetch('/api/tv/trending');
-        //const booksResponse = await fetch('/api/books/trending'); DOES NOT EXIST YET!!! 
+        const booksResponse = await fetch('/api/books/trending');
         const moviesData = await moviesResponse.json();
         const showsData = await showsResponse.json();
-        //const booksData = await booksResponse.json();
+        const booksData = await booksResponse.json();
         console.log(moviesData);
         console.log(showsData);
         setTrendingMovies(moviesData);
         setTrendingShows(showsData);
-        //setTrendingBooks(booksData);
+        console.log(booksData);
+        setTrendingBooks(booksData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching trending data:", error);
@@ -83,6 +85,13 @@ export default function Home() {
             ))}
           </div>  */}
 
+          {/* Comment this back in whenever you want Kat
+          <GenreContainer label="Trending Books">
+            {trendingBooks?.results?.map((book) => (
+              <Image key={book.id} className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} alt={book.title} width={1000} height={1500}/>
+            ))}
+          </GenreContainer>
+          */}
     
         </div>
       </div>
