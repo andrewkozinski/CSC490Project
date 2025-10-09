@@ -12,8 +12,6 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
     console.log(`Post for ${id}:`);
     console.log(`Rating: ${rating} stars`);
     console.log(`Review: ${review}`);
-
-    //console.log(`JWT Token: ${session?.data?.accessToken}`);
     
     const res = await fetch('/api/reviews/create', {
       method: 'POST',
@@ -23,7 +21,7 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
         media_type: media,
         rating: rating,
         review_text: review,
-        jwt_token: session?.data?.accessToken,
+        jwt_token: session?.accessToken,
       }),
     });
 
