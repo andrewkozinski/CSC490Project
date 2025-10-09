@@ -61,7 +61,7 @@ function BookReviewPage({params}) {
             height={1000}
           />
           <Rating
-            id = {id}
+            media_id = {id}
             placeholder="Write a review!"
             media="book"
             avgRating= "4"> {/* need to change later*/}
