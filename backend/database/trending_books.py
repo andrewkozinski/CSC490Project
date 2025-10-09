@@ -1,5 +1,6 @@
 import oracledb
-import connect
+#import connect
+from database import connect
 
 #get the first 15 books with the most reviews
 def get_top_books_reviewed():
