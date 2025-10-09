@@ -51,7 +51,7 @@ export default function Home() {
         <div className="wrapper ml-20">
           <GenreContainer label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
-              <img key={movie.id} className="image" src={movie.img} alt={movie.title} />
+              <img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => window.location.href = `/movies/review/${movie.id}`} style={{ cursor: 'pointer' }}/>
             ))}
             {/* <div className="flex gap-5 overflow-x-auto px-11 py-6">
             
@@ -60,7 +60,7 @@ export default function Home() {
           <GenreContainer label="Trending Shows">
             <div className="flex gap-5 overflow-x-auto ">
             {trendingShows?.results?.map((show) => (
-              <img key={show.id} className="image" src={show.img} alt={show.title} />
+              <img key={show.id} className="image" src={show.img} alt={show.title} onClick={() => window.location.href = `/tv/review/${show.id}`} style={{ cursor: 'pointer' }}/>
             ))}
           </div>
           </GenreContainer>
@@ -88,7 +88,7 @@ export default function Home() {
           {/* Comment this back in whenever you want Kat
           <GenreContainer label="Trending Books">
             {trendingBooks?.results?.map((book) => (
-              <Image key={book.id} className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} alt={book.title} width={1000} height={1500}/>
+              <Image key={book.id} className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} onClick={() => window.location.href = `/books/review/${book.id}`} style={{ cursor: 'pointer' }} alt={book.title} width={1000} height={1500}/>
             ))}
           </GenreContainer>
           */}
