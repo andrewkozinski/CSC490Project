@@ -256,7 +256,6 @@ def get_all_users():
     finally:
         connect.stop_connection(connection, cursor)
 
-# Fetch user by email
 def get_by_email(email: EmailStr):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
