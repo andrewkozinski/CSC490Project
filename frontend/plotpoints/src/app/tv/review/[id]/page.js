@@ -34,7 +34,7 @@ function TvReviewPage({params}) {
     };
 
     fetchTvDetails();
-  }, []);
+  }, [id]);
 
   if(!tvDetails) {
     return (
