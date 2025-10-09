@@ -5,7 +5,7 @@ import "./ProfileIcon.css";
 import Link from "next/link";
 
 export default function Header() {
-  const { data: session } = useSession;
+  const { data: session } = useSession();
 
   return (
     /// Changed it so that its a flex box that contains the left side for the title and sections
