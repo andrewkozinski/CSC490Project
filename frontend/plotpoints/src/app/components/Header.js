@@ -53,9 +53,9 @@ export default function Header() {
             className="icon"> 
             </img> 
             <div className="dropdown-content -ml-19">
-              <a className ="hover:rounded-tr-sm hover:rounded-tl-sm" href="/">My Profile</a>
-              <a  href="/">Settings</a>
-              <a className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/">Sign Out</a>
+              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href="/">My Profile</Link>
+              <Link href="/">Settings</Link>
+              <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/">Sign Out</Link>
             </div>
           </div>
 
