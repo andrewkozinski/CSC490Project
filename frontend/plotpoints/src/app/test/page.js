@@ -1,10 +1,33 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
+import { useState } from "react";
 import Header from "../components/Header";
 import Image from "next/image";
+import Footer from "../components/Footer";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
+
+  const [jwtResult, setJwtResult] = useState(null);
+
+  const handleTestJwt = async () => {
+    const token = session?.accessToken;
+    try {
+      const res = await fetch("https://beta-csc490project.onrender.com/auth/verifytoken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      const data = await res.json();
+      setJwtResult(data);
+    } catch (err) {
+      console.error(err);
+      setJwtResult({ error: "Something went wrong" });
+    }
+  };
 
   return (
     <>
@@ -52,11 +75,24 @@ export default function SessionInfo() {
             >
               Sign out
             </button>
+
+            <button
+              onClick={handleTestJwt}
+              className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Test JWT Token on Backend
+            </button>
+            {jwtResult && (
+              <div className="mt-4 p-4 border rounded bg-gray-100">
+                <h4>JWT Verification Result:</h4>
+                <pre>{JSON.stringify(jwtResult, null, 2)}</pre>
+              </div>
+            )}
           </div>
         )
         }
       </div>
-
+      <Footer />
     </>
   );
 }
