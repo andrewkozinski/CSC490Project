@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import React from "react";
-
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
+import Reviews from "../../../components/Reviews"
 
-function MovieReviewPage({params}) {
-
+function MovieReviewPage({ params }) {
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id;
@@ -26,8 +25,7 @@ function MovieReviewPage({params}) {
         const data = await response.json();
         console.log("Fetched Movie Details:", data);
         setMovieDetails(data);
-      }
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching movie details:", error);
         setMovieDetails(null);
       }
@@ -35,8 +33,8 @@ function MovieReviewPage({params}) {
 
     fetchMovieDetails();
   }, []);
-  
-  if(!movieDetails) {
+
+  if (!movieDetails) {
     return (
       <>
         <Header />
@@ -48,34 +46,49 @@ function MovieReviewPage({params}) {
   return (
     <div>
       <Header />
-      <div className="flex m-5">
-        <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
+      <div className="flex m-5 h-screen">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
           <img
-            src={movieDetails && movieDetails.img ? movieDetails.img : "https://placehold.co/600x400?text=No+Image"}
+            src={
+              movieDetails && movieDetails.img
+                ? movieDetails.img
+                : "https://placehold.co/600x400?text=No+Image"
+            }
             title={movieDetails ? movieDetails.title : "Movie Poster"}
             alt={movieDetails ? movieDetails.title : "Movie Poster"}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
           />
-          <p>Your Rating</p>
-          <Rating />
-          <p>Audience Rating</p>
-          <Rating />
-          <textarea
-            type="text"
-            className="w-3/4 my-5 py-2 px-2 h-25 flex-initial border border-gray-400 rounded-md align-top resize-none"
-            placeholder="Enter your text here"
-          />
-          <button className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center hover:cursor-pointer">
-            Post!
-          </button>
+          <Rating
+            id={id}
+            placeholder="Write a review!"
+            media="movie"
+            avgRating="4"
+          >
+            {" "}
+            {/* need to change later*/}
+          </Rating>
         </div>
-        <div className="flex flex-col justify-end w-2/3 h-1/2 flex-initial">
-          <p>Description:</p>
-          <p className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-            {movieDetails && movieDetails.overview ? movieDetails.overview : "No description available."}
-          </p>
-          <div>
-            <p>Comments:</p>
+        <div className="m-5 mt-10 flex flex-col">
+          {/*description box*/}
+          <div className="flex flex-col h-full flex-initial">
+            <p className="text-lg">Description:</p>
+            <div className="flex p-4 border-2 rounded-xl h-[25vh] w-auto my-2 flex-initial flex-col">
+              <p className="text-xl font-bold">Title: {movieDetails.title}</p>
+              <p className="flex flex-grow">
+                {movieDetails && movieDetails.overview
+                  ? movieDetails.overview
+                  : "No description available."}
+              </p>
+              <div>
+                <p>Director: {movieDetails.director}</p>
+                <p>Date Released: {movieDetails.release_date}</p>
+                <p>Streaming Links:</p>
+              </div>
+            </div>
+            <div>
+              <p>Reviews:</p>
+              <Reviews></Reviews>
+            </div>
           </div>
         </div>
       </div>

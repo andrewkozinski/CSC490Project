@@ -3,7 +3,7 @@
 
 .header {
     background-color: #000000;
-    font-size: 20px;
+    font-size: 15px;
     font-family: Inter;
     display: inline-block;
 }
@@ -11,12 +11,15 @@
 .hoverCat {
     @apply hover:text-[#ffa2e9];
 }
+
 .text {
-    @apply text-xl rounded-lg inline-block items-baseline;
+    font-size: 15px;
+    @apply rounded-lg inline-block items-baseline;
 }
 
 .fields {
-    @apply text-xl rounded-lg p-1 px-4 border-transparent;
+    font-size: 15px;
+    @apply rounded-lg p-1 px-4;
 }
 
 .shadow {
@@ -32,7 +35,18 @@
 }
 
 .search {
-    max-width: full;
+    width: 300px;
+
 }
+
+.icon {
+    width: 55px;
+    height: 55px;
+}
+
+.icon:hover {
+    cursor: pointer;
+}
+
 
 
