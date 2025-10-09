@@ -28,6 +28,11 @@ async def create_review(review: CreateReviewRequest):
     #Get user id from the JWT token
     jwt_id = get_user_id_from_token(review.jwt_token)
 
+    print("REVIEW REQUEST:")
+    print(jwt_id)
+    print(review.media_id)
+    print(review.media_type)
+
     review_id = reviews.add_review(
         user_id=jwt_id,
         media_id=review.media_id,
