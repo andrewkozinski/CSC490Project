@@ -43,7 +43,7 @@ def add_review(user_id, media_id, media_type, rating, review_text):
                 result = cursor.fetchone()
                 db_media_id = result[0]
             else:
-                db_media_id = media_id
+                db_media_id = int(media_id)
 
             cursor.execute(
                 """
