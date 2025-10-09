@@ -55,7 +55,7 @@ export default function Header() {
             <div className="dropdown-content -ml-19">
               <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href="/">My Profile</Link>
               <Link href="/">Settings</Link>
-              <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/">Sign Out</Link>
+              <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/" onClick={() => signOut()} >Sign Out</Link>
             </div>
           </div>
 
