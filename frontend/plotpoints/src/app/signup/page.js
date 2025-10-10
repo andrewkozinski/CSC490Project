@@ -85,6 +85,7 @@ export default function SignUp() {
             placeholder="Username" 
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           <TextField 
             label="Email" 
@@ -93,6 +94,7 @@ export default function SignUp() {
             placeholder="Email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           <TextField 
             label="Password" 
@@ -101,6 +103,7 @@ export default function SignUp() {
             placeholder="Password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           <TextField 
             label="Confirm Password" 
@@ -109,6 +112,7 @@ export default function SignUp() {
             placeholder="Confirm password" 
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-center">
