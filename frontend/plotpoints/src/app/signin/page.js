@@ -32,8 +32,11 @@ export default function SignIn() {
   };
 
   const handleEnterKey = (event) => {
+    //console.log("Key pressed:", event.key);
     if(event.key === 'Enter') {
-      handleSignIn();
+      event.preventDefault();
+      console.log("Enter key detected, submitting form");
+      handleSignIn(event);
     }
   }
 
