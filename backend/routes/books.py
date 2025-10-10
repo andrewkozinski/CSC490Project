@@ -175,6 +175,61 @@ async def get_books_by_genre(category: str, page: int = 1):
             "results": books
         }
 
+#Get by genre/category and title
+@router.get("/search/genre/{category}/{title}")
+async def get_books_by_genre_and_title(category: str, title: str, page: int = 1):
+    url = f"https://www.googleapis.com/books/v1/volumes?q=subject:{category}+intitle:{title}&startIndex={(page-1)*10}&maxResults=10&"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        books = []
+        for item in data.get('items', []):
+
+            #Skip any items that don't have the category we're looking for
+            if 'categories' in item['volumeInfo']:
+                if category.lower() not in [c.lower() for c in item['volumeInfo']['categories']]:
+                    continue
+
+            #To get extra large thumbnail, we need to call into the same route as book details
+            #As that thumbnail is not included in the search results
+            detail_url = f"https://www.googleapis.com/books/v1/volumes/{item['id']}"
+            detail_response = await client.get(detail_url)
+            detail_response.raise_for_status()
+            detail_item = detail_response.json()
+            if 'imageLinks' in detail_item['volumeInfo']:
+                item['volumeInfo']['imageLinks']['large'] = detail_item['volumeInfo']['imageLinks'].get('large', '')
+            else:
+                item['volumeInfo']['imageLinks'] = {'large': ''}
+
+            #get categories out of details response because that's not in a search query directly
+            item['volumeInfo']['categories'] = detail_item['volumeInfo'].get('categories', ['N/A'])
+
+            #Clean image links to ensure both large and thumbnail are present
+            clean_image_links(volume_info=item['volumeInfo'])
+
+            book = Book(
+                id=item['id'],
+                title=item['volumeInfo'].get('title', 'N/A'),
+                description=item['volumeInfo'].get('description', 'N/A'),
+                authors=item['volumeInfo'].get('authors', ['N/A']),
+                date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
+                categories=item['volumeInfo'].get('categories', ['N/A']),
+                pageCount=item['volumeInfo'].get('pageCount', 0),
+                thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
+                thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
+                isbn_10=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_10'),
+                isbn_13=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_13'),
+            )
+            books.append(book)
+
+        return {
+            "page": page,
+            "total_results": data.get('totalItems', 0),
+            "results": books
+        }
+
 #Get trending books - we define trending as the books with the most reviews in our database
 @router.get("/search/trending")
 async def get_trending_books():
