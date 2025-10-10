@@ -1,7 +1,7 @@
 export default function Comment({ username = "Anonymous", text = "No comment" }) {
   return (
     <div className="flex flex-col">
-      <div className="flex items-center w-50/80 h-20 border-2 rounded-md border-t-0 p-3">
+      <div className="flex items-center w-full h-20 border-1 shadow-xl rounded-md m-1 p-3">
         {/* Avatar circle */}
         <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer mr-5 shrink-0">
           {/*placeholder*/}

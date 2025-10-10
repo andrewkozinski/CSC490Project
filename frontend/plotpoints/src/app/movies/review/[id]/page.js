@@ -46,7 +46,7 @@ function MovieReviewPage({ params }) {
   return (
     <div>
       <Header />
-      <div className="flex m-5 h-screen">
+      <div className="flex m-5">
         <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
           <img
             src={
@@ -58,7 +58,7 @@ function MovieReviewPage({ params }) {
             alt={movieDetails ? movieDetails.title : "Movie Poster"}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
           />
-          <div className="flex flex-col h-full grow">
+          <div>
             {/*description box*/}
             <p className="text-lg">Description:</p>
             <div className="flex p-4 border-2 rounded-xl min-h-[25vh] max-h-fit grow my-2 flex-col">
@@ -76,7 +76,7 @@ function MovieReviewPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border-1 border-gray-500 rounded-xl shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
           <Rating
             id={id}
             placeholder="Write a review!"
@@ -87,6 +87,12 @@ function MovieReviewPage({ params }) {
           </Rating>
           <div>
             <p>Reviews:</p>
+            <Reviews></Reviews>
+            <Reviews></Reviews>
+            <Reviews></Reviews>
+            <Reviews></Reviews>
+            <Reviews></Reviews>
+            <Reviews></Reviews>
             <Reviews></Reviews>
           </div>
         </div>

@@ -2,8 +2,8 @@ import Comment from "./Comment";
 import CommentList from "./CommentList";
 export default function Reviews() {
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center w-3/4 h-30 border-2 rounded-md p-3">
+    <div className="flex flex-col mt-1">
+      <div className="flex items-center h-30 border-1 border-blue shadow-xl rounded-md p-3">
         {/* Avatar circle */}
         <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer shrink-0">
           {/*placeholder image*/}
@@ -32,7 +32,7 @@ export default function Reviews() {
               industry. Lorem Ipsum has been the{" "}
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center w-full">
             {/* # of ratings */}
             <p className="mr-3 text-sm text-gray-700">+ 1000</p>
             {/* plus */}
@@ -73,10 +73,9 @@ export default function Reviews() {
           </div>
         </div>
       </div>
-          <div className="flex items-center">
-          {/*CommentsList here (need to finish component)*/}
+          <div className="flex">
+          <CommentList></CommentList>
       </div>
-      <Comment username="vince" text="test"></Comment>
     </div>
   );
 }
