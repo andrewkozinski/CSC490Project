@@ -129,6 +129,21 @@ async def search_tvshows_by_genre(genre_name: str, page: int = 1):
             "results": tv_shows
         }
 
+#Search by genre and title
+@router.get("/search/genre/{genre}/{title}")
+async def search_tvshows_by_genre_and_title(genre: str, title: str, page: int = 1):
+
+    #Call the search by title function
+    search_results = await search_tvshows(title, page)
+    filtered_results = [tv for tv in search_results['results'] if genre.lower() in (g.lower() for g in tv.genre)]
+
+    return {
+        "page": search_results.get('page', 1),
+        "total_results": len(filtered_results),
+        "total_pages": search_results.get('total_pages', 1),
+        "results": filtered_results
+    }
+
 @router.get("/search/trending")
 async def get_trending_tvshows(page: int = 1):
     url = f"https://api.themoviedb.org/3/trending/tv/week?api_key={TMDB_API_KEY}&page={page}"
