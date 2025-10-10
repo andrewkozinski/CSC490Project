@@ -2,9 +2,13 @@ from fastapi import APIRouter
 from routes.books import search_books, get_books_by_genre
 from routes.tvshows import search_tvshows, search_tvshows_by_genre
 from routes.movies import search_movies, search_movies_by_genre
+
+"""
+This file contains routes to search across all media types: books, tv shows, and movies.
+Currently supports searching all by title, and genre.
+"""
+
 router = APIRouter()
-
-
 
 @router.get("/search/all")
 async def search_all(query: str, page: int = 1):
