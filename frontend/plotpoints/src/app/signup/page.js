@@ -64,6 +64,13 @@ export default function SignUp() {
     }
   };
 
+  const handleEnterKey = (event) => {
+    if(event.key === 'Enter') {
+      event.preventDefault();
+      handleSignUp(event);
+    }
+  };
+
   return (
     ////Flex box to make space for image on the right*/
     <div className="flex flex-col min-h-screen">
