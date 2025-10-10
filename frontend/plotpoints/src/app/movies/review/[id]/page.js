@@ -58,6 +58,25 @@ function MovieReviewPage({ params }) {
             alt={movieDetails ? movieDetails.title : "Movie Poster"}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
           />
+          <div className="flex flex-col h-full grow">
+            {/*description box*/}
+            <p className="text-lg">Description:</p>
+            <div className="flex p-4 border-2 rounded-xl min-h-[25vh] max-h-fit grow my-2 flex-col">
+              <p className="text-xl font-bold">Title: {movieDetails.title}</p>
+              <p className="flex grow">
+                {movieDetails && movieDetails.overview
+                  ? movieDetails.overview
+                  : "No description available."}
+              </p>
+              <div className="pt-5">
+                <p>Director: {movieDetails.director}</p>
+                <p>Date Released: {movieDetails.release_date}</p>
+                <p>Streaming Links:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border-1 border-gray-500 rounded-xl shadow-xl">
           <Rating
             id={id}
             placeholder="Write a review!"
@@ -66,28 +85,9 @@ function MovieReviewPage({ params }) {
           >
             {/* need to change later*/}
           </Rating>
-        </div>
-        <div className="m-5 mt-10 flex flex-col">
-          {/*description box*/}
-          <div className="flex flex-col h-full flex-initial">
-            <p className="text-lg">Description:</p>
-            <div className="flex p-4 border-2 rounded-xl h-[25vh] my-2 flex-initial flex-col">
-              <p className="text-xl font-bold">Title: {movieDetails.title}</p>
-              <p className="flex flex-grow">
-                {movieDetails && movieDetails.overview
-                  ? movieDetails.overview
-                  : "No description available."}
-              </p>
-              <div>
-                <p>Director: {movieDetails.director}</p>
-                <p>Date Released: {movieDetails.release_date}</p>
-                <p>Streaming Links:</p>
-              </div>
-            </div>
-            <div>
-              <p>Reviews:</p>
-              <Reviews></Reviews>
-            </div>
+          <div>
+            <p>Reviews:</p>
+            <Reviews></Reviews>
           </div>
         </div>
       </div>

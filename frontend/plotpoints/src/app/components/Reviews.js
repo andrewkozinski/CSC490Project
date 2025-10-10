@@ -5,7 +5,7 @@ export default function Reviews() {
     <div className="flex flex-col">
       <div className="flex items-center w-3/4 h-30 border-2 rounded-md p-3">
         {/* Avatar circle */}
-        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-200 border-2 m-2 cursor-pointer">
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer shrink-0">
           {/*placeholder image*/}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +23,10 @@ export default function Reviews() {
           </svg>
         </div>
         {/* Example review content */}
-        <div className="flex flex-col mx-5 justify-between h-full">
+        <div className="flex flex-col mx-5 justify-between h-full grow">
           <div>
             <p className="underline underline-offset-4">Anonymous</p>
+            {/* 100 characters */}
             <p className="mt-3 text-gray-700 text-sm">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the{" "}
@@ -75,7 +76,7 @@ export default function Reviews() {
           <div className="flex items-center">
           {/*CommentsList here (need to finish component)*/}
       </div>
-      <Comment></Comment>
+      <Comment username="vince" text="test"></Comment>
     </div>
   );
 }
