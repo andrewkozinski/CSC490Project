@@ -1,4 +1,7 @@
-export default function Comment({ username = "Anonymous", text = "No comment" }) {
+export default function Comment({
+  username = "Anonymous",
+  text = "No comment",
+}) {
   return (
     <div className="flex flex-col">
       <div className="flex items-center w-full h-20 border-1 shadow-xl rounded-md m-1 p-3">
@@ -24,6 +27,45 @@ export default function Comment({ username = "Anonymous", text = "No comment" })
           <p className="underline underline-offset-4 mb-2">{username}</p>
           <p className="text-sm text-gray-700">{text}</p>
         </div>
+        <div className="flex ml-auto mb-auto">
+          {/* # of ratings */}
+          <p className="mr-3 text-sm text-gray-700">+ 1000</p>
+          {/* plus */}
+          <button className="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
+          <p>|</p>
+          {/* minus */}
+          <button className="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
+          </div>
       </div>
     </div>
   );

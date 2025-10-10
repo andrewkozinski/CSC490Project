@@ -1,9 +1,12 @@
-import Comment from "./Comment";
+import { useState } from "react";
 import CommentList from "./CommentList";
+
 export default function Reviews() {
+  const [showReplyBox, setShowReplyBox] = useState(false);
+
   return (
     <div className="flex flex-col mt-1">
-      <div className="flex items-center h-30 border-1 border-blue shadow-xl rounded-md p-3">
+      <div className="relative flex items-center border-1 shadow-xl rounded-md p-3 mb-2">
         {/* Avatar circle */}
         <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer shrink-0">
           {/*placeholder image*/}
@@ -72,9 +75,26 @@ export default function Reviews() {
             </button>
           </div>
         </div>
+        <button
+          onClick={() => setShowReplyBox((prev) => !prev)}
+          className="absolute bottom-2 right-3 text-sm underline cursor-pointer"
+        >
+          Reply
+        </button>
       </div>
-          <div className="flex">
-          <CommentList></CommentList>
+      {showReplyBox && (
+        <div className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl">
+          <textarea
+            placeholder="Write your reply..."
+            className="w-full border rounded-md p-2 resize-none focus:outline-none"
+          />
+          <button className="self-end mt-2 border-1 px-6 py-2 rounded-md text-sm">
+            Post
+          </button>
+        </div>
+      )}
+      <div className="flex">
+        <CommentList />
       </div>
     </div>
   );
