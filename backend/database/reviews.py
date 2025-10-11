@@ -20,7 +20,7 @@ def get_new_review_id():
         print("Failed to connect to database.")
         return None
 
-    cursor.execute("SELECT MAX(REVIEW_ID) FROM REVIEWS")
+    cursor.execute("SELECT MAX(REVIEW_ID) FROM ADMIN.REVIEWS")
     result = cursor.fetchone()
 
     connect.stop_connection(connection, cursor)
@@ -85,7 +85,7 @@ def delete_review(review_id):
     try:
         cursor.execute(
             """
-            DELETE FROM REVIEWS WHERE REVIEW_ID = :1
+            DELETE FROM ADMIN.REVIEWS WHERE REVIEW_ID = :1
             """,
             (review_id,)
         )
@@ -107,7 +107,7 @@ def delete_review(review_id):
 
 def print_reviews():
     connection, cursor = connect.start_connection()
-    cursor.execute("SELECT * FROM REVIEWS")
+    cursor.execute("SELECT * FROM ADMIN.REVIEWS")
     row = cursor.fetchall()
     if row:
         for row in row:
@@ -122,7 +122,7 @@ def get_all_reviews():
         return None
 
     try:
-        cursor.execute("SELECT * FROM REVIEWS")
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS")
         rows = cursor.fetchall()
         reviews = []
         for row in rows:
@@ -152,7 +152,7 @@ def get_reviews_by_media_type(media_type):
         print("Failed to connect to database.")
         return None
     try:
-        cursor.execute("SELECT * FROM REVIEWS WHERE MEDIA_TYPE = :1", (media_type,))
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS WHERE MEDIA_TYPE = :1", (media_type,))
         rows = cursor.fetchall()
         return rows
     except oracledb.Error as e:
@@ -197,7 +197,7 @@ def get_reviews_by_user_id(user_id):
         print("Failed to connect to database.")
         return None
     try:
-        cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1", (user_id,))
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS WHERE USER_ID = :1", (user_id,))
         rows = cursor.fetchall()
 
         reviews = []
@@ -222,7 +222,7 @@ def get_reviews_by_user_id_and_media_type(user_id, media_type):
         print("Failed to connect to database.")
         return None
     try:
-        cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1 AND MEDIA_TYPE = :2", (user_id,media_type))
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS WHERE USER_ID = :1 AND MEDIA_TYPE = :2", (user_id,media_type))
         rows = cursor.fetchall()
 
         #Format reviews
@@ -247,12 +247,12 @@ def get_reviews_by_user_id_and_media_id_and_media_type(user_id, media_id, media_
         return None
     try:
         if media_type == "book":
-            cursor.execute("SELECT get_book_id(:1) FROM REVIEWS", (media_id,))
+            cursor.execute("SELECT ADMIN.get_book_id(:1) FROM REVIEWS", (media_id,))
             result = cursor.fetchone()
             db_media_id = result[0]
         else:
             db_media_id = media_id
-        cursor.execute("SELECT * FROM REVIEWS WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3", (user_id,media_id, media_type))
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3", (user_id,media_id, media_type))
         rows = cursor.fetchall()
 
         reviews = []
@@ -277,7 +277,7 @@ def edit_review(review_id, review_text):
     try:
         cursor.execute(
             """
-            UPDATE REVIEWS
+            UPDATE ADMIN.REVIEWS
             SET REVIEW_TEXT = :1
             WHERE REVIEW_ID = :2
             """,
