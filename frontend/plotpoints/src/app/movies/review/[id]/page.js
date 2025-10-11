@@ -91,7 +91,7 @@ function MovieReviewPage({ params }) {
           </Rating>
           <div>
             <p>Reviews:</p>
-            <ReviewList reviews={reviews} />
+            <ReviewList reviewData={reviews} />
           </div>
         </div>
       </div>
