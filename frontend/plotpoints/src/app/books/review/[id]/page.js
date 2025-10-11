@@ -11,6 +11,9 @@ import ReviewList from "../../../components/ReviewList";
 
 import Image from "next/image";
 
+import fetchReviews from "@/utils/fetchReviews";
+import fetchAvgRating from "@/utils/fetchAvgRating";
+
 function BookReviewPage({ params }) {
 
   function formatDate(dateString) {
@@ -28,6 +31,8 @@ function BookReviewPage({ params }) {
   console.log("Book ID from URL: " + id);
   //Book Details State
   const [bookDetails, setBookDetails] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
 
   // Need to fetch data using this ID to get the details of the book
   useEffect(() => {
@@ -46,6 +51,8 @@ function BookReviewPage({ params }) {
     };
 
     fetchBookDetails();
+    fetchReviews("book", id, setReviews);
+    fetchAvgRating("books", id, setAvgRating);
   }, [id]);
 
   if (!bookDetails) {
@@ -89,14 +96,14 @@ function BookReviewPage({ params }) {
           <Rating
             id={id}
             placeholder="Write a review!"
-            media="movie"
-            avgRating="4"
+            media="book"
+            avgRating={avgRating}
           >
             {/* need to change later*/}
           </Rating>
           <div>
             <p>Reviews:</p>
-            <ReviewList></ReviewList>
+            <ReviewList reviewData={reviews} />
           </div>
         </div>
       </div>
