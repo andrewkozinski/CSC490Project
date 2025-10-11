@@ -53,7 +53,7 @@ function BookReviewPage({params}) {
       <div className="flex m-5">
         <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
           <Image
-            src={bookDetails.thumbnailExtraLargeUrl || ""}
+            src={bookDetails.thumbnailUrl || ""}
             title={bookDetails.title || ""}
             alt={bookDetails.title || ""}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
