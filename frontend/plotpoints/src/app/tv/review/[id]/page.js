@@ -21,6 +21,10 @@ function TvReviewPage({ params }) {
   const [reviews, setReviews] = useState([]);
   const [avgRating, setAvgRating] = useState(0);
 
+  //Check if user already has made a review
+  const [userReview, setUserReview] = useState(null);
+  const { data: session } = useSession();
+
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
     const fetchTvDetails = async () => {
@@ -40,7 +44,16 @@ function TvReviewPage({ params }) {
     fetchTvDetails();
     fetchReviews("tvshow", id, setReviews);
     fetchAvgRating("tvshows", id, setAvgRating);
-  }, [id]);
+
+  }, [id, session]);
+
+  // Check if user has already reviewed this TV show
+  useEffect(() => {
+    if (session?.user?.id) {
+      const userReview = reviews.find((review) => review.user_id === session.user.id);
+      setUserReview(userReview);
+    }
+  }, [reviews, session]);
 
   if (!tvDetails) {
     return (
