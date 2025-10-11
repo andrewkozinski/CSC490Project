@@ -1,9 +1,13 @@
-export default function Reviews() {
+export default function Comment({
+  username = "Anonymous",
+  text = "No comment",
+}) {
   return (
-    <div className="flex-col">
-      <div className="flex items-center w-full h-30 border-2 rounded-md p-3 cursor-pointer">
+    <div className="flex flex-col">
+      <div className="flex items-center w-full h-20 border-1 shadow-xl rounded-md m-1 p-3">
         {/* Avatar circle */}
-        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-200 border-2 m-2">
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer mr-5 shrink-0">
+          {/*placeholder*/}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -19,25 +23,22 @@ export default function Reviews() {
             />
           </svg>
         </div>
-        {/* Example review content */}
-        <div className="flex flex-col mx-5">
-          <p className="font-medium text-sm">Anonymous</p>
-          <p className="text-gray-700 text-sm">This movie was great!</p>
+        <div>
+          <p className="underline underline-offset-4 mb-2">{username}</p>
+          <p className="text-sm text-gray-700">{text}</p>
         </div>
-      </div>
-      <div className="flex h-10 border-2 border-t-0 rounded-md justify-between px-3">
-        <div className="flex my-2 mx-2">
+        <div className="flex ml-auto mb-auto">
           {/* # of ratings */}
-          <p className="mr-3">+1000</p>
+          <p className="mr-3 text-sm text-gray-700">+ 1000</p>
           {/* plus */}
           <button className="cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
-              class="size-6"
+              className="size-6"
             >
               <path
                 strokeLinecap="round"
@@ -46,9 +47,7 @@ export default function Reviews() {
               />
             </svg>
           </button>
-
           <p>|</p>
-
           {/* minus */}
           <button className="cursor-pointer">
             <svg
@@ -67,12 +66,6 @@ export default function Reviews() {
             </svg>
           </button>
         </div>
-        <button>
-        <div className="flex items-center">
-          <p>Comments</p>
-          <p className="cursor-pointer p-1">+</p>
-        </div>
-        </button>
       </div>
     </div>
   );
