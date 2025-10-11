@@ -2,7 +2,9 @@ from fastapi import APIRouter, HTTPException
 import httpx
 import os
 from dotenv import load_dotenv
+from database.ratings import get_avg_ratings_by_tv_id
 from models.tvshow import TvShow
+from routes.movies import STREAMING_LINKS
 
 router = APIRouter()
 load_dotenv()
@@ -129,6 +131,21 @@ async def search_tvshows_by_genre(genre_name: str, page: int = 1):
             "results": tv_shows
         }
 
+#Search by genre and title
+@router.get("/search/genre/{genre}/{title}")
+async def search_tvshows_by_genre_and_title(genre: str, title: str, page: int = 1):
+
+    #Call the search by title function
+    search_results = await search_tvshows(title, page)
+    filtered_results = [tv for tv in search_results['results'] if genre.lower() in (g.lower() for g in tv.genre)]
+
+    return {
+        "page": search_results.get('page', 1),
+        "total_results": len(filtered_results),
+        "total_pages": search_results.get('total_pages', 1),
+        "results": filtered_results
+    }
+
 @router.get("/search/trending")
 async def get_trending_tvshows(page: int = 1):
     url = f"https://api.themoviedb.org/3/trending/tv/week?api_key={TMDB_API_KEY}&page={page}"
@@ -204,3 +221,41 @@ async def get_tvshow_detailed(tv_id: int):
             raise HTTPException(status_code=404, detail="TV show not found")
         response.raise_for_status()
         return response.json()
+
+@router.get("/{tv_id}/streaming_links")
+async def get_tvshow_streaming_links(tv_id: int):
+    url = f"https://api.themoviedb.org/3/tv/{tv_id}/watch/providers?api_key={TMDB_API_KEY}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="TV show not found")
+        response.raise_for_status()
+        data = response.json()
+
+        us_providers = data.get('results', {}).get('US', {})
+
+        #Now, format the response to have a full image link and also return a link to the provider
+        formatted_providers = {}
+        for category, providers in us_providers.items():
+            if category == "link":
+                formatted_providers["link"] = providers
+            else:
+                formatted_providers[category] = []
+                for provider in providers:
+                    provider_info = {
+                        "provider_name": provider['provider_name'],
+                        "logo": f"https://image.tmdb.org/t/p/w500{provider['logo_path']}" if provider.get(
+                            'logo_path') else "",
+                        "link": STREAMING_LINKS.get(provider['provider_name'], "")
+                    }
+                    formatted_providers[category].append(provider_info)
+
+        return formatted_providers
+
+
+@router.get("/{tv_id}/average_rating")
+async def get_tvshow_average_rating(tv_id: int):
+    avg_rating = get_avg_ratings_by_tv_id(tv_id)
+    if avg_rating is None:
+        return {"tv_id": tv_id, "average_rating": 0}
+    return {"tv_id": tv_id, "average_rating": avg_rating}

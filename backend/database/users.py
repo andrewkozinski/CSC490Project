@@ -37,7 +37,7 @@ def add_user(username, hashed_password, email):
     finally:
         connect.stop_connection(connection, cursor)
 
-def delete_user(user_id):
+def delete_user_permanent(user_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
@@ -49,6 +49,37 @@ def delete_user(user_id):
             DELETE FROM USERS WHERE USER_ID = :1
             """,
             (user_id,)
+        )
+        if cursor.rowcount == 0:  # nothing deleted
+            print(f"Error: USER_ID {user_id} does not exist.")
+        else:
+            connection.commit()
+            print(f"User with USER_ID {user_id} permanently deleted successfully.")
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting user:", error_obj.message)
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def delete_user(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return
+
+    try:
+        new_name = "deleted_user" + str(user_id)
+        cursor.execute(
+            """
+            UPDATE USERS 
+            SET USERNAME = :1,
+                HASHED_PASSWORD = NULL,
+                EMAIL = NULL
+            WHERE USER_ID = :2
+            """,
+            (new_name, user_id)
         )
         if cursor.rowcount == 0:  # nothing deleted
             print(f"Error: USER_ID {user_id} does not exist.")
@@ -225,7 +256,6 @@ def get_all_users():
     finally:
         connect.stop_connection(connection, cursor)
 
-# Fetch user by email
 def get_by_email(email: EmailStr):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -266,3 +296,28 @@ def valid_user_id(user_id):
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching user by ID:", error_obj.message)
+
+def get_by_id(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return []
+
+    try:
+        cursor.execute("SELECT * FROM USERS WHERE USER_ID = :1", (user_id,))
+        row = cursor.fetchone()
+        if row:
+            user = {
+                "USER_ID": row[0],
+                "USERNAME": row[1],
+                "HASHED_PASSWORD": row[2],
+                "EMAIL": row[3]
+            }
+            return user
+        else:
+            print(f"No user found with USER_ID '{user_id}'.")
+            return None
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching user by ID:", error_obj.message)
+        return None
