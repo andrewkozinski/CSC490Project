@@ -16,7 +16,7 @@ export default function Reviews({ reviewData = [] }) {
   return (
     <div className="flex flex-col">
       {reviewData.map((r) => (
-        <Review key={r.id} username={r.username} text={r.text} />
+        <Review key={r.review_id} username={r.user_id} text={r.review_text} />
       ))}
     </div>
   );
