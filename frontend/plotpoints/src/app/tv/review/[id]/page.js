@@ -6,6 +6,8 @@ import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
+import fetchReviews from "@/utils/fetchReviews";
+import fetchAvgRating from "@/utils/fetchAvgRating";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -15,6 +17,8 @@ function TvReviewPage({ params }) {
 
   //Tv Show Details State
   const [tvDetails, setTvDetails] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
 
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
@@ -33,6 +37,8 @@ function TvReviewPage({ params }) {
     };
 
     fetchTvDetails();
+    fetchReviews("tvshow", id, setReviews);
+    fetchAvgRating("tvshows", id, setAvgRating);
   }, [id]);
 
   if (!tvDetails) {
@@ -92,13 +98,13 @@ function TvReviewPage({ params }) {
             id={id}
             placeholder="Write a review!"
             media="tvshow"
-            avgRating="4"
+            avgRating={avgRating}
           >
             {/* need to change later*/}
           </Rating>
           <div>
             <p>Reviews:</p>
-            <ReviewList></ReviewList>
+            <ReviewList reviewData={reviews} />
           </div>
         </div>
       </div>
