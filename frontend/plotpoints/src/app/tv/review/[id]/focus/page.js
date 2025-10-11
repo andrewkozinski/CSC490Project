@@ -1,14 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import React from "react";
 import Footer from "@/app/components/Footer";
-import Header from "../../../components/Header";
-import Rating from "../../../components/Rating";
-import ReviewList from "../../../components/ReviewList";
-import fetchReviews from "@/utils/fetchReviews";
-import fetchAvgRating from "@/utils/fetchAvgRating";
+import Header from "../../../../components/Header";
+import Review from "../../../../components/Review";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -18,12 +14,6 @@ function TvReviewPage({ params }) {
 
   //Tv Show Details State
   const [tvDetails, setTvDetails] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  const [avgRating, setAvgRating] = useState(0);
-
-  //Check if user already has made a review
-  const [userReview, setUserReview] = useState(null);
-  const { data: session } = useSession();
 
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
@@ -42,18 +32,7 @@ function TvReviewPage({ params }) {
     };
 
     fetchTvDetails();
-    fetchReviews("tvshow", id, setReviews);
-    fetchAvgRating("tvshows", id, setAvgRating);
-
-  }, [id, session]);
-
-  // Check if user has already reviewed this TV show
-  useEffect(() => {
-    if (session?.user?.id) {
-      const userReview = reviews.find((review) => review.user_id === session.user.id);
-      setUserReview(userReview);
-    }
-  }, [reviews, session]);
+  }, [id]);
 
   if (!tvDetails) {
     return (
@@ -108,19 +87,7 @@ function TvReviewPage({ params }) {
           </div>
         </div>
         <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
-          <Rating
-            id={id}
-            placeholder="Write a review!"
-            media="tvshow"
-            avgRating={avgRating}
-            reviews={reviews}
-          >
-            {/* need to change later*/}
-          </Rating>
-          <div>
-            <p>Reviews:</p>
-            <ReviewList reviewData={reviews} />
-          </div>
+          <Review></Review>
         </div>
       </div>
       <Footer />

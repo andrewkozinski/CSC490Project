@@ -28,6 +28,8 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
     if (res.status === 401) {
       console.log("User not logged in, redirecting to signin page");
       window.location.href = "/signin";
+      //Display a modal or toast notification here
+      alert("Session expired, please sign in to post a review.");
       return;
     }
 
@@ -82,7 +84,7 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
           <textarea
             value={review}
             onChange={(e) => setReview(e.target.value.slice(0, 100))}
-            className="w-3/4 my-3 py-2 px-3 h-30 flex-initial border border-gray-400 rounded-md resize-none text-sm"
+            className="w-3/4 my-3 py-2 px-3 h-30 flex-initial border border-gray-400 rounded-md resize-none text-sm focus:outline-none"
             placeholder={placeholder}
             maxLength={100}
           />

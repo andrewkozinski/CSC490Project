@@ -1,4 +1,4 @@
-export default function TextField({ label, type = "text", name, placeholder, value, onChange }) {
+export default function TextField({ label, type = "text", name, placeholder, value, onChange, onKeyDown=() => { },}) {
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={name} className="text-sm font-bold text-gray-700 text-left">
@@ -12,6 +12,7 @@ export default function TextField({ label, type = "text", name, placeholder, val
         className="border blue shadow text-black p-4 border-transparent rounded-lg p-2"
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
       />
     </div>
   );

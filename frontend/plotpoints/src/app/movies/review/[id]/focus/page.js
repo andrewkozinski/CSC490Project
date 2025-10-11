@@ -3,21 +3,16 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import Footer from "@/app/components/Footer";
-import Header from "../../../components/Header";
-import Rating from "../../../components/Rating";
-import ReviewList from "../../../components/ReviewList";
-import fetchReviews from "@/utils/fetchReviews";
-import fetchAvgRating from "@/utils/fetchAvgRating";
+import Header from "../../../../components/Header";
+import Review from "../../../../components/Review";
 
-function MovieReviewPage({ params }) {
+function IndividualMovieReviewPage({ params }) {
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id;
   console.log("Movie ID from URL: " + id);
   //Movie Details State
   const [movieDetails, setMovieDetails] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  const [avgRating, setAvgRating] = useState(0);
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -36,8 +31,6 @@ function MovieReviewPage({ params }) {
     };
 
     fetchMovieDetails();
-    fetchReviews("movie", id, setReviews);
-    fetchAvgRating("movies", id, setAvgRating);
   }, []);
 
   if (!movieDetails) {
@@ -84,18 +77,7 @@ function MovieReviewPage({ params }) {
           </div>
         </div>
         <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
-          <Rating
-            id={id}
-            placeholder="Write a review!"
-            media="movie"
-            avgRating={avgRating}
-          >
-            {/* need to change later*/}
-          </Rating>
-          <div>
-            <p>Reviews:</p>
-            <ReviewList reviewData={reviews} />
-          </div>
+          <Review></Review>
         </div>
       </div>
       <Footer />
@@ -103,4 +85,4 @@ function MovieReviewPage({ params }) {
   );
 }
 
-export default MovieReviewPage;
+export default IndividualMovieReviewPage;
