@@ -2,6 +2,7 @@
 
 import { useState, useEffect} from "react";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
@@ -53,7 +54,7 @@ function BookReviewPage({params}) {
       <div className="flex m-5">
         <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
           <Image
-            src={bookDetails.thumbnailExtraLargeUrl || ""}
+            src={bookDetails.thumbnailUrl || ""}
             title={bookDetails.title || ""}
             alt={bookDetails.title || ""}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
@@ -74,10 +75,11 @@ function BookReviewPage({params}) {
           </p>*/}
           <div
           className="p-4 border-2 h-1/2 rounded-xl w-auto my-2"
-          dangerouslySetInnerHTML={{ // Google boooks API returns HTML in description, so it needs to be rendered as HTML
-            __html: bookDetails.description || "No description available.",
-            }}
-            />
+          >
+            <ReactMarkdown>
+              {bookDetails.description || "No description available."}
+            </ReactMarkdown>
+          </div>
           <div>
             <p>Comments:</p>
           </div>
