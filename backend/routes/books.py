@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 import httpx
 from models.book import Book
 from database.trending_books import get_top_books_reviewed
+from database.ratings import get_avg_rating
 
 router = APIRouter()
 
@@ -79,6 +80,7 @@ async def get_book_details(book_id: str):
             date_published=item.get("created", {}).get("value", "N/A"),
             categories=item.get("subjects", ["N/A"]),
             thumbnailUrl=cover_links["large"],
+            #avgRating=get_avg_rating(book_id)
         )
         return book
 
@@ -151,3 +153,10 @@ async def get_trending_books():
         book_details = await get_book_details(book_id=book['book_id'])
         response.append(book_details)
     return {"total_results": len(response), "results": response}
+
+@router.get("/{book_id}/average_rating")
+async def get_movie_average_rating(book_id: str):
+    avg_rating = get_avg_rating(str(book_id))
+    if avg_rating is None:
+        return {"book_id": book_id, "average_rating": 0}
+    return {"book_id": book_id, "average_rating": avg_rating}
