@@ -9,6 +9,26 @@ router = APIRouter()
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
+#Mapping of streaming providers to their URLs
+#TMDB does not provide direct links unfortunately
+STREAMING_LINKS = {
+            "Netflix": "https://www.netflix.com/",
+            "Amazon Prime Video": "https://www.primevideo.com/",
+            "Amazon Prime Video with Ads": "https://www.primevideo.com",
+            "Disney Plus": "https://www.disneyplus.com/",
+            "Apple TV Plus": "https://tv.apple.com/",
+            "YouTube": "https://www.youtube.com/movies",
+            "Hulu": "https://www.hulu.com/",
+            "Fandango At Home": "https://athome.fandango.com/content/browse/home",
+            "Fandango at Home Free": "https://athome.fandango.com/content/browse/home",
+            "Apple TV": "https://tv.apple.com/",
+            "Paramount Plus": "https://www.paramountplus.com/",
+            "Amazon Video": "https://www.amazon.com/gp/video/storefront",
+            "Google Play Movies": "https://play.google.com/store/movies",
+            "Tubi TV": "https://tubitv.com/",
+        }
+
+
 # A movie response has a genre id list, we need to map those ids to genre names
 # Usually, to grab this information you'd need the following:
 # "https://api.themoviedb.org/3/genre/movie/list?api_key={TMDB_API_KEY}"
@@ -269,23 +289,6 @@ async def get_movie_streaming_links(movie_id: int):
         us_providers = data.get('results', {}).get('US', {})
 
         #Now, format the response to have a full image link and also return a link to the provider
-        STREAMING_LINKS = {
-            "Netflix": "https://www.netflix.com/",
-            "Amazon Prime Video": "https://www.primevideo.com/",
-            "Amazon Prime Video with Ads": "https://www.primevideo.com",
-            "Disney Plus": "https://www.disneyplus.com/",
-            "Apple TV Plus": "https://tv.apple.com/",
-            "YouTube": "https://www.youtube.com/movies",
-            "Hulu": "https://www.hulu.com/",
-            "Fandango At Home": "https://athome.fandango.com/content/browse/home",
-            "Fandango at Home Free": "https://athome.fandango.com/content/browse/home",
-            "Apple TV": "https://tv.apple.com/",
-            "Paramount Plus": "https://www.paramountplus.com/",
-            "Amazon Video": "https://www.amazon.com/gp/video/storefront",
-            "Google Play Movies": "https://play.google.com/store/movies",
-            "Tubi TV": "https://tubitv.com/",
-        }
-
         formatted_providers = {}
         for category, providers in us_providers.items():
             if category == "link":
