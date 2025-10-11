@@ -23,7 +23,8 @@ async def create_comment(comment: ReviewComment):
     comm_id = add_comment(
         review_id=comment.review_id,
         user_id=comment.user_id,
-        comm_text=comment.comment_text
+        comm_text=comment.comment_text,
+        parent_comm_id=None
     )
     if comm_id is not None:
         return {"message": "Comment created successfully", "comm_id": comm_id}
