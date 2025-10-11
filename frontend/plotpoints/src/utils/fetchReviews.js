@@ -6,7 +6,7 @@ const fetchReviews = async (mediaType, id, setReviews) => {
     }
     const data = await response.json();
     console.log("Fetched Reviews:", data);
-    setReviews(data);
+    setReviews(data.reviews);
   } catch (error) {
     console.error("Error fetching reviews:", error);
     setReviews([]);
