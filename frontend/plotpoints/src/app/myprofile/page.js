@@ -34,7 +34,7 @@ export default function ProfilePage(){
                     src="/images/cat.jpg">
                     </img>
                     {/* Get username */}
-                    <h1 className="text-4xl text-center inria-serif-regular">{session ? session.user.name : "Guest"}</h1>
+                    <h1 className="text-4xl text-center inria-serif-regular">{session ? session.user.name : "Error: Username not found"}</h1>
                     <p>User's bio here</p>
                 </div>
                 <div className="cols-span-3">
