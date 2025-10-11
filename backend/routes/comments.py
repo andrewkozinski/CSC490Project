@@ -29,3 +29,10 @@ async def create_comment(comment: ReviewComment):
         return {"message": "Comment created successfully", "comm_id": comm_id}
     else:
         HTTPException(status_code=500, detail="Failed to create comment. Please try again.")
+
+@router.delete("/delete/")
+async def delete_comment(comment: DeleteCommentRequest):
+    result = add_comment(comment.comment_id)
+    if result is False:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    return {"message": "Comment deleted successfully"}
