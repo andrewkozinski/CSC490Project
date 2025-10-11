@@ -253,3 +253,13 @@ async def get_movie(movie_id: int):
         )
 
         return movie
+
+@router.get("/{movie_id}/streaming_links")
+async def get_movie_streaming_links(movie_id: int):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key={TMDB_API_KEY}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="Movie not found")
+        response.raise_for_status()
+        return response.json()
