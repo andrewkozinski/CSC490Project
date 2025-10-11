@@ -14,6 +14,7 @@ class Book(BaseModel):
     thumbnailUrl: str
     #isbn_10: str
     #isbn_13: str
+    avgRating: float = 0.0 #Optional, only needed for individual book details page
 
 """ OLD BOOK MODEL
 class Book(BaseModel):
