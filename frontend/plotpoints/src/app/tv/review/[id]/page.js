@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
@@ -99,6 +100,7 @@ function TvReviewPage({ params }) {
             placeholder="Write a review!"
             media="tvshow"
             avgRating={avgRating}
+            reviews={reviews}
           >
             {/* need to change later*/}
           </Rating>
