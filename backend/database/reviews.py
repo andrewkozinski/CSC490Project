@@ -2,7 +2,7 @@ import oracledb
 #import connect
 import connect
 #from users import valid_user_id
-from users import valid_user_id
+from database.users import valid_user_id
 
 def format_review(row):
     return {
@@ -43,7 +43,7 @@ def add_review(user_id, media_id, media_type, rating, review_text):
                 result = cursor.fetchone()
                 db_media_id = result[0]
             else:
-                db_media_id = media_id
+                db_media_id = int(media_id)
 
             cursor.execute(
                 """
@@ -299,12 +299,3 @@ def edit_review(review_id, review_text):
 
     finally:
         connect.stop_connection(connection, cursor)
-
-
-#print_reviews()
-#add_review(4,1,"a",5,"")
-#print_reviews()
-#delete_review(1)
-#print_reviews()
-#edit_review(1, "best movie ever omg!")
-#print_reviews()

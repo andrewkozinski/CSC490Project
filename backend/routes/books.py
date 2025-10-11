@@ -1,89 +1,55 @@
 from fastapi import APIRouter, HTTPException
 import httpx
 from models.book import Book
+from database.trending_books import get_top_books_reviewed
+from database.ratings import get_avg_rating
 
 router = APIRouter()
 
-#Helper function to get isbn out of the industry_identifiers in the google books api response
-def get_isbn(industry_identifiers, type):
-    for identifier in industry_identifiers:
-        if identifier['type'] == type:
-            return identifier.get("identifier")
-    return 'N/A'
-
-#Helper function to clean up image links in the google books api response
-#If large image link is not available, use thumbnail link instead
-#If neither are available, use placeholder image link with the text "No Image"
-def clean_image_links(volume_info):
-    placeholder = "https://placehold.co/100x100?text=No+Image"
-    image_links = volume_info.get('imageLinks', {})
-    large = image_links.get('large', image_links.get('thumbnail', placeholder))
-    thumbnail = image_links.get('thumbnail', placeholder)
-    volume_info['imageLinks'] = {'large': large, 'thumbnail': thumbnail}
-    return volume_info['imageLinks']
+#Create image links for a book based on id
+def build_cover_links(cover_id: int | None):
+    placeholder = "https://placehold.co/100x150?text=No+Image"
+    if cover_id:
+        large = f"https://covers.openlibrary.org/b/id/{cover_id}-L.jpg"
+        thumbnail = f"https://covers.openlibrary.org/b/id/{cover_id}-M.jpg"
+    else:
+        large = thumbnail = placeholder
+    return {"large": large, "thumbnail": thumbnail}
 
 @router.get("/search")
 async def search_books(query: str, page: int = 1):
-    url = f"https://www.googleapis.com/books/v1/volumes?q={query}&startIndex={(page-1)*10}&maxResults=10&"
+    url = f"https://openlibrary.org/search.json?q={query}&page={page}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
 
+        print("HERE")
+
         books = []
-        for item in data.get('items', []):
-            """
-            book model
-                id: str
-                title: str
-                description: str
-                authors: List[str]
-                date_published: str
-                pageCount: int
-                thumbnailUrl: str
-                isbn_10: str
-                isbn_13: str
-            """
-
-            #To get extra large thumbnail, we need to call into the same route as book details
-            #As that thumbnail is not included in the search results
-            detail_url = f"https://www.googleapis.com/books/v1/volumes/{item['id']}"
-            detail_response = await client.get(detail_url)
-            detail_response.raise_for_status()
-            detail_item = detail_response.json()
-            if 'imageLinks' in detail_item['volumeInfo']:
-                item['volumeInfo']['imageLinks']['large'] = detail_item['volumeInfo']['imageLinks'].get('large', '')
-            else:
-                item['volumeInfo']['imageLinks'] = {'large': ''}
-
-            #get categories out of details response because that's not in a search query directly
-            item['volumeInfo']['categories'] = detail_item['volumeInfo'].get('categories', ['N/A'])
-
+        for doc in data.get("docs", []):
+            cover_links = build_cover_links(doc.get("cover_i"))
             book = Book(
-                id=item['id'],
-                title=item['volumeInfo'].get('title', 'N/A'),
-                description=item['volumeInfo'].get('description', 'N/A'),
-                authors=item['volumeInfo'].get('authors', ['N/A']),
-                date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
-                categories=item['volumeInfo'].get('categories', ['N/A']),
-                pageCount=item['volumeInfo'].get('pageCount', 0),
-                thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
-                thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
-                isbn_10=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_10'),
-                isbn_13=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_13'),
+                id=doc.get("key", "").replace("/works/", ""),
+                title=doc.get("title", "N/A"),
+                description=doc.get("first_sentence", "N/A") if isinstance(doc.get("first_sentence"), str) else "N/A",
+                authors=doc.get("author_name", ["N/A"]),
+                date_published=str(doc.get("first_publish_year", "N/A")),
+                categories=doc.get("subject", ["N/A"]),
+                thumbnailUrl=cover_links["large"],
             )
             books.append(book)
 
         return {
             "page": page,
-            "total_results": data.get('totalItems', 0),
-            "results": books
+            "total_results": data.get("numFound", 0),
+            "results": books,
         }
 
 
 @router.get("/{book_id}")
 async def get_book_details(book_id: str):
-    url = f"https://www.googleapis.com/books/v1/volumes/{book_id}"
+    url = f"https://openlibrary.org/works/{book_id}.json"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
         if response.status_code == 404:
@@ -91,85 +57,106 @@ async def get_book_details(book_id: str):
         response.raise_for_status()
         item = response.json()
 
-        #Need to call another route to get ISBN because for some reason
-        #Google Books API doesn't include it in the direct book details response
-        #But it does include it in the search response
-        title = item['volumeInfo'].get('title', 'N/A')
-        search_url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title}&maxResults=1"
-        search_response = await client.get(search_url)
-        search_response.raise_for_status()
-        search_data = search_response.json()
-        industry_identifiers = search_data.get('items', [{}])[0].get('volumeInfo', {}).get('industryIdentifiers', [])
-        isbn_10 = get_isbn(industry_identifiers, 'ISBN_10')
-        isbn_13 = get_isbn(industry_identifiers, 'ISBN_13')
 
-        #Also grab description because that's also not in the details response for some reason
-        if 'description' not in item['volumeInfo']:
-            item['volumeInfo']['description'] = search_data.get('items', [{}])[0].get('volumeInfo', {}).get('description', 'N/A')
+        cover_links = build_cover_links(item.get("covers", [None])[0] if item.get("covers") else None)
 
-        #If extra large thumbnail is not in the details response, set it to thumbnail url, if thumbnail url is empty as well, then set it to placeholder https://placehold.co/600x400?text=No+Image
-        clean_image_links(volume_info=item['volumeInfo'])
+        # Fetch author names
+        authors = []
+        if "authors" in item:
+            for a in item["authors"]:
+                author_key = a.get("author", {}).get("key")
+                if author_key:
+                    author_url = f"https://openlibrary.org{author_key}.json"
+                    author_resp = await client.get(author_url)
+                    if author_resp.status_code == 200:
+                        author_data = author_resp.json()
+                        authors.append(author_data.get("name", "N/A"))
 
         book = Book(
-            id=item['id'],
-            title=item['volumeInfo'].get('title', 'N/A'),
-            description=item['volumeInfo'].get('description', 'N/A'),
-            authors=item['volumeInfo'].get('authors', ['N/A']),
-            date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
-            categories=item['volumeInfo'].get('categories', ['N/A']),
-            pageCount=item['volumeInfo'].get('pageCount', 0),
-            thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
-            thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
-            isbn_10=isbn_10,
-            isbn_13=isbn_13,
+            id=book_id,
+            title=item.get("title", "N/A"),
+            description=item.get("description", {}).get("value") if isinstance(item.get("description"), dict) else item.get("description", "N/A"),
+            authors=authors or ["N/A"],
+            date_published=item.get("created", {}).get("value", "N/A"),
+            categories=item.get("subjects", ["N/A"]),
+            thumbnailUrl=cover_links["large"],
+            #avgRating=get_avg_rating(book_id)
         )
         return book
 
-#Get by genre/category
+
 @router.get("/search/genre/{category}")
 async def get_books_by_genre(category: str, page: int = 1):
-    url = f"https://www.googleapis.com/books/v1/volumes?q=subject:{category}&startIndex={(page-1)*10}&maxResults=10&"
+    url = f"https://openlibrary.org/subjects/{category.lower().replace(' ', '_')}.json?limit=10&offset={(page-1)*10}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="Category not found")
+        response.raise_for_status()
+        data = response.json()
+
+        books = []
+        for work in data.get("works", []):
+            cover_links = build_cover_links(work.get("cover_id"))
+            book = Book(
+                id=work.get("key", "").replace("/works/", ""),
+                title=work.get("title", "N/A"),
+                description=work.get("description", "N/A"),
+                authors=[a.get("name", "N/A") for a in work.get("authors", [])],
+                date_published=str(work.get("first_publish_year", "N/A")),
+                categories=[category],
+                thumbnailUrl=cover_links["thumbnail"],
+            )
+            books.append(book)
+
+        return {
+            "page": page,
+            "total_results": len(data.get("works", [])),
+            "results": books,
+        }
+
+
+@router.get("/search/genre/{category}/{title}")
+async def get_books_by_genre_and_title(category: str, title: str, page: int = 1):
+    url = f"https://openlibrary.org/search.json?subject={category}&title={title}&page={page}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
 
         books = []
-        for item in data.get('items', []):
-            #To get extra large thumbnail, we need to call into the same route as book details
-            #As that thumbnail is not included in the search results
-            detail_url = f"https://www.googleapis.com/books/v1/volumes/{item['id']}"
-            detail_response = await client.get(detail_url)
-            detail_response.raise_for_status()
-            detail_item = detail_response.json()
-            if 'imageLinks' in detail_item['volumeInfo']:
-                item['volumeInfo']['imageLinks']['large'] = detail_item['volumeInfo']['imageLinks'].get('large', '')
-            else:
-                item['volumeInfo']['imageLinks'] = {'large': ''}
-
-            #get categories out of details response because that's not in a search query directly
-            item['volumeInfo']['categories'] = detail_item['volumeInfo'].get('categories', ['N/A'])
-
-            #Clean image links to ensure both large and thumbnail are present
-            clean_image_links(volume_info=item['volumeInfo'])
-
+        for doc in data.get("docs", []):
+            cover_links = build_cover_links(doc.get("cover_i"))
             book = Book(
-                id=item['id'],
-                title=item['volumeInfo'].get('title', 'N/A'),
-                description=item['volumeInfo'].get('description', 'N/A'),
-                authors=item['volumeInfo'].get('authors', ['N/A']),
-                date_published=item['volumeInfo'].get('publishedDate', 'N/A'),
-                categories=item['volumeInfo'].get('categories', ['N/A']),
-                pageCount=item['volumeInfo'].get('pageCount', 0),
-                thumbnailUrl=item['volumeInfo'].get('imageLinks', {}).get('thumbnail', ''),
-                thumbnailExtraLargeUrl=item['volumeInfo'].get('imageLinks', {}).get('large', ''),
-                isbn_10=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_10'),
-                isbn_13=get_isbn(item['volumeInfo'].get('industryIdentifiers'), 'ISBN_13'),
+                id=doc.get("key", "").replace("/works/", ""),
+                title=doc.get("title", "N/A"),
+                description=doc.get("first_sentence", "N/A") if isinstance(doc.get("first_sentence"), str) else "N/A",
+                authors=doc.get("author_name", ["N/A"]),
+                date_published=str(doc.get("first_publish_year", "N/A")),
+                categories=doc.get("subject", ["N/A"]),
+                thumbnailUrl=cover_links["large"],
             )
             books.append(book)
 
         return {
             "page": page,
-            "total_results": data.get('totalItems', 0),
-            "results": books
+            "total_results": data.get("numFound", 0),
+            "results": books,
         }
+
+
+@router.get("/search/trending")
+async def get_trending_books():
+    books = get_top_books_reviewed()
+    response = []
+    for book in books:
+        book_details = await get_book_details(book_id=book['book_id'])
+        response.append(book_details)
+    return {"total_results": len(response), "results": response}
+
+@router.get("/{book_id}/average_rating")
+async def get_movie_average_rating(book_id: str):
+    avg_rating = get_avg_rating(str(book_id))
+    if avg_rating is None:
+        return {"book_id": book_id, "average_rating": 0}
+    return {"book_id": book_id, "average_rating": avg_rating}

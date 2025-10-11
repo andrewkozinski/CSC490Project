@@ -3,11 +3,39 @@ import httpx
 import os
 from dotenv import load_dotenv
 from models.movie import Movie
+from database.ratings import get_avg_rating
 
 router = APIRouter()
 
 load_dotenv()
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+
+#Mapping of streaming providers to their URLs
+#TMDB does not provide direct links unfortunately
+STREAMING_LINKS = {
+            "Netflix": "https://www.netflix.com/",
+            "Amazon Prime Video": "https://www.primevideo.com/",
+            "Amazon Prime Video with Ads": "https://www.primevideo.com",
+            "Disney Plus": "https://www.disneyplus.com/",
+            "Apple TV Plus": "https://tv.apple.com/",
+            "YouTube": "https://www.youtube.com/movies",
+            "Hulu": "https://www.hulu.com/",
+            "Fandango At Home": "https://athome.fandango.com/content/browse/home",
+            "Fandango at Home Free": "https://athome.fandango.com/content/browse/home",
+            "Apple TV": "https://tv.apple.com/",
+            "Paramount Plus": "https://www.paramountplus.com/",
+            "Paramount Plus Apple TV Channel": "https://tv.apple.com/",
+            "Paramount Plus Apple TV Channel ": "https://tv.apple.com/",
+            "Paramount+ with Showtime": "https://www.paramountpluswithshowtime.com/",
+            "Paramount+ Roku Premium Channel": "https://channelstore.roku.com/details/f04a1a2ece7f9ca611a97c045569cb9d:6e3fc82e82aae31af5401e62f222d1b1/paramount-plus",
+            "HBO Max": "https://www.hbomax.com/",
+            "Amazon Video": "https://www.amazon.com/gp/video/storefront",
+            "Google Play Movies": "https://play.google.com/store/movies",
+            "Tubi TV": "https://tubitv.com/",
+            "Peacock": "https://www.peacocktv.com/",
+            "fuboTV": "https://www.fubo.tv/",
+        }
+
 
 # A movie response has a genre id list, we need to map those ids to genre names
 # Usually, to grab this information you'd need the following:
@@ -155,6 +183,22 @@ async def search_movies_by_genre(genre_name: str, page: int = 1):
             "results": movies
         }
 
+#Search by genre and title
+@router.get("/search/genre/{genre}/{title}")
+async def search_tvshows_by_genre_and_title(genre: str, title: str, page: int = 1):
+    # Use the search movie by title function first
+
+    search_results = await search_movies(title, page)
+    # Filter the results by genre
+    filtered_results = [movie for movie in search_results['results'] if genre.lower() in [g.lower() for g in movie.genre]]
+
+    return {
+        "page": search_results['page'],
+        "total_results": len(filtered_results),
+        "total_pages": (len(filtered_results) // 20) + 1,
+        "results": filtered_results
+    }
+
 #Get trending movies from the TMDB API
 @router.get("/search/trending")
 async def get_trending_movies(page: int = 1):
@@ -237,3 +281,41 @@ async def get_movie(movie_id: int):
         )
 
         return movie
+
+@router.get("/{movie_id}/streaming_links")
+async def get_movie_streaming_links(movie_id: int):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key={TMDB_API_KEY}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="Movie not found")
+        response.raise_for_status()
+        #return response.json()
+
+        #Need to return the results for US region if it exists
+        data = response.json()
+        us_providers = data.get('results', {}).get('US', {})
+
+        #Now, format the response to have a full image link and also return a link to the provider
+        formatted_providers = {}
+        for category, providers in us_providers.items():
+            if category == "link":
+                formatted_providers["link"] = providers
+            else:
+                formatted_providers[category] = []
+                for provider in providers:
+                    provider_info = {
+                        "provider_name": provider['provider_name'],
+                        "logo": f"https://image.tmdb.org/t/p/w500{provider['logo_path']}" if provider.get('logo_path') else "",
+                        "link": STREAMING_LINKS.get(provider['provider_name'], "")
+                    }
+                    formatted_providers[category].append(provider_info)
+
+        return formatted_providers
+
+@router.get("/{movie_id}/average_rating")
+async def get_movie_average_rating(movie_id: int):
+    avg_rating = get_avg_rating(movie_id)
+    if avg_rating is None:
+        return {"movie_id": movie_id, "average_rating": 0}
+    return {"movie_id": movie_id, "average_rating": avg_rating}
