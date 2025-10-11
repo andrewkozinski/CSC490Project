@@ -39,7 +39,7 @@ async def delete_comment(comment: DeleteCommentRequest):
     return {"message": "Comment deleted successfully"}
 
 @router.get("/all")
-async def get_all_comments():
+async def fetch_all_comments():
     comments = get_all_comments()
     if comments is not None:
         return {"comments": comments}
