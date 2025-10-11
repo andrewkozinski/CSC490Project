@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from database.comments import add_comment, delete_comment, get_all_comments
+from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id
 
 class ReviewComment(BaseModel):
     review_id: int
@@ -44,3 +44,11 @@ async def fetch_all_comments():
     if comments is not None:
         return {"comments": comments}
     raise HTTPException(status_code=500, detail="Error fetching comments")
+
+@router.get("/from_review/{review_id}")
+async def fetch_comments_for_review(review_id: int):
+    comments = get_comments_by_review_id(review_id)
+    if comments is not None:
+        return {"comments": comments}
+    else:
+        return {"comments": []}
