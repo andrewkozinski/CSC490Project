@@ -1,8 +1,10 @@
 import { useState } from "react";
 import CommentList from "./CommentList";
 
-export default function Review({ username, text }) {
+export default function Review({ username= "Anonymous", text="No text available", currentUser = "Anonymous" }) {
   const [showReplyBox, setShowReplyBox] = useState(false);
+  //CurrentUser should fetch the current user
+  const canEdit = currentUser === username;
 
   return (
     <div className="flex flex-col mt-1">
@@ -28,12 +30,11 @@ export default function Review({ username, text }) {
         {/* Example review content */}
         <div className="flex flex-col mx-5 justify-between h-full grow">
           <div>
-            <p>{username}</p>
-            {/* 100 characters */}
-            <p className="mt-3 text-gray-700 text-sm">
-              {text}
-            </p>
+            <p className="underline underline-offset-4">{username}</p>
+            <p className="mt-3 text-gray-700 text-sm">{text}</p>
           </div>
+
+          {/* Rating controls */}
           <div className="flex items-center w-full mt-2">
             {/* # of ratings */}
             <p className="mr-3 text-sm text-gray-700">+ 1000</p>
@@ -74,13 +75,29 @@ export default function Review({ username, text }) {
             </button>
           </div>
         </div>
+
+        {/* Reply button */}
         <button
           onClick={() => setShowReplyBox((prev) => !prev)}
           className="absolute bottom-2 right-3 text-sm underline cursor-pointer"
         >
           Reply
         </button>
+
+        {/* Edit/Delete buttons (top right) */}
+        {canEdit && (
+          <div className="absolute top-2 right-3 flex space-x-3">
+            <button className="cursor-pointer text-blue-600 hover:text-blue-800">
+              Edit
+            </button>
+            <button className="cursor-pointer text-red-600 hover:text-red-800">
+              Delete
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Reply box */}
       {showReplyBox && (
         <div className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl">
           <textarea
@@ -92,6 +109,8 @@ export default function Review({ username, text }) {
           </button>
         </div>
       )}
+
+      {/* Comments below review */}
       <div className="flex">
         <CommentList />
       </div>

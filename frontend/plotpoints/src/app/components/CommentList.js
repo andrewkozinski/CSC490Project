@@ -6,7 +6,7 @@ export default function CommentsList() {
 
  //test commments
   const comments = [
-    { username: "Angry Dude", text: "I thought it was the best movie of all time." },
+    { username: "Anonymous", text: "I thought it was the best movie of all time." },
     { username: "Happy Chick", text: "Loved the soundtrack!" },
     { username: "Film Buff", text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the" },
   ];
