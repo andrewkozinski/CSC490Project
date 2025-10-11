@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 import httpx
 import os
 from dotenv import load_dotenv
+from database.ratings import get_avg_rating
 from models.tvshow import TvShow
 from routes.movies import STREAMING_LINKS
 
@@ -250,3 +251,11 @@ async def get_tvshow_streaming_links(tv_id: int):
                     formatted_providers[category].append(provider_info)
 
         return formatted_providers
+
+
+@router.get("/{tv_id}/average_rating")
+async def get_movie_average_rating(tv_id: int):
+    avg_rating = get_avg_rating(str(tv_id))
+    if avg_rating is None:
+        return {"tv_id": tv_id, "average_rating": 0}
+    return {"tv_id": tv_id, "average_rating": avg_rating}
