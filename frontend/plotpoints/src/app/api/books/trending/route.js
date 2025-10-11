@@ -19,7 +19,7 @@ export async function GET() {
     catch (error) {
         console.error(error);
         return new Response(
-            JSON.stringify({ error: "Server error fetching trending movies" }),
+            JSON.stringify({ error: "Server error fetching trending books" }),
             { status: 500 }
         );
     }
