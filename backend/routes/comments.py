@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from database.comments import add_comment
+from database.comments import add_comment, delete_comment
 
 class ReviewComment(BaseModel):
     review_id: int
@@ -32,7 +32,7 @@ async def create_comment(comment: ReviewComment):
 
 @router.delete("/delete/")
 async def delete_comment(comment: DeleteCommentRequest):
-    result = add_comment(comment.comment_id)
+    result = delete_comment(comment.comment_id)
     if result is False:
         raise HTTPException(status_code=404, detail="Comment not found")
     return {"message": "Comment deleted successfully"}
