@@ -1,19 +1,18 @@
 "use client";
 
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
+import ReviewList from "../../../components/ReviewList";
 
-
-function TvReviewPage({params}) {
-
+function TvReviewPage({ params }) {
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id;
   console.log("TV Show ID from URL: " + id);
-  
+
   //Tv Show Details State
   const [tvDetails, setTvDetails] = useState(null);
 
@@ -36,13 +35,12 @@ function TvReviewPage({params}) {
     fetchTvDetails();
   }, [id]);
 
-  if(!tvDetails) {
+  if (!tvDetails) {
     return (
       <>
         <Header />
         <p>Loading TV Show Details...</p>
       </>
-
     );
   }
 
@@ -50,27 +48,57 @@ function TvReviewPage({params}) {
     <div>
       <Header />
       <div className="flex m-5">
-        <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
           <img
-            src={tvDetails && tvDetails.img ? tvDetails.img : "https://placehold.co/600x400?text=No+Image"}
+            src={
+              tvDetails && tvDetails.img
+                ? tvDetails.img
+                : "https://placehold.co/600x400?text=No+Image"
+            }
             title={tvDetails ? tvDetails.title : "TV Show Poster"}
             alt={tvDetails ? tvDetails.title : "TV Show Poster"}
             className="w-65 h-96 rounded-xl outline-2 mb-5"
           />
-          <Rating
-            id = {id}
-            placeholder="Write a review!"
-            media="show"
-            avgRating= "4"> {/* need to change later*/}
-          </Rating>
-        </div>
-        <div className="flex flex-col justify-end w-2/3 h-1/2 flex-initial">
-          <p>Description:</p>
-          <p className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-            {tvDetails ? tvDetails.description : "No description available."}
-          </p>
           <div>
-            <p>Comments:</p>
+            {/*description box*/}
+            <p className="text-lg">Description:</p>
+            <div className="flex p-4 border-2 rounded-xl min-h-[25vh] max-h-fit grow my-2 flex-col">
+              <p className="text-lg">Title:<br /></p>
+              <p className="text-xl font-bold"> {tvDetails.title}</p>
+              <p className="flex grow">
+                {tvDetails && tvDetails.description
+                  ? tvDetails.description
+                  : "No description available."}
+              </p>
+              <div className="pt-5">
+                {/* Formats arrays */}
+                <p>
+                  Created by:{" "}
+                  {Array.isArray(tvDetails.created_by)
+                    ? tvDetails.created_by.join(", ")
+                    : tvDetails.created_by}
+                </p>
+
+                <p>Date Released: {tvDetails.release_date}</p>
+                <p>Seasons: {tvDetails.seasons}</p>
+                <p>Episodes: {tvDetails.episodes}</p>
+                <p>Streaming Links:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
+          <Rating
+            id={id}
+            placeholder="Write a review!"
+            media="movie"
+            avgRating="4"
+          >
+            {/* need to change later*/}
+          </Rating>
+          <div>
+            <p>Reviews:</p>
+            <ReviewList></ReviewList>
           </div>
         </div>
       </div>

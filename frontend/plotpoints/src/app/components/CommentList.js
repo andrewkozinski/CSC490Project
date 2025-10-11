@@ -4,6 +4,7 @@ import Comment from "./Comment";
 export default function CommentsList() {
   const [showComments, setShowComments] = useState(false);
 
+ //test commments
   const comments = [
     { username: "Angry Dude", text: "I thought it was the best movie of all time." },
     { username: "Happy Chick", text: "Loved the soundtrack!" },

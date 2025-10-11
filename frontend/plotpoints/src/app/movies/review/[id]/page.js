@@ -62,7 +62,8 @@ function MovieReviewPage({ params }) {
             {/*description box*/}
             <p className="text-lg">Description:</p>
             <div className="flex p-4 border-2 rounded-xl min-h-[25vh] max-h-fit grow my-2 flex-col">
-              <p className="text-xl font-bold">Title: {movieDetails.title}</p>
+              <p className="text-lg">Title:</p>
+              <p className="text-xl font-bold"> {movieDetails.title}</p>
               <p className="flex grow">
                 {movieDetails && movieDetails.overview
                   ? movieDetails.overview
