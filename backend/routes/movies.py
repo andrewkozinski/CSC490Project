@@ -315,7 +315,7 @@ async def get_movie_streaming_links(movie_id: int):
 
 @router.get("/{movie_id}/average_rating")
 async def get_movie_average_rating(movie_id: int):
-    avg_rating = get_avg_rating(str(movie_id))
+    avg_rating = get_avg_rating(movie_id)
     if avg_rating is None:
         return {"movie_id": movie_id, "average_rating": 0}
     return {"movie_id": movie_id, "average_rating": avg_rating}
