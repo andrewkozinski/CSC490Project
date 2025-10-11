@@ -31,6 +31,7 @@ STREAMING_LINKS = {
             "Google Play Movies": "https://play.google.com/store/movies",
             "Tubi TV": "https://tubitv.com/",
             "Peacock": "https://www.peacocktv.com/",
+            "fuboTV": "https://www.fubo.tv/",
         }
 
 
