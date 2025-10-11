@@ -35,6 +35,8 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
 
     const data = await res.json();
     console.log(data);
+    //refresh the current page
+    window.location.reload();
   };
 
   return (
