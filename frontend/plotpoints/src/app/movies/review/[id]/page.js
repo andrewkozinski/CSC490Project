@@ -6,6 +6,7 @@ import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
+import fetchReviews from "@/utils/fetchReviews";
 
 function MovieReviewPage({ params }) {
   //Grab the ID from the URL
@@ -14,6 +15,7 @@ function MovieReviewPage({ params }) {
   console.log("Movie ID from URL: " + id);
   //Movie Details State
   const [movieDetails, setMovieDetails] = useState(null);
+  const [reviews, setReviews] = useState([]);
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -32,6 +34,7 @@ function MovieReviewPage({ params }) {
     };
 
     fetchMovieDetails();
+    fetchReviews("movie", id, setReviews);
   }, []);
 
   if (!movieDetails) {
@@ -88,7 +91,7 @@ function MovieReviewPage({ params }) {
           </Rating>
           <div>
             <p>Reviews:</p>
-            <ReviewList></ReviewList>
+            <ReviewList reviews={reviews} />
           </div>
         </div>
       </div>
