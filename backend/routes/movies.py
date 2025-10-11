@@ -23,9 +23,14 @@ STREAMING_LINKS = {
             "Fandango at Home Free": "https://athome.fandango.com/content/browse/home",
             "Apple TV": "https://tv.apple.com/",
             "Paramount Plus": "https://www.paramountplus.com/",
+            "Paramount Plus Apple TV Channel": "https://tv.apple.com/",
+            "Paramount+ with Showtime": "https://www.paramountpluswithshowtime.com/",
+            "Paramount+ Roku Premium Channel": "https://channelstore.roku.com/details/f04a1a2ece7f9ca611a97c045569cb9d:6e3fc82e82aae31af5401e62f222d1b1/paramount-plus",
+            "HBO Max": "https://www.hbomax.com/",
             "Amazon Video": "https://www.amazon.com/gp/video/storefront",
             "Google Play Movies": "https://play.google.com/store/movies",
             "Tubi TV": "https://tubitv.com/",
+            "Peacock": "https://www.peacocktv.com/",
         }
 
 
