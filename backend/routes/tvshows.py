@@ -3,6 +3,7 @@ import httpx
 import os
 from dotenv import load_dotenv
 from models.tvshow import TvShow
+from routes.movies import STREAMING_LINKS
 
 router = APIRouter()
 load_dotenv()
@@ -229,5 +230,23 @@ async def get_tvshow_streaming_links(tv_id: int):
             raise HTTPException(status_code=404, detail="TV show not found")
         response.raise_for_status()
         data = response.json()
+
         us_providers = data.get('results', {}).get('US', {})
-        return us_providers
+
+        #Now, format the response to have a full image link and also return a link to the provider
+        formatted_providers = {}
+        for category, providers in us_providers.items():
+            if category == "link":
+                formatted_providers["link"] = providers
+            else:
+                formatted_providers[category] = []
+                for provider in providers:
+                    provider_info = {
+                        "provider_name": provider['provider_name'],
+                        "logo": f"https://image.tmdb.org/t/p/w500{provider['logo_path']}" if provider.get(
+                            'logo_path') else "",
+                        "link": STREAMING_LINKS.get(provider['provider_name'], "")
+                    }
+                    formatted_providers[category].append(provider_info)
+
+        return formatted_providers
