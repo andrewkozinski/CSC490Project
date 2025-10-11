@@ -1,7 +1,7 @@
 'use client';
 import { useSession, signOut } from "next-auth/react";
 import "./Header.css";
-import "./ProfileIcon.css";
+import "./ProfileDropdown.css";
 import Link from "next/link";
 
 export default function Header() {
@@ -53,7 +53,7 @@ export default function Header() {
             className="icon"> 
             </img> 
             <div className="dropdown-content -ml-19">
-              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href="/">My Profile</Link>
+              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href="/myprofile">My Profile</Link>
               <Link href="/">Settings</Link>
               <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/" onClick={() => signOut()} >Sign Out</Link>
             </div>
