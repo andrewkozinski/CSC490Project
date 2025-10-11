@@ -12,6 +12,16 @@ import ReviewList from "../../../components/ReviewList";
 import Image from "next/image";
 
 function BookReviewPage({ params }) {
+
+  function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id;
@@ -66,7 +76,7 @@ function BookReviewPage({ params }) {
               <p className="text-xl font-bold">{bookDetails.title}</p>
               <p>Authors: {bookDetails.authors}</p>
               <p className="mb-2">
-                Date published: {bookDetails.date_published}
+                Date published: {formatDate(bookDetails.date_published)}
               </p>
               <div className="flex grow">
                 <ReactMarkdown>
