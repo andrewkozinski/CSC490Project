@@ -3,7 +3,7 @@ import httpx
 import os
 from dotenv import load_dotenv
 from models.movie import Movie
-from database.ratings import get_avg_rating
+from database.ratings import get_avg_ratings_by_movie_id
 
 router = APIRouter()
 
@@ -315,7 +315,7 @@ async def get_movie_streaming_links(movie_id: int):
 
 @router.get("/{movie_id}/average_rating")
 async def get_movie_average_rating(movie_id: int):
-    avg_rating = get_avg_rating(movie_id)
+    avg_rating = get_avg_ratings_by_movie_id(movie_id)
     if avg_rating is None:
         return {"movie_id": movie_id, "average_rating": 0}
     return {"movie_id": movie_id, "average_rating": avg_rating}
