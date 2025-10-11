@@ -12,12 +12,13 @@ export default function Reviews({ reviewData = [] }) {
   //Example response from backend:
   /*
   {
-      "review_id": 2,
-      "user_id": 5,
-      "media_id": 81,
-      "media_type": "book",
-      "rating": 3,
-      "review_text": "It truly is one of the islands of all time"
+      "review_id": 1,
+      "user_id": 12,
+      "media_id": 1038392,
+      "media_type": "movie",
+      "rating": 1,
+      "review_text": "i hate this movie!",
+      "username": "jsieb"
     }
   */
 
