@@ -296,3 +296,28 @@ def valid_user_id(user_id):
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching user by ID:", error_obj.message)
+
+def get_by_id(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return []
+
+    try:
+        cursor.execute("SELECT * FROM USERS WHERE USER_ID = :1", (user_id,))
+        row = cursor.fetchone()
+        if row:
+            user = {
+                "USER_ID": row[0],
+                "USERNAME": row[1],
+                "HASHED_PASSWORD": row[2],
+                "EMAIL": row[3]
+            }
+            return user
+        else:
+            print(f"No user found with USER_ID '{user_id}'.")
+            return None
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching user by ID:", error_obj.message)
+        return None
