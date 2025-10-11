@@ -1,8 +1,29 @@
+"use client";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Link from "next/link";
 
+import { useSession } from "next-auth/react";
+
 export default function ProfilePage(){
+    const { data: session } = useSession();
+    console.log("User session data:", session);
+    
+    //If no session exists, redirect to login
+    //Can also be replaced with a forced redirect using useRouter from next/navigation
+    if (!session) {
+        return (
+            <div>
+                <Header/>
+                <div className="flex flex-col items-center justify-center min-h-screen">
+                    <h1 className="text-2xl mb-4">You must be logged in to view your profile!</h1>
+                    <Link href="/signin" className="text-blue-500 underline">Go to Login</Link>
+                </div>
+                <Footer/>
+            </div>
+        );
+    }
+
     return (
         <div>   
             <Header/>
@@ -13,7 +34,7 @@ export default function ProfilePage(){
                     src="/images/cat.jpg">
                     </img>
                     {/* Get username */}
-                    <h1 className="text-4xl text-center inria-serif-regular">tank</h1>
+                    <h1 className="text-4xl text-center inria-serif-regular">{session ? session.user.name : "Guest"}</h1>
                     <p>User's bio here</p>
                 </div>
                 <div className="cols-span-3">
