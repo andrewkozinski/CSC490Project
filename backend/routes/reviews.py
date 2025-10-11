@@ -66,12 +66,17 @@ async def get_all_reviews():
 @router.get("/by_media_type/{media_type}")
 async def get_reviews_by_media_type(media_type: str):
     reviews_by_type = reviews.get_reviews_by_media_type(media_type.lower())
+    if reviews_by_type is None:
+        #Return empty list if no reviews found for the media type
+        return {"reviews": []}
     return {"reviews": reviews_by_type}
 
 #Get all reviews by a media type and id
 @router.get("/by_media/{media_type}/{media_id}")
 async def get_reviews_by_media(media_type: str, media_id: str):
     reviews_by_media = reviews.get_reviews_by_media_id_and_type(media_id, media_type.lower())
+    if reviews_by_media is None:
+        return {"reviews": []}
     return {"reviews": reviews_by_media}
 
 #Get all reviews by a user id
