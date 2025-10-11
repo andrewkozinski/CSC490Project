@@ -6,6 +6,7 @@ from routes.tvshows import router as tv_router
 from routes.books import router as book_router
 from routes.reviews import router as review_router
 from routes.search import router as search_router
+from routes.profiles import router as profiles_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -56,6 +57,7 @@ app.include_router(tv_router, prefix="/tvshows") #includes the API router from r
 app.include_router(book_router, prefix="/books") #includes the API router from routes/books.py
 app.include_router(review_router, prefix="/reviews") #includes the API router from routes/reviews.py
 app.include_router(search_router, prefix="/search") #includes the API router from routes/search.py
+app.include_router(profiles_router, prefix="/profiles") #includes the API router from routes/profiles.py
 
 # CORS settings
 app.add_middleware(
