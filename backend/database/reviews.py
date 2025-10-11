@@ -1,6 +1,9 @@
 import oracledb
 #import connect
-import connect
+
+#MAJOR NOTE: This import is what works for both render (where the backend is hosted) and at least for me (andrew) locally
+from database import connect #If this import doesn't work change it temporarily, but be sure to change it back before pushing because the backend won't understand "import connect" when it's on render
+
 #from users import valid_user_id
 from database.users import valid_user_id
 
