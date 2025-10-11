@@ -41,7 +41,7 @@ export default function Comment({
             <button className="cursor-pointer text-blue-600 hover:text-blue-800">
               Edit
             </button>
-            <button className="cursor-pointer text-red-600 hover:text-red-800">
+            <button className="cursor-pointer ml-3 text-red-600 hover:text-red-800">
               Delete
             </button>
           </div>

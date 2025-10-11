@@ -1,22 +1,21 @@
 "use client";
 
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
+import ReviewList from "../../../components/ReviewList";
 
 import Image from "next/image";
 
-function BookReviewPage({params}) {
-
+function BookReviewPage({ params }) {
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id;
   console.log("Book ID from URL: " + id);
-  
   //Book Details State
   const [bookDetails, setBookDetails] = useState(null);
 
@@ -39,7 +38,7 @@ function BookReviewPage({params}) {
     fetchBookDetails();
   }, [id]);
 
-  if(!bookDetails) {
+  if (!bookDetails) {
     return (
       <>
         <Header />
@@ -52,7 +51,7 @@ function BookReviewPage({params}) {
     <div>
       <Header />
       <div className="flex m-5">
-        <div className="flex w-1/3 flex-initial flex-col items-center justify-center">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
           <Image
             src={bookDetails.thumbnailUrl || ""}
             title={bookDetails.title || ""}
@@ -61,27 +60,33 @@ function BookReviewPage({params}) {
             width={1000}
             height={1000}
           />
-          <Rating
-            id = {id}
-            placeholder="Write a review!"
-            media="book"
-            avgRating= "4"> {/* need to change later*/}
-          </Rating>
-        </div>
-        <div className="flex flex-col justify-end w-2/3 h-1/2 flex-initial">
-          <p>Description:</p>
-          {/*<p className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-            {bookDetails.description || "No description available."}
-          </p>*/}
-          <div
-          className="p-4 border-2 h-1/2 rounded-xl w-auto my-2"
-          >
-            <ReactMarkdown>
-              {bookDetails.description || "No description available."}
-            </ReactMarkdown>
+            <p>Description:</p>
+            <div className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
+              <p className="text-lg">Title:</p>
+              <p className="text-xl font-bold">{bookDetails.title}</p>
+              <p>Authors: {bookDetails.authors}</p>
+              <p className="mb-2">
+                Date published: {bookDetails.date_published}
+              </p>
+              <div className="flex grow">
+                <ReactMarkdown>
+                  {bookDetails.description || "No description available."}
+                </ReactMarkdown>
+            </div>
           </div>
+        </div>
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
+          <Rating
+            id={id}
+            placeholder="Write a review!"
+            media="movie"
+            avgRating="4"
+          >
+            {/* need to change later*/}
+          </Rating>
           <div>
-            <p>Comments:</p>
+            <p>Reviews:</p>
+            <ReviewList></ReviewList>
           </div>
         </div>
       </div>
