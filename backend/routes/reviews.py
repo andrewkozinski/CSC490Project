@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from database import reviews
 from routes.auth import verify_jwt_token, get_user_id_from_token
+from routes.profiles import get_username_by_id
 
 class CreateReviewRequest(BaseModel):
     #user_id: int #Commented out since JWT token will provide user id
@@ -69,6 +70,10 @@ async def get_reviews_by_media_type(media_type: str):
     if reviews_by_type is None:
         #Return empty list if no reviews found for the media type
         return {"reviews": []}
+    #Add username to each review by fetching from the user id
+    for review in reviews_by_type:
+        user = get_username_by_id(review["user_id"])
+        review["username"] = user if user else "Unknown User"
     return {"reviews": reviews_by_type}
 
 #Get all reviews by a media type and id
