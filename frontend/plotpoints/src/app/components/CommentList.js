@@ -22,7 +22,7 @@ export default function CommentsList() {
       </div>
       <div>
         {showComments && (
-          <div className="">
+          <div>
             {comments.length > 0 ? (
               comments.map((c, id) => (
                 <Comment key={id} username={c.username} text={c.text} />

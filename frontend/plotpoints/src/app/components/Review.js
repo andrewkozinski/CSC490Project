@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CommentList from "./CommentList";
 
-export default function Reviews() {
+export default function Review({ username, text }) {
   const [showReplyBox, setShowReplyBox] = useState(false);
 
   return (
@@ -28,14 +28,13 @@ export default function Reviews() {
         {/* Example review content */}
         <div className="flex flex-col mx-5 justify-between h-full grow">
           <div>
-            <p className="underline underline-offset-4">Anonymous</p>
+            <p>{username}</p>
             {/* 100 characters */}
             <p className="mt-3 text-gray-700 text-sm">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the{" "}
+              {text}
             </p>
           </div>
-          <div className="flex items-center w-full">
+          <div className="flex items-center w-full mt-2">
             {/* # of ratings */}
             <p className="mr-3 text-sm text-gray-700">+ 1000</p>
             {/* plus */}

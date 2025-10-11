@@ -65,7 +65,7 @@ export default function Comment({
               />
             </svg>
           </button>
-          </div>
+        </div>
       </div>
     </div>
   );

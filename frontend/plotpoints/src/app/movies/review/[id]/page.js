@@ -5,7 +5,7 @@ import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
-import Reviews from "../../../components/Reviews";
+import ReviewList from "../../../components/ReviewList";
 
 function MovieReviewPage({ params }) {
   //Grab the ID from the URL
@@ -87,13 +87,7 @@ function MovieReviewPage({ params }) {
           </Rating>
           <div>
             <p>Reviews:</p>
-            <Reviews></Reviews>
-            <Reviews></Reviews>
-            <Reviews></Reviews>
-            <Reviews></Reviews>
-            <Reviews></Reviews>
-            <Reviews></Reviews>
-            <Reviews></Reviews>
+            <ReviewList></ReviewList>
           </div>
         </div>
       </div>
