@@ -7,6 +7,7 @@ import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
 import fetchReviews from "@/utils/fetchReviews";
+import fetchAvgRating from "@/utils/fetchAvgRating";
 
 function MovieReviewPage({ params }) {
   //Grab the ID from the URL
@@ -16,6 +17,7 @@ function MovieReviewPage({ params }) {
   //Movie Details State
   const [movieDetails, setMovieDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -35,6 +37,7 @@ function MovieReviewPage({ params }) {
 
     fetchMovieDetails();
     fetchReviews("movie", id, setReviews);
+    fetchAvgRating("movies", id, setAvgRating);
   }, []);
 
   if (!movieDetails) {
@@ -85,7 +88,7 @@ function MovieReviewPage({ params }) {
             id={id}
             placeholder="Write a review!"
             media="movie"
-            avgRating="4"
+            avgRating={avgRating}
           >
             {/* need to change later*/}
           </Rating>
