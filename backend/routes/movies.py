@@ -155,6 +155,22 @@ async def search_movies_by_genre(genre_name: str, page: int = 1):
             "results": movies
         }
 
+#Search by genre and title
+@router.get("/search/genre/{genre}/{title}")
+async def search_tvshows_by_genre_and_title(genre: str, title: str, page: int = 1):
+    # Use the search movie by title function first
+
+    search_results = await search_movies(title, page)
+    # Filter the results by genre
+    filtered_results = [movie for movie in search_results['results'] if genre.lower() in [g.lower() for g in movie.genre]]
+
+    return {
+        "page": search_results['page'],
+        "total_results": len(filtered_results),
+        "total_pages": (len(filtered_results) // 20) + 1,
+        "results": filtered_results
+    }
+
 #Get trending movies from the TMDB API
 @router.get("/search/trending")
 async def get_trending_movies(page: int = 1):
