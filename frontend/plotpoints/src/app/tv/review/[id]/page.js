@@ -91,7 +91,7 @@ function TvReviewPage({ params }) {
           <Rating
             id={id}
             placeholder="Write a review!"
-            media="movie"
+            media="tvshow"
             avgRating="4"
           >
             {/* need to change later*/}
