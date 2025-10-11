@@ -1,6 +1,6 @@
 import oracledb
 #import connect
-from database import connect
+import connect
 #from users import valid_user_id
 from users import valid_user_id
 
@@ -47,7 +47,7 @@ def add_review(user_id, media_id, media_type, rating, review_text):
 
             cursor.execute(
                 """
-                INSERT INTO REVIEWS (REVIEW_ID, USER_ID, MEDIA_ID, MEDIA_TYPE, RATING, REVIEW_TEXT)
+                INSERT INTO ADMIN.REVIEWS (REVIEW_ID, USER_ID, MEDIA_ID, MEDIA_TYPE, RATING, REVIEW_TEXT)
                 VALUES (:1, :2, :3, :4, :5, :6)
                 """,
                 (review_id, user_id, db_media_id, media_type, rating, review_text)
@@ -170,12 +170,12 @@ def get_reviews_by_media_id_and_type(media_id, media_type):
         return None
     try:
         if media_type == "book":
-            cursor.execute("SELECT get_book_id(:1) FROM REVIEWS", (media_id,))
+            cursor.execute("SELECT ADMIN.get_book_id(:1) FROM dual", (media_id,))
             result = cursor.fetchone()
             db_media_id = result[0]
         else:
             db_media_id = media_id
-        cursor.execute("SELECT * FROM REVIEWS WHERE MEDIA_ID = :1 AND MEDIA_TYPE = :2", (db_media_id, media_type))
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS WHERE MEDIA_ID = :1 AND MEDIA_TYPE = :2", (db_media_id, media_type))
         rows = cursor.fetchall()
 
         reviews = []
