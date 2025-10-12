@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Comment from "./Comment";
 
-export default function CommentsList({parentId = 0, parentType = "review", refreshKey = 0}) {
+export default function CommentsList({reviewId = 0, parentId = 0, parentType = "review", refreshKey = 0}) {
   const [showComments, setShowComments] = useState(false);
 
  //test commments
@@ -62,7 +62,7 @@ export default function CommentsList({parentId = 0, parentType = "review", refre
           <div>
             {comments.length > 0 ? (
               comments.map((c, id) => (
-                <Comment key={id} username={c.username} text={c.comm_text} />
+                <Comment key={id} username={c.username} text={c.comm_text} reviewId={reviewId} />
               ))
             ) : (
               <p className="text-sm text-gray-500">No comments yet.</p>
