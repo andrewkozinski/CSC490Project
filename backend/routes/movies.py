@@ -339,7 +339,7 @@ async def get_movie_streaming_links(movie_id: int):
                     provider_info = {
                         "provider_name": provider['provider_name'],
                         "logo": f"https://image.tmdb.org/t/p/w500{provider['logo_path']}" if provider.get('logo_path') else "",
-                        "link": STREAMING_LINKS.get(provider['provider_name'], "")
+                        "link": STREAMING_LINKS.get(stream_link_remove_whitespace(provider['provider_name']), "")
                     }
                     formatted_providers[category].append(provider_info)
 
