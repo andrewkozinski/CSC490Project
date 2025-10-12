@@ -53,6 +53,9 @@ async def edit_review(review_id: int, review_text: str, jwt_token: str):
 
 @router.delete("/delete/{review_id}")
 async def delete_review(review_id: int, jwt_token: str):
+    #Need to validate the JWT token here before allowing the user to delete a review
+    verify_jwt_token(jwt_token)
+
     result = reviews.delete_review(review_id)
     if result is False:
         raise HTTPException(status_code=404, detail="Review not found")
