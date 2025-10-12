@@ -83,6 +83,7 @@ STREAMING_LINKS_LOWER = {
     "peacockpremiumwithads": "https://www.peacocktv.com/",
     "peacockpremiumplus": "https://www.peacocktv.com/",
     "crunchyrollamazonchannel": "https://www.amazon.com/gp/video/channel/ebbab5af-5874-4116-8d17-017a69c25d85",
+    "appletv+": "https://tv.apple.com/",
 }
 
 def stream_link_remove_whitespace(name):
