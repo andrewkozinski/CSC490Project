@@ -86,7 +86,42 @@ function MovieReviewPage({ params }) {
               <div className="pt-5">
                 <p>Director: {movieDetails.director}</p>
                 <p>Date Released: {movieDetails.release_date}</p>
-                <p>Streaming Links:</p>
+                
+                {streamLinks.length > 0 && (
+                  <div className="mt-2">
+                    <p>Streaming Links:</p>
+                    <div className="flex flex-wrap gap-4 mt-2">
+                      {streamLinks.map((provider, idx) => (
+                        provider.link ? (
+                          <Link
+                            key={idx}
+                            href={provider.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                          <img
+                          src={provider.logo}
+                          alt={provider.provider_name}
+                          title={provider.provider_name}
+                          className="w-12 h-12 rounded hover:scale-110 transition-transform"
+                            />
+                          </Link>
+                        ) : (
+                          <img
+                            key={idx}
+                            src={provider.logo}
+                            alt={provider.provider_name}
+                            title={provider.provider_name}
+                            className="w-12 h-12 rounded opacity-50"
+                          />
+                        )
+                      ))}
+                    </div>
+                  </div>
+                )
+                }
+
               </div>
             </div>
           </div>
