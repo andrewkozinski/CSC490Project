@@ -34,6 +34,7 @@ STREAMING_LINKS = {
             "Tubi TV": "https://tubitv.com/",
             "Peacock": "https://www.peacocktv.com/",
             "fuboTV": "https://www.fubo.tv/",
+            "MGM+ Amazon Channel": "https://www.amazon.com/gp/video/channel/1cd832b6-c298-4106-b4ff-dc9ce63304ea"
         }
 
 
