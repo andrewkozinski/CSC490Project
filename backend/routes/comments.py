@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id
+from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id, get_comments_by_parent_comm_id
 from routes.profiles import get_username_by_id
 from routes.auth import verify_jwt_token, get_user_id_from_token
 
@@ -59,6 +59,24 @@ async def fetch_comments_for_review(review_id: int):
     comments = get_comments_by_review_id(review_id)
     if comments is not None:
 
+        #For each comment, add a username field by looking up the user id
+        for comment in comments:
+            user_id = comment["user_id"]
+            print(user_id)
+            if user_id:
+               username = await get_username_by_id(user_id)
+               comment["username"] = username if username else "Unknown"
+            else:
+                comment["username"] = "Unknown"
+
+        return {"comments": comments}
+    else:
+        return {"comments": []}
+
+@router.get("/from_comment/{parent_comm_id}")
+async def fetch_replies_to_comment(parent_comm_id: int):
+    comments = get_comments_by_parent_comm_id(parent_comm_id)
+    if comments is not None:
         #For each comment, add a username field by looking up the user id
         for comment in comments:
             user_id = comment["user_id"]
