@@ -12,6 +12,7 @@ class ReviewComment(BaseModel):
 
 class DeleteCommentRequest(BaseModel):
     comment_id: int
+    jwt_token: str
 
 router = APIRouter()
 
@@ -42,7 +43,11 @@ async def create_comment(comment: ReviewComment):
 
 @router.delete("/delete/")
 async def delete_comment(comment: DeleteCommentRequest):
+
+    verify_jwt_token(delete_comment.jwt_token)
+
     result = delete_comment(comment.comment_id)
+
     if result is False:
         raise HTTPException(status_code=404, detail="Comment not found")
     return {"message": "Comment deleted successfully"}
