@@ -62,7 +62,7 @@ def delete_comment(comm_id):
     try:
         cursor.execute(
             """
-            DELETE FROM ADMIN.COMMENTS WHERE COMM_ID = :1
+            DELETE FROM COMMENTS WHERE COMM_ID = :1
             """,
             (comm_id,)
         )
