@@ -61,7 +61,7 @@ export default function Home() {
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {movieResults?.map(movie => (
                         <div key={movie.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/movies/review/${movie.id}`}>
-                            <Image src={movie.img} alt={movie.title} width={100} height={150} />
+                            <Image src={movie.img ? movie.img : null} alt={movie.title} width={100} height={150} />
                             <div>{movie.title}</div>
                             <div>{movie.year}</div>
                         </div>
@@ -72,7 +72,7 @@ export default function Home() {
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {tvResults?.map(show => (
                         <div key={show.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/tv/review/${show.id}`}>
-                            <Image src={show.img} alt={show.title} width={100} height={150} />
+                            <Image src={show.img ? show.img : null} alt={show.title} width={100} height={150} />
                             <div>{show.title}</div>
                             <div>{show.release_date}</div>
                         </div>
@@ -83,7 +83,7 @@ export default function Home() {
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {bookResults?.map(book => (
                         <div key={book.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/books/review/${book.id}`}>
-                            <Image src={book.thumbnailUrl} alt={book.title} width={100} height={150} />
+                            <Image src={book.thumbnailUrl ? book.thumbnailUrl : null} alt={book.title} width={100} height={150} />
                             <div>{book.title}</div>
                             <div>{book.authors?.join(", ")}</div>
                             <div>{book.date_published}</div>
