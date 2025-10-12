@@ -8,6 +8,9 @@ import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
+import fetchStreamLinks from "@/utils/fetchStreamLinks";
+import Link from "next/link";
+
 
 function MovieReviewPage({ params }) {
   //Grab the ID from the URL
@@ -18,6 +21,10 @@ function MovieReviewPage({ params }) {
   const [movieDetails, setMovieDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [avgRating, setAvgRating] = useState(0);
+
+  //Stream links, if available
+  const [streamLinks, setStreamLinks] = useState([]);
+
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -38,6 +45,7 @@ function MovieReviewPage({ params }) {
     fetchMovieDetails();
     fetchReviews("movie", id, setReviews);
     fetchAvgRating("movies", id, setAvgRating);
+    fetchStreamLinks("movies", id, setStreamLinks);
   }, []);
 
   if (!movieDetails) {
@@ -78,7 +86,42 @@ function MovieReviewPage({ params }) {
               <div className="pt-5">
                 <p>Director: {movieDetails.director}</p>
                 <p>Date Released: {movieDetails.release_date}</p>
-                <p>Streaming Links:</p>
+                
+                {streamLinks.length > 0 && (
+                  <div className="mt-2">
+                    <p>Streaming Links:</p>
+                    <div className="flex flex-wrap gap-4 mt-2">
+                      {streamLinks.map((provider, idx) => (
+                        provider.link ? (
+                          <Link
+                            key={idx}
+                            href={provider.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                          <img
+                          src={provider.logo}
+                          alt={provider.provider_name}
+                          title={provider.provider_name}
+                          className="w-12 h-12 rounded hover:scale-110 transition-transform"
+                            />
+                          </Link>
+                        ) : (
+                          <img
+                            key={idx}
+                            src={provider.logo}
+                            alt={provider.provider_name}
+                            title={provider.provider_name}
+                            className="w-12 h-12 rounded opacity-50"
+                          />
+                        )
+                      ))}
+                    </div>
+                  </div>
+                )
+                }
+
               </div>
             </div>
           </div>
