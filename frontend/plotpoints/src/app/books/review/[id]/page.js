@@ -85,10 +85,14 @@ function BookReviewPage({ params }) {
               <p className="mb-2">
                 Date published: {formatDate(bookDetails.date_published)}
               </p>
-              <div className="flex grow">
+              <div className="flex grow prose w-full">
+                {/*
                 <ReactMarkdown>
                   {bookDetails.description || "No description available."}
-                </ReactMarkdown>
+                </ReactMarkdown> */}
+                <div className="markdown-content">
+                  {bookDetails.description || "No description available."}
+                </div>
             </div>
           </div>
         </div>
