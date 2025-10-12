@@ -1,11 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
+import fetchReviews from "@/utils/fetchReviews";
+import fetchAvgRating from "@/utils/fetchAvgRating";
+import fetchStreamLinks from "@/utils/fetchStreamLinks";
+import Link from "next/link";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -15,6 +20,15 @@ function TvReviewPage({ params }) {
 
   //Tv Show Details State
   const [tvDetails, setTvDetails] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
+
+  //Check if user already has made a review
+  const [userReview, setUserReview] = useState(null);
+  const { data: session } = useSession();
+
+  //Stream links, if available
+  const [streamLinks, setStreamLinks] = useState([]);
 
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
@@ -33,7 +47,19 @@ function TvReviewPage({ params }) {
     };
 
     fetchTvDetails();
-  }, [id]);
+    fetchReviews("tvshow", id, setReviews);
+    fetchAvgRating("tvshows", id, setAvgRating);
+    fetchStreamLinks("tvshows", id, setStreamLinks);
+
+  }, [id, session]);
+
+  // Check if user has already reviewed this TV show
+  useEffect(() => {
+    if (session?.user?.id) {
+      const userReview = reviews.find((review) => review.user_id === session.user.id);
+      setUserReview(userReview);
+    }
+  }, [reviews, session]);
 
   if (!tvDetails) {
     return (
@@ -82,7 +108,41 @@ function TvReviewPage({ params }) {
                 <p>Date Released: {tvDetails.release_date}</p>
                 <p>Seasons: {tvDetails.seasons}</p>
                 <p>Episodes: {tvDetails.episodes}</p>
-                <p>Streaming Links:</p>
+                {streamLinks.length > 0 && (
+                  <div className="mt-2">
+                    <p>Streaming Links:</p>
+                    <div className="flex flex-wrap gap-4 mt-2">
+                      {streamLinks.map((provider, idx) => (
+                        provider.link ? (
+                          <Link
+                            key={idx}
+                            href={provider.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                          <img
+                          src={provider.logo}
+                          alt={provider.provider_name}
+                          title={provider.provider_name}
+                          className="w-12 h-12 rounded hover:scale-110 transition-transform"
+                            />
+                          </Link>
+                        ) : (
+                          <img
+                            key={idx}
+                            src={provider.logo}
+                            alt={provider.provider_name}
+                            title={provider.provider_name}
+                            className="w-12 h-12 rounded opacity-50"
+                          />
+                        )
+                      ))}
+                    </div>
+                  </div>
+                )
+                } 
+
               </div>
             </div>
           </div>
@@ -91,14 +151,15 @@ function TvReviewPage({ params }) {
           <Rating
             id={id}
             placeholder="Write a review!"
-            media="movie"
-            avgRating="4"
+            media="tvshow"
+            avgRating={avgRating}
+            reviews={reviews}
           >
             {/* need to change later*/}
           </Rating>
           <div>
             <p>Reviews:</p>
-            <ReviewList></ReviewList>
+            <ReviewList reviewData={reviews} />
           </div>
         </div>
       </div>

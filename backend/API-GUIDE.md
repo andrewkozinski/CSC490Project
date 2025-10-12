@@ -36,11 +36,7 @@ A book object typically includes:
 - `authors`: List of authors, returned as a list of strings
 - `date_published`: Date book was published
 - `categories`: List of categories/genres, returned as a list of strings
-- `page_count`: Number of pages
 - `thumbnailURL`: URL to a thumbnail image of the book cover (standard size)
-- `thumbnailExtraLargeURL`: URL to a larger thumbnail image of the book cover (largest size Google Books API provides)
-- `isbn_10`: ISBN-10 identifier (if available)
-- `isbn_13`: ISBN-13 identifier (if available)
 
 
 ### Movies:

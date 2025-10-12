@@ -1,8 +1,65 @@
+"use client";
 import { useState } from "react";
 import CommentList from "./CommentList";
+import { useSession } from "next-auth/react";
 
-export default function Review({ username, text }) {
+export default function Review({ reviewId = "", username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}}) {
   const [showReplyBox, setShowReplyBox] = useState(false);
+  //CurrentUser should fetch the current user
+  const { data: session } = useSession();
+  const canEdit = session?.user?.name === username;
+
+  const [commentText, setCommentText] = useState("");
+  const onCommentTextChange = (e) => setCommentText(e.target.value);
+  
+  //Reply logic
+  const handleReply = async (commentText) => {
+    console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
+    console.log(`User ID: ${session?.user?.id}`);
+    // Implement reply submission logic here
+    const res = await fetch(`/api/comments/under_review/${reviewId}/post_comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        review_id: reviewId,
+        //user_id: session?.user?.id,
+        comment_text: commentText,
+        jwt_token: session?.accessToken,
+      }),
+    });
+
+    setShowReplyBox(false); // Close the reply box after submitting
+  };
+
+  //Delete review logic
+  const deleteReview = async () => {
+    console.log(`Deleting review ${reviewId}`);
+    try {
+    const res = await fetch(`/api/reviews/delete/${reviewId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jwt_token: session?.accessToken,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to delete review');
+    }
+
+    //Remove from the list of reviews
+    removeReviewFromList(reviewId);
+
+  } catch (error) {
+    console.error(error.message);
+  }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleReply(commentText);
+    setCommentText("");
+  };
 
   return (
     <div className="flex flex-col mt-1">
@@ -28,12 +85,11 @@ export default function Review({ username, text }) {
         {/* Example review content */}
         <div className="flex flex-col mx-5 justify-between h-full grow">
           <div>
-            <p>{username}</p>
-            {/* 100 characters */}
-            <p className="mt-3 text-gray-700 text-sm">
-              {text}
-            </p>
+            <p className="underline underline-offset-4">{username}</p>
+            <p className="mt-3 text-gray-700 text-sm">{text}</p>
           </div>
+
+          {/* Rating controls */}
           <div className="flex items-center w-full mt-2">
             {/* # of ratings */}
             <p className="mr-3 text-sm text-gray-700">+ 1000</p>
@@ -74,26 +130,46 @@ export default function Review({ username, text }) {
             </button>
           </div>
         </div>
+
+        {/* Reply button */}
         <button
           onClick={() => setShowReplyBox((prev) => !prev)}
           className="absolute bottom-2 right-3 text-sm underline cursor-pointer"
         >
           Reply
         </button>
+
+        {/* Edit/Delete buttons (top right) */}
+        {canEdit && (
+          <div className="absolute top-2 right-3 flex space-x-3">
+            <button className="cursor-pointer text-blue-600 hover:text-blue-800">
+              Edit
+            </button>
+            <button className="cursor-pointer text-red-600 hover:text-red-800" onClick={deleteReview}>
+              Delete
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Reply box */}
       {showReplyBox && (
-        <div className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl">
+        <form className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl" onSubmit={handleSubmit}>
           <textarea
             placeholder="Write your reply..."
             className="w-full border rounded-md p-2 resize-none focus:outline-none"
+            value={commentText}
+            onChange={onCommentTextChange}
           />
-          <button className="self-end mt-2 border-1 px-6 py-2 rounded-md text-sm">
+          <button className="self-end mt-2 border-1 px-6 py-2 rounded-md text-sm" type="submit">
             Post
           </button>
-        </div>
+        </form>
       )}
+
+      {/* Comments below review */}
       <div className="flex">
-        <CommentList />
+        <CommentList parentId={reviewId} parentType="review"/> {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>
   );

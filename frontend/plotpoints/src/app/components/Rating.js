@@ -28,11 +28,15 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
     if (res.status === 401) {
       console.log("User not logged in, redirecting to signin page");
       window.location.href = "/signin";
+      //Display a modal or toast notification here
+      alert("Session expired, please sign in to post a review.");
       return;
     }
 
     const data = await res.json();
     console.log(data);
+    //refresh the current page
+    window.location.reload();
   };
 
   return (
