@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 
-export async function DELETE(request, { params }) {
-	const review_id = params.id;
+export async function DELETE(request, context) {
+	const params = await context.params;
+    const review_id = params.id;
 	const { jwt_token } = await request.json();
 
-	const response = await fetch(`${process.env.API_URL}/comments/delete/${review_id}`, {
+	const response = await fetch(`${process.env.API_URL}/reviews/delete/${review_id}`, {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
