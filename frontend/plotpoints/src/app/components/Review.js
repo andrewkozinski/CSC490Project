@@ -26,6 +26,7 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
         //user_id: session?.user?.id,
         comment_text: commentText,
         jwt_token: session?.accessToken,
+        parent_comm_id: null // Since this is a reply to a review, not a comment
       }),
     });
 

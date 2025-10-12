@@ -17,16 +17,29 @@ export default function CommentsList({parentId = 0, parentType = "review", refre
   // Fetch comments for the parent review
   useEffect(() => {
     const fetchComments = async () => {
+      let url = "";
+      
+      //If we're getting replies to a review, this route
+      if (parentType === "review") {
+        url = `/api/comments/under_review/${parentId}`;
+      } 
+      //If we're getting replies to a comment, this route
+      else if (parentType === "comment") {
+        url = `/api/comments/under_comment/${parentId}`;
+      } 
+      //If somehow neither, return empty list
+      else {
+        setComments([]);
+        return;
+      }
+
       try {
-        const res = await fetch(`/api/comments/under_review/${parentId}`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch comments");
-        }
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Failed to fetch comments");
         const data = await res.json();
         console.log("Fetched Comments:", data);
         setComments(data.comments);
-      }
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching comments:", error);
         setComments([]);
       }
