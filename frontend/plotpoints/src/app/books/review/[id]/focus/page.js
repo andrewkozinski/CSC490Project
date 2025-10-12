@@ -56,14 +56,14 @@ function BookReviewPage({ params }) {
             src={bookDetails.thumbnailUrl || ""}
             title={bookDetails.title || ""}
             alt={bookDetails.title || ""}
-            className="w-65 h-96 rounded-xl outline-2 mb-5"
+            className="w-56 h-86 rounded-sm mb-5"
             width={1000}
             height={1000}
           />
           <p>Description:</p>
-          <div className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-            <p className="text-lg">Title:</p>
-            <p className="text-xl font-bold">{bookDetails.title}</p>
+          <div className="p-4 border-2 h-1/2 rounded-sm w-auto my-2">
+            {/* <p className="text-lg">Title:</p> */}
+            <p className="text-2xl font-bold inria-serif-bold">{bookDetails.title}</p>
             <p>Authors: {bookDetails.authors}</p>
             <p className="mb-2">Date published: {bookDetails.date_published}</p>
             <div className="flex grow">
