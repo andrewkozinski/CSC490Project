@@ -57,6 +57,7 @@ STREAMING_LINKS_LOWER = {
     "paramountwithshowtime": "https://www.paramountpluswithshowtime.com/",
     "paramountrokupremiumchannel": "https://channelstore.roku.com/details/f04a1a2ece7f9ca611a97c045569cb9d:6e3fc82e82aae31af5401e62f222d1b1/paramount-plus",
     "hbomax": "https://www.hbomax.com/",
+    "hbomaxamazonchannel": "https://www.amazon.com/gp/video/channel/05b8c408-6a8a-468a-a896-ef7432a1ce31",
     "amazonvideo": "https://www.amazon.com/gp/video/storefront",
     "googleplaymovies": "https://play.google.com/store/movies",
     "tubitv": "https://tubitv.com/",
@@ -64,6 +65,17 @@ STREAMING_LINKS_LOWER = {
     "fubotv": "https://www.fubo.tv/",
     "mgmamazonchannel": "https://www.amazon.com/gp/video/channel/1cd832b6-c298-4106-b4ff-dc9ce63304ea",
     "mgmplus": "https://www.mgmplus.com/",
+    "tnt": "https://www.tntdrama.com/",
+    "starz": "https://www.starz.com/us/en",
+    "showtime": "https://www.showtime.com/",
+    "discoveryplus": "https://www.discoveryplus.com/",
+    "discovery+": "https://www.discoveryplus.com/",
+    "disneynow": "https://disneynow.com/",
+    "netflixstandardwithads": "https://www.netflix.com/",
+    "youtubetv": "https://tv.youtube.com/",
+    "crunchyroll": "https://www.crunchyroll.com/",
+    "funimation": "https://www.funimation.com/",
+    "hbo": "https://www.hbo.com/",
 }
 
 def stream_link_remove_whitespace(name):
