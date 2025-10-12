@@ -107,7 +107,6 @@ def delete_all_comments(review_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-
 def print_comments():
     connection, cursor = connect.start_connection()
     cursor.execute("SELECT * FROM COMMENTS")
