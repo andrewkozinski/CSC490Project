@@ -7,9 +7,6 @@ from database.comments import delete_all_comments
 #from users import valid_user_id
 from database.users import valid_user_id
 
-from comments import delete_all_comments
-
-
 def format_review(row):
     return {
         "review_id": row[0],
