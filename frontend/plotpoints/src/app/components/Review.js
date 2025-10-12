@@ -9,6 +9,35 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
   const { data: session } = useSession();
   const canEdit = session?.user?.name === username;
 
+  const [commentText, setCommentText] = useState("");
+  const onCommentTextChange = (e) => setCommentText(e.target.value);
+  
+  //Reply logic
+  const handleReply = async (commentText) => {
+    console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
+    
+    console.log(`User ID: ${session?.user?.id}`);
+    // Implement reply submission logic here
+    const res = await fetch(`/api/comments/under_review/${reviewId}/post_comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        review_id: reviewId,
+        user_id: session?.user?.id,
+        comment_text: commentText,
+        //jwt_token: session?.accessToken,
+      }),
+    });
+
+    setShowReplyBox(false); // Close the reply box after submitting
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleReply(commentText);
+    setCommentText("");
+  };
+
   return (
     <div className="flex flex-col mt-1">
       <div className="relative flex items-center border-1 shadow-xl rounded-md p-3 mb-2">
@@ -102,15 +131,17 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
 
       {/* Reply box */}
       {showReplyBox && (
-        <div className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl">
+        <form className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl" onSubmit={handleSubmit}>
           <textarea
             placeholder="Write your reply..."
             className="w-full border rounded-md p-2 resize-none focus:outline-none"
+            value={commentText}
+            onChange={onCommentTextChange}
           />
-          <button className="self-end mt-2 border-1 px-6 py-2 rounded-md text-sm">
+          <button className="self-end mt-2 border-1 px-6 py-2 rounded-md text-sm" type="submit">
             Post
           </button>
-        </div>
+        </form>
       )}
 
       {/* Comments below review */}
