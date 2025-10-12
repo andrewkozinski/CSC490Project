@@ -79,6 +79,9 @@ STREAMING_LINKS_LOWER = {
     "amc+": "https://www.amcplus.com/",
     "amcplus": "https://www.amcplus.com/",
     "amc+amazonchannel": "https://www.amazon.com/gp/video/channel/ccf8ed18-a5c7-44ec-95cd-94a8e9eaf3ec",
+    "peacockpremium": "https://www.peacocktv.com/",
+    "peacockpremiumwithads": "https://www.peacocktv.com/",
+    "peacockpremiumplus": "https://www.peacocktv.com/",
 }
 
 def stream_link_remove_whitespace(name):
