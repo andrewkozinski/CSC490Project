@@ -85,13 +85,13 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
 
           <textarea
             value={review}
-            onChange={(e) => setReview(e.target.value.slice(0, 100))}
-            className="w-3/4 my-3 py-2 px-3 h-30 flex-initial border border-gray-400 rounded-md resize-none text-sm focus:outline-none"
+            onChange={(e) => setReview(e.target.value.slice(0, 200))}
+            className="w-3/4 my-3 py-2 px-3 h-30 flex-initial border border-gray-400 rounded-sm resize-none text-sm focus:outline-none"
             placeholder={placeholder}
-            maxLength={100}
+            maxLength={200}
           />
           <button
-            className="cursor-pointer brown text-black font-medium shadow mt-3 py-2 px-6 rounded-lg transition"
+            className="cursor-pointer brown text-black font-medium shadow mt-3 py-2 px-6 rounded-sm transition"
             onClick={handlePost}
           >
             Post!

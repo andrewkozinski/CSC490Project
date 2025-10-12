@@ -11,7 +11,10 @@ export async function DELETE(request, context) {
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${jwt_token}`,
 		},
-		body: JSON.stringify({ jwt_token }),
+		body: JSON.stringify({
+			review_id,
+			jwt_token 
+		}),
 	});
 
 	if (!response.ok) {
