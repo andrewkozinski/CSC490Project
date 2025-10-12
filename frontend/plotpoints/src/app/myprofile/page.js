@@ -35,7 +35,7 @@ export default function ProfilePage(){
                     </img>
                     {/* Get username */}
                     <h1 className="text-4xl text-center inria-serif-regular">{session ? session.user.name : "Error: Username not found"}</h1>
-                    <p>User's bio here</p>
+                    <p>{"User's bio here"}</p>
                 </div>
                 <div className="cols-span-3">
                     <div className="flex gap-5 overflow-y-auto px-10 py-5 h-70 items-center">
