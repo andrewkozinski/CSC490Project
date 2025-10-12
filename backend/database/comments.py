@@ -82,6 +82,33 @@ def delete_comment(comm_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
+def delete_all_comments(review_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        cursor.execute(
+            """
+            DELETE FROM COMMENTS WHERE REVIEW_ID = :1
+            """,
+            (review_id,)
+        )
+        deleted_comments = cursor.rowcount
+        if deleted_comments > 0:
+            print(f"Deleted {deleted_comments} comment(s) for REVIEW_ID {review_id}.")
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting review:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
 def print_comments():
     connection, cursor = connect.start_connection()
     cursor.execute("SELECT * FROM COMMENTS")
