@@ -13,5 +13,10 @@ export async function GET(request, { params }) {
     }
 
     const data = await res.json();
-    return new Response(JSON.stringify(data), { status: 200 });
+    return new Response(JSON.stringify(data), { 
+        status: 200,
+        headers: {
+            "Cache-Control": "public, max-age=3600" // cache for 1 hour
+        }
+    });
 }
