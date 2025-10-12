@@ -55,11 +55,13 @@ export default function Movies() {
         */}
         <GenreContainer label="Horror Movies">
           {horrorMovies.map((movie) => (
-            <img
+            <img 
               key={movie.id}
               src={movie.img}
               title={movie.title}
               className="cover"
+              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>
@@ -70,6 +72,8 @@ export default function Movies() {
               src={movie.img}
               title={movie.title}
               className="cover"
+              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>
@@ -80,6 +84,8 @@ export default function Movies() {
               src={movie.img}
               title={movie.title}
               className="cover"
+              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>
@@ -90,6 +96,8 @@ export default function Movies() {
               src={movie.img}
               title={movie.title}
               className="cover"
+              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              style={{ cursor: 'pointer' }}
             />
           ))}
         </GenreContainer>

@@ -31,6 +31,15 @@ export default function SignIn() {
     }
   };
 
+  const handleEnterKey = (event) => {
+    //console.log("Key pressed:", event.key);
+    if(event.key === 'Enter') {
+      event.preventDefault();
+      console.log("Enter key detected, submitting form");
+      handleSignIn(event);
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -43,6 +52,7 @@ export default function SignIn() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           <TextField
             type="password"
@@ -50,6 +60,7 @@ export default function SignIn() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleEnterKey}
           />
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-center">

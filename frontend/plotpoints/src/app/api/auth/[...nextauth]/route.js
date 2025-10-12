@@ -39,11 +39,14 @@ export const authOptions = {
       if(user?.token) {
         token.accessToken = user.token;
       }
+      if(user?.user_id) {
+        token.user_id = user.user_id;
+      }
       return token
     },
     async session({ session, token }) {
-      session.user.id = token.sub; // Add user ID to session
       session.accessToken = token.accessToken; // Add access token to session
+      session.user.id = token.user_id; // Add user ID to session
       return session;
     },
   },
