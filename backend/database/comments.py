@@ -82,7 +82,6 @@ def delete_comment(comm_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-
 def delete_all_comments(review_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
