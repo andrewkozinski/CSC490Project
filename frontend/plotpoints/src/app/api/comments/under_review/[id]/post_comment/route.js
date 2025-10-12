@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request, context) {
     const body = await request.json();
-    const { review_id, user_id, comment_text, jwt_token } = body;
+    const { review_id, comment_text, jwt_token } = body;
 
     const res = await fetch(`${process.env.API_URL}/comments/create`, {
         method: "POST",
@@ -12,8 +12,8 @@ export async function POST(request, context) {
         },
         body: JSON.stringify({
             review_id,
-            user_id,
-            comment_text
+            comment_text,
+            jwt_token,
         }),
     });
 
