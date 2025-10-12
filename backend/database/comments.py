@@ -60,14 +60,11 @@ def delete_comment(comm_id):
         return False
 
     try:
-        new_text = "deleted comment"
         cursor.execute(
             """
-            UPDATE COMMENTS 
-                SET COMM_TEXT = :1
-            WHERE COMM_ID = :2
+            DELETE FROM ADMIN.COMMENTS WHERE COMM_ID = :1
             """,
-            (new_text, comm_id)
+            (comm_id,)
         )
         if cursor.rowcount == 0:  # nothing deleted
             print(f"Error: COMM_ID {comm_id} does not exist.")
