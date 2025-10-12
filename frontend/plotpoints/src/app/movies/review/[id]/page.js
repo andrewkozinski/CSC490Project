@@ -8,6 +8,9 @@ import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
+import fetchStreamLinks from "@/utils/fetchStreamLinks";
+import Link from "next/link";
+
 
 function MovieReviewPage({ params }) {
   //Grab the ID from the URL
@@ -18,6 +21,10 @@ function MovieReviewPage({ params }) {
   const [movieDetails, setMovieDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [avgRating, setAvgRating] = useState(0);
+
+  //Stream links, if available
+  const [streamLinks, setStreamLinks] = useState([]);
+
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -38,6 +45,7 @@ function MovieReviewPage({ params }) {
     fetchMovieDetails();
     fetchReviews("movie", id, setReviews);
     fetchAvgRating("movies", id, setAvgRating);
+    fetchStreamLinks("movies", id, setStreamLinks);
   }, []);
 
   if (!movieDetails) {
