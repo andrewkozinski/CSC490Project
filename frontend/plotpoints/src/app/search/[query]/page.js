@@ -57,7 +57,7 @@ export default function Home() {
             {/*For now, we're just displaying the results. Nothing fancy, search bar should be in here in future*/}
             {/*I am well aware this doesn't look good but it was more so just to get something displayed somewhere */}
             <>
-                <h2>Books</h2>
+                <h1 className="font-bold text-2xl">Books</h1> 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {bookResults?.map(book => (
                         <div key={book.id} style={{ width: 150 }}>
@@ -68,7 +68,7 @@ export default function Home() {
                         </div>
                     ))}
                 </div>
-                <h2>TV Shows</h2>
+                <h1 className="font-bold text-2xl">TV Shows</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {tvResults?.map(show => (
                         <div key={show.id} style={{ width: 150 }}>
@@ -78,7 +78,7 @@ export default function Home() {
                         </div>
                     ))}
                 </div>
-                <h2>Movies</h2>
+                <h1 className="font-bold text-2xl">Movies</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {movieResults?.map(movie => (
                         <div key={movie.id} style={{ width: 150 }}>
