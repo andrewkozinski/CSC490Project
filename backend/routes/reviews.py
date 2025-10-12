@@ -52,7 +52,7 @@ async def edit_review(review_id: int, review_text: str, jwt_token: str):
     return {"message": "Review updated successfully"}
 
 @router.delete("/delete/{review_id}")
-async def delete_review(review_id: int):
+async def delete_review(review_id: int, jwt_token: str):
     result = reviews.delete_review(review_id)
     if result is False:
         raise HTTPException(status_code=404, detail="Review not found")
