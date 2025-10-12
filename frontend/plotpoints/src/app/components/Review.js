@@ -2,7 +2,7 @@
 import { useState } from "react";
 import CommentList from "./CommentList";
 
-export default function Review({ username= "Anonymous", text="No text available", currentUser = "Anonymous" }) {
+export default function Review({ reviewId = "", username= "Anonymous", text="No text available", currentUser = "Anonymous" }) {
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
   const canEdit = currentUser === username;
@@ -113,7 +113,7 @@ export default function Review({ username= "Anonymous", text="No text available"
 
       {/* Comments below review */}
       <div className="flex">
-        <CommentList />
+        <CommentList parentId={reviewId} parentType="review"/> {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>
   );
