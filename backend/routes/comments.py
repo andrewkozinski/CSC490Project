@@ -8,6 +8,7 @@ class ReviewComment(BaseModel):
     review_id: int
     comment_text: str
     jwt_token: str # JWT token for authentication
+    parent_comm_id: int | None # Optional, for replies to comments
 
 class DeleteCommentRequest(BaseModel):
     comment_id: int
