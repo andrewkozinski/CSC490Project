@@ -84,6 +84,8 @@ STREAMING_LINKS_LOWER = {
     "peacockpremiumplus": "https://www.peacocktv.com/",
     "crunchyrollamazonchannel": "https://www.amazon.com/gp/video/channel/ebbab5af-5874-4116-8d17-017a69c25d85",
     "appletv+": "https://tv.apple.com/",
+    "paramount+withshowtime": "https://www.paramountpluswithshowtime.com/",
+    "paramount+rokupremiumchannel": "https://channelstore.roku.com/details/f04a1a2ece7f9ca611a97c045569cb9d:6e3fc82e82aae31af5401e62f222d1b1/paramount-plus",
 }
 
 def stream_link_remove_whitespace(name):
