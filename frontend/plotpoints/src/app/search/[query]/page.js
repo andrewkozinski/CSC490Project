@@ -60,11 +60,13 @@ export default function Home() {
                 <h1 className="font-bold text-2xl">Movies</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {movieResults?.map(movie => (
-                        <div key={movie.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/movies/review/${movie.id}`}>
-                            <Image src={movie.img ? movie.img : null} alt={movie.title} width={100} height={150} />
-                            <div>{movie.title}</div>
-                            <div>{movie.year}</div>
-                        </div>
+                        !movie.img ? null : (
+                            <div key={movie.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/movies/review/${movie.id}`}>
+                                <Image src={movie.img} alt={movie.title} width={100} height={150} />
+                                <div>{movie.title}</div>
+                                <div>{movie.year}</div>
+                            </div>
+                        )
                     ))}
                 </div>
 
