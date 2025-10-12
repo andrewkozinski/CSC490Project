@@ -9,6 +9,7 @@ import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
+import fetchStreamLinks from "@/utils/fetchStreamLinks";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -24,6 +25,9 @@ function TvReviewPage({ params }) {
   //Check if user already has made a review
   const [userReview, setUserReview] = useState(null);
   const { data: session } = useSession();
+
+  //Stream links, if available
+  const [streamLinks, setStreamLinks] = useState([]);
 
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
@@ -44,6 +48,7 @@ function TvReviewPage({ params }) {
     fetchTvDetails();
     fetchReviews("tvshow", id, setReviews);
     fetchAvgRating("tvshows", id, setAvgRating);
+    fetchStreamLinks("tvshows", id, setStreamLinks);
 
   }, [id, session]);
 
@@ -102,7 +107,12 @@ function TvReviewPage({ params }) {
                 <p>Date Released: {tvDetails.release_date}</p>
                 <p>Seasons: {tvDetails.seasons}</p>
                 <p>Episodes: {tvDetails.episodes}</p>
-                <p>Streaming Links:</p>
+                {streamLinks.length > 0 && (
+                  <div className="mt-2">
+                    <p className="font-bold">Streaming Links:</p>
+                  </div>
+                )}
+
               </div>
             </div>
           </div>
