@@ -11,6 +11,7 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
 
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
+  const [refreshKey, setRefreshKey] = useState(0); // Key to trigger refresh of comments
   
   //Reply logic
   const handleReply = async (commentText) => {
@@ -29,6 +30,7 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
     });
 
     setShowReplyBox(false); // Close the reply box after submitting
+    setRefreshKey((prev) => prev + 1); // Trigger refresh of comments
   };
 
   //Delete review logic
@@ -169,7 +171,7 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
 
       {/* Comments below review */}
       <div className="flex">
-        <CommentList parentId={reviewId} parentType="review"/> {/*Parent type is for if we ever add replies to comments */}
+        <CommentList parentId={reviewId} parentType="review" refreshKey={refreshKey}/> {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>
   );

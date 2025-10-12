@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Comment from "./Comment";
 
-export default function CommentsList({parentId = 0, parentType = "review"}) {
+export default function CommentsList({parentId = 0, parentType = "review", refreshKey = 0}) {
   const [showComments, setShowComments] = useState(false);
 
  //test commments
@@ -32,7 +32,7 @@ export default function CommentsList({parentId = 0, parentType = "review"}) {
       }
     };
     fetchComments();
-  }, [parentId]);
+  }, [parentId, refreshKey]);
 
   return (
     <div className="flex flex-col w-max-full w-initial-3/4">
