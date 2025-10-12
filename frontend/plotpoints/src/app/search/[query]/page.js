@@ -73,11 +73,13 @@ export default function Home() {
                 <h1 className="font-bold text-2xl">TV Shows</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
                     {tvResults?.map(show => (
+                        !show.img ? null : (
                         <div key={show.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/tv/review/${show.id}`}>
                             <Image src={show.img ? show.img : null} alt={show.title} width={100} height={150} />
                             <div>{show.title}</div>
                             <div>{show.release_date}</div>
                         </div>
+                        )
                     ))}
                 </div>
 
