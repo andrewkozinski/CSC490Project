@@ -1,5 +1,6 @@
 import oracledb
-import connect
+#import connect
+from database import connect
 
 def update_bio(user_id, new_bio):
     connection, cursor = connect.start_connection()
