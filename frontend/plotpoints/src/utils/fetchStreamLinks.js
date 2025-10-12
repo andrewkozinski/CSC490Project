@@ -1,4 +1,4 @@
-export async function fetchStreamLinks(mediaType, id) {
+const fetchStreamLinks = async (mediaType, id) => {
     try {
         const res = await fetch(`${process.env.API_URL}/${mediaType}/${id}/streaming_links`);
         if (!res.ok) {
@@ -11,3 +11,4 @@ export async function fetchStreamLinks(mediaType, id) {
         return null;
     }
 }
+export default fetchStreamLinks;
