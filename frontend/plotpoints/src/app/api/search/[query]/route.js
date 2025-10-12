@@ -1,5 +1,5 @@
 export async function GET(request, { params }) {
-    const { query } = params;
+    const { query } = await params;
     const { searchParams } = new URL(request.url);
     const page = searchParams.get("page") || 1;
 
