@@ -3,9 +3,11 @@ import { useSession, signOut } from "next-auth/react";
 import "./Header.css";
 import "./ProfileIcon.css";
 import Link from "next/link";
+import {useRouter} from 'next/navigation';
 
 export default function Header() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     /// Changed it so that its a flex box that contains the left side for the title and sections
@@ -66,6 +68,11 @@ export default function Header() {
           <input 
             className="-ml-30"
             placeholder="Search"
+            onKeyDown={e => {
+              if (e.key === 'Enter' && e.target.value.trim() !== '') {
+                router.push(`/search/${encodeURIComponent(e.target.value.trim())}`);
+              }
+            }}
           />
         </div>
       </nav>  
