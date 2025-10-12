@@ -10,6 +10,7 @@ import ReviewList from "../../../components/ReviewList";
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 import fetchStreamLinks from "@/utils/fetchStreamLinks";
+import Link from "next/link";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -109,9 +110,38 @@ function TvReviewPage({ params }) {
                 <p>Episodes: {tvDetails.episodes}</p>
                 {streamLinks.length > 0 && (
                   <div className="mt-2">
-                    <p className="font-bold">Streaming Links:</p>
+                    <p>Streaming Links:</p>
+                    <div className="flex flex-wrap gap-4 mt-2">
+                      {streamLinks.map((provider, idx) => (
+                        provider.link ? (
+                          <Link
+                            key={idx}
+                            href={provider.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                          <img
+                          src={provider.logo}
+                          alt={provider.provider_name}
+                          title={provider.provider_name}
+                          className="w-12 h-12 rounded hover:scale-110 transition-transform"
+                            />
+                          </Link>
+                        ) : (
+                          <img
+                            key={idx}
+                            src={provider.logo}
+                            alt={provider.provider_name}
+                            title={provider.provider_name}
+                            className="w-12 h-12 rounded opacity-50"
+                          />
+                        )
+                      ))}
+                    </div>
                   </div>
-                )}
+                )
+                } 
 
               </div>
             </div>
