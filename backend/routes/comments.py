@@ -7,6 +7,7 @@ class ReviewComment(BaseModel):
     review_id: int
     user_id: int
     comment_text: str
+    jwt_token: str # JWT token for authentication
 
 class DeleteCommentRequest(BaseModel):
     comment_id: int
