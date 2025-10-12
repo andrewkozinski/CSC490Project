@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
+import fetchUserReview from "@/utils/fetchUserReview";
 
 import { useSession } from "next-auth/react";
 
@@ -50,10 +51,10 @@ export default function ProfilePage(){
                     </div>
                     
                 </div>
-                <div className="cols-span-3 m-10">
+                <div className="cols-span-2 m-10">
                     <h1 className="text-2xl text-center inria-serif-regular">Recent Reviews</h1>
                     <div className="flex gap-5 overflow-y-auto px-10 py-5 h-70 items-center">
-
+                        
                     </div>
                 </div>
             </div>

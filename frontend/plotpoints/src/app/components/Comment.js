@@ -9,7 +9,7 @@ export default function Comment({
 
   return (
     <div className="flex flex-col relative">
-      <div className="relative flex w-full border-1 shadow-xl rounded-md m-1 p-3 h-28">
+      <div className="relative flex w-full border-1 shadow-xl rounded-sm m-1 p-3 h-28">
         {/* Avatar and Text */}
         <div className="flex items-start">
           {/* Avatar circle */}
