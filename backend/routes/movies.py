@@ -39,6 +39,8 @@ STREAMING_LINKS = {
             "MGM Plus": "https://www.mgmplus.com/",
         }
 
+def stream_link_remove_whitespace(name):
+    return name.replace(" ", "").lower()
 
 # A movie response has a genre id list, we need to map those ids to genre names
 # Usually, to grab this information you'd need the following:
