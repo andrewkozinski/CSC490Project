@@ -190,3 +190,38 @@ def get_comments_by_review_id(review_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_comments_by_parent_comm_id(parent_comm_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM COMMENTS
+            WHERE PARENT_COMM_ID = :1
+            """,
+            (parent_comm_id,)
+        )
+        rows = cursor.fetchall()
+        comments = []
+        for row in rows:
+            comment = {
+                "comm_id": row[0],
+                "review_id": row[1],
+                "user_id": row[2],
+                "comm_text": row[3],
+                "parent_comm_id": row[4]
+            }
+            comments.append(comment)
+        return comments
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching comments by parent comm id:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
