@@ -3,7 +3,7 @@ import { useState } from "react";
 import CommentList from "./CommentList";
 import { useSession } from "next-auth/react";
 
-export default function Review({ reviewId = "", username= "Anonymous", text="No text available", currentUser = "Anonymous" }) {
+export default function Review({ reviewId = "", username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}}) {
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
   const { data: session } = useSession();
@@ -15,7 +15,6 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
   //Reply logic
   const handleReply = async (commentText) => {
     console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
-    
     console.log(`User ID: ${session?.user?.id}`);
     // Implement reply submission logic here
     const res = await fetch(`/api/comments/under_review/${reviewId}/post_comment`, {
@@ -31,6 +30,30 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
 
     setShowReplyBox(false); // Close the reply box after submitting
   };
+
+  //Delete review logic
+  const deleteReview = async () => {
+    console.log(`Deleting review ${reviewId}`);
+    try {
+    const res = await fetch(`/api/reviews/delete/${reviewId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jwt_token: session?.accessToken,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to delete review');
+    }
+
+    //Remove from the list of reviews
+    removeReviewFromList(reviewId);
+
+  } catch (error) {
+    console.error(error.message);
+  }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -122,7 +145,7 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
             <button className="cursor-pointer text-blue-600 hover:text-blue-800">
               Edit
             </button>
-            <button className="cursor-pointer text-red-600 hover:text-red-800">
+            <button className="cursor-pointer text-red-600 hover:text-red-800" onClick={deleteReview}>
               Delete
             </button>
           </div>
