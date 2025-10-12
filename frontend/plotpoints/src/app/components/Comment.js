@@ -2,6 +2,8 @@ export default function Comment({
   username = "Anonymous",
   text = "No comment",
   currentUser = "Anonymous", // logged-in user
+  reviewId = 0,
+  commentId = 0,
 }) {
   const canEdit = currentUser === username;
 
