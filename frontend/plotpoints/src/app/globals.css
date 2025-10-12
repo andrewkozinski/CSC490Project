@@ -68,4 +68,10 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-
+.markdown-content {
+  width: 100%;
+  word-break: break-word;
+  white-space: pre-line;
+  font-size: 1rem;
+  line-height: 1.5;
+}
