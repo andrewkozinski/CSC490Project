@@ -61,7 +61,7 @@ function MovieReviewPage({ params }) {
     <div>
       <Header />
       <div className="flex m-5">
-        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10 ml-5">
           <img
             src={
               movieDetails && movieDetails.img
@@ -74,7 +74,7 @@ function MovieReviewPage({ params }) {
           />
           <div>
             {/*description box*/}
-            <p className="text-lg">Description:</p>
+            {/* <p className="text-lg">Description:</p> */}
             <div className="flex p-4 border-1 rounded-sm min-h-[25vh] max-h-fit grow my-2 flex-col">
               {/* <p className="text-lg">Title:</p> */}
               <p className="text-2xl font-bold inria-serif-bold"> {movieDetails.title}</p>
