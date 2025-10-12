@@ -1,4 +1,6 @@
+"use client";
 import Review from "./Review";
+import { useState, useEffect } from "react";
 
 export default function Reviews({ reviewData = [] }) {
   // Example review data
@@ -22,14 +24,25 @@ export default function Reviews({ reviewData = [] }) {
     }
   */
 
-  if(reviewData.length === 0) {
+  //State to rerender the list when a review is deleted
+  const [reviews, setReviews] = useState(reviewData);
+  useEffect(() => {
+    setReviews(reviewData);
+  }, [reviewData]);
+
+  if(reviews.length === 0) {
     return <p>No reviews yet. Be the first to review!</p>;
+  }
+
+  const removeReviewFromList = (reviewId) => {
+    console.log(`Removing review ${reviewId} from list`);
+    setReviews((prevReviews) => prevReviews.filter((r) => r.review_id !== reviewId));
   }
 
   return (
     <div className="flex flex-col">
-      {reviewData.map((r) => (
-        <Review key={r.review_id} username={r.username} text={r.review_text} />
+      {reviews.map((r) => (
+        <Review key={r.review_id} reviewId={r.review_id} username={r.username} text={r.review_text} removeReviewFromList={removeReviewFromList} />
       ))}
     </div>
   );

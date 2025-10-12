@@ -1,11 +1,65 @@
 "use client";
 import { useState } from "react";
 import CommentList from "./CommentList";
+import { useSession } from "next-auth/react";
 
-export default function Review({ username= "Anonymous", text="No text available", currentUser = "Anonymous" }) {
+export default function Review({ reviewId = "", username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}}) {
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
-  const canEdit = currentUser === username;
+  const { data: session } = useSession();
+  const canEdit = session?.user?.name === username;
+
+  const [commentText, setCommentText] = useState("");
+  const onCommentTextChange = (e) => setCommentText(e.target.value);
+  
+  //Reply logic
+  const handleReply = async (commentText) => {
+    console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
+    console.log(`User ID: ${session?.user?.id}`);
+    // Implement reply submission logic here
+    const res = await fetch(`/api/comments/under_review/${reviewId}/post_comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        review_id: reviewId,
+        //user_id: session?.user?.id,
+        comment_text: commentText,
+        jwt_token: session?.accessToken,
+      }),
+    });
+
+    setShowReplyBox(false); // Close the reply box after submitting
+  };
+
+  //Delete review logic
+  const deleteReview = async () => {
+    console.log(`Deleting review ${reviewId}`);
+    try {
+    const res = await fetch(`/api/reviews/delete/${reviewId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jwt_token: session?.accessToken,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to delete review');
+    }
+
+    //Remove from the list of reviews
+    removeReviewFromList(reviewId);
+
+  } catch (error) {
+    console.error(error.message);
+  }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleReply(commentText);
+    setCommentText("");
+  };
 
   return (
     <div className="flex flex-col mt-1">
@@ -91,7 +145,7 @@ export default function Review({ username= "Anonymous", text="No text available"
             <button className="cursor-pointer text-blue-600 hover:text-blue-800">
               Edit
             </button>
-            <button className="cursor-pointer text-red-600 hover:text-red-800">
+            <button className="cursor-pointer text-red-600 hover:text-red-800" onClick={deleteReview}>
               Delete
             </button>
           </div>
@@ -100,20 +154,22 @@ export default function Review({ username= "Anonymous", text="No text available"
 
       {/* Reply box */}
       {showReplyBox && (
-        <div className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl">
+        <form className="flex flex-col border h-40 rounded-md p-3 mb-2 shadow-xl" onSubmit={handleSubmit}>
           <textarea
             placeholder="Write your reply..."
             className="w-full border rounded-md p-2 resize-none focus:outline-none"
+            value={commentText}
+            onChange={onCommentTextChange}
           />
-          <button className="self-end mt-2 border-1 px-6 py-2 rounded-md text-sm">
+          <button className="self-end mt-2 border-1 px-6 py-2 rounded-md text-sm" type="submit">
             Post
           </button>
-        </div>
+        </form>
       )}
 
       {/* Comments below review */}
       <div className="flex">
-        <CommentList />
+        <CommentList parentId={reviewId} parentType="review"/> {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>
   );
