@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import CommentList from "./CommentList";
+import { useSession } from "next-auth/react";
 
 export default function Review({ reviewId = "", username= "Anonymous", text="No text available", currentUser = "Anonymous" }) {
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
-  const canEdit = currentUser === username;
+  const { data: session } = useSession();
+  const canEdit = session?.user?.name === username;
 
   return (
     <div className="flex flex-col mt-1">
