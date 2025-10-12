@@ -1,6 +1,6 @@
 "use client";
 import Review from "./Review";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Reviews({ reviewData = [] }) {
   // Example review data
@@ -26,6 +26,9 @@ export default function Reviews({ reviewData = [] }) {
 
   //State to rerender the list when a review is deleted
   const [reviews, setReviews] = useState(reviewData);
+  useEffect(() => {
+    setReviews(reviewData);
+  }, [reviewData]);
 
   if(reviews.length === 0) {
     return <p>No reviews yet. Be the first to review!</p>;
