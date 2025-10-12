@@ -3,9 +3,12 @@ import oracledb
 
 #MAJOR NOTE: This import is what works for both render (where the backend is hosted) and at least for me (andrew) locally
 from database import connect #If this import doesn't work change it temporarily, but be sure to change it back before pushing because the backend won't understand "import connect" when it's on render
-
+from database.comments import delete_all_comments
 #from users import valid_user_id
 from database.users import valid_user_id
+
+from comments import delete_all_comments
+
 
 def format_review(row):
     return {
@@ -83,9 +86,11 @@ def delete_review(review_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
-        return
+        return None
 
     try:
+        delete_all_comments(review_id) # execute children
+
         cursor.execute(
             """
             DELETE FROM ADMIN.REVIEWS WHERE REVIEW_ID = :1
