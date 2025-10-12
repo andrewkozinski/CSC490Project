@@ -24,6 +24,7 @@ STREAMING_LINKS = {
             "Fandango at Home Free": "https://athome.fandango.com/content/browse/home",
             "Apple TV": "https://tv.apple.com/",
             "Paramount Plus": "https://www.paramountplus.com/",
+            "Paramount+ Amazon Channel": "https://www.amazon.com/gp/video/channel/paramountplus",
             "Paramount Plus Apple TV Channel": "https://tv.apple.com/",
             "Paramount Plus Apple TV Channel ": "https://tv.apple.com/",
             "Paramount+ with Showtime": "https://www.paramountpluswithshowtime.com/",
