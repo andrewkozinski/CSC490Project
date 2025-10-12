@@ -2,10 +2,10 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id
 from routes.profiles import get_username_by_id
+from routes.auth import verify_jwt_token, get_user_id_from_token
 
 class ReviewComment(BaseModel):
     review_id: int
-    user_id: int
     comment_text: str
     jwt_token: str # JWT token for authentication
 
@@ -21,10 +21,20 @@ async def create_comment(comment: ReviewComment):
     print(comment.review_id)
     print(comment.user_id)
     print(comment.comment_text)
+    #Need to validate the JWT token here before allowing the user to create a comment
+    verify_jwt_token(comment.jwt_token)
+
+    #Get user id from the JWT token
+    jwt_id = get_user_id_from_token(comment.jwt_token)
+
+    print("COMMENT REQUEST:")
+    print("JWT ID:", jwt_id)
+    print("Review ID:", comment.review_id)
+    print("Comment Text:", comment.comment_text)
 
     comm_id = add_comment(
         review_id=comment.review_id,
-        user_id=comment.user_id,
+        user_id=jwt_id,
         comm_text=comment.comment_text,
         parent_comm_id=None
     )
