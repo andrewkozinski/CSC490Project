@@ -17,10 +17,6 @@ router = APIRouter()
 #Need routes to post, get, update, delete comments
 @router.post("/create")
 async def create_comment(comment: ReviewComment):
-    print("COMMENT REQUEST:")
-    print(comment.review_id)
-    print(comment.user_id)
-    print(comment.comment_text)
     #Need to validate the JWT token here before allowing the user to create a comment
     verify_jwt_token(comment.jwt_token)
 
