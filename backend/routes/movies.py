@@ -39,6 +39,33 @@ STREAMING_LINKS = {
             "MGM Plus": "https://www.mgmplus.com/",
         }
 
+STREAMING_LINKS_LOWER = {
+    "netflix": "https://www.netflix.com/",
+    "amazonprimevideo": "https://www.primevideo.com/",
+    "amazonprimevideowithads": "https://www.primevideo.com",
+    "disneyplus": "https://www.disneyplus.com/",
+    "appletvplus": "https://tv.apple.com/",
+    "youtube": "https://www.youtube.com/movies",
+    "hulu": "https://www.hulu.com/",
+    "fandangoathome": "https://athome.fandango.com/content/browse/home",
+    "fandangoathomefree": "https://athome.fandango.com/content/browse/home",
+    "appletv": "https://tv.apple.com/",
+    "paramountplus": "https://www.paramountplus.com/",
+    "paramountamazonchannel": "https://www.amazon.com/gp/video/channel/paramountplus",
+    "paramountplusappletvchannel": "https://tv.apple.com/",
+    "paramountplusappletvchannel": "https://tv.apple.com/",
+    "paramountwithshowtime": "https://www.paramountpluswithshowtime.com/",
+    "paramountrokupremiumchannel": "https://channelstore.roku.com/details/f04a1a2ece7f9ca611a97c045569cb9d:6e3fc82e82aae31af5401e62f222d1b1/paramount-plus",
+    "hbomax": "https://www.hbomax.com/",
+    "amazonvideo": "https://www.amazon.com/gp/video/storefront",
+    "googleplaymovies": "https://play.google.com/store/movies",
+    "tubitv": "https://tubitv.com/",
+    "peacock": "https://www.peacocktv.com/",
+    "fubotv": "https://www.fubo.tv/",
+    "mgmamazonchannel": "https://www.amazon.com/gp/video/channel/1cd832b6-c298-4106-b4ff-dc9ce63304ea",
+    "mgmplus": "https://www.mgmplus.com/",
+}
+
 def stream_link_remove_whitespace(name):
     return name.replace(" ", "").lower()
 
