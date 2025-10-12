@@ -4,7 +4,7 @@ export async function DELETE(request, { params }) {
 	const review_id = params.id;
 	const { jwt_token } = await request.json();
 
-	const response = await fetch(`${process.env.BACKEND_URL}/comments/delete/${review_id}`, {
+	const response = await fetch(`${process.env.API_URL}/comments/delete/${review_id}`, {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
