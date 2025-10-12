@@ -23,9 +23,9 @@ export default function Review({ reviewId = "", username= "Anonymous", text="No 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         review_id: reviewId,
-        user_id: session?.user?.id,
+        //user_id: session?.user?.id,
         comment_text: commentText,
-        //jwt_token: session?.accessToken,
+        jwt_token: session?.accessToken,
       }),
     });
 
