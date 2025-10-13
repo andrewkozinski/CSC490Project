@@ -48,7 +48,7 @@ export default function CommentsList({reviewId = 0, parentId = 0, parentType = "
   }, [parentId, refreshKey]);
 
   return (
-    <div className="flex flex-col w-max-full">
+    <div className="flex flex-col w-full">
       <div>
         <button
           className="cursor-pointer"
