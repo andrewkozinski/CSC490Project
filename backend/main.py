@@ -8,7 +8,7 @@ from routes.reviews import router as review_router
 from routes.search import router as search_router
 from routes.profiles import router as profiles_router
 from routes.comments import router as comments_router
-from routes.upvotes import router as upvotes_router
+from routes.votes import router as upvotes_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
