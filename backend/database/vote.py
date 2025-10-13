@@ -264,7 +264,7 @@ def decrement_upvote(vote_id):
             return False
         else:
             connection.commit()
-            print(f"Upvote for VOTE_ID {vote_id} increased successfully.")
+            print(f"Upvote for VOTE_ID {vote_id} decreased successfully.")
             return True
 
     except oracledb.Error as e:
