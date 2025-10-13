@@ -77,10 +77,11 @@ async def get_reviews_by_media_type(media_type: str):
     if reviews_by_type is None:
         #Return empty list if no reviews found for the media type
         return {"reviews": []}
-    # Add username to each review by fetching from the user id
+    # Add username to each review by fetching from the user id, and also vote id
     for review in reviews_by_type:
         user = await get_username_by_id(review["user_id"])
         review["username"] = user if user else "Unknown User"
+        votes = vote.get_vote_by_review_id(review["review_id"])
     return {"reviews": reviews_by_type}
 
 #Get all reviews by a media type and id
@@ -96,7 +97,7 @@ async def get_reviews_by_media_type_and_id(media_type: str, media_id: str):
         print("USER ID : ", review["user_id"])
         user = await get_username_by_id(review["user_id"])
         review["username"] = user if user else "Unknown User"
-        vote_id = vote.get_vote_id_by_review_and_comment_id(review["review_id"], None)
+        votes = vote.get_vote_by_review_id(review["review_id"])
 
     return {"reviews": reviews_by_media_and_id}
 
