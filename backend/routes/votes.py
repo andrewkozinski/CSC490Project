@@ -34,3 +34,29 @@ def upvote(review_id: int, comment_id: int = None):
     if result is False:
         raise HTTPException(status_code=500, detail="Error upvoting")
     return {"message": "Upvoted successfully, upvote count incremented"}
+
+#Decrements upvote count for a review or comment
+@router.put("/remove_upvote/{review_id}")
+def remove_upvote(review_id: int, comment_id: int = None):
+    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
+    if vote_id is None:
+        raise HTTPException(status_code=404, detail="Vote record not found")
+    result = decrement_upvote(vote_id)
+    if result is False:
+        raise HTTPException(status_code=500, detail="Error removing upvote")
+    return {"message": "Upvote removed successfully, upvote count decremented"}
+
+#Increments downvote count for a review or comment
+@router.put("/downvote/{review_id}")
+def downvote(review_id: int, comment_id: int = None):
+    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
+    if vote_id is None:
+        # If no vote record exists, initialize it
+        init_result = add_vote(review_id, comment_id, 0, 1)
+        if init_result is False:
+            raise HTTPException(status_code=500, detail="Error initializing votes")
+        return {"message": "Downvoted successfully, votes initialized with value of 1"}
+    result = increment_downvote(vote_id)
+    if result is False:
+        raise HTTPException(status_code=500, detail="Error downvoting")
+    return {"message": "Downvoted successfully, downvote count incremented"}
