@@ -83,6 +83,64 @@ def delete_vote(vote_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+def delete_review_vote(review_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        cursor.execute(
+            """
+            DELETE FROM VOTE WHERE REVIEW_ID = :1
+            """,
+            (review_id,)
+        )
+        if cursor.rowcount == 0:  # nothing deleted
+            print(f"Error: REVIEW_ID {review_id} does not exist.")
+            return False
+        else:
+            connection.commit()
+            print(f"Vote with REVIEW_ID {review_id} deleted successfully.")
+            return True
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting review:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def delete_comment_vote(comment_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        cursor.execute(
+            """
+            DELETE FROM VOTE WHERE COMMENT_ID = :1
+            """,
+            (comment_id,)
+        )
+        if cursor.rowcount == 0:  # nothing deleted
+            print(f"Error: COMMENT_ID {comment_id} does not exist.")
+            return False
+        else:
+            connection.commit()
+            print(f"Vote with COMMENT_ID {comment_id} deleted successfully.")
+            return True
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting review:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
 def get_vote_by_review_id(review_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
