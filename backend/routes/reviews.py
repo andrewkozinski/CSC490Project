@@ -119,3 +119,16 @@ async def get_reviews_by_user_and_media_type(user_id: int, media_type: str):
 async def get_reviews_by_user_and_media(user_id: int, media_type: str, media_id: str):
     reviews_by_user_and_media = reviews.get_reviews_by_user_id_and_media_id_and_media_type(user_id, media_id, media_type.lower())
     return {"reviews": reviews_by_user_and_media}
+
+#Initialize votes for every review
+@router.post("/initialize_votes_for_all_reviews")
+async def initialize_votes_for_all_reviews():
+    all_reviews = reviews.get_all_reviews()
+    if all_reviews is None:
+        raise HTTPException(status_code=500, detail="Error fetching reviews")
+    for review in all_reviews:
+        review_id = review["review_id"]
+        vote_result = vote.add_vote(review_id, None, 0, 0)
+        if vote_result is False:
+            print(f"Error initializing votes for review ID {review_id}")
+    return {"message": "Votes initialized for all reviews"}
