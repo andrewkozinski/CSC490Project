@@ -1,6 +1,7 @@
 import oracledb
 #import connect
 from database import connect
+from database.vote import delete_comment_vote
 
 def get_new_comm_id():
     connection, cursor = connect.start_connection()
@@ -60,6 +61,8 @@ def delete_comment(comm_id):
         return False
 
     try:
+        delete_comment_vote(comm_id)
+
         cursor.execute(
             """
             DELETE FROM COMMENTS WHERE COMM_ID = :1

@@ -54,7 +54,7 @@ def add_vote(review_id, comment_id, upvotes, downvotes):
     finally:
         connect.stop_connection(connection, cursor)
 
-def delete_vote(vote_id):
+def delete_vote(vote_id): # singular vote
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
