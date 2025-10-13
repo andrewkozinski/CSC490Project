@@ -61,7 +61,7 @@ app.include_router(review_router, prefix="/reviews") #includes the API router fr
 app.include_router(search_router, prefix="/search") #includes the API router from routes/search.py
 app.include_router(profiles_router, prefix="/profiles") #includes the API router from routes/profiles.py
 app.include_router(comments_router, prefix="/comments") #includes the API router from routes/comments.py
-app.include_router(votes_router, prefix="/upvotes") #includes the API router from routes/upvotes.py
+app.include_router(votes_router, prefix="/votes") #includes the API router from routes/upvotes.py
 
 # CORS settings
 app.add_middleware(
