@@ -396,3 +396,36 @@ def get_vote_id_by_review_and_comment_id(review_id, comment_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_all_votes():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM ADMIN.VOTE
+            """
+        )
+        rows = cursor.fetchall()
+        votes = []
+        for row in rows:
+            vote = {
+                "vote_id": row[0],
+                "review_id": row[1],
+                "comment_id": row[2],
+                "upvotes": row[3],
+                "downvotes": row[4]
+            }
+            votes.append(vote)
+        return votes
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching all votes:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
