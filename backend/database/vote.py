@@ -269,7 +269,7 @@ def decrement_upvote(vote_id):
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error increasing upvote:", error_obj.message)
+        print("Database error decreasing upvote:", error_obj.message)
         return False
 
     finally:
