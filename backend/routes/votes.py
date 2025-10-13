@@ -71,3 +71,15 @@ def remove_downvote(review_id: int, comment_id: int = None):
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing downvote")
     return {"message": "Downvote removed successfully, downvote count decremented"}
+
+#Deletes vote record for a review or comment
+#Not sure why we'd need this one but why not
+@router.delete("/delete/{review_id}")
+def delete_votes(review_id: int, comment_id: int = None):
+    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
+    if vote_id is None:
+        raise HTTPException(status_code=404, detail="Vote record not found")
+    result = delete_vote(vote_id)
+    if result is False:
+        raise HTTPException(status_code=500, detail="Error deleting votes")
+    return {"message": "Votes deleted successfully"}
