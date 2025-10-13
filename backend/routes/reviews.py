@@ -59,10 +59,6 @@ async def delete_review(delete_request: DeleteReviewRequest):
     #Need to validate the JWT token here before allowing the user to delete a review
     verify_jwt_token(delete_request.jwt_token)
 
-    #Delete votes associated with the review first
-    vote_id = vote.get_vote_id_by_review_and_comment_id(delete_request.review_id, None)
-    if vote_id is not None:
-        vote.delete_vote(vote_id)
     #Then delete the review
     result = reviews.delete_review(delete_request.review_id)
     if result is False:
