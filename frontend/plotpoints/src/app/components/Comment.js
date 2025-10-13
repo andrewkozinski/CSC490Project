@@ -9,7 +9,7 @@ export default function Comment({
 
   return (
     <div className="flex flex-col relative">
-      <div className="relative flex w-full border-1 shadow-xl rounded-md m-1 p-3 h-28">
+      <div className="relative flex border-1 shadow-xl rounded-md m-1 p-3 h-28">
         {/* Avatar and Text */}
         <div className="flex items-start">
           {/* Avatar circle */}
@@ -52,17 +52,17 @@ export default function Comment({
         {/* Bottom-right rating controls */}
         <div className="absolute bottom-2 right-3 flex items-center space-x-2">
           {/* # of ratings */}
-          <p className="text-sm text-gray-700">+ 1000</p>
+          <p className="text-sm text-gray-700">1000</p>
 
           {/* plus */}
-          <button className="cursor-pointer">
+          <button className="cursor-pointer hover:">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-6"
+              className="size-5"
             >
               <path
                 strokeLinecap="round"
@@ -72,6 +72,8 @@ export default function Comment({
             </svg>
           </button>
           <p>|</p>
+          <p className="ml-3 text-sm text-gray-700">1000</p>
+
           {/* minus */}
           <button className="cursor-pointer mr-2">
             <svg
@@ -80,7 +82,7 @@ export default function Comment({
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-6"
+              className="size-5"
             >
               <path
                 strokeLinecap="round"

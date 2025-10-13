@@ -93,9 +93,9 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
           </div>
 
           {/* Rating controls */}
-          <div className="flex items-center w-full mt-2">
+          <div className="flex items-center w-full mt-2 space-x-2">
             {/* # of ratings */}
-            <p className="mr-3 text-sm text-gray-700">+ 1000</p>
+            <p className="mr-3 text-sm text-gray-700">1000</p>
             {/* plus */}
             <button className="cursor-pointer">
               <svg
@@ -104,7 +104,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="size-6"
+                className="size-5"
               >
                 <path
                   strokeLinecap="round"
@@ -114,6 +114,8 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </svg>
             </button>
             <p>|</p>
+            <p className="text-sm text-gray-700">1000</p>
+
             {/* minus */}
             <button className="cursor-pointer">
               <svg
@@ -122,7 +124,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="size-6"
+                className="size-5"
               >
                 <path
                   strokeLinecap="round"
