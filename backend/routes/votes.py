@@ -5,7 +5,7 @@ from database.vote import add_vote, delete_vote, increment_upvote, decrement_upv
 router = APIRouter
 
 #Initializes votes for a review
-@router.add("/initialize_votes/{review_id}")
+@router.post("/initialize_votes/{review_id}")
 def initialize_votes(review_id: int):
     result = add_vote(review_id, None, 0, 0)
     if result is False:
@@ -13,7 +13,7 @@ def initialize_votes(review_id: int):
     return {"message": "Votes initialized successfully"}
 
 #Initialize votes for a comment
-@router.add("initialize_votes/{review_id}/{comment_id}")
+@router.post("initialize_votes/{review_id}/{comment_id}")
 def initialize_votes_for_comment(review_id: int, comment_id: int):
     result = add_vote(review_id, comment_id, 0, 0)
     if result is False:
