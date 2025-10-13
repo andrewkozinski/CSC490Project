@@ -348,7 +348,7 @@ def get_vote_id_by_review_id(review_id):
     try:
         cursor.execute(
             """
-            SELECT VOTE_ID FROM VOTE
+            SELECT VOTE_ID FROM ADMIN.VOTE
             WHERE REVIEW_ID = :1
             """,
             (review_id,)
@@ -377,7 +377,7 @@ def get_vote_id_by_review_and_comment_id(review_id, comment_id):
     try:
         cursor.execute(
             """
-            SELECT VOTE_ID FROM VOTE
+            SELECT VOTE_ID FROM ADMIN.VOTE
             WHERE REVIEW_ID = :1 AND COMMENT_ID = :2
             """,
             (review_id, comment_id)
