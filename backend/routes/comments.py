@@ -38,6 +38,10 @@ async def create_comment(comment: ReviewComment):
         parent_comm_id=None
     )
     if comm_id is not None:
+
+        #Also initialize votes for the comment
+        vote_result = vote.add_vote(None, comm_id, 0, 0)
+
         return {"message": "Comment created successfully", "comm_id": comm_id}
     else:
         HTTPException(status_code=500, detail="Failed to create comment. Please try again.")
