@@ -47,14 +47,9 @@ async def create_comment(comment: ReviewComment):
         HTTPException(status_code=500, detail="Failed to create comment. Please try again.")
 
 @router.delete("/delete/")
-async def delete_comment(comment: DeleteCommentRequest):
+async def delete_comment_request(comment: DeleteCommentRequest):
 
     verify_jwt_token(comment.jwt_token)
-
-    #Delete votes associated with the comment
-    vote_id = vote.get_vote_id_by_review_and_comment_id(None, comment.comment_id)
-    if vote_id is not None:
-        vote.delete_vote(vote_id)
 
     result = delete_comment(comment.comment_id)
 
