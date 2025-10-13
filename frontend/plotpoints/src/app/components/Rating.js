@@ -51,7 +51,7 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
               key={value}
               className={`w-8 h-8 ${
                 value <= avgRating
-                  ? "fill-yellow-500 stroke-neutral-950"
+                  ? "fill-[#FFFC00] stroke-neutral-950"
                   : "fill-transparent stroke-neutral-950"
               }`}
             />
@@ -73,7 +73,7 @@ export default function Rating({ label, placeholder, id, avgRating, media }) {
                   onMouseLeave={() => setHover(0)}
                   className={`cursor-pointer ${
                     value <= (hover || rating)
-                      ? "fill-yellow-500 stroke-neutral-950"
+                      ? "fill-[#FFFC00] stroke-neutral-950"
                       : "fill-transparent stroke-neutral-950"
                   }`}
                 >

@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import fetchUserReview from "@/utils/fetchUserReview";
+import Review from "../components/ProfileReview";
 
 import { useSession } from "next-auth/react";
 
@@ -51,12 +52,18 @@ export default function ProfilePage(){
                     </div>
                     
                 </div>
-                <div className="cols-span-2 m-10">
-                    <h1 className="text-2xl text-center inria-serif-regular">Recent Reviews</h1>
-                    <div className="flex gap-5 overflow-y-auto px-10 py-5 h-70 items-center">
-                        
+                <div className="m-15">
+                    <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
+                    <div className="flex flex-col gap-5">
+                        <Review className=""/>
+                        <Review className=""/>
                     </div>
+         
                 </div>
+                <div className="m-15">
+                        <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
+                    </div> 
+                
             </div>
             <Footer/>
         </div>
