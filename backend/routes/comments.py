@@ -49,7 +49,7 @@ async def create_comment(comment: ReviewComment):
 @router.delete("/delete/")
 async def delete_comment(comment: DeleteCommentRequest):
 
-    verify_jwt_token(delete_comment.jwt_token)
+    verify_jwt_token(comment.jwt_token)
 
     #Delete votes associated with the comment
     vote_id = vote.get_vote_id_by_review_and_comment_id(None, comment.comment_id)
