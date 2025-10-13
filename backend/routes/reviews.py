@@ -42,7 +42,7 @@ async def create_review(review: CreateReviewRequest):
     )
     if review_id is not None:
         #Also initialize votes for the review
-        #vote_result = vote.add_vote(review_id, None, 0, 0)
+        vote_result = vote.add_vote(review_id, None, 0, 0)
         return {"message": "Review created successfully", "review_id": review_id}
     else:
         HTTPException(status_code=500, detail="Failed to create review. Please try again.")
