@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id, get_comments_by_parent_comm_id
+from database import vote
 from routes.profiles import get_username_by_id
 from routes.auth import verify_jwt_token, get_user_id_from_token
 
@@ -95,3 +96,4 @@ async def fetch_replies_to_comment(parent_comm_id: int):
         return {"comments": comments}
     else:
         return {"comments": []}
+
