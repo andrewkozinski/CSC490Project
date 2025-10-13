@@ -47,8 +47,7 @@ export default function ProfilePage(){
                             <p className="text-center">Followers</p>
                             <p className="text-center">Following</p>
                         </div>
-                        
-                        
+ 
                     </div>
                     
                 </div>
@@ -57,12 +56,12 @@ export default function ProfilePage(){
                     <div className="flex flex-col gap-5">
                         <Review className=""/>
                         <Review className=""/>
-                    </div>
+                </div>
          
                 </div>
                 <div className="m-15">
-                        <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
-                    </div> 
+                    <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
+                </div> 
                 
             </div>
             <Footer/>
