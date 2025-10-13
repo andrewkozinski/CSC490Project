@@ -6,6 +6,7 @@ from database import connect #If this import doesn't work change it temporarily,
 from database.comments import delete_all_comments
 #from users import valid_user_id
 from database.users import valid_user_id
+from database.vote import delete_review_vote
 
 def format_review(row):
     return {
@@ -79,7 +80,7 @@ def add_review(user_id, media_id, media_type, rating, review_text):
         print(f"User with USER_ID {user_id} does not exist.")
         return None
 
-def delete_review(review_id):
+def delete_review(review_id): # execute order 66
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
@@ -87,6 +88,8 @@ def delete_review(review_id):
 
     try:
         delete_all_comments(review_id) # execute children
+
+        delete_review_vote(review_id) # execute step children
 
         cursor.execute(
             """
