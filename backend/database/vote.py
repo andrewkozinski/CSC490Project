@@ -28,7 +28,7 @@ def add_vote(review_id, comment_id, upvotes, downvotes):
     try:
         cursor.execute(
             """
-            INSERT INTO VOTE (VOTE_ID, REVIEW_ID, COMMENT_ID, UPVOTES, DOWNVOTES)
+            INSERT INTO ADMIN.VOTE (VOTE_ID, REVIEW_ID, COMMENT_ID, UPVOTES, DOWNVOTES)
             VALUES (:1, :2, :3, :4, :5)
             """,
             (vote_id, review_id, comment_id, upvotes, downvotes)
@@ -63,7 +63,7 @@ def delete_vote(vote_id): # singular vote
     try:
         cursor.execute(
             """
-            DELETE FROM VOTE WHERE VOTE_ID = :1
+            DELETE FROM ADMIN.VOTE WHERE VOTE_ID = :1
             """,
             (vote_id,)
         )
@@ -92,7 +92,7 @@ def delete_review_vote(review_id):
     try:
         cursor.execute(
             """
-            DELETE FROM VOTE WHERE REVIEW_ID = :1
+            DELETE FROM ADMIN.VOTE WHERE REVIEW_ID = :1
             """,
             (review_id,)
         )
@@ -121,7 +121,7 @@ def delete_comment_vote(comment_id):
     try:
         cursor.execute(
             """
-            DELETE FROM VOTE WHERE COMMENT_ID = :1
+            DELETE FROM ADMIN.VOTE WHERE COMMENT_ID = :1
             """,
             (comment_id,)
         )
@@ -150,7 +150,7 @@ def get_vote_by_review_id(review_id):
     try:
         cursor.execute(
             """
-            SELECT * FROM VOTE
+            SELECT * FROM ADMIN.VOTE
             WHERE REVIEW_ID = :1
             """,
             (review_id,)
@@ -185,7 +185,7 @@ def get_vote_by_comment_id(comment_id):
     try:
         cursor.execute(
             """
-            SELECT * FROM VOTE
+            SELECT * FROM ADMIN.VOTE
             WHERE COMMENT_ID = :1
             """,
             (comment_id,)
@@ -220,7 +220,7 @@ def increment_upvote(vote_id):
     try:
         cursor.execute(
             """
-            UPDATE VOTE
+            UPDATE ADMIN.VOTE
             SET UPVOTE = UPVOTE + 1
             WHERE VOTE_ID = :1
             """,
@@ -252,7 +252,7 @@ def decrement_upvote(vote_id):
     try:
         cursor.execute(
             """
-            UPDATE VOTE
+            UPDATE ADMIN.VOTE
             SET UPVOTE = UPVOTE - 1
             WHERE VOTE_ID = :1
             """,
@@ -284,7 +284,7 @@ def increment_downvote(vote_id):
     try:
         cursor.execute(
             """
-            UPDATE VOTE
+            UPDATE ADMIN.VOTE
             SET DOWNVOTE = DOWNVOTE + 1
             WHERE VOTE_ID = :1
             """,
@@ -316,7 +316,7 @@ def decrement_downvote(vote_id):
     try:
         cursor.execute(
             """
-            UPDATE VOTE
+            UPDATE ADMIN.VOTE
             SET DOWNVOTE = DOWNVOTE - 1
             WHERE VOTE_ID = :1
             """,
