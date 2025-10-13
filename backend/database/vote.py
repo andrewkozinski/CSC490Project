@@ -18,7 +18,7 @@ def get_new_vote_id():
         print("No votes found in the database.")
         return 0
 
-def create_vote(review_id, comment_id, upvotes, downvotes):
+def add_vote(review_id, comment_id, upvotes, downvotes):
     connection, cursor = connect.start_connection()
     vote_id = get_new_vote_id()
     if not connection or not cursor:
