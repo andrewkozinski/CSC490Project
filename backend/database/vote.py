@@ -112,6 +112,41 @@ def get_vote_by_review_id(review_id):
 
     except oracledb.Error as e:
         error_obj, = e.args
+        print("Database error fetching reviews by vote id:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def get_vote_by_comment_id(comment_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM VOTE
+            WHERE COMMENT_ID = :1
+            """,
+            (comment_id,)
+        )
+        rows = cursor.fetchall()
+        votes = []
+        for row in rows:
+            vote = {
+                "vote_id": row[0],
+                "review_id": row[1],
+                "comment_id": row[2],
+                "upvotes": row[3],
+                "downvotes": row[4]
+            }
+            votes.append(vote)
+        return votes
+
+    except oracledb.Error as e:
+        error_obj, = e.args
         print("Database error fetching comments by vote id:", error_obj.message)
         return None
 
