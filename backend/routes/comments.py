@@ -110,7 +110,7 @@ async def initialize_votes_for_all_comments():
         # Check if votes already exist for this comment
         vote_id = vote.get_vote_id_by_review_and_comment_id(review_id, comm_id)
         if vote_id is None:
-            result = vote.add_vote(review_id, comm_id, 0, 0)
+            result = vote.add_vote(None, comm_id, 0, 0)
             if result is False:
                 print(f"Error initializing votes for comment ID {comm_id}")
     return {"message": "Vote initialization process completed"}
