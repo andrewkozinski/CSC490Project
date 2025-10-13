@@ -84,3 +84,9 @@ async def delete_votes(review_id: int, comment_id: int = None):
         raise HTTPException(status_code=500, detail="Error deleting votes")
     return {"message": "Votes deleted successfully"}
 
+@router.get("/voteid/{review_id}")
+async def fetch_vote_id(review_id: int, comment_id: int = None):
+    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id)
+    if vote_id is None:
+        raise HTTPException(status_code=404, detail="Vote record not found")
+    return {"vote_id": vote_id}
