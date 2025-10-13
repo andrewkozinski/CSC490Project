@@ -242,3 +242,35 @@ def increment_upvote(vote_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def decrement_upvote(vote_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            UPDATE VOTE
+            SET UPVOTE = UPVOTE - 1
+            WHERE VOTE_ID = :1
+            """,
+            (vote_id,)
+        )
+
+        if cursor.rowcount == 0:  # nothing updated
+            print(f"Error: VOTE_ID {vote_id} does not exist.")
+            return False
+        else:
+            connection.commit()
+            print(f"Upvote for VOTE_ID {vote_id} increased successfully.")
+            return True
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error increasing upvote:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
