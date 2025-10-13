@@ -47,6 +47,11 @@ async def delete_comment(comment: DeleteCommentRequest):
 
     verify_jwt_token(delete_comment.jwt_token)
 
+    #Delete votes associated with the comment
+    vote_id = vote.get_vote_id_by_review_and_comment_id(None, comment.comment_id)
+    if vote_id is not None:
+        vote.delete_vote(vote_id)
+
     result = delete_comment(comment.comment_id)
 
     if result is False:
