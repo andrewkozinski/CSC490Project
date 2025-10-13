@@ -339,35 +339,6 @@ def decrement_downvote(vote_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-def get_vote_id_by_review_id(review_id):
-    connection, cursor = connect.start_connection()
-    if not connection or not cursor:
-        print("Failed to connect to database.")
-        return None
-
-    try:
-        cursor.execute(
-            """
-            SELECT VOTE_ID FROM ADMIN.VOTE
-            WHERE REVIEW_ID = :1
-            """,
-            (review_id,)
-        )
-        result = cursor.fetchone()
-        if result and result[0] is not None:
-            return result[0]
-        else:
-            print(f"No vote found for REVIEW_ID {review_id}.")
-            return None
-
-    except oracledb.Error as e:
-        error_obj, = e.args
-        print("Database error fetching vote id by review id:", error_obj.message)
-        return None
-
-    finally:
-        connect.stop_connection(connection, cursor)
-
 def get_vote_id_by_review_and_comment_id(review_id, comment_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
