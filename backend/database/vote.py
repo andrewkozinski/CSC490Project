@@ -210,3 +210,4 @@ def get_vote_by_comment_id(comment_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
