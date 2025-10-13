@@ -48,7 +48,7 @@ function TvReviewPage({ params }) {
     <div>
       <Header />
       <div className="flex m-5">
-        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10 ml-5">
           <img
             src={
               tvDetails && tvDetails.img
@@ -57,14 +57,14 @@ function TvReviewPage({ params }) {
             }
             title={tvDetails ? tvDetails.title : "TV Show Poster"}
             alt={tvDetails ? tvDetails.title : "TV Show Poster"}
-            className="w-65 h-96 rounded-xl outline-2 mb-5"
+            className="w-56 h-86 rounded-sm mb-5"
           />
           <div>
             {/*description box*/}
-            <p className="text-lg">Description:</p>
-            <div className="flex p-4 border-2 rounded-xl min-h-[25vh] max-h-fit grow my-2 flex-col">
-              <p className="text-lg">Title:<br /></p>
-              <p className="text-xl font-bold"> {tvDetails.title}</p>
+            {/* <p className="text-lg">Description:</p> */}
+            <div className="flex p-4 border-1 rounded-sm min-h-[25vh] max-h-fit grow my-2 flex-col">
+              {/* <p className="text-lg">Title:<br /></p> */}
+              <p className="text-2xl font-bold inria-serif-bold"> {tvDetails.title}</p>
               <p className="flex grow">
                 {tvDetails && tvDetails.description
                   ? tvDetails.description
@@ -87,7 +87,7 @@ function TvReviewPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-sm shadow-xl">
           <Review></Review>
         </div>
       </div>

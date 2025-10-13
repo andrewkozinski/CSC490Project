@@ -66,7 +66,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
   return (
     <div className="flex flex-col mt-1">
-      <div className="relative flex items-center border-1 shadow-xl rounded-md p-3 mb-2">
+      <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2">
         {/* Avatar circle */}
         <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer shrink-0">
           {/*placeholder image*/}
@@ -162,7 +162,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         <form className="flex flex-col border h-35 rounded-md p-3 mb-2 shadow-xl w-7/8" onSubmit={handleSubmit}>
           <textarea
             placeholder="Write your reply..."
-            className="w-full border rounded-md p-2 resize-none focus:outline-none"
+            className="w-full border rounded-sm p-2 resize-none focus:outline-none"
             value={commentText}
             onChange={onCommentTextChange}
           />

@@ -29,6 +29,10 @@ def verify_jwt_token(token: str):
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
+def get_user_id_from_token(token: str):
+    payload = verify_jwt_token(token)
+    return payload.get("user_id")
+
 # Routing setup:
 router = APIRouter()
 
@@ -42,6 +46,8 @@ class SignUpRequest(BaseModel):
     username: str
     email: EmailStr
     password: str
+class TokenRequest(BaseModel):
+    token: str
 
 @router.post("/login")
 async def login(request: LoginRequest):
@@ -92,3 +98,10 @@ async def get_users():
     if users is not None:
         return {"users": users}
     raise HTTPException(status_code=500, detail="Error fetching users")
+
+#Check if a token is valid
+@router.post("/verifytoken")
+async def verify_token(request: TokenRequest):
+    print("Request made by token: ", request.token)
+    payload = verify_jwt_token(request.token)
+    return {"valid": True, "payload": payload}
