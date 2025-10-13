@@ -1,5 +1,4 @@
 import Star from "./Star";
-import "./ProfilePage.css";
 
 export default function ProfileReview() {
     return (
