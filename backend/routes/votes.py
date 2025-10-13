@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from database.vote import add_vote, delete_vote, increment_upvote, decrement_upvote, increment_downvote, \
-    decrement_downvote, get_vote_id_by_review_and_comment_id
+from database.vote import add_vote, delete_vote, increment_upvote, decrement_upvote, increment_downvote, decrement_downvote, get_vote_id_by_review_and_comment_id, get_all_votes
 
 router = APIRouter()
 
@@ -88,3 +87,11 @@ async def delete_votes(review_id: int, comment_id: int = None):
 async def fetch_vote_id(review_id: int, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id)
     return {"vote_id": vote_id}
+
+
+@router.get("/all_votes")
+async def fetch_all_votes():
+    votes = get_all_votes()
+    if votes is not None:
+        return {"votes": votes}
+    raise HTTPException(status_code=500, detail="Error fetching votes")
