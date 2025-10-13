@@ -3,7 +3,7 @@ import "./ProfilePage.css";
 
 export default function ProfileReview() {
     return (
-        <div className="grid grid-cols-2 rounded-xs hover:outline-offset-5 hover:outline-1 w-max" onClick={() => window.location.href = `/movies/review/1061474`}>
+        <div className="grid grid-cols-2 rounded-[1px] hover:outline-offset-5 hover:outline-1 w-max" onClick={() => window.location.href = `/movies/review/1061474`}>
             <img
                 src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
                 itle="Superman 2025"
