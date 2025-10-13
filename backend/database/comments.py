@@ -98,10 +98,11 @@ def delete_all_comments(review_id):
         deleted_comments = cursor.rowcount
         if deleted_comments > 0:
             print(f"Deleted {deleted_comments} comment(s) for REVIEW_ID {review_id}.")
+            connection.commit()
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error deleting review:", error_obj.message)
+        print("Database error deleting comment:", error_obj.message)
         return False
 
     finally:
