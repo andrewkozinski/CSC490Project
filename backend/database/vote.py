@@ -8,7 +8,7 @@ def get_new_vote_id():
         print("Failed to connect to database.")
         return None
 
-    cursor.execute("SELECT MAX(VOTE_ID) FROM VOTE")
+    cursor.execute("SELECT MAX(VOTE_ID) FROM ADMIN.VOTE")
     result = cursor.fetchone()
 
     connect.stop_connection(connection, cursor)
