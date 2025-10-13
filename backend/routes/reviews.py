@@ -91,10 +91,12 @@ async def get_reviews_by_media_type_and_id(media_type: str, media_id: str):
         return {"reviews": []}
 
     #Add username to each review by fetching from the user id
+    #Also add vote id for each review
     for review in reviews_by_media_and_id:
         print("USER ID : ", review["user_id"])
         user = await get_username_by_id(review["user_id"])
         review["username"] = user if user else "Unknown User"
+        vote_id = vote.get_vote_id_by_review_and_comment_id(review["review_id"], None)
 
     return {"reviews": reviews_by_media_and_id}
 
