@@ -93,9 +93,9 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
           </div>
 
           {/* Rating controls */}
-          <div className="flex items-center w-full mt-2">
+          <div className="flex items-center w-full mt-2 space-x-2">
             {/* # of ratings */}
-            <p className="mr-3 text-sm text-gray-700">+ 1000</p>
+            <p className="mr-3 text-sm text-gray-700">1000</p>
             {/* plus */}
             <button className="cursor-pointer">
               <svg
@@ -104,7 +104,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="size-6"
+                className="size-5"
               >
                 <path
                   strokeLinecap="round"
@@ -114,6 +114,8 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </svg>
             </button>
             <p>|</p>
+            <p className="text-sm text-gray-700">1000</p>
+
             {/* minus */}
             <button className="cursor-pointer">
               <svg
@@ -122,7 +124,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="size-6"
+                className="size-5"
               >
                 <path
                   strokeLinecap="round"
@@ -137,7 +139,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         {/* Reply button */}
         <button
           onClick={() => setShowReplyBox((prev) => !prev)}
-          className="absolute bottom-2 right-3 text-sm underline cursor-pointer"
+          className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
         >
           Reply
         </button>
@@ -157,21 +159,23 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
       {/* Reply box */}
       {showReplyBox && (
-        <form className="flex flex-col border h-40 rounded-sm p-3 mb-2 shadow-xl" onSubmit={handleSubmit}>
+        <form className="flex flex-col border h-35 rounded-md p-3 mb-2 shadow-xl w-7/8" onSubmit={handleSubmit}>
           <textarea
             placeholder="Write your reply..."
             className="w-full border rounded-sm p-2 resize-none focus:outline-none"
             value={commentText}
             onChange={onCommentTextChange}
           />
-          <button className="self-end mt-2 border-1 px-6 py-2 rounded-sm text-sm" type="submit">
+          <button className="cursor-pointer self-end mt-2 border-1 px-6 py-2 rounded-md text-sm" 
+          type="submit"
+          style={{backgroundColor:"var(--color-brown)"}}>
             Post
           </button>
         </form>
       )}
 
       {/* Comments below review */}
-      <div className="flex">
+      <div className="flex w-full">
         <CommentList parentId={reviewId} parentType="review" refreshKey={refreshKey}/> {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>
