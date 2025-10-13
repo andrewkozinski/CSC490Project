@@ -60,3 +60,14 @@ def downvote(review_id: int, comment_id: int = None):
     if result is False:
         raise HTTPException(status_code=500, detail="Error downvoting")
     return {"message": "Downvoted successfully, downvote count incremented"}
+
+#Decrements downvote count for a review or comment
+@router.put("/remove_downvote/{review_id}")
+def remove_downvote(review_id: int, comment_id: int = None):
+    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
+    if vote_id is None:
+        raise HTTPException(status_code=404, detail="Vote record not found")
+    result = decrement_downvote(vote_id)
+    if result is False:
+        raise HTTPException(status_code=500, detail="Error removing downvote")
+    return {"message": "Downvote removed successfully, downvote count decremented"}
