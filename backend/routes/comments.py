@@ -97,3 +97,20 @@ async def fetch_replies_to_comment(parent_comm_id: int):
     else:
         return {"comments": []}
 
+
+@router.post("/comments/initialize_votes_for_all_comments")
+async def initialize_votes_for_all_comments():
+    comments = get_all_comments()
+    if comments is None:
+        raise HTTPException(status_code=500, detail="Error fetching comments")
+
+    for comment in comments:
+        comm_id = comment["comm_id"]
+        review_id = comment["review_id"]
+        # Check if votes already exist for this comment
+        vote_id = vote.get_vote_id_by_review_and_comment_id(review_id, comm_id)
+        if vote_id is None:
+            result = vote.add_vote(review_id, comm_id, 0, 0)
+            if result is False:
+                print(f"Error initializing votes for comment ID {comm_id}")
+    return {"message": "Vote initialization process completed"}
