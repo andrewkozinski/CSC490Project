@@ -22,7 +22,7 @@ export default function ProfileReview() {
                                 );
                                 })}
                     </div>
-                    <p className="w-80">{"An awesome take on a classic superhero story!"}</p>
+                    <p className="w-80 text-sm">{"An awesome take on a classic superhero story!"}</p>
             </div>    
             
         </div>
