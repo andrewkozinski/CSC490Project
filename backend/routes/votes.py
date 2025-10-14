@@ -32,7 +32,7 @@ async def upvote(review_id: int = None, comment_id: int = None):
 
 #Decrements upvote count for a review or comment
 @router.put("/remove_upvote/{review_id}")
-async def remove_upvote(review_id: int, comment_id: int = None):
+async def remove_upvote(review_id: int = None, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
     if vote_id is None:
         raise HTTPException(status_code=404, detail="Vote record not found")
@@ -43,7 +43,7 @@ async def remove_upvote(review_id: int, comment_id: int = None):
 
 #Increments downvote count for a review or comment
 @router.put("/downvote/{review_id}")
-async def downvote(review_id: int, comment_id: int = None):
+async def downvote(review_id: int = None, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
     if vote_id is None:
         # If no vote record exists, initialize it
@@ -58,7 +58,7 @@ async def downvote(review_id: int, comment_id: int = None):
 
 #Decrements downvote count for a review or comment
 @router.put("/remove_downvote/{review_id}")
-async def remove_downvote(review_id: int, comment_id: int = None):
+async def remove_downvote(review_id: int = None, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
     if vote_id is None:
         raise HTTPException(status_code=404, detail="Vote record not found")
@@ -70,7 +70,7 @@ async def remove_downvote(review_id: int, comment_id: int = None):
 #Deletes vote record for a review or comment
 #Not sure why we'd need this one but why not
 @router.delete("/delete/{review_id}")
-async def delete_votes(review_id: int, comment_id: int = None):
+async def delete_votes(review_id: int = None, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
     if vote_id is None:
         raise HTTPException(status_code=404, detail="Vote record not found")
