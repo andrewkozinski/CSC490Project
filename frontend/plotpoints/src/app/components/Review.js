@@ -3,7 +3,7 @@ import { useState } from "react";
 import CommentList from "./CommentList";
 import { useSession } from "next-auth/react";
 
-export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}}) {
+export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = []}) {
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
   const { data: session } = useSession();
