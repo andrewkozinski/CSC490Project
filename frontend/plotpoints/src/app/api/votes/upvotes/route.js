@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 
 export async function PUT(req) {
-  const { voteId } = await req.json();
+  console.log("PUT request received in /api/votes/upvotes");
+  const body = await req.json();
+  //console.log("Parsed body:", body);
+  const { voteId } = body;
+  console.log("voteId:", voteId);
   try {
     const backendRes = await fetch(`${process.env.API_URL}/votes/upvote/${voteId}`, {
       method: 'PUT',
