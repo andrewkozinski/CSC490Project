@@ -1,5 +1,5 @@
 async function removeDownvote(voteId) {
-  const response = await fetch(`http://${process.env.API_URL}/remove_downvote/${voteId}`, {
+  const response = await fetch(`http://${process.env.API_URL}/votes/remove_downvote/${voteId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
