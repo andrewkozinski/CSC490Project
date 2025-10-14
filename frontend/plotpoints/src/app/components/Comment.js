@@ -166,7 +166,7 @@ export default function Comment({
               onChange={onCommentTextChange}
             />
             <button
-              className="cursor-pointer self-end mt-2 border-1 px-6 py-2 rounded-md text-sm"
+              className="cursor-pointer self-end mt-2 shadow px-6 py-2 rounded-sm text-sm"
               type="submit"
               style={{ backgroundColor: "var(--color-brown)" }}
             >
