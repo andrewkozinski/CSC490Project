@@ -128,6 +128,11 @@ async def get_reviews_by_user_and_media_type(user_id: int, media_type: str):
 @router.get("/by_user_and_media/{user_id}/{media_type}/{media_id}")
 async def get_reviews_by_user_and_media(user_id: int, media_type: str, media_id: str):
     reviews_by_user_and_media = reviews.get_reviews_by_user_id_and_media_id_and_media_type(user_id, media_id, media_type.lower())
+
+    for review in reviews_by_user_and_media:
+        votes = vote.get_vote_by_review_id(review["review_id"])
+        review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
     return {"reviews": reviews_by_user_and_media}
 
 #Initialize votes for every review
