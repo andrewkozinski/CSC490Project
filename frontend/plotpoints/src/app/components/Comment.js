@@ -58,10 +58,10 @@ export default function Comment({
         {/* Bottom-right rating controls */}
         <div className="absolute bottom-2 right-4 flex items-center space-x-2">
           {/* # of ratings */}
-          <p className="text-sm text-gray-700">1000</p>
+          <p className="text-sm text-gray-700">{votes.upvotes || 0}</p>
 
           {/* plus */}
-          <button className="cursor-pointer hover:">
+          <button className="cursor-pointer hover:" onClick={() => {console.log("Upvote Clicked")}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -78,10 +78,10 @@ export default function Comment({
             </svg>
           </button>
           <p>|</p>
-          <p className="ml-3 text-sm text-gray-700">1000</p>
+          <p className="ml-3 text-sm text-gray-700">{votes.downvotes || 0}</p>
 
           {/* minus */}
-          <button className="cursor-pointer mr-2">
+          <button className="cursor-pointer mr-2" onClick={() => {console.log("Downvote Clicked")}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
