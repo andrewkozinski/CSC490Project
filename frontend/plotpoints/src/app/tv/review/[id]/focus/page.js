@@ -5,6 +5,7 @@ import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "../../../../components/Header";
 import Review from "../../../../components/Review";
+import style from "../../../../globals.css"
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
