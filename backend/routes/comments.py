@@ -61,6 +61,11 @@ async def delete_comment_request(comment: DeleteCommentRequest):
 async def fetch_all_comments():
     comments = get_all_comments()
     if comments is not None:
+
+        #Get votes for each comment
+        for comment in comments:
+            votes = vote.get_vote_by_comment_id(comment["comm_id"])
+            comment["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
         return {"comments": comments}
     raise HTTPException(status_code=500, detail="Error fetching comments")
 
