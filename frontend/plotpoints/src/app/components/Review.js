@@ -3,8 +3,9 @@ import { useState } from "react";
 import CommentList from "./CommentList";
 import { useSession } from "next-auth/react";
 import {upvote, removeUpvote, downvote, removeDownvote} from '@/lib/votes.js';
+import Star from "./Star";
 
-export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}}) {
+export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0}) {
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
   const { data: session } = useSession();
@@ -132,8 +133,26 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         {/* Example review content */}
         <div className="flex flex-col mx-5 justify-between h-full grow">
           <div>
-            <p className="underline underline-offset-4">{username}</p>
-            <p className="mt-3 text-gray-700 text-sm">{text}</p>
+            <div className="flex flex-row">
+              <p className="underline underline-offset-4 mr-3">{username}</p>
+              <div className="flex flex-row justify-center mb-3">
+                      {[...Array(5)].map((_, i) => {
+                        const value = i + 1;
+                        return (
+                          <Star
+                            key={value}
+                            className={`w-6 h-6 ${
+                            value <= rating
+                              ? "fill-[#FFFC00] stroke-neutral-950"
+                              : "fill-transparent stroke-neutral-950"
+                              }`}
+                          />
+                        );
+                      })}
+              </div>
+            </div>
+            {/* <p className="underline underline-offset-4">{username}</p> */}
+            <p className="mt-1 text-gray-700 text-sm">{text}</p>
           </div>
 
           {/* Rating controls */}

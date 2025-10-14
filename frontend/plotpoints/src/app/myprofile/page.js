@@ -60,7 +60,7 @@ export default function ProfilePage(){
          
                 </div>
                 <div className="m-15">
-                    <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
+                        <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
                 </div> 
                 
             </div>
