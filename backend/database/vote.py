@@ -221,7 +221,7 @@ def increment_upvote(vote_id):
         cursor.execute(
             """
             UPDATE ADMIN.VOTE
-            SET UPVOTE = UPVOTE + 1
+            SET UPVOTES = UPVOTES + 1
             WHERE VOTE_ID = :1
             """,
             (vote_id,)
@@ -253,7 +253,7 @@ def decrement_upvote(vote_id):
         cursor.execute(
             """
             UPDATE ADMIN.VOTE
-            SET UPVOTE = UPVOTE - 1
+            SET UPVOTES = UPVOTES - 1
             WHERE VOTE_ID = :1
             """,
             (vote_id,)
@@ -285,7 +285,7 @@ def increment_downvote(vote_id):
         cursor.execute(
             """
             UPDATE ADMIN.VOTE
-            SET DOWNVOTE = DOWNVOTE + 1
+            SET DOWNVOTES = DOWNVOTES + 1
             WHERE VOTE_ID = :1
             """,
             (vote_id,)
@@ -317,7 +317,7 @@ def decrement_downvote(vote_id):
         cursor.execute(
             """
             UPDATE ADMIN.VOTE
-            SET DOWNVOTE = DOWNVOTE - 1
+            SET DOWNVOTES = DOWNVOTES - 1
             WHERE VOTE_ID = :1
             """,
             (vote_id,)
