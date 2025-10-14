@@ -95,7 +95,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
           {/* Rating controls */}
           <div className="flex items-center w-full mt-2 space-x-2">
             {/* # of ratings */}
-            <p className="mr-3 text-sm text-gray-700">1000</p>
+            <p className="mr-3 text-sm text-gray-700">{votes[0]?.upvotes || 0}</p>
             {/* plus */}
             <button className="cursor-pointer">
               <svg
@@ -114,7 +114,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </svg>
             </button>
             <p>|</p>
-            <p className="text-sm text-gray-700">1000</p>
+            <p className="text-sm text-gray-700">{votes[0]?.downvotes || 0}</p>
 
             {/* minus */}
             <button className="cursor-pointer">
