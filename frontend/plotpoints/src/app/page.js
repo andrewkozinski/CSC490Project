@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import './Homepage.css';
 import GenreContainer from "./components/GenreContainer";
 import Image from "next/image";
+import Review from "./components/HomepageReview";
+import './components/Homepage.css';
 
 
 export default function Home() {
@@ -53,7 +54,7 @@ export default function Home() {
           <p className="flex whitespace-nowrap">A unified review site for movies, tv shows and books</p>
 
         </div> */}
-        <div className="wrapper ml-20">
+        <div className="wrapper ml-10">
           <GenreContainer label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
               <img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => window.location.href = `/movies/review/${movie.id}`} style={{ cursor: 'pointer' }}/>
@@ -72,6 +73,15 @@ export default function Home() {
          
     
         </div>
+        <div className="ml-40 -mt-50">
+          <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
+          <div className="flex flex-col gap-5">
+            <Review className=""/>
+            <Review className=""/>
+            <Review className=""/>
+          </div>
+      </div>
+      
       </div>
       <Footer/>
     </div>
