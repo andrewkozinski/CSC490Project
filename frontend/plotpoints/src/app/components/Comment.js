@@ -13,6 +13,21 @@ export default function Comment({
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [showReplyBox, setShowReplyBox] = useState(false);
 
+  const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
+  const [downvotes, setDownvotes] = useState(votes.downvotes || 0);
+
+  const handleUpvote = async () => {
+    console.log(`Upvoting comment ${commentId}`);
+    // Implement upvote logic here
+    setUpvotes((prev) => prev + 1);
+  }
+
+  const handleDownvote = async () => {
+    console.log(`Downvoting comment ${commentId}`);
+    // Implement downvote logic here
+    setDownvotes((prev) => prev + 1);
+  }
+
   return (
     <div className="flex flex-col relative">
       <div className="relative flex border-1 shadow-xl rounded-md m-1 p-3 h-28 max-w-3/4">
@@ -58,10 +73,10 @@ export default function Comment({
         {/* Bottom-right rating controls */}
         <div className="absolute bottom-2 right-4 flex items-center space-x-2">
           {/* # of ratings */}
-          <p className="text-sm text-gray-700">{votes.upvotes || 0}</p>
+          <p className="text-sm text-gray-700">{upvotes}</p>
 
           {/* plus */}
-          <button className="cursor-pointer hover:" onClick={() => {console.log("Upvote Clicked")}}>
+          <button className="cursor-pointer hover:" onClick={handleUpvote}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -78,10 +93,10 @@ export default function Comment({
             </svg>
           </button>
           <p>|</p>
-          <p className="ml-3 text-sm text-gray-700">{votes.downvotes || 0}</p>
+          <p className="ml-3 text-sm text-gray-700">{downvotes}</p>
 
           {/* minus */}
-          <button className="cursor-pointer mr-2" onClick={() => {console.log("Downvote Clicked")}}>
+          <button className="cursor-pointer mr-2" onClick={handleDownvote}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
