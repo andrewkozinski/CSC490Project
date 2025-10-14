@@ -56,7 +56,7 @@ export default function Comment({
 
   return (
     <div className="flex flex-col relative">
-      <div className="relative flex border-1 shadow-xl rounded-md m-1 p-3 h-28 max-w-3/4">
+      <div className="relative flex border-1 shadow-xl rounded-sm m-1 p-3 h-28 max-w-3/4">
         {/* Avatar and Text */}
         <div className="flex items-start">
           {/* Avatar circle */}
@@ -152,7 +152,7 @@ export default function Comment({
       <div>
         {showReplyBox && (
           <form
-            className="flex flex-col border h-35 rounded-md max-w-3/5 p-3 mb-2 ml-1 shadow-xl"
+            className="flex flex-col border h-35 rounded-sm max-w-3/5 p-3 mb-2 ml-1 mt-2 shadow-xl"
             onSubmit={(e) => {
               e.preventDefault(); // prevent page reload
               console.log("click");
@@ -161,7 +161,7 @@ export default function Comment({
           >
             <textarea
               placeholder="Write your reply..."
-              className="w-full border rounded-md p-2 resize-none focus:outline-none"
+              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
               value={commentText}
               onChange={onCommentTextChange}
             />
@@ -170,7 +170,7 @@ export default function Comment({
               type="submit"
               style={{ backgroundColor: "var(--color-brown)" }}
             >
-              Post
+              Reply
             </button>
           </form>
         )}

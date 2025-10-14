@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Star from "./Star";
+import fetchUserReview from "@/utils/fetchUserReview";
 
-export default function Rating({ label, placeholder, id, avgRating, media }) {
+export default function Rating({ label, placeholder, id, avgRating, media, reviews=[] }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");

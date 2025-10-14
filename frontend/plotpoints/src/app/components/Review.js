@@ -222,23 +222,23 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
       {/* Reply box */}
       {showReplyBox && (
-        <form className="flex flex-col border h-35 rounded-md p-3 mb-2 shadow-xl w-7/8" onSubmit={handleSubmit}>
+        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8" onSubmit={handleSubmit}>
           <textarea
             placeholder="Write your reply..."
             className="w-full border rounded-sm p-2 resize-none focus:outline-none"
             value={commentText}
             onChange={onCommentTextChange}
           />
-          <button className="cursor-pointer self-end mt-2 border-1 px-6 py-2 rounded-md text-sm" 
+          <button className="cursor-pointer self-end shadow-xl mt-2 px-6 py-2 rounded-sm text-sm" 
           type="submit"
           style={{backgroundColor:"var(--color-brown)"}}>
-            Post
+            Reply
           </button>
         </form>
       )}
 
       {/* Comments below review */}
-      <div className="flex w-full">
+      <div className="flex w-full ml-27 mb-6">
         <CommentList parentId={reviewId} parentType="review" refreshKey={refreshKey}/> {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>
