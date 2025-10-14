@@ -20,15 +20,35 @@ export default function Comment({
   const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
 
   const handleUpvote = async () => {
-    console.log(`Upvoting comment ${commentId}`);
-    // Implement upvote logic here
-    setUpvotes((prev) => prev + 1);
+    if (userVote === "up") {
+      // Remove upvote
+      setUpvotes((prev) => prev - 1);
+      setUserVote(null);
+      // Call API to remove upvote here
+    } else {
+      setUpvotes((prev) => prev + 1);
+      if (userVote === "down") {
+        setDownvotes((prev) => prev - 1);
+      }
+      setUserVote("up");
+      // Call API to add upvote and remove downvote here
+    }
   }
 
   const handleDownvote = async () => {
-    console.log(`Downvoting comment ${commentId}`);
-    // Implement downvote logic here
-    setDownvotes((prev) => prev + 1);
+    if (userVote === "down") {
+      // Remove downvote
+      setDownvotes((prev) => prev - 1);
+      setUserVote(null);
+      // API call to remove downvote here
+    } else {
+      setDownvotes((prev) => prev + 1);
+      if (userVote === "up") {
+        setUpvotes((prev) => prev - 1);
+      }
+      setUserVote("down");
+      // API call to add downvote and remove upvote here
+    }
   }
 
   return (
@@ -79,7 +99,7 @@ export default function Comment({
           <p className="text-sm text-gray-700">{upvotes}</p>
 
           {/* plus */}
-          <button className="cursor-pointer hover:" onClick={handleUpvote}>
+          <button className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""}`} onClick={handleUpvote}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -99,7 +119,7 @@ export default function Comment({
           <p className="ml-3 text-sm text-gray-700">{downvotes}</p>
 
           {/* minus */}
-          <button className="cursor-pointer mr-2" onClick={handleDownvote}>
+          <button className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""}`} onClick={handleDownvote}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
