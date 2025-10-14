@@ -98,6 +98,7 @@ async def get_reviews_by_media_type_and_id(media_type: str, media_id: str):
         user = await get_username_by_id(review["user_id"])
         review["username"] = user if user else "Unknown User"
         votes = vote.get_vote_by_review_id(review["review_id"])
+        review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
     return {"reviews": reviews_by_media_and_id}
 
