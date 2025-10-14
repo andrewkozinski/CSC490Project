@@ -68,6 +68,13 @@ async def delete_review(delete_request: DeleteReviewRequest):
 @router.get("/all")
 async def get_all_reviews():
     all_reviews = reviews.get_all_reviews()
+
+    for review in all_reviews:
+        #user = await get_username_by_id(review["user_id"])
+        #review["username"] = user if user else "Unknown User"
+        votes = vote.get_vote_by_review_id(review["review_id"])
+        review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
     return {"reviews": all_reviews}
 
 #get all reviews by media type: book, tv shows, movies
