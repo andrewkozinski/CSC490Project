@@ -16,6 +16,9 @@ export default function Comment({
   const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
   const [downvotes, setDownvotes] = useState(votes.downvotes || 0);
 
+  //Track user upvote/downvote status to prevent multiple votes
+  const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+
   const handleUpvote = async () => {
     console.log(`Upvoting comment ${commentId}`);
     // Implement upvote logic here
