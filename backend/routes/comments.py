@@ -84,6 +84,10 @@ async def fetch_comments_for_review(review_id: int):
             else:
                 comment["username"] = "Unknown"
 
+            #Get votes for each comment
+            votes = vote.get_vote_by_comment_id(comment["comm_id"])
+            comment["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
         return {"comments": comments}
     else:
         return {"comments": []}
@@ -101,6 +105,10 @@ async def fetch_replies_to_comment(parent_comm_id: int):
                comment["username"] = username if username else "Unknown"
             else:
                 comment["username"] = "Unknown"
+
+            #Get votes for each comment
+            votes = vote.get_vote_by_comment_id(comment["comm_id"])
+            comment["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
         return {"comments": comments}
     else:
