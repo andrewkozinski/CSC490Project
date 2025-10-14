@@ -2,6 +2,7 @@
 import { useState } from "react";
 import CommentList from "./CommentList";
 import { useSession } from "next-auth/react";
+import Star from "./Star";
 
 export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}}) {
   const [showReplyBox, setShowReplyBox] = useState(false);
@@ -88,7 +89,21 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         {/* Example review content */}
         <div className="flex flex-col mx-5 justify-between h-full grow">
           <div>
-            <p className="underline underline-offset-4">{username}</p>
+            <div className="flex flex-row">
+              <p className="underline underline-offset-4 mr-3">{username}</p>
+              <div className="flex flex-row justify-center mb-3">
+                      {[...Array(5)].map((_, i) => {
+                        const value = i + 1;
+                        return (
+                          <Star
+                            key={value}
+                            className="fill-[#FFFC00] stroke-neutral-950 w-6 h-6"
+                          />
+                        );
+                      })}
+              </div>
+            </div>
+            {/* <p className="underline underline-offset-4">{username}</p> */}
             <p className="mt-3 text-gray-700 text-sm">{text}</p>
           </div>
 
