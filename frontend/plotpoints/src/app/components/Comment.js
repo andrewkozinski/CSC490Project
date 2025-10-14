@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {upvote, removeUpvote, downvote, removeDownvote} from '@/lib/votes.js';
 
 export default function Comment({
   username = "Anonymous",
@@ -24,14 +25,15 @@ export default function Comment({
       // Remove upvote
       setUpvotes((prev) => prev - 1);
       setUserVote(null);
-      // Call API to remove upvote here
+      removeUpvote(votes.vote_id);
     } else {
       setUpvotes((prev) => prev + 1);
       if (userVote === "down") {
         setDownvotes((prev) => prev - 1);
+        removeDownvote(votes.vote_id);
       }
       setUserVote("up");
-      // Call API to add upvote and remove downvote here
+      upvote(votes.vote_id);
     }
   }
 
@@ -40,14 +42,15 @@ export default function Comment({
       // Remove downvote
       setDownvotes((prev) => prev - 1);
       setUserVote(null);
-      // API call to remove downvote here
+      removeDownvote(votes.vote_id);
     } else {
       setDownvotes((prev) => prev + 1);
       if (userVote === "up") {
         setUpvotes((prev) => prev - 1);
+        removeUpvote(votes.vote_id);
       }
       setUserVote("down");
-      // API call to add downvote and remove upvote here
+      downvote(votes.vote_id);
     }
   }
 
