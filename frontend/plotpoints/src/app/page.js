@@ -43,11 +43,16 @@ export default function Home() {
   return (
     <div>
       <Header/>
+      <div className="items-center mt-10">
+          <h1 className="text-4xl text-center inria-serif-regular whitespace-nowrap">Welcome to Plot Points!</h1>
+          <p className="text-center whitespace-nowrap">A unified review site for movies, tv shows and books</p>
+      </div>
       <div className="flex grid-cols-2 items-center p-15">
-        <div className="items-top float:right place-items-top -mt-140">
+        {/* <div className="items-top float:right place-items-top -mt-140">
           <h1 className="text-4xl inria-serif-regular whitespace-nowrap">Welcome to Plot Points!</h1>
           <p className="flex whitespace-nowrap">A unified review site for movies, tv shows and books</p>
-        </div>
+
+        </div> */}
         <div className="wrapper ml-20">
           <GenreContainer label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
