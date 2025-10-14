@@ -117,6 +117,11 @@ async def get_reviews_by_user(user_id: int):
 @router.get("/by_user_and_media_type/{user_id}/{media_type}")
 async def get_reviews_by_user_and_media_type(user_id: int, media_type: str):
     reviews_by_user_and_type = reviews.get_reviews_by_user_id_and_media_type(user_id, media_type.lower())
+
+    for review in reviews_by_user_and_type:
+        votes = vote.get_vote_by_review_id(review["review_id"])
+        review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
     return {"reviews": reviews_by_user_and_type}
 
 #Get all reviews made by a user id for a specific media type and media id
