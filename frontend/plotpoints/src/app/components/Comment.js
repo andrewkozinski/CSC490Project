@@ -6,6 +6,7 @@ export default function Comment({
   currentUser = "Anonymous", // logged-in user
   reviewId = 0,
   commentId = 0,
+  votes = {}, // stores vote id, upvotes, and downvotes for a comment
 }) {
   const canEdit = currentUser === username;
   const [commentText, setCommentText] = useState("");
