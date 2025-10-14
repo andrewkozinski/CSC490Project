@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function PUT(req) {
   const { voteId } = await req.json();
   try {
-    const backendRes = await fetch(`${process.env.API_URL}/upvote/${voteId}`, {
+    const backendRes = await fetch(`${process.env.API_URL}/votes/upvote/${voteId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -23,7 +23,7 @@ export async function PUT(req) {
 export async function DELETE(req) {
   const { voteId } = await req.json();
   try {
-    const backendRes = await fetch(`${process.env.API_URL}/remove_upvote/${voteId}`, {
+    const backendRes = await fetch(`${process.env.API_URL}/votes/remove_upvote/${voteId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     });
