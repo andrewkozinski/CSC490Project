@@ -13,6 +13,49 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [refreshKey, setRefreshKey] = useState(0); // Key to trigger refresh of comments
+
+
+
+  //All the upvote/downvote logic
+  const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
+  const [downvotes, setDownvotes] = useState(votes.downvotes || 0);
+
+  //Track user upvote/downvote status to prevent multiple votes
+  const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+
+  const handleUpvote = async () => {
+    if (userVote === "up") {
+      // Remove upvote
+      setUpvotes((prev) => prev - 1);
+      setUserVote(null);
+      removeUpvote(votes.vote_id);
+    } else {
+      setUpvotes((prev) => prev + 1);
+      if (userVote === "down") {
+        setDownvotes((prev) => prev - 1);
+        removeDownvote(votes.vote_id);
+      }
+      setUserVote("up");
+      upvote(votes.vote_id);
+    }
+  }
+
+  const handleDownvote = async () => {
+    if (userVote === "down") {
+      // Remove downvote
+      setDownvotes((prev) => prev - 1);
+      setUserVote(null);
+      removeDownvote(votes.vote_id);
+    } else {
+      setDownvotes((prev) => prev + 1);
+      if (userVote === "up") {
+        setUpvotes((prev) => prev - 1);
+        removeUpvote(votes.vote_id);
+      }
+      setUserVote("down");
+      downvote(votes.vote_id);
+    }
+  }
   
   //Reply logic
   const handleReply = async (commentText) => {
@@ -96,9 +139,9 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
           {/* Rating controls */}
           <div className="flex items-center w-full mt-2 space-x-2">
             {/* # of ratings */}
-            <p className="mr-3 text-sm text-gray-700">{votes.upvotes || 0}</p>
+            <p className="mr-3 text-sm text-gray-700">{upvotes}</p>
             {/* plus */}
-            <button className="cursor-pointer">
+            <button className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""}`} onClick={handleUpvote}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -115,10 +158,10 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </svg>
             </button>
             <p>|</p>
-            <p className="text-sm text-gray-700">{votes.downvotes}</p>
+            <p className="text-sm text-gray-700">{downvotes}</p>
 
             {/* minus */}
-            <button className="cursor-pointer">
+            <button className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""}`} onClick={handleDownvote}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
