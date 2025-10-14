@@ -3,25 +3,21 @@ from database.vote import add_vote, delete_vote, increment_upvote, decrement_upv
 
 router = APIRouter()
 
-#Initializes votes for a review
-@router.post("/initialize_votes/{review_id}")
-async def initialize_votes(review_id: int):
-    result = add_vote(review_id, None, 0, 0)
+#Initializes votes for a review or comment
+@router.post("/initialize_votes/")
+async def initialize_votes(review_id: int = None, comment_id: int = None):
+
+    if(review_id is None and comment_id is None):
+        raise HTTPException(status_code=400, detail="Either review_id or comment_id must be provided")
+
+    result = add_vote(review_id, comment_id, 0, 0)
     if result is False:
         raise HTTPException(status_code=500, detail="Error initializing votes for review")
     return {"message": "Votes initialized successfully"}
 
-#Initialize votes for a comment
-@router.post("/initialize_votes/{review_id}/{comment_id}")
-async def initialize_votes_for_comment(review_id: int, comment_id: int):
-    result = add_vote(review_id, comment_id, 0, 0)
-    if result is False:
-        raise HTTPException(status_code=500, detail="Error initializing votes for comment")
-    return {"message": "Votes initialized successfully"}
-
 #Increments upvote count for a review or comment
 @router.put("/upvote/{review_id}")
-async def upvote(review_id: int, comment_id: int = None):
+async def upvote(review_id: int = None, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
     if vote_id is None:
         # If no vote record exists, initialize it
