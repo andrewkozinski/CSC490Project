@@ -104,7 +104,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </div>
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
-            <p className="mt-3 text-gray-700 text-sm">{text}</p>
+            <p className="mt-1 text-gray-700 text-sm">{text}</p>
           </div>
 
           {/* Rating controls */}
