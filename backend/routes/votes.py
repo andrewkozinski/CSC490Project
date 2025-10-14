@@ -16,52 +16,33 @@ async def initialize_votes(review_id: int = None, comment_id: int = None):
     return {"message": "Votes initialized successfully"}
 
 #Increments upvote count for a review or comment
-@router.put("/upvote/{review_id}")
-async def upvote(review_id: int = None, comment_id: int = None):
-    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
-    if vote_id is None:
-        # If no vote record exists, initialize it
-        init_result = add_vote(review_id, comment_id, 1, 0)
-        if init_result is False:
-            raise HTTPException(status_code=500, detail="Error initializing votes")
-        return {"message": "Upvoted successfully, votes initialized with value of 1"}
+@router.put("/upvote/{vote_id}")
+async def upvote(vote_id: int):
     result = increment_upvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error upvoting")
     return {"message": "Upvoted successfully, upvote count incremented"}
 
 #Decrements upvote count for a review or comment
-@router.put("/remove_upvote/{review_id}")
-async def remove_upvote(review_id: int = None, comment_id: int = None):
-    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
-    if vote_id is None:
-        raise HTTPException(status_code=404, detail="Vote record not found")
+@router.put("/remove_upvote/{vote_id}")
+async def remove_upvote(vote_id: int):
     result = decrement_upvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing upvote")
     return {"message": "Upvote removed successfully, upvote count decremented"}
 
 #Increments downvote count for a review or comment
-@router.put("/downvote/{review_id}")
-async def downvote(review_id: int = None, comment_id: int = None):
-    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
-    if vote_id is None:
-        # If no vote record exists, initialize it
-        init_result = add_vote(review_id, comment_id, 0, 1)
-        if init_result is False:
-            raise HTTPException(status_code=500, detail="Error initializing votes")
-        return {"message": "Downvoted successfully, votes initialized with value of 1"}
+@router.put("/downvote/{vote_id}")
+async def downvote(vote_id : int):
     result = increment_downvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error downvoting")
     return {"message": "Downvoted successfully, downvote count incremented"}
 
+
 #Decrements downvote count for a review or comment
-@router.put("/remove_downvote/{review_id}")
-async def remove_downvote(review_id: int = None, comment_id: int = None):
-    vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id) # Get the vote ID
-    if vote_id is None:
-        raise HTTPException(status_code=404, detail="Vote record not found")
+@router.put("/remove_downvote/{vote_id}")
+async def remove_downvote(vote_id: int):
     result = decrement_downvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing downvote")
@@ -83,7 +64,6 @@ async def delete_votes(review_id: int = None, comment_id: int = None):
 async def fetch_vote_id(review_id: int = None, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id)
     return {"vote_id": vote_id}
-
 
 @router.get("/all_votes")
 async def fetch_all_votes():
