@@ -91,8 +91,8 @@ export default function Rating({
         <>
           {/* If the user already has a review, show their rating */}
           {userReview ? (
-            <div className="text-center mt-2">
-              <p className="text-gray-700 text-sm mb-2">Your Rating:</p>
+            <div className="text-center">
+              <p className="text-black text-md">Your Rating</p>
               <div className="flex flex-row justify-center mb-2">
                 {[...Array(5)].map((_, i) => {
                   const value = i + 1;
@@ -108,7 +108,7 @@ export default function Rating({
                   );
                 })}
               </div>
-              <p className="text-gray-600 text-xs">
+              <p className="text-black-800 text-xs">
                 (You rated {userReview.rating}/5)
               </p>
             </div>
