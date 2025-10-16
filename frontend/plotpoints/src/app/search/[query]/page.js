@@ -45,7 +45,7 @@ export default function Home() {
         return (
             <div>
                 <Header />
-                <p>Loading...</p>
+                <p className="m-10 min-h-screen">Loading...</p>
                 <Footer />
             </div>
         );
@@ -56,47 +56,57 @@ export default function Home() {
             <Header />
             {/*For now, we're just displaying the results. Nothing fancy, search bar should be in here in future*/}
             {/*I am well aware this doesn't look good but it was more so just to get something displayed somewhere */}
-            <>
-                <h1 className="font-bold text-2xl">Movies</h1>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+            <div className="m-20">
+                <h1 className="inria-serif-bold text-center text-3xl -mt-5">Search for: {query}</h1>
+                <div className="ml-13">
+                <h1 className="font-bold text-2xl mt-20 mb-5">Movies</h1>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
                     {movieResults?.map(movie => (
                         !movie.img ? null : (
                             <div key={movie.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/movies/review/${movie.id}`}>
-                                <Image src={movie.img} alt={movie.title} width={100} height={150} />
-                                <div>{movie.title}</div>
-                                <div>{movie.year}</div>
+                                <Image src={movie.img} alt={movie.title} width={100} height={150} className="cover"/>
+                                <div className="text-center mt-3">
+                                    <div>{movie.title}</div>
+                                    <div>{movie.year}</div>
+                                </div>
+
+                                
                             </div>
                         )
                     ))}
                 </div>
 
-                <h1 className="font-bold text-2xl">TV Shows</h1>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+                <h1 className="font-bold text-2xl mb-5 mt-20">TV Shows</h1>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
                     {tvResults?.map(show => (
                         !show.img ? null : (
                         <div key={show.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/tv/review/${show.id}`}>
-                            <Image src={show.img ? show.img : null} alt={show.title} width={100} height={150} />
-                            <div>{show.title}</div>
-                            <div>{show.release_date}</div>
+                            <Image src={show.img ? show.img : null} alt={show.title} width={100} height={150} className="cover"/>
+                            <div className="text-center mt-3">
+                                <div>{show.title}</div>
+                                <div>{show.release_date}</div>
+                            </div>
                         </div>
                         )
                     ))}
                 </div>
 
-                <h1 className="font-bold text-2xl">Books</h1> 
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+                <h1 className="font-bold text-2xl mb-5 mt-20">Books</h1> 
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
                     {bookResults?.map(book => (
                         <div key={book.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/books/review/${book.id}`}>
-                            <Image src={book.thumbnailUrl ? book.thumbnailUrl : null} alt={book.title} width={100} height={150} />
-                            <div>{book.title}</div>
-                            <div>{book.authors?.join(", ")}</div>
-                            <div>{book.date_published}</div>
+                            <Image src={book.thumbnailUrl ? book.thumbnailUrl : null} alt={book.title} width={100} height={150} className="cover"/>
+                            <div className="text-center mt-3">
+                                <div>{book.title}</div>
+                                <div>{book.authors?.join(", ")}</div>
+                                <div>{book.date_published}</div>
+                            </div>    
                         </div>
                     ))}
                 </div>
+                </div>
                 
-                
-            </>
+            </div>
 
 
             <Footer />
