@@ -24,6 +24,7 @@ STREAMING_LINKS = {
             "Fandango at Home Free": "https://athome.fandango.com/content/browse/home",
             "Apple TV": "https://tv.apple.com/",
             "Paramount Plus": "https://www.paramountplus.com/",
+            "Paramount+ Amazon Channel": "https://www.amazon.com/gp/video/channel/paramountplus",
             "Paramount Plus Apple TV Channel": "https://tv.apple.com/",
             "Paramount Plus Apple TV Channel ": "https://tv.apple.com/",
             "Paramount+ with Showtime": "https://www.paramountpluswithshowtime.com/",
@@ -34,8 +35,61 @@ STREAMING_LINKS = {
             "Tubi TV": "https://tubitv.com/",
             "Peacock": "https://www.peacocktv.com/",
             "fuboTV": "https://www.fubo.tv/",
+            "MGM+ Amazon Channel": "https://www.amazon.com/gp/video/channel/1cd832b6-c298-4106-b4ff-dc9ce63304ea",
+            "MGM Plus": "https://www.mgmplus.com/",
         }
 
+STREAMING_LINKS_LOWER = {
+    "netflix": "https://www.netflix.com/",
+    "amazonprimevideo": "https://www.primevideo.com/",
+    "amazonprimevideowithads": "https://www.primevideo.com",
+    "disneyplus": "https://www.disneyplus.com/",
+    "appletvplus": "https://tv.apple.com/",
+    "youtube": "https://www.youtube.com/movies",
+    "hulu": "https://www.hulu.com/",
+    "fandangoathome": "https://athome.fandango.com/content/browse/home",
+    "fandangoathomefree": "https://athome.fandango.com/content/browse/home",
+    "appletv": "https://tv.apple.com/",
+    "paramountplus": "https://www.paramountplus.com/",
+    "paramountamazonchannel": "https://www.amazon.com/gp/video/channel/paramountplus",
+    "paramountplusappletvchannel": "https://tv.apple.com/",
+    "paramountplusappletvchannel": "https://tv.apple.com/",
+    "paramountwithshowtime": "https://www.paramountpluswithshowtime.com/",
+    "paramountrokupremiumchannel": "https://channelstore.roku.com/details/f04a1a2ece7f9ca611a97c045569cb9d:6e3fc82e82aae31af5401e62f222d1b1/paramount-plus",
+    "hbomax": "https://www.hbomax.com/",
+    "hbomaxamazonchannel": "https://www.amazon.com/gp/video/channel/05b8c408-6a8a-468a-a896-ef7432a1ce31",
+    "amazonvideo": "https://www.amazon.com/gp/video/storefront",
+    "googleplaymovies": "https://play.google.com/store/movies",
+    "tubitv": "https://tubitv.com/",
+    "peacock": "https://www.peacocktv.com/",
+    "fubotv": "https://www.fubo.tv/",
+    "mgmamazonchannel": "https://www.amazon.com/gp/video/channel/1cd832b6-c298-4106-b4ff-dc9ce63304ea",
+    "mgmplus": "https://www.mgmplus.com/",
+    "tnt": "https://www.tntdrama.com/",
+    "starz": "https://www.starz.com/us/en",
+    "showtime": "https://www.showtime.com/",
+    "discoveryplus": "https://www.discoveryplus.com/",
+    "discovery+": "https://www.discoveryplus.com/",
+    "disneynow": "https://disneynow.com/",
+    "netflixstandardwithads": "https://www.netflix.com/",
+    "youtubetv": "https://tv.youtube.com/",
+    "crunchyroll": "https://www.crunchyroll.com/",
+    "funimation": "https://www.funimation.com/",
+    "hbo": "https://www.hbo.com/",
+    "amc+": "https://www.amcplus.com/",
+    "amcplus": "https://www.amcplus.com/",
+    "amc+amazonchannel": "https://www.amazon.com/gp/video/channel/ccf8ed18-a5c7-44ec-95cd-94a8e9eaf3ec",
+    "peacockpremium": "https://www.peacocktv.com/",
+    "peacockpremiumwithads": "https://www.peacocktv.com/",
+    "peacockpremiumplus": "https://www.peacocktv.com/",
+    "crunchyrollamazonchannel": "https://www.amazon.com/gp/video/channel/ebbab5af-5874-4116-8d17-017a69c25d85",
+    "appletv+": "https://tv.apple.com/",
+    "paramount+withshowtime": "https://www.paramountpluswithshowtime.com/",
+    "paramount+rokupremiumchannel": "https://channelstore.roku.com/details/f04a1a2ece7f9ca611a97c045569cb9d:6e3fc82e82aae31af5401e62f222d1b1/paramount-plus",
+}
+
+def stream_link_remove_whitespace(name):
+    return name.replace(" ", "").lower()
 
 # A movie response has a genre id list, we need to map those ids to genre names
 # Usually, to grab this information you'd need the following:
@@ -307,7 +361,7 @@ async def get_movie_streaming_links(movie_id: int):
                     provider_info = {
                         "provider_name": provider['provider_name'],
                         "logo": f"https://image.tmdb.org/t/p/w500{provider['logo_path']}" if provider.get('logo_path') else "",
-                        "link": STREAMING_LINKS.get(provider['provider_name'], "")
+                        "link": STREAMING_LINKS_LOWER.get(stream_link_remove_whitespace(provider['provider_name']), "")
                     }
                     formatted_providers[category].append(provider_info)
 

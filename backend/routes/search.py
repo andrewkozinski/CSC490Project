@@ -10,7 +10,7 @@ Currently supports searching all by title, and genre.
 
 router = APIRouter()
 
-@router.get("/search/all")
+@router.get("/all")
 async def search_all(query: str, page: int = 1):
     # Search books, tv shows, and movies concurrently
     books_task = search_books(query, page)
@@ -29,7 +29,7 @@ async def search_all(query: str, page: int = 1):
     return combined_results
 
 
-@router.get("/search/all/genre")
+@router.get("/all/genre")
 async def search_all_by_genre(genre: str, page: int = 1):
     # Search books, tv shows, and movies by genre concurrently
     books_task = get_books_by_genre(genre, page)

@@ -62,5 +62,5 @@ def get_avg_ratings_by_movie_id(movie_id):
 
 #get average rating for tv shows
 def get_avg_ratings_by_tv_id(tv_id):
-    return get_avg_rating(int(tv_id), "tv show")
+    return get_avg_rating(int(tv_id), "tvshow")
 

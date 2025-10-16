@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import fetchUserReview from "@/utils/fetchUserReview";
 import Review from "../components/ProfileReview";
+import GenreContainer from "../components/GenreContainer";
 
 import { useSession } from "next-auth/react";
 
@@ -30,7 +31,7 @@ export default function ProfilePage(){
     return (
         <div>   
             <Header/>
-            <div className="grid grid-cols-4 gap-5 justify-center">
+            <div className="grid grid-cols-4 gap-5 justify-center min-h-screen">
                 <div className="mt-10 ml-25 w-65">
                     <Image 
                     className="aspect-square rounded-full mb-5 items-center border-2 border-[#dfcdb5]" 
@@ -56,15 +57,34 @@ export default function ProfilePage(){
                     <div className="flex flex-col gap-5">
                         <Review className=""/>
                         <Review className=""/>
+                        <Review className=""/>
+                    
                 </div>
          
                 </div>
                 <div className="m-15">
-                        <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
+                    <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
+                    <GenreContainer >
+          <img
+            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
+            title="Kpop Demon Hunters"
+            className="cover"
+          />
+          <img
+            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
+            title="Superman 2025"
+            className="cover"
+          />
+          <img
+            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
+            title="Weapons"
+            className="cover"
+          />
+          </GenreContainer>
                 </div> 
                 
             </div>
-            <Footer/>
+            <Footer className=""/>
         </div>
     );
 }
