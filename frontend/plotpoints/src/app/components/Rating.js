@@ -91,7 +91,7 @@ export default function Rating({
         <>
           {/* If the user already has a review, show their rating */}
           {userReview ? (
-            <div className="text-center mt-2">
+            <div className="text-center">
               <p className="text-black text-md">Your Rating</p>
               <div className="flex flex-row justify-center mb-2">
                 {[...Array(5)].map((_, i) => {
