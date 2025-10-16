@@ -73,9 +73,9 @@ export default function Home() {
          
     
         </div>
-        <div className="ml-40 -mt-50">
-          <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
-          <div className="flex flex-col gap-5">
+        <div className="ml-40 -mt-110">
+          <h2 className="text-2xl font-bold pl-10">Recent Reviews</h2>
+          <div className="flex flex-col gap-5 pt-9 ml-10">
             <Review className=""/>
             <Review className=""/>
             <Review className=""/>
