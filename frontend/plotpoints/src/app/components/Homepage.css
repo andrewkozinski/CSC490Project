@@ -10,8 +10,8 @@
 }
 
 .image {
-    max-width: 110;
-    max-height: 169;
+    max-width: 140;
+    max-height: 209;
     border-radius: 5;
     transition: all 0.3s ease-in-out;
 }
@@ -23,5 +23,5 @@
 }
 
 .wrapper {
-    width: 900;
+    width: 980;
 }
