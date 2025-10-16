@@ -119,9 +119,7 @@ function MovieReviewPage({ params }) {
                       ))}
                     </div>
                   </div>
-                )
-                }
-
+                )}
               </div>
             </div>
           </div>
@@ -132,9 +130,8 @@ function MovieReviewPage({ params }) {
             placeholder="Write a review!"
             media="movie"
             avgRating={avgRating}
-          >
-            {/* need to change later*/}
-          </Rating>
+            reviews={reviews}
+          />
           <div>
             <p>Reviews:</p>
             <ReviewList reviewData={reviews} />

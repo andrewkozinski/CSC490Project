@@ -1,6 +1,7 @@
 import oracledb
 #import connect
 from database import connect
+from database.vote import delete_comment_vote
 
 def get_new_comm_id():
     connection, cursor = connect.start_connection()
@@ -60,14 +61,13 @@ def delete_comment(comm_id):
         return False
 
     try:
-        new_text = "deleted comment"
+        delete_comment_vote(comm_id)
+
         cursor.execute(
             """
-            UPDATE COMMENTS 
-                SET COMM_TEXT = :1
-            WHERE COMM_ID = :2
+            DELETE FROM COMMENTS WHERE COMM_ID = :1
             """,
-            (new_text, comm_id)
+            (comm_id,)
         )
         if cursor.rowcount == 0:  # nothing deleted
             print(f"Error: COMM_ID {comm_id} does not exist.")
@@ -80,6 +80,32 @@ def delete_comment(comm_id):
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error deleting review:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def delete_all_comments(review_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        cursor.execute(
+            """
+            DELETE FROM COMMENTS WHERE REVIEW_ID = :1
+            """,
+            (review_id,)
+        )
+        deleted_comments = cursor.rowcount
+        if deleted_comments > 0:
+            print(f"Deleted {deleted_comments} comment(s) for REVIEW_ID {review_id}.")
+            connection.commit()
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting comment:", error_obj.message)
         return False
 
     finally:
@@ -186,6 +212,41 @@ def get_comments_by_review_id(review_id):
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error fetching comments by review id:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def get_comments_by_parent_comm_id(parent_comm_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM COMMENTS
+            WHERE PARENT_COMM_ID = :1
+            """,
+            (parent_comm_id,)
+        )
+        rows = cursor.fetchall()
+        comments = []
+        for row in rows:
+            comment = {
+                "comm_id": row[0],
+                "review_id": row[1],
+                "user_id": row[2],
+                "comm_text": row[3],
+                "parent_comm_id": row[4]
+            }
+            comments.append(comment)
+        return comments
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching comments by parent comm id:", error_obj.message)
         return None
 
     finally:
