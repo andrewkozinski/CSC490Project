@@ -158,8 +158,8 @@ async def initialize_votes_for_all_reviews():
             print(f"Error initializing votes for review ID {review_id}")
     return {"message": "Votes initialized for all reviews"}
 
-@router.get("/get_review_image/{media_type}/{media_id}")
-async def get_review_image(media_type: str, media_id: str):
+@router.get("/get_review_data/{media_type}/{media_id}")
+async def get_review_data(media_type: str, media_id: str):
     #Call the appropriate function based on media type
     if media_type == "movie":
         return movies.get_movie(int(media_id))
