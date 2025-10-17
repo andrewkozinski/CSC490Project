@@ -156,3 +156,17 @@ async def initialize_votes_for_all_reviews():
         if vote_result is False:
             print(f"Error initializing votes for review ID {review_id}")
     return {"message": "Votes initialized for all reviews"}
+
+@router.get("/get_recent_reviews")
+async def get_recent_reviews(limit: int = 3):
+    recent_reviews = reviews.get_recent_reviews(limit)
+    if recent_reviews is None:
+        return {"reviews": []}
+
+    for review in recent_reviews:
+        user = await get_username_by_id(review["user_id"])
+        review["username"] = user if user else "Unknown User"
+        votes = vote.get_vote_by_review_id(review["review_id"])
+        review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
+    return {"reviews": recent_reviews}
