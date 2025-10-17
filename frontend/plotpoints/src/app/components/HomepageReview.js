@@ -1,6 +1,6 @@
 import Star from "./Star";
 
-export default function HomepageReview() {
+export default function HomepageReview({reviewData}) {
     return (
         <div className="grid grid-cols-2 rounded-[1px] w-max" onClick={() => window.location.href = `/movies/review/1061474`}>
             <img
