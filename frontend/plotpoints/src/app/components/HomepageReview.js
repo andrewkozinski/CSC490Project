@@ -14,7 +14,7 @@ export default function HomepageReview({reviewData}) {
     };
 
     return (
-        <div className="grid grid-cols-2 rounded-[1px] w-max" onClick={() => window.location.href = `/movies/review/1061474`}>
+        <div className="grid grid-cols-2 rounded-[1px] w-max" onClick={() => window.location.href = `/${media_type}/review/${media_id}`}>
             <img
                 src={img}
                 title={title}
