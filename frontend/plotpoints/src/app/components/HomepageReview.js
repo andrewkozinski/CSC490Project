@@ -1,6 +1,18 @@
 import Star from "./Star";
 
 export default function HomepageReview({reviewData}) {
+
+    const {title, img, review_text, username, /*profilePicUrl,*/ rating, media_type, media_id} = reviewData || {
+        title: "Superman",
+        img: "https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg",
+        review_text: "An awesome take on a classic superhero story!",
+        username: "Username",
+        //profilePicUrl: null,
+        rating: 5,
+        media_type: "movie",
+        media_id: 1061474
+    };
+
     return (
         <div className="grid grid-cols-2 rounded-[1px] w-max" onClick={() => window.location.href = `/movies/review/1061474`}>
             <img
