@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from database import reviews, vote
 from routes.auth import verify_jwt_token, get_user_id_from_token
 from routes.profiles import get_username_by_id
+from routes import books, movies, tvshows
 
 class CreateReviewRequest(BaseModel):
     #user_id: int #Commented out since JWT token will provide user id
@@ -157,6 +158,19 @@ async def initialize_votes_for_all_reviews():
             print(f"Error initializing votes for review ID {review_id}")
     return {"message": "Votes initialized for all reviews"}
 
+@router.get("/get_review_image/{media_type}/{media_id}")
+async def get_review_image(media_type: str, media_id: str):
+    #Call the appropriate function based on media type
+    if media_type is "movie":
+        return movies.get_movie(int(media_id))
+    elif media_type is "tvshow":
+        return tvshows.get_tvshow(int(media_id))
+    elif media_type is "book":
+        return books.get_book_details(media_id)
+    HTTPException(status_code=400, detail="Invalid media type")
+    return None
+
+
 @router.get("/get_recent_reviews")
 async def get_recent_reviews(limit: int = 3):
     recent_reviews = reviews.get_recent_reviews(limit)
@@ -168,5 +182,8 @@ async def get_recent_reviews(limit: int = 3):
         review["username"] = user if user else "Unknown User"
         votes = vote.get_vote_by_review_id(review["review_id"])
         review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
+        #Get image for the media item
+
 
     return {"reviews": recent_reviews}
