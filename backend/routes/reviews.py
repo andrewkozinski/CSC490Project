@@ -184,7 +184,8 @@ async def get_recent_reviews(limit: int = 3):
         votes = vote.get_vote_by_review_id(review["review_id"])
         review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
-        #Get image for the media item
-
+        #Get data for the reviewed item
+        media_data = await get_review_data(review["media_type"], review["media_id"])
+        review["media_data"] = media_data if media_data else {}
 
     return {"reviews": recent_reviews}
