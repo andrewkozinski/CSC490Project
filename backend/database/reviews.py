@@ -337,5 +337,3 @@ def get_recent_reviews(limit=3):
 
     finally:
         connect.stop_connection(connection, cursor)
-
-print(get_recent_reviews(3))
