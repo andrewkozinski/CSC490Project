@@ -161,13 +161,16 @@ async def initialize_votes_for_all_reviews():
 @router.get("/get_review_data/{media_type}/{media_id}")
 async def get_review_data(media_type: str, media_id: str):
     #Call the appropriate function based on media type
-    if media_type == "movie":
-        return movies.get_movie(int(media_id))
-    elif media_type == "tvshow":
-        return tvshows.get_tvshow(int(media_id))
-    elif media_type == "book":
-        return books.get_book_details(media_id)
-    raise HTTPException(status_code=400, detail="Invalid media type")
+    try:
+        if media_type == "movie":
+            return await movies.get_movie(int(media_id))
+        elif media_type == "tvshow":
+            return await tvshows.get_tvshow(int(media_id))
+        elif media_type == "book":
+            return await books.get_book_details(media_id)
+        raise HTTPException(status_code=400, detail="Invalid media type")
+    except:
+        raise HTTPException(status_code=500, detail="Error fetching media details")
 
 @router.get("/get_recent_reviews")
 async def get_recent_reviews(limit: int = 3):
