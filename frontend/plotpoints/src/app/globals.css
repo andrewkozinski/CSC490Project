@@ -55,6 +55,15 @@
   transition: all 0.3s ease-in-out;
 }
 
+.cover-search {
+  border-radius: 5;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  width: 120px;
+  height: 175px;
+  object-fit: cover;
+  transition: all 0.3s ease-in-out;
+}
+
 .cover:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(0,0,0,0.7);
