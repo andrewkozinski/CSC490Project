@@ -11,7 +11,8 @@ export default function Home() {
 
     //Get search query from URL
     const { query } = useParams();
-    console.log("Search query:", query);
+    const decodedQuery = decodeURIComponent(query);
+    console.log("Search query:", decodedQuery);
 
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ export default function Home() {
     useEffect(() => {
         const fetchSearchResults = async () => {
             try {
-                const response = await fetch(`/api/search/${encodeURIComponent(query)}`);
+                const response = await fetch(`/api/search/${encodeURIComponent(decodedQuery)}`);
                 const data = await response.json();
                 console.log("Search results data:", data);
                 setResults(data.results || []);//full results
@@ -57,7 +58,7 @@ export default function Home() {
             {/*For now, we're just displaying the results. Nothing fancy, search bar should be in here in future*/}
             {/*I am well aware this doesn't look good but it was more so just to get something displayed somewhere */}
             <div className="m-20">
-                <h1 className="inria-serif-bold text-center text-3xl -mt-5">Search for: {query}</h1>
+                <h1 className="inria-serif-bold text-center text-3xl -mt-5">Search for: {decodedQuery}</h1>
                 <div className="ml-13">
                 <h1 className="font-bold text-2xl mt-20 mb-5">Movies</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
