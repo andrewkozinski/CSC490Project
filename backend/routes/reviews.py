@@ -193,18 +193,18 @@ async def get_recent_reviews(limit: int = 3):
 
         media_data = await get_review_data(review["media_type"], review["media_id"])
         review["full_media_data"] = media_data if media_data else {}
-        # if media_data:
-        #     if review["media_type"] == "book":
-        #         print("HI")
-        #         #print("MEDIA DATA FOR BOOK REVIEW:", media_data)
-        #         #review["img"] = media_data["thumbnailUrl"]
-        #         #review["title"] = media_data["title"]
-        #     elif review["media_type"] == "movie":
-        #         review["img"] = await media_data["img"]
-        #         review["title"] = await media_data["title"]
-        #     elif review["media_type"] == "tvshow":
-        #         review["img"] = await media_data["img"]
-        #         review["title"] = await media_data["title"]
+
+        if media_data:
+            if review["media_type"] == "book":
+                #print("MEDIA DATA FOR BOOK REVIEW:", media_data)
+                review["img"] = media_data.thumbnailUrl
+                review["title"] = media_data.title
+            elif review["media_type"] == "movie":
+                review["img"] = media_data.img
+                review["title"] = media_data.title
+            elif review["media_type"] == "tvshow":
+                review["img"] = media_data.img
+                review["title"] = media_data.title
 
 
     return {"reviews": recent_reviews}
