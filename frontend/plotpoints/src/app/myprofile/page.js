@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
-import fetchUserReview from "@/utils/fetchUserReview";
 import Review from "../components/ProfileReview";
 
 import { useSession } from "next-auth/react";
