@@ -44,8 +44,8 @@ export default function ProfilePage(){
                         <h1 className="text-3xl text-center inria-serif-regular">{session ? session.user.name : "Error: Username not found"}</h1>
                         <p className="text-center border-y-1 self-center">{"User's bio here"}</p>
                         <div className="grid grid-cols-2">
-                            <p className="text-center">Followers</p>
-                            <p className="text-center">Following</p>
+                            <Link className="text-center m-1" href="/myprofile/followers">Followers</Link>
+                            <Link className="text-center m-1" href="/signin/following">Following</Link>
                         </div>
  
                     </div>
