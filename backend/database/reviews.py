@@ -307,3 +307,33 @@ def edit_review(review_id, review_text):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_recent_reviews(limit=3):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM ADMIN.REVIEWS
+            ORDER BY REVIEW_ID DESC
+            FETCH FIRST :1 ROWS ONLY
+            """,
+            (limit,)
+        )
+        rows = cursor.fetchall()
+        reviews = []
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching recent reviews:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
