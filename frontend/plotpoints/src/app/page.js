@@ -14,6 +14,7 @@ export default function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [trendingShows, setTrendingShows] = useState([]);
   const [trendingBooks, setTrendingBooks] = useState([]);
+  const [recentReviews, setRecentReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,15 +23,18 @@ export default function Home() {
         const moviesResponse = await fetch('/api/movies/trending');
         const showsResponse = await fetch('/api/tv/trending');
         const booksResponse = await fetch('/api/books/trending');
+        const reviewsResponse = await fetch('/api/reviews/get/recent_reviews');
         const moviesData = await moviesResponse.json();
         const showsData = await showsResponse.json();
         const booksData = await booksResponse.json();
+        const reviewsData = await reviewsResponse.json();
         console.log(moviesData);
         console.log(showsData);
         setTrendingMovies(moviesData);
         setTrendingShows(showsData);
         console.log(booksData);
         setTrendingBooks(booksData);
+        setRecentReviews(reviewsData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching trending data:", error);
