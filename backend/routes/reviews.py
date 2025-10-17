@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from database import reviews, vote
+from database.trending_books import convert_book_id_back_to_str as get_book_str_from_id
 from routes.auth import verify_jwt_token, get_user_id_from_token
 from routes.profiles import get_username_by_id
 from routes import books, movies, tvshows
@@ -185,7 +186,25 @@ async def get_recent_reviews(limit: int = 3):
         review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
         #Get data for the reviewed item
+
+        if review["media_type"] == "book":
+            #Convert media_id to book id string
+            review["media_id"] = get_book_str_from_id(review["media_id"])
+
         media_data = await get_review_data(review["media_type"], review["media_id"])
-        review["media_data"] = media_data if media_data else {}
+        review["full_media_data"] = media_data if media_data else {}
+        # if media_data:
+        #     if review["media_type"] == "book":
+        #         print("HI")
+        #         #print("MEDIA DATA FOR BOOK REVIEW:", media_data)
+        #         #review["img"] = media_data["thumbnailUrl"]
+        #         #review["title"] = media_data["title"]
+        #     elif review["media_type"] == "movie":
+        #         review["img"] = await media_data["img"]
+        #         review["title"] = await media_data["title"]
+        #     elif review["media_type"] == "tvshow":
+        #         review["img"] = await media_data["img"]
+        #         review["title"] = await media_data["title"]
+
 
     return {"reviews": recent_reviews}
