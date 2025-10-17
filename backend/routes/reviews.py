@@ -205,6 +205,7 @@ async def get_recent_reviews(limit: int = 3):
             elif review["media_type"] == "tvshow":
                 review["img"] = media_data.img
                 review["title"] = media_data.title
+                review["media_type"] = "tv"
 
 
     return {"reviews": recent_reviews}
