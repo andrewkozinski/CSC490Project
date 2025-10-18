@@ -2,6 +2,35 @@ import oracledb
 #import connect
 from database import connect
 
+def create_profile(user_id, profile_pic, bio):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            INSERT INTO PROFILE (USER_ID, PROFILE_PIC, BIO)
+            VALUES (:1, :2, :3)
+            """,
+            (user_id, profile_pic, bio)
+        )
+        connection.commit()
+        print("Profile created successfully.")
+
+    except oracledb.IntegrityError as e:
+        # ORA-00001 occurs when a unique constraint is violated
+        error_obj, = e.args
+        print("Integrity error:", error_obj.message)
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error creating profile:", error_obj.message)
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
 def update_bio(user_id, new_bio):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
