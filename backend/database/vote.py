@@ -377,7 +377,6 @@ def get_vote_id_by_review_and_comment_id(review_id, comment_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-
 def get_all_votes():
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -411,4 +410,35 @@ def get_all_votes():
     finally:
         connect.stop_connection(connection, cursor)
 
-print(get_vote_id_by_review_and_comment_id(9, None))
+def vote_exists(user_id, vote_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT 1
+            FROM ADMIN.VOTE
+            WHERE USER_ID = :1 AND VOTE_ID = :2
+            """,
+            (user_id, vote_id)
+        )
+
+        result = cursor.fetchone()
+
+        if result:
+            print(f"Vote with USER_ID {user_id} and VOTE_ID {vote_id} exists.")
+            return True
+        else:
+            print(f"No vote found for USER_ID {user_id} and VOTE_ID {vote_id}.")
+            return False
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error checking vote:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
