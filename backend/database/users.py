@@ -2,6 +2,8 @@ from pydantic import EmailStr
 
 import oracledb
 from database import connect
+
+from profile import create_profile
 #import connect
 
 def add_user(username, hashed_password, email):
@@ -19,6 +21,7 @@ def add_user(username, hashed_password, email):
             (user_id, username, hashed_password, email)
         )
         connection.commit()
+        create_profile(user_id, "", "No Description.") # empty profile pic, default bio
         return {"user_id": user_id}
 
     except oracledb.IntegrityError as e:
