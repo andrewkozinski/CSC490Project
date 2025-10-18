@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from database.users import get_by_id
+from database import profile
 
 router = APIRouter()
 
