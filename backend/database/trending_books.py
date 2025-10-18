@@ -36,3 +36,32 @@ def get_top_books_reviewed():
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def convert_book_id_back_to_str(book_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT BOOK_STR
+            FROM BOOKID_MAPPING
+            WHERE BOOK_ID = :1
+            """,
+            (book_id,)
+        )
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error while converting book ID:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
