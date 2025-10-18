@@ -47,7 +47,7 @@ async def create_review(review: CreateReviewRequest):
         vote_result = vote.add_vote(review_id, None, 0, 0)
         return {"message": "Review created successfully", "review_id": review_id}
     else:
-        HTTPException(status_code=500, detail="Failed to create review. Please try again.")
+        raise HTTPException(status_code=500, detail="Failed to create review. Please try again.")
 
 @router.put("/edit/{review_id}")
 async def edit_review(review_id: int, review_text: str, jwt_token: str):
