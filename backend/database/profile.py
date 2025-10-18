@@ -96,3 +96,27 @@ def update_profile_pic(user_id, new_profile_pic):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_profile(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute("SELECT * FROM PROFILE WHERE USER_ID = :1"), (user_id,)
+        row = cursor.fetchone()
+        profile = {
+            "user_id": row[0],
+            "profile_pic": row[1],
+            "bio": row[2]
+        }
+        return profile
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching user profile:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
