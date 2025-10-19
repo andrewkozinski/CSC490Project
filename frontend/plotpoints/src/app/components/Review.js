@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommentList from "./CommentList";
 import { useSession } from "next-auth/react";
-import {upvote, removeUpvote, downvote, removeDownvote} from '@/lib/votes.js';
+import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 import Star from "./Star";
 
 export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0}) {
@@ -15,7 +15,25 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [refreshKey, setRefreshKey] = useState(0); // Key to trigger refresh of comments
 
+  //Fetch user voting status
+  useEffect(() => {
+    const fetchVoteStatus = async () => {
+      if (!session?.accessToken) {
+        console.error("No session access token found");
+        return;
+      }
 
+      try {
+        const data = await fetchUserVote(votes.vote_id, session.accessToken);
+        setUserVote(data);
+        console.log("Fetched user vote status:", data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchVoteStatus();
+  }, [session?.accessToken, votes.vote_id]);  
 
   //All the upvote/downvote logic
   const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
