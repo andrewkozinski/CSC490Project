@@ -31,7 +31,7 @@ export default function Comment({
       try {
         const data = await fetchUserVote(votes.vote_id, jwtToken);
         setUserVote(data);
-        console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
+        //console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
       } catch (error) {
         console.error(error.message);
       }
@@ -45,15 +45,15 @@ export default function Comment({
       // Remove upvote
       setUpvotes((prev) => prev - 1);
       setUserVote(null);
-      removeUpvote(votes.vote_id);
+      removeUpvote(votes.vote_id, jwtToken);
     } else {
       setUpvotes((prev) => prev + 1);
       if (userVote === "down") {
         setDownvotes((prev) => prev - 1);
-        removeDownvote(votes.vote_id);
+        removeDownvote(votes.vote_id, jwtToken);
       }
       setUserVote("up");
-      upvote(votes.vote_id);
+      upvote(votes.vote_id, jwtToken);
     }
   }
 
@@ -62,15 +62,15 @@ export default function Comment({
       // Remove downvote
       setDownvotes((prev) => prev - 1);
       setUserVote(null);
-      removeDownvote(votes.vote_id);
+      removeDownvote(votes.vote_id, jwtToken);
     } else {
       setDownvotes((prev) => prev + 1);
       if (userVote === "up") {
         setUpvotes((prev) => prev - 1);
-        removeUpvote(votes.vote_id);
+        removeUpvote(votes.vote_id, jwtToken);
       }
       setUserVote("down");
-      downvote(votes.vote_id);
+      downvote(votes.vote_id, jwtToken);
     }
   }
 
