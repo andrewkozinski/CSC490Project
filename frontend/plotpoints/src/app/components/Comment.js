@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {upvote, removeUpvote, downvote, removeDownvote} from '@/lib/votes.js';
+import { useState, useEffect } from "react";
+import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 
 export default function Comment({
   username = "Anonymous",
@@ -19,6 +19,26 @@ export default function Comment({
 
   //Track user upvote/downvote status to prevent multiple votes
   const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+
+  //Fetch user voting status
+  useEffect(() => {
+    const fetchVoteStatus = async () => {
+      if (!jwtToken) {
+        console.error("No JWT token found");
+        return;
+      }
+
+      try {
+        const data = await fetchUserVote(votes.vote_id, jwtToken);
+        setUserVote(data);
+        console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchVoteStatus();
+  }, [session?.accessToken, votes.vote_id]);  
 
   const handleUpvote = async () => {
     if (userVote === "up") {
