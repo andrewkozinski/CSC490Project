@@ -64,27 +64,30 @@ def update_bio(user_id, new_bio):
     finally:
         connect.stop_connection(connection, cursor)
 
-def update_profile_pic(user_id, new_profile_pic):
+def update_profile_pic(user_id, file_path):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
         return
 
     try:
+        with open(file_path, "rb") as f:
+            blob_data = f.read()
+
         cursor.execute(
             """
             UPDATE PROFILE
             SET PROFILE_PIC = :1
             WHERE USER_ID = :2
             """,
-            (new_profile_pic, user_id)
+            (blob_data, user_id)
         )
 
         if cursor.rowcount == 0:  # no rows updated
             print(f"Error: USER_ID {user_id} does not exist.")
         else:
             connection.commit()
-            print(f"Profile Pic for USER_ID {user_id} updated successfully to '{new_profile_pic}'.")
+            print(f"Profile Pic for USER_ID {user_id} updated successfully.")
 
     except oracledb.IntegrityError as e:
         error_obj, = e.args
