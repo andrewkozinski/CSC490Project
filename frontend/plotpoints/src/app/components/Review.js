@@ -10,6 +10,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   //CurrentUser should fetch the current user
   const { data: session } = useSession();
   const canEdit = session?.user?.name === username;
+  const jwtToken = session?.accessToken;
 
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
@@ -18,15 +19,15 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   //Fetch user voting status
   useEffect(() => {
     const fetchVoteStatus = async () => {
-      if (!session?.accessToken) {
-        console.error("No session access token found");
+      if (!jwtToken) {
+        console.error("No JWT token found");
         return;
       }
 
       try {
-        const data = await fetchUserVote(votes.vote_id, session.accessToken);
+        const data = await fetchUserVote(votes.vote_id, jwtToken);
         setUserVote(data);
-        console.log("Fetched user vote status:", data);
+        console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
       } catch (error) {
         console.error(error.message);
       }
@@ -72,7 +73,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         removeUpvote(votes.vote_id);
       }
       setUserVote("down");
-      downvote(votes.vote_id);
+      downvote(votes.vote_id, jwtToken);
     }
   }
   
