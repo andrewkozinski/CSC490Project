@@ -1,6 +1,7 @@
 import oracledb
 #import connect
 from database import connect
+from database.user_vote import delete_all_user_vote
 
 def get_new_vote_id():
     connection, cursor = connect.start_connection()
@@ -71,6 +72,7 @@ def delete_vote(vote_id): # singular vote
             print(f"Error: VOTE_ID {vote_id} does not exist.")
             return False
         else:
+            delete_all_user_vote(vote_id)
             connection.commit()
             print(f"Vote with VOTE_ID {vote_id} deleted successfully.")
             return True
@@ -90,6 +92,15 @@ def delete_review_vote(review_id):
         return False
 
     try:
+        cursor.execute( # retrieve vote_id to delete user votes from
+            """
+            SELECT VOTE_ID FROM ADMIN.VOTE WHERE REVIEW_ID = :1
+            """,
+            (review_id,)
+        )
+        vote_id = cursor.fetchone()[0]
+        delete_all_user_vote(vote_id)
+
         cursor.execute(
             """
             DELETE FROM ADMIN.VOTE WHERE REVIEW_ID = :1
