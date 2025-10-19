@@ -1,3 +1,15 @@
+async function handleHttpError(response) {
+  if (response.status === 401) {
+    console.log("User not logged in or session expired");
+    //Display a modal or toast notification here
+    alert("Session expired, please sign in to continue.");
+    throw new Error("JWT Error: Unauthorized");
+  }
+  else {
+    throw new Error("HTTP Error: " + response.status);
+  }
+}
+
 //Upvote stuff
 export async function upvote(voteId, jwt_token) {
   const response = await fetch(`/api/votes/upvotes`, {
@@ -10,8 +22,7 @@ export async function upvote(voteId, jwt_token) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Upvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
@@ -28,8 +39,7 @@ export async function removeUpvote(voteId, jwt_token) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Remove upvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
@@ -47,8 +57,7 @@ export async function downvote(voteId, jwtToken) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Downvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
@@ -65,8 +74,7 @@ export async function removeDownvote(voteId, jwt_token) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Remove downvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
