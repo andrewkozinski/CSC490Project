@@ -1,9 +1,12 @@
-async function handleJwtError(response) {
+async function handleHttpError(response) {
   if (response.status === 401) {
     console.log("User not logged in or session expired");
     //Display a modal or toast notification here
     alert("Session expired, please sign in to continue.");
     throw new Error("JWT Error: Unauthorized");
+  }
+  else {
+    throw new Error("HTTP Error: " + response.status);
   }
 }
 
