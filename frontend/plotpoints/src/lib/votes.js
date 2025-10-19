@@ -34,13 +34,14 @@ export async function removeUpvote(voteId) {
 }
 
 //Downvote stuff
-export async function downvote(voteId) {
+export async function downvote(voteId, jwtToken) {
   const response = await fetch(`/api/votes/downvotes`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
     },
-    body: JSON.stringify({ voteId }),
+    body: JSON.stringify({ voteId, jwtToken }),
   });
 
   if (!response.ok) {
