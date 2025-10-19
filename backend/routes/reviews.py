@@ -199,9 +199,11 @@ async def get_recent_reviews(limit: int = 3):
                 #print("MEDIA DATA FOR BOOK REVIEW:", media_data)
                 review["img"] = media_data.thumbnailUrl
                 review["title"] = media_data.title
+                review["media_type"] = "books"
             elif review["media_type"] == "movie":
                 review["img"] = media_data.img
                 review["title"] = media_data.title
+                review["media_type"] = "movies"
             elif review["media_type"] == "tvshow":
                 review["img"] = media_data.img
                 review["title"] = media_data.title
