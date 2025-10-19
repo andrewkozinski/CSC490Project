@@ -3,7 +3,7 @@ from pydantic import EmailStr
 import oracledb
 from database import connect
 
-from profile import create_profile
+from database.profile import create_profile #This is the import that works for the database and my end
 #import connect
 
 def add_user(username, hashed_password, email):
