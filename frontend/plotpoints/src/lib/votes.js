@@ -84,7 +84,7 @@ export async function fetchUserVote(voteId, jwtToken) {
     }
 
     const data = await response.json();
-    user_vote = data.user_vote;
+    const user_vote = data.user_vote;
     if(user_vote === "U") {
       return "up";
     }
