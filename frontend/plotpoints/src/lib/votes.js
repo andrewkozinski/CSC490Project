@@ -1,3 +1,12 @@
+async function handleJwtError(response) {
+  if (response.status === 401) {
+    console.log("User not logged in or session expired");
+    //Display a modal or toast notification here
+    alert("Session expired, please sign in to continue.");
+    throw new Error("JWT Error: Unauthorized");
+  }
+}
+
 //Upvote stuff
 export async function upvote(voteId, jwt_token) {
   const response = await fetch(`/api/votes/upvotes`, {
