@@ -59,7 +59,7 @@ def add_review(user_id, media_id, media_type, rating, review_text):
             )
             connection.commit()
 
-            add_vote(review_id, user_id, 0, 0)
+            add_vote(review_id, None, 0, 0)
 
             print("Review added successfully.")
             # Return the new review ID
