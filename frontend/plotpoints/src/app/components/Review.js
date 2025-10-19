@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommentList from "./CommentList";
 import { useSession } from "next-auth/react";
-import {upvote, removeUpvote, downvote, removeDownvote} from '@/lib/votes.js';
+import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 import Star from "./Star";
 
 export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0}) {
@@ -10,34 +10,53 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   //CurrentUser should fetch the current user
   const { data: session } = useSession();
   const canEdit = session?.user?.name === username;
+  const jwtToken = session?.accessToken;
 
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [refreshKey, setRefreshKey] = useState(0); // Key to trigger refresh of comments
 
+  //Fetch user voting status
+  useEffect(() => {
+    const fetchVoteStatus = async () => {
+      if (!jwtToken) {
+        console.error("No JWT token found");
+        return;
+      }
 
+      try {
+        const data = await fetchUserVote(votes.vote_id, jwtToken);
+        setUserVote(data);
+        //console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchVoteStatus();
+  }, [session?.accessToken, votes.vote_id]);  
 
   //All the upvote/downvote logic
   const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
   const [downvotes, setDownvotes] = useState(votes.downvotes || 0);
 
   //Track user upvote/downvote status to prevent multiple votes
-  const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+  const [userVote, setUserVote] = useState(null); // null, 'up', 'down'
 
   const handleUpvote = async () => {
     if (userVote === "up") {
       // Remove upvote
       setUpvotes((prev) => prev - 1);
       setUserVote(null);
-      removeUpvote(votes.vote_id);
+      removeUpvote(votes.vote_id, jwtToken);
     } else {
       setUpvotes((prev) => prev + 1);
       if (userVote === "down") {
         setDownvotes((prev) => prev - 1);
-        removeDownvote(votes.vote_id);
+        removeDownvote(votes.vote_id, jwtToken);
       }
       setUserVote("up");
-      upvote(votes.vote_id);
+      upvote(votes.vote_id, jwtToken);
     }
   }
 
@@ -46,15 +65,15 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
       // Remove downvote
       setDownvotes((prev) => prev - 1);
       setUserVote(null);
-      removeDownvote(votes.vote_id);
+      removeDownvote(votes.vote_id, jwtToken);
     } else {
       setDownvotes((prev) => prev + 1);
       if (userVote === "up") {
         setUpvotes((prev) => prev - 1);
-        removeUpvote(votes.vote_id);
+        removeUpvote(votes.vote_id, jwtToken);
       }
       setUserVote("down");
-      downvote(votes.vote_id);
+      downvote(votes.vote_id, jwtToken);
     }
   }
   
