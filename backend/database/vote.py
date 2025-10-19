@@ -130,6 +130,15 @@ def delete_comment_vote(comment_id):
         return False
 
     try:
+        cursor.execute( # retrieve vote_id to delete user votes from
+            """
+            SELECT VOTE_ID FROM ADMIN.VOTE WHERE COMMENT_ID = :1
+            """,
+            (comment_id,)
+        )
+        vote_id = cursor.fetchone()[0]
+        delete_all_user_vote(vote_id)
+
         cursor.execute(
             """
             DELETE FROM ADMIN.VOTE WHERE COMMENT_ID = :1
