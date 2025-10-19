@@ -67,3 +67,22 @@ export async function removeDownvote(voteId) {
 
   return await response.json();
 }
+
+//Fetch user voting status
+export async function fetchUserVote(voteId, jwt) {
+  const response = await fetch(`/api/votes/fetch_user_vote`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`
+    },
+    body: JSON.stringify({ voteId, jwt })
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.detail || 'Fetch user vote failed');
+  }
+
+  return await response.json();
+}
