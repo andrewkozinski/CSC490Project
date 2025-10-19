@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from database.vote import add_vote, delete_vote, increment_upvote, decrement_upvote, increment_downvote, decrement_downvote, get_vote_id_by_review_and_comment_id, get_all_votes
-from database.user_vote import vote_exists, add_user_vote, delete_user_vote, delete_all_user_vote
+from database.user_vote import vote_exists, add_user_vote, delete_user_vote, delete_all_user_vote, get_vote_type, get_all_user_votes
 from routes.auth import verify_jwt_token, get_user_id_from_token
 
 router = APIRouter()
@@ -17,13 +17,48 @@ async def initialize_votes(review_id: int = None, comment_id: int = None):
         raise HTTPException(status_code=500, detail="Error initializing votes for review")
     return {"message": "Votes initialized successfully"}
 
+@router.get("/get_all_votes")
+async def get_user_votes():
+    votes = get_all_user_votes()
+    if votes is not None:
+        return {"user_votes": votes}
+    raise HTTPException(status_code=500, detail="Error fetching user votes")
+
 #Increments upvote count for a review or comment
 @router.put("/upvote/{vote_id}")
-async def upvote(vote_id: int):
-    result = increment_upvote(vote_id)
-    if result is False:
-        raise HTTPException(status_code=500, detail="Error upvoting")
-    return {"message": "Upvoted successfully, upvote count incremented"}
+async def upvote(vote_id: int, jwt_token: str):
+
+    #Verify JWT token
+    verify_jwt_token(jwt_token)
+
+    #Get the user_id from the token
+    user_id = get_user_id_from_token(jwt_token)
+
+    #Check if the user has already upvoted
+    existing_vote = get_vote_type(user_id, vote_id)
+
+    if existing_vote is None:
+        #Add user vote record
+        add_user_vote(user_id, vote_id, "U")
+        result = increment_upvote(vote_id)
+        #Check if there was an error
+        if result is False:
+            raise HTTPException(status_code=500, detail="Error upvoting")
+        return {"message": "Upvoted successfully, upvote count incremented"}
+    elif existing_vote == "U":
+        #Already has an upvote, do nothing or return a message
+        return {"message": "User has already upvoted"}
+    elif existing_vote == "D":
+        #User had downvoted before, remove downvote and add upvote
+        delete_user_vote(user_id, vote_id)
+        add_user_vote(user_id, vote_id, "U")
+        decrement_downvote(vote_id)
+        result = increment_upvote(vote_id)
+        if result is False:
+            raise HTTPException(status_code=500, detail="Error changing downvote to upvote")
+        return {"message": "Changed downvote to upvote successfully"}
+
+    raise HTTPException(status_code=500, detail="Unexpected error during upvote")
 
 #Decrements upvote count for a review or comment
 @router.put("/remove_upvote/{vote_id}")
