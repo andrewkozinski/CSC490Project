@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from database.vote import add_vote, delete_vote, increment_upvote, decrement_upvote, increment_downvote, decrement_downvote, get_vote_id_by_review_and_comment_id, get_all_votes
 from database.user_vote import vote_exists, add_user_vote
+from routes.auth import verify_jwt_token, get_user_id_from_token
 
 router = APIRouter()
 
