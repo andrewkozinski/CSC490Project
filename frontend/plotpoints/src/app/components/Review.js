@@ -41,7 +41,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   const [downvotes, setDownvotes] = useState(votes.downvotes || 0);
 
   //Track user upvote/downvote status to prevent multiple votes
-  const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+  const [userVote, setUserVote] = useState(null); // null, 'up', 'down'
 
   const handleUpvote = async () => {
     if (userVote === "up") {
