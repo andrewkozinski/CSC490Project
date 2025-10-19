@@ -1,4 +1,4 @@
-export async function POST(req) {
+export async function GET(req) {
   const { voteId, jwt } = await req.json();
 
   if (!voteId || !jwt) {
@@ -8,7 +8,7 @@ export async function POST(req) {
     });
   }
 
-  const backendUrl = `http://${process.env.API_URL}/get_user_vote/${encodeURIComponent(voteId)}`;
+  const backendUrl = `http://${process.env.API_URL}/get_user_vote/${encodeURIComponent(voteId)}?jwt=${encodeURIComponent(jwt)}`;
 
   const resp = await fetch(backendUrl, {
     method: 'GET',
@@ -16,7 +16,6 @@ export async function POST(req) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwt}`
     },
-    body: JSON.stringify({ jwt_token: jwt }),
   });
 
   const payload = await resp.json().catch(() => null);
