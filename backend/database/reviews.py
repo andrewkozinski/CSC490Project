@@ -7,6 +7,7 @@ from database.comments import delete_all_comments
 #from users import valid_user_id
 from database.users import valid_user_id
 from database.vote import delete_review_vote
+from database.vote import add_vote
 
 def format_review(row):
     return {
@@ -57,8 +58,11 @@ def add_review(user_id, media_id, media_type, rating, review_text):
                 (review_id, user_id, db_media_id, media_type, rating, review_text)
             )
             connection.commit()
+
+            add_vote(review_id, user_id, 0, 0)
+
             print("Review added successfully.")
-            # Return the new user ID
+            # Return the new review ID
             return review_id
 
         except oracledb.IntegrityError as e:
