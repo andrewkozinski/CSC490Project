@@ -1,34 +1,25 @@
+import { NextRequest, NextResponse } from "next/server";
+
 export async function GET(req) {
-  const { voteId, jwt } = await req.json();
+  const { searchParams } = new URL(req.url);
+  const voteId = searchParams.get("vote_id");
+  const jwtToken = searchParams.get("jwt_token");
 
-  if (!voteId || !jwt) {
-    return new Response(JSON.stringify({ error: 'voteId and jwt required' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
+  if (!voteId || !jwtToken) {
+    return NextResponse.json({ error: "Missing vote_id or jwt_token" }, { status: 400 });
   }
 
-  const backendUrl = `http://${process.env.API_URL}/get_user_vote/${encodeURIComponent(voteId)}?jwt=${encodeURIComponent(jwt)}`;
+  try {
+    const response = await fetch(`${process.env.API_URL}/votes/get_user_vote/${voteId}?jwt_token=${jwtToken}`);
+    if (!response.ok) {
+      const errorData = await response.json();
+      return NextResponse.json({ error: errorData.detail || "Error fetching user vote status" }, { status: response.status });
+    }
 
-  const resp = await fetch(backendUrl, {
-    method: 'GET',
-    headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwt}`
-    },
-  });
-
-  const payload = await resp.json().catch(() => null);
-
-  if (!resp.ok) {
-    return new Response(JSON.stringify({ error: payload?.detail || 'Failed to fetch user vote' }), {
-      status: resp.status || 502,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (err) {
+    console.error("Error calling the backend:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-
-  return new Response(JSON.stringify(payload), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
 }
