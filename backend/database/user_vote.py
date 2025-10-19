@@ -53,8 +53,7 @@ def delete_user_vote(user_id, vote_id):
         connection.commit()
 
         return {
-            "user_id": user_id,
-            "vote_id": vote_id,
+            "Success": True,
         }
 
     except oracledb.IntegrityError as e:
@@ -68,6 +67,36 @@ def delete_user_vote(user_id, vote_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+def delete_all_user_vote(vote_id):
+    connection, cursor = connect.start_connection()
+
+    if not connection or not cursor:
+        return {"error": "Failed to connect to database.", "code": 500}
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM USER_VOTE 
+            WHERE VOTE_ID = :1
+            """,
+            (vote_id,)
+        )
+        connection.commit()
+
+        return {
+            "Success": True,
+        }
+
+    except oracledb.IntegrityError as e:
+        error_obj, = e.args
+        return {"error": "Integrity error: " + error_obj.message, "code": 400}
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        return {"error": "Database error: " + error_obj.message, "code": 500}
+
+    finally:
+        connect.stop_connection(connection, cursor)
 
 def vote_exists(user_id, vote_id):
     connection, cursor = connect.start_connection()
