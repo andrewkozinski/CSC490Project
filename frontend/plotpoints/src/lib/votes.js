@@ -1,11 +1,12 @@
 //Upvote stuff
-export async function upvote(voteId) {
+export async function upvote(voteId, jwt_token) {
   const response = await fetch(`/api/votes/upvotes`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt_token}`
     },
-    body: JSON.stringify({ voteId }),
+    body: JSON.stringify({ voteId, jwtToken: jwt_token }),
   });
 
   if (!response.ok) {
@@ -16,13 +17,14 @@ export async function upvote(voteId) {
   return await response.json();
 }
 
-export async function removeUpvote(voteId) {
+export async function removeUpvote(voteId, jwt_token) {
   const response = await fetch(`/api/votes/upvotes`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt_token}`
     },
-    body: JSON.stringify({ voteId }),
+    body: JSON.stringify({ voteId, jwt_token }),
   });
 
   if (!response.ok) {
@@ -57,8 +59,9 @@ export async function removeDownvote(voteId) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt_token}`
     },
-    body: JSON.stringify({ voteId }),
+    body: JSON.stringify({ voteId, jwt_token }),
   });
 
   if (!response.ok) {
