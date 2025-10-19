@@ -44,36 +44,46 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   const [userVote, setUserVote] = useState(null); // null, 'up', 'down'
 
   const handleUpvote = async () => {
-    if (userVote === "up") {
-      // Remove upvote
-      setUpvotes((prev) => prev - 1);
-      setUserVote(null);
-      removeUpvote(votes.vote_id, jwtToken);
-    } else {
-      setUpvotes((prev) => prev + 1);
-      if (userVote === "down") {
-        setDownvotes((prev) => prev - 1);
-        removeDownvote(votes.vote_id, jwtToken);
+    try {
+      if (userVote === "up") {
+        // Remove upvote
+        setUpvotes((prev) => prev - 1);
+        setUserVote(null);
+        removeUpvote(votes.vote_id, jwtToken);
+      } else {
+        setUpvotes((prev) => prev + 1);
+        if (userVote === "down") {
+          setDownvotes((prev) => prev - 1);
+          removeDownvote(votes.vote_id, jwtToken);
+        }
+        setUserVote("up");
+        upvote(votes.vote_id, jwtToken);
       }
-      setUserVote("up");
-      upvote(votes.vote_id, jwtToken);
+    }
+    catch (error) {
+      console.error("Error handling upvote:", error.message);
     }
   }
 
   const handleDownvote = async () => {
-    if (userVote === "down") {
-      // Remove downvote
-      setDownvotes((prev) => prev - 1);
-      setUserVote(null);
-      removeDownvote(votes.vote_id, jwtToken);
-    } else {
-      setDownvotes((prev) => prev + 1);
-      if (userVote === "up") {
-        setUpvotes((prev) => prev - 1);
-        removeUpvote(votes.vote_id, jwtToken);
+    try {
+      if (userVote === "down") {
+        // Remove downvote
+        setDownvotes((prev) => prev - 1);
+        setUserVote(null);
+        removeDownvote(votes.vote_id, jwtToken);
+      } else {
+        setDownvotes((prev) => prev + 1);
+        if (userVote === "up") {
+          setUpvotes((prev) => prev - 1);
+          removeUpvote(votes.vote_id, jwtToken);
+        }
+        setUserVote("down");
+        downvote(votes.vote_id, jwtToken);
       }
-      setUserVote("down");
-      downvote(votes.vote_id, jwtToken);
+    }
+    catch (error) {
+      console.error("Error handling downvote:", error.message);
     }
   }
   
