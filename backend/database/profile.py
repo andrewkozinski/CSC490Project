@@ -2,7 +2,7 @@ import oracledb
 #import connect
 from database import connect
 
-def create_profile(user_id, profile_pic, bio):
+def create_profile(user_id, bio):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
@@ -11,10 +11,10 @@ def create_profile(user_id, profile_pic, bio):
     try:
         cursor.execute(
             """
-            INSERT INTO PROFILE (USER_ID, PROFILE_PIC, BIO)
-            VALUES (:1, :2, :3)
+            INSERT INTO PROFILE (USER_ID, BIO)
+            VALUES (:1, :2)
             """,
-            (user_id, profile_pic, bio)
+            (user_id, bio)
         )
         connection.commit()
         print("Profile created successfully.")
