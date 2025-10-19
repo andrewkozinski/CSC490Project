@@ -22,8 +22,7 @@ export async function upvote(voteId, jwt_token) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Upvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
@@ -40,8 +39,7 @@ export async function removeUpvote(voteId, jwt_token) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Remove upvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
@@ -59,8 +57,7 @@ export async function downvote(voteId, jwtToken) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Downvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
@@ -77,8 +74,7 @@ export async function removeDownvote(voteId, jwt_token) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Remove downvote failed');
+    handleHttpError(response);
   }
 
   return await response.json();
