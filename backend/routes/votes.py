@@ -142,6 +142,20 @@ async def remove_downvote(vote_id: int, jwt_token: str):
         raise HTTPException(status_code=500, detail="Error removing downvote")
     return {"message": "Downvote removed successfully, downvote count decremented"}
 
+#Get what a user voted on a review or comment
+@router.get("/get_user_vote/{vote_id}")
+async def get_user_vote(vote_id: int, jwt_token: str):
+    #Verify JWT token
+    verify_jwt_token(jwt_token)
+
+    #Get the user_id from the token
+    user_id = get_user_id_from_token(jwt_token)
+
+    existing_vote = get_vote_type(user_id, vote_id)
+
+    #It's fine if the user hasn't voted, just return None
+    return {"user_vote": existing_vote}
+
 #Deletes vote record for a review or comment
 #Not sure why we'd need this one but why not
 @router.delete("/delete/{review_id}")
