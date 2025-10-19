@@ -84,7 +84,15 @@ export async function fetchUserVote(voteId, jwtToken) {
     }
 
     const data = await response.json();
-    return data.user_vote;
+    user_vote = data.user_vote;
+    if(user_vote === "U") {
+      return "up";
+    }
+    else if(user_vote === "D") {
+      return "down";
+    }
+    return user_vote; // null if no vote
+
   } catch (err) {
     console.error("Error in getUserVote:", err);
     throw err;
