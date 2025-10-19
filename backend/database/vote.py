@@ -1,5 +1,8 @@
 import oracledb
 #import connect
+#from user_vote import delete_all_user_vote
+
+
 from database import connect
 from database.user_vote import delete_all_user_vote
 
@@ -14,10 +17,11 @@ def get_new_vote_id():
 
     connect.stop_connection(connection, cursor)
     if result and result[0] is not None:
-        return result[0] + 1 # Add one to maximum existing vote id
+        return result[0] + 1  # Add one to maximum existing vote id
     else:
         print("No votes found in the database.")
         return 0
+
 
 def add_vote(review_id, comment_id, upvotes, downvotes):
     connection, cursor = connect.start_connection()
@@ -43,7 +47,7 @@ def add_vote(review_id, comment_id, upvotes, downvotes):
         # ORA-00001 occurs when a unique constraint is violated
         error_obj, = e.args
         if "ORA-00001" in error_obj.message:
-            if "VOTE_ID" in error_obj.message: # PK
+            if "VOTE_ID" in error_obj.message:  # PK
                 print(f"Error: VOTE_ID {vote_id} already exists.")
         else:
             print("Integrity error:", error_obj.message)
@@ -55,7 +59,8 @@ def add_vote(review_id, comment_id, upvotes, downvotes):
     finally:
         connect.stop_connection(connection, cursor)
 
-def delete_vote(vote_id): # singular vote
+
+def delete_vote(vote_id):  # singular vote
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
@@ -85,6 +90,7 @@ def delete_vote(vote_id): # singular vote
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def delete_review_vote(review_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -92,7 +98,7 @@ def delete_review_vote(review_id):
         return False
 
     try:
-        cursor.execute( # retrieve vote_id to delete user votes from
+        cursor.execute(  # retrieve vote_id to delete user votes from
             """
             SELECT VOTE_ID FROM ADMIN.VOTE WHERE REVIEW_ID = :1
             """,
@@ -123,6 +129,7 @@ def delete_review_vote(review_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def delete_comment_vote(comment_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -130,7 +137,7 @@ def delete_comment_vote(comment_id):
         return False
 
     try:
-        cursor.execute( # retrieve vote_id to delete user votes from
+        cursor.execute(  # retrieve vote_id to delete user votes from
             """
             SELECT VOTE_ID FROM ADMIN.VOTE WHERE COMMENT_ID = :1
             """,
@@ -155,11 +162,12 @@ def delete_comment_vote(comment_id):
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error deleting review:", error_obj.message)
+        print("Database error deleting comment:", error_obj.message)
         return False
 
     finally:
         connect.stop_connection(connection, cursor)
+
 
 def get_vote_by_review_id(review_id):
     connection, cursor = connect.start_connection()
@@ -196,6 +204,7 @@ def get_vote_by_review_id(review_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def get_vote_by_comment_id(comment_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -231,6 +240,7 @@ def get_vote_by_comment_id(comment_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def increment_upvote(vote_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -262,6 +272,7 @@ def increment_upvote(vote_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
 
 def decrement_upvote(vote_id):
     connection, cursor = connect.start_connection()
@@ -295,6 +306,7 @@ def decrement_upvote(vote_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def increment_downvote(vote_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -327,6 +339,7 @@ def increment_downvote(vote_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def decrement_downvote(vote_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -358,6 +371,7 @@ def decrement_downvote(vote_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
 
 def get_vote_id_by_review_and_comment_id(review_id, comment_id):
     connection, cursor = connect.start_connection()
@@ -397,6 +411,7 @@ def get_vote_id_by_review_and_comment_id(review_id, comment_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def get_all_votes():
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
@@ -429,4 +444,3 @@ def get_all_votes():
 
     finally:
         connect.stop_connection(connection, cursor)
-

@@ -1,8 +1,8 @@
 import oracledb
-#from database import connect
+from database import connect
 
 
-import connect
+# import connect
 
 def add_user_vote(user_id, vote_id, vote_type):
     connection, cursor = connect.start_connection()
@@ -36,6 +36,7 @@ def add_user_vote(user_id, vote_id, vote_type):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def delete_user_vote(user_id, vote_id):
     connection, cursor = connect.start_connection()
 
@@ -67,6 +68,7 @@ def delete_user_vote(user_id, vote_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
 def delete_all_user_vote(vote_id):
     connection, cursor = connect.start_connection()
 
@@ -97,6 +99,7 @@ def delete_all_user_vote(vote_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
 
 def vote_exists(user_id, vote_id):
     connection, cursor = connect.start_connection()
@@ -130,6 +133,7 @@ def vote_exists(user_id, vote_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
 
 def print_user_votes():
     connection, cursor = connect.start_connection()
