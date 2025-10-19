@@ -62,7 +62,23 @@ async def upvote(vote_id: int, jwt_token: str):
 
 #Decrements upvote count for a review or comment
 @router.put("/remove_upvote/{vote_id}")
-async def remove_upvote(vote_id: int):
+async def remove_upvote(vote_id: int, jwt_token: str):
+
+    #Verify JWT token
+    verify_jwt_token(jwt_token)
+
+    #Get the user_id from the token
+    user_id = get_user_id_from_token(jwt_token)
+
+    #Check if the user has an upvote to remove
+    existing_vote = get_vote_type(user_id, vote_id)
+
+    if existing_vote != "U":
+        return {"message": "User has not upvoted, cannot remove upvote"}
+    #Remove user vote record
+    delete_user_vote(user_id, vote_id)
+
+    #Decrement the upvote count
     result = decrement_upvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing upvote")
