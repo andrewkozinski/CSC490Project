@@ -130,3 +130,34 @@ def vote_exists(user_id, vote_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_vote_type(user_id, vote_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT VOTE_TYPE
+            FROM USER_VOTE
+            WHERE USER_ID = :1 AND VOTE_ID = :2
+            """,
+            (user_id, vote_id)
+        )
+
+        result = cursor.fetchone()
+
+        if result:
+            return result[0]
+        else:
+            return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving vote type:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
