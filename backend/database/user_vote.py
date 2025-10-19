@@ -1,8 +1,8 @@
 import oracledb
-from database import connect
+#from database import connect
 
 
-# import connect
+import connect
 
 def add_user_vote(user_id, vote_id, vote_type):
     connection, cursor = connect.start_connection()
@@ -13,7 +13,7 @@ def add_user_vote(user_id, vote_id, vote_type):
     try:
         cursor.execute(
             """
-            INSERT INTO USER_VOTE (USER_ID, VOTE_ID, VOTE_TYPE)
+            INSERT INTO ADMIN.USER_VOTE (USER_ID, VOTE_ID, VOTE_TYPE)
             VALUES (:1, :2, :3)
             """,
             (user_id, vote_id, vote_type)
@@ -45,7 +45,7 @@ def delete_user_vote(user_id, vote_id):
     try:
         cursor.execute(
             """
-            SELECT 1 FROM USER_VOTE 
+            DELETE FROM ADMIN.USER_VOTE 
             WHERE USER_ID = :1 AND VOTE_ID = :2
             """,
             (user_id, vote_id)
@@ -76,7 +76,7 @@ def delete_all_user_vote(vote_id):
     try:
         cursor.execute(
             """
-            SELECT * FROM USER_VOTE 
+            DELETE FROM ADMIN.USER_VOTE 
             WHERE VOTE_ID = :1
             """,
             (vote_id,)
@@ -108,7 +108,7 @@ def vote_exists(user_id, vote_id):
         cursor.execute(
             """
             SELECT 1
-            FROM USER_VOTE
+            FROM ADMIN.USER_VOTE
             WHERE USER_ID = :1 AND VOTE_ID = :2
             """,
             (user_id, vote_id)
@@ -130,3 +130,13 @@ def vote_exists(user_id, vote_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def print_user_votes():
+    connection, cursor = connect.start_connection()
+    cursor.execute("SELECT * FROM ADMIN.USER_VOTE")
+    row = cursor.fetchall()
+    if row:
+        for row in row:
+            print(row)
+    else:
+        print("No result")
