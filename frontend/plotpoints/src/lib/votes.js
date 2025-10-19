@@ -74,8 +74,8 @@ export async function removeDownvote(voteId, jwt_token) {
 
 //Fetch user voting status
 export async function fetchUserVote(voteId, jwtToken) {
-  if (!voteId || !jwtToken) {
-    throw new Error("Missing voteId or jwtToken");
+  if (voteId === undefined || !jwtToken) {
+    throw new Error("Missing voteId or jwtToken. voteId: " + voteId + ", jwtToken: " + jwtToken);
   }
 
   try {
