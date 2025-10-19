@@ -1,5 +1,5 @@
 async function downvote(voteId, jwtToken) {
-  const response = await fetch(`http://${process.env.API_URL}/votes/downvote/${voteId}?jwt_token=${jwtToken}`, {
+  const response = await fetch(`http://${process.env.API_URL}/votes/downvote/${voteId}?jwt_token=${encodeURIComponent(jwtToken)}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
