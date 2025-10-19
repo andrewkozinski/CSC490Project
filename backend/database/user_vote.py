@@ -144,3 +144,63 @@ def print_user_votes():
             print(row)
     else:
         print("No result")
+
+def get_vote_type(user_id, vote_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT VOTE_TYPE
+            FROM USER_VOTE
+            WHERE USER_ID = :1 AND VOTE_ID = :2
+            """,
+            (user_id, vote_id)
+        )
+
+        result = cursor.fetchone()
+
+        if result:
+            return result[0]
+        else:
+            return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving vote type:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def get_all_user_votes():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT USER_ID, VOTE_ID, VOTE_TYPE
+            FROM USER_VOTE
+            """
+        )
+
+        results = cursor.fetchall()
+        votes = [
+            {'user_id': user_id, 'vote_id': vote_id, 'vote_type': vote_type}
+            for user_id, vote_id, vote_type in results
+        ]
+        return votes
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving all votes:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
