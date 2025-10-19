@@ -155,7 +155,7 @@ def get_vote_type(user_id, vote_id):
         cursor.execute(
             """
             SELECT VOTE_TYPE
-            FROM USER_VOTE
+            FROM ADMIN.USER_VOTE
             WHERE USER_ID = :1 AND VOTE_ID = :2
             """,
             (user_id, vote_id)
@@ -186,7 +186,7 @@ def get_all_user_votes():
         cursor.execute(
             """
             SELECT USER_ID, VOTE_ID, VOTE_TYPE
-            FROM USER_VOTE
+            FROM ADMIN.USER_VOTE
             """
         )
 
