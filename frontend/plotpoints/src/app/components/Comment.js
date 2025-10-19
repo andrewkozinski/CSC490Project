@@ -1,5 +1,7 @@
+"use client";
 import { useState, useEffect } from "react";
 import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
+import { useSession } from "next-auth/react";
 
 export default function Comment({
   username = "Anonymous",
@@ -9,7 +11,10 @@ export default function Comment({
   commentId = 0,
   votes = {}, // stores vote id, upvotes, and downvotes for a comment
 }) {
+  const { data: session } = useSession();
+  const jwtToken = session?.accessToken;
   const canEdit = currentUser === username;
+
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [showReplyBox, setShowReplyBox] = useState(false);
@@ -31,6 +36,7 @@ export default function Comment({
       try {
         const data = await fetchUserVote(votes.vote_id, jwtToken);
         setUserVote(data);
+        console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
         //console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
       } catch (error) {
         console.error(error.message);
