@@ -54,7 +54,7 @@ export async function downvote(voteId, jwtToken) {
   return await response.json();
 }
 
-export async function removeDownvote(voteId) {
+export async function removeDownvote(voteId, jwt_token) {
   const response = await fetch(`/api/votes/downvotes`, {
     method: 'DELETE',
     headers: {
