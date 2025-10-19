@@ -86,12 +86,39 @@ async def remove_upvote(vote_id: int, jwt_token: str):
 
 #Increments downvote count for a review or comment
 @router.put("/downvote/{vote_id}")
-async def downvote(vote_id : int):
-    result = increment_downvote(vote_id)
-    if result is False:
-        raise HTTPException(status_code=500, detail="Error downvoting")
-    return {"message": "Downvoted successfully, downvote count incremented"}
+async def downvote(vote_id : int, jwt_token: str):
 
+    #Verify JWT token
+    verify_jwt_token(jwt_token)
+
+    #Get the user_id from the token
+    user_id = get_user_id_from_token(jwt_token)
+
+    #Check if the user has already downvoted
+    existing_vote = get_vote_type(user_id, vote_id)
+
+    if existing_vote is None:
+        #Add user vote record
+        add_user_vote(user_id, vote_id, "D")
+        result = increment_downvote(vote_id)
+        #Check if there was an error
+        if result is False:
+            raise HTTPException(status_code=500, detail="Error downvoting")
+        return {"message": "Downvoted successfully, downvote count incremented"}
+    elif existing_vote == "D":
+        #Already has a downvote, do nothing or return a message
+        return {"message": "User has already downvoted"}
+    elif existing_vote == "U":
+        #User had upvoted before, remove upvote and add downvote
+        delete_user_vote(user_id, vote_id)
+        add_user_vote(user_id, vote_id, "D")
+        decrement_upvote(vote_id)
+        result = increment_downvote(vote_id)
+        if result is False:
+            raise HTTPException(status_code=500, detail="Error changing upvote to downvote")
+        return {"message": "Changed upvote to downvote successfully"}
+
+    raise HTTPException(status_code=500, detail="Unexpected error during downvote")
 
 #Decrements downvote count for a review or comment
 @router.put("/remove_downvote/{vote_id}")
