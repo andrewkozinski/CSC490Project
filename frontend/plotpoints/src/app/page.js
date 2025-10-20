@@ -83,7 +83,7 @@ export default function Home() {
           <div className="flex flex-col gap-5 pt-9 ml-10">
             {recentReviews?.map((review) => (
               <Review 
-                key={review.id}
+                key={review?.id}
                 reviewData={review}
               />
             ))}
