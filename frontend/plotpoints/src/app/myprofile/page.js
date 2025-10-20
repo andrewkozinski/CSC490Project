@@ -6,13 +6,18 @@ import Link from "next/link";
 import fetchUserReview from "@/utils/fetchUserReview";
 import Review from "../components/ProfileReview";
 import GenreContainer from "../components/GenreContainer";
+import Modal from "../components/EditModal";
 
+import {useState} from "react";
 import { useSession } from "next-auth/react";
 
 export default function ProfilePage(){
     const { data: session } = useSession();
     console.log("User session data:", session);
     
+    // For modal
+    const [showModal, setShowModal] = useState(false);
+
     //If no session exists, redirect to login
     //Can also be replaced with a forced redirect using useRouter from next/navigation
     if (!session) {
@@ -44,7 +49,13 @@ export default function ProfilePage(){
                     <div className="grid grid-rows-4 gap-2">
                         <div className="flex flex-row justify-center items-center">
                             <h1 className="text-3xl text-center inria-serif-regular">{session ? session.user.name : "Error: Username not found"}</h1>
-                            <img className="w-8 h-8 ml-3 hover:cursor-pointer hover:border-1 hover:border-transparent" src="/images/pencil.svg"></img>
+                            <img className="w-8 h-8 ml-3 hover:cursor-pointer hover:scale-110" src="/images/pencil.svg"
+                                 onClick={() => setShowModal(true)}/>
+                                 {showModal &&
+                                <Modal onClose={() => setShowModal(false)}>
+                                    Hello from the modal!
+                                </Modal>
+            }
                         </div>
                         <p className="text-center border-y-1 self-center">{"User's bio here"}</p>
                         <div className="grid grid-cols-2">
