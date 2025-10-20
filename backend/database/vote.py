@@ -1,6 +1,6 @@
 import oracledb
 #import connect
-#from user_vote import delete_all_user_vote
+from database.user_vote import delete_all_user_vote
 
 
 from database import connect
