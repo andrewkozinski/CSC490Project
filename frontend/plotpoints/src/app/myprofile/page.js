@@ -37,7 +37,7 @@ export default function ProfilePage(){
         <div>   
             <Header/>
             <div className="flex flex-row gap-5 justify-center min-h-screen">
-                <div className="mt-10 w-70 h-fit">
+                <div className="mt-10 ml-10 w-70 h-fit">
                     <Image 
                     className="aspect-square rounded-full mb-5 ml-6 border-2 border-[#dfcdb5]" 
                     src="/images/cat.jpg"
@@ -81,8 +81,8 @@ export default function ProfilePage(){
                         </div>
                         <p className="text-center border-y-1 self-center">{"User's bio here"}</p>
                         <div className="grid grid-cols-2">
-                            <p className="text-center">Followers</p>
-                            <p className="text-center">Following</p>
+                            <Link className="text-center">Followers</Link>
+                            <Link className="text-center">Following</Link>
                         </div>
  
                     </div>
