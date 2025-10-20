@@ -42,7 +42,10 @@ export default function ProfilePage(){
                     </Image>
                     {/* Get username */}
                     <div className="grid grid-rows-4 gap-2">
-                        <h1 className="text-3xl text-center inria-serif-regular">{session ? session.user.name : "Error: Username not found"}</h1>
+                        <div className="flex flex-row justify-center items-center">
+                            <h1 className="text-3xl text-center inria-serif-regular">{session ? session.user.name : "Error: Username not found"}</h1>
+                            <img className="w-8 h-8 ml-3 hover:cursor-pointer hover:border-1 hover:border-transparent" src="/images/pencil.svg"></img>
+                        </div>
                         <p className="text-center border-y-1 self-center">{"User's bio here"}</p>
                         <div className="grid grid-cols-2">
                             <p className="text-center">Followers</p>
