@@ -53,9 +53,32 @@ export default function ProfilePage(){
                                  onClick={() => setShowModal(true)}/>
                                  {showModal &&
                                 <Modal onClose={() => setShowModal(false)}>
-                                    Hello from the modal!
+                                    <h1 className="text-2xl text-center">Edit Profile</h1>
+                                    <div className="flex flex-col w-full">   
+                                        <div className="flex flex-row w-full justify-around items-center mt-5">
+                                            <Image 
+                                                className="aspect-square rounded-full mb-5 border-2 border-[#dfcdb5]" 
+                                                src="/images/cat.jpg"
+                                                alt="User Image"
+                                                width="170"
+                                                height="170">
+                                            </Image> 
+                                            <button className="blue text-sm shadow py-1 px-5 w-fit h-fit rounded-sm">Choose image...</button>
+                                        </div>
+                                                                                        
+                                        <textarea
+                                        placeholder="Write a bio"
+                                        className="w-6/7 text-sm border rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
+                                        />
+                                        <button
+                                        className="brown text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                                        //onClick to save image and bio
+                                        > 
+                                        Save </button>
+                                    </div>
+                                    
                                 </Modal>
-            }
+                                }
                         </div>
                         <p className="text-center border-y-1 self-center">{"User's bio here"}</p>
                         <div className="grid grid-cols-2">

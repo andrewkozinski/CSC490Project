@@ -42,7 +42,7 @@ const Modal = ({ onClose, children, title }) => {
                             Close
                         </Link>
                     </div>
-                    {title && <h1>{title}</h1>}
+                    <h1 className="text-xl text-center">{title}</h1>
                     <div className="modal-body">{children}</div>
                 </div>
             </div>
