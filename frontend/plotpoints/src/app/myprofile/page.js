@@ -68,10 +68,10 @@ export default function ProfilePage(){
                                                                                         
                                         <textarea
                                         placeholder="Write a bio"
-                                        className="w-6/7 text-sm border rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
+                                        className="w-6/7 text-sm bg-[#dfcdb5] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
                                         />
                                         <button
-                                        className="brown text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                                        className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
                                         //onClick to save image and bio
                                         > 
                                         Save </button>
