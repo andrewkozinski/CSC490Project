@@ -4,7 +4,7 @@
 
 :root { /* CSS Variables */
   --gradient: linear-gradient(to bottom, #F3E9DC 60%, #B0E0E6);
-  --background: #F3E9DC;
+  --background: #dfcdb59e;
   --foreground: #000000;
   --color-blue: #B0E0E6;
   --color-brown: #7e675b96;
