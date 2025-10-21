@@ -35,7 +35,7 @@ export async function removeUpvote(voteId, jwt_token) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwt_token}`
     },
-    body: JSON.stringify({ voteId, jwt_token }),
+    body: JSON.stringify({ voteId, jwtToken: jwt_token }),
   });
 
   if (!response.ok) {
@@ -53,7 +53,7 @@ export async function downvote(voteId, jwtToken) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwtToken}`
     },
-    body: JSON.stringify({ voteId, jwtToken }),
+    body: JSON.stringify({ voteId, jwtToken: jwtToken }),
   });
 
   if (!response.ok) {
@@ -70,7 +70,7 @@ export async function removeDownvote(voteId, jwt_token) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwt_token}`
     },
-    body: JSON.stringify({ voteId, jwt_token }),
+    body: JSON.stringify({ voteId, jwtToken: jwt_token }),
   });
 
   if (!response.ok) {
