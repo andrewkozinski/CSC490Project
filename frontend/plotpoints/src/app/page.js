@@ -81,9 +81,9 @@ export default function Home() {
         <div className="ml-40 -mt-110">
           <h2 className="text-2xl font-bold pl-10">Recent Reviews</h2>
           <div className="flex flex-col gap-5 pt-9 ml-10">
-            {recentReviews?.map((review) => (
+            {recentReviews?.map((review, idx) => (
               <Review 
-                key={review.id}
+                key={review?.id ?? idx}
                 reviewData={review}
               />
             ))}

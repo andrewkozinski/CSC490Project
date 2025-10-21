@@ -21,10 +21,11 @@ export async function PUT(req) {
 }
 
 export async function DELETE(req) {
-  const { voteId, jwtToken } = await req.json();
+  const body = await req.json();
+  const { voteId, jwtToken } = body;
   try {
-    const backendRes = await fetch(`${process.env.API_URL}/votes/remove_downvote/${voteId}`, {
-      method: 'PUT',
+    const backendRes = await fetch(`${process.env.API_URL}/votes/remove_downvote/${voteId}?jwt_token=${jwtToken}`, {
+      method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     });
 
