@@ -25,7 +25,8 @@ export async function PUT(req) {
 }
 
 export async function DELETE(req) {
-  const { voteId, jwtToken } = await req.json();
+  const body = await req.json();
+  const { voteId, jwtToken } = body;
   try {
     const backendRes = await fetch(`${process.env.API_URL}/votes/remove_upvote/${voteId}?jwt_token=${jwtToken}`, {
       method: 'DELETE',
