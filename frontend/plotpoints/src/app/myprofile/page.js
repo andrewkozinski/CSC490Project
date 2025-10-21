@@ -81,8 +81,8 @@ export default function ProfilePage(){
                         </div>
                         <p className="text-center border-y-1 self-center">{"User's bio here"}</p>
                         <div className="grid grid-cols-2">
-                            <a className="text-center">Followers</a>
-                            <a className="text-center">Following</a>
+                            <Link className="text-center" href="">Followers</Link>
+                            <Link className="text-center" href="">Following</Link>
                         </div>
  
                     </div>
