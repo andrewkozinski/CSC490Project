@@ -1,8 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from database import reviews, vote
+from database.trending_books import convert_book_id_back_to_str as get_book_str_from_id
 from routes.auth import verify_jwt_token, get_user_id_from_token
 from routes.profiles import get_username_by_id
+from routes import books, movies, tvshows
 
 class CreateReviewRequest(BaseModel):
     #user_id: int #Commented out since JWT token will provide user id
@@ -45,7 +47,7 @@ async def create_review(review: CreateReviewRequest):
         vote_result = vote.add_vote(review_id, None, 0, 0)
         return {"message": "Review created successfully", "review_id": review_id}
     else:
-        HTTPException(status_code=500, detail="Failed to create review. Please try again.")
+        raise HTTPException(status_code=500, detail="Failed to create review. Please try again.")
 
 @router.put("/edit/{review_id}")
 async def edit_review(review_id: int, review_text: str, jwt_token: str):
@@ -156,3 +158,56 @@ async def initialize_votes_for_all_reviews():
         if vote_result is False:
             print(f"Error initializing votes for review ID {review_id}")
     return {"message": "Votes initialized for all reviews"}
+
+@router.get("/get_review_data/{media_type}/{media_id}")
+async def get_review_data(media_type: str, media_id: str):
+    #Call the appropriate function based on media type
+    try:
+        if media_type == "movie":
+            return await movies.get_movie(int(media_id))
+        elif media_type == "tvshow":
+            return await tvshows.get_tvshow(int(media_id))
+        elif media_type == "book":
+            return await books.get_book_details(media_id)
+        raise HTTPException(status_code=400, detail="Invalid media type")
+    except:
+        raise HTTPException(status_code=500, detail="Error fetching media details")
+
+@router.get("/get_recent_reviews")
+async def get_recent_reviews(limit: int = 3):
+    recent_reviews = reviews.get_recent_reviews(limit)
+    if recent_reviews is None:
+        return {"reviews": []}
+
+    for review in recent_reviews:
+        user = await get_username_by_id(review["user_id"])
+        review["username"] = user if user else "Unknown User"
+        votes = vote.get_vote_by_review_id(review["review_id"])
+        review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
+        #Get data for the reviewed item
+
+        if review["media_type"] == "book":
+            #Convert media_id to book id string
+            review["media_id"] = get_book_str_from_id(review["media_id"])
+
+        media_data = await get_review_data(review["media_type"], review["media_id"])
+        review["full_media_data"] = media_data if media_data else {}
+
+        if media_data:
+            if review["media_type"] == "book":
+                #print("MEDIA DATA FOR BOOK REVIEW:", media_data)
+                review["img"] = media_data.thumbnailUrl
+                review["title"] = media_data.title
+                review["media_type"] = "books"
+            elif review["media_type"] == "movie":
+                review["img"] = media_data.img
+                review["title"] = media_data.title
+                review["media_type"] = "movies"
+            elif review["media_type"] == "tvshow":
+                review["img"] = media_data.img
+                review["title"] = media_data.title
+                review["media_type"] = "tv"
+
+
+    return {"reviews": recent_reviews}

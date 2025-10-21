@@ -102,6 +102,7 @@ function BookReviewPage({ params }) {
             placeholder="Write a review!"
             media="book"
             avgRating={avgRating}
+            reviews={reviews}
           >
             {/* need to change later*/}
           </Rating>
