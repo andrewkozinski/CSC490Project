@@ -61,7 +61,7 @@ async def upvote(vote_id: int, jwt_token: str):
     raise HTTPException(status_code=500, detail="Unexpected error during upvote")
 
 #Decrements upvote count for a review or comment
-@router.put("/remove_upvote/{vote_id}")
+@router.delete("/remove_upvote/{vote_id}")
 async def remove_upvote(vote_id: int, jwt_token: str):
 
     #Verify JWT token
@@ -121,7 +121,7 @@ async def downvote(vote_id : int, jwt_token: str):
     raise HTTPException(status_code=500, detail="Unexpected error during downvote")
 
 #Decrements downvote count for a review or comment
-@router.put("/remove_downvote/{vote_id}")
+@router.delete("/remove_downvote/{vote_id}")
 async def remove_downvote(vote_id: int, jwt_token: str):
     #Verify JWT token
     verify_jwt_token(jwt_token)
