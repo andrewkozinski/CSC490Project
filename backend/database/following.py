@@ -68,7 +68,7 @@ def delete_following(follow_id, user_id):
         connect.stop_connection(connection, cursor)
 
 
-def delete_all_following(follow_id): # for account deletion
+def delete_all_following(follow_id):  # for account deletion
     connection, cursor = connect.start_connection()
 
     if not connection or not cursor:
@@ -119,16 +119,47 @@ def following_exists(follow_id, user_id):
         result = cursor.fetchone()
 
         if result:
-            print(f"Vote with USER_ID {user_id} and VOTE_ID {vote_id} exists.")
+            print(f"Following with FOLLOW_ID {follow_id} and USER_ID {user_id} exists.")
             return True
         else:
-            print(f"No vote found for USER_ID {user_id} and VOTE_ID {vote_id}.")
+            print(f"No following found with FOLLOW_ID {follow_id} and USER_ID {user_id}.")
             return False
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error checking vote:", error_obj.message)
+        print("Database error checking following:", error_obj.message)
         return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
+def get_all_following(follow_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM ADMIN.FOLLOWING
+            WHERE FOLLOW_ID = :1
+            """,
+            (follow_id,)
+        )
+
+        results = cursor.fetchall()
+        votes = [
+            {'follow_id': follow_id, 'user_id': user_id}
+            for follow_id, user_id in results
+        ]
+        return votes
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving followings:", error_obj.message)
+        return None
 
     finally:
         connect.stop_connection(connection, cursor)
