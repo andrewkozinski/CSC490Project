@@ -163,3 +163,35 @@ def get_all_following(follow_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+
+def get_follower_count(follow_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT COUNT(*) FROM ADMIN.FOLLOWING
+            WHERE FOLLOW_ID = :1
+            """,
+            (follow_id,)
+        )
+
+        result = cursor.fetchone()
+
+        if result:
+            follower_count = result[0]
+            return follower_count
+        else:
+            return 0
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving follower count:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
