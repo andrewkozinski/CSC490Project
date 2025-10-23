@@ -15,7 +15,8 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [refreshKey, setRefreshKey] = useState(0); // Key to trigger refresh of comments
 
-
+  const [showEditBox, setShowEditBox] = useState(false);
+  const [editText, setEditText] = useState("");
 
   //All the upvote/downvote logic
   const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
@@ -210,7 +211,10 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         {/* Edit/Delete buttons (top right) */}
         {canEdit && (
           <div className="absolute top-2 right-3 flex space-x-3">
-            <button className="cursor-pointer text-blue-600 hover:text-blue-800">
+            <button
+              className="cursor-pointer text-blue-600 hover:text-blue-800"
+              onClick={() => setShowEditBox((prev) => !prev)}
+            >
               Edit
             </button>
             <button className="cursor-pointer text-red-600 hover:text-red-800" onClick={deleteReview}>
@@ -219,6 +223,26 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
           </div>
         )}
       </div>
+      {showEditBox && (
+        <form className="flex flex-col mt-2 mb-2">
+          <div className="relative">
+            <textarea
+              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              placeholder="Write your edit here..."
+              maxLength={200}
+              rows={4}
+            />
+            <button
+              type="submit"
+              className="absolute bottom-2 right-2 px-4 py-1 brown rounded cursor-pointer border-1 text-sm"
+            >
+              Edit
+            </button>
+          </div>
+        </form>
+      )}
 
       {/* Reply box */}
       {showReplyBox && (
@@ -228,6 +252,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             className="w-full border rounded-sm p-2 resize-none focus:outline-none"
             value={commentText}
             onChange={onCommentTextChange}
+            maxLength={200}
           />
           <button className="cursor-pointer self-end mt-2 border-1 px-6 py-2 rounded-md text-sm" 
           type="submit"
