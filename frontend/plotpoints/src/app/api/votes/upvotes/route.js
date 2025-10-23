@@ -4,10 +4,10 @@ export async function PUT(req) {
   console.log("PUT request received in /api/votes/upvotes");
   const body = await req.json();
   //console.log("Parsed body:", body);
-  const { voteId } = body;
+  const { voteId, jwtToken } = body;
   console.log("voteId:", voteId);
   try {
-    const backendRes = await fetch(`${process.env.API_URL}/votes/upvote/${voteId}`, {
+    const backendRes = await fetch(`${process.env.API_URL}/votes/upvote/${voteId}?jwt_token=${jwtToken}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -25,10 +25,11 @@ export async function PUT(req) {
 }
 
 export async function DELETE(req) {
-  const { voteId } = await req.json();
+  const body = await req.json();
+  const { voteId, jwtToken } = body;
   try {
-    const backendRes = await fetch(`${process.env.API_URL}/votes/remove_upvote/${voteId}`, {
-      method: 'PUT',
+    const backendRes = await fetch(`${process.env.API_URL}/votes/remove_upvote/${voteId}?jwt_token=${jwtToken}`, {
+      method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     });
 

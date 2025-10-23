@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommentList from "./CommentList";
 import { useSession } from "next-auth/react";
-import {upvote, removeUpvote, downvote, removeDownvote} from '@/lib/votes.js';
+import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 import Star from "./Star";
 
 export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0}) {
@@ -10,6 +10,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   //CurrentUser should fetch the current user
   const { data: session } = useSession();
   const canEdit = session?.user?.name === username;
+  const jwtToken = session?.accessToken;
 
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
@@ -17,45 +18,74 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
   const [showEditBox, setShowEditBox] = useState(false);
   const [editText, setEditText] = useState("");
+  //Fetch user voting status
+  useEffect(() => {
+    const fetchVoteStatus = async () => {
+      if (!jwtToken) {
+        console.error("No JWT token found");
+        return;
+      }
+
+      try {
+        const data = await fetchUserVote(votes.vote_id, jwtToken);
+        setUserVote(data);
+        //console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchVoteStatus();
+  }, [session?.accessToken, votes.vote_id]);  
 
   //All the upvote/downvote logic
   const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
   const [downvotes, setDownvotes] = useState(votes.downvotes || 0);
 
   //Track user upvote/downvote status to prevent multiple votes
-  const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+  const [userVote, setUserVote] = useState(null); // null, 'up', 'down'
 
   const handleUpvote = async () => {
-    if (userVote === "up") {
-      // Remove upvote
-      setUpvotes((prev) => prev - 1);
-      setUserVote(null);
-      removeUpvote(votes.vote_id);
-    } else {
-      setUpvotes((prev) => prev + 1);
-      if (userVote === "down") {
-        setDownvotes((prev) => prev - 1);
-        removeDownvote(votes.vote_id);
+    try {
+      if (userVote === "up") {
+        // Remove upvote
+        setUpvotes((prev) => prev - 1);
+        setUserVote(null);
+        removeUpvote(votes.vote_id, jwtToken);
+      } else {
+        setUpvotes((prev) => prev + 1);
+        if (userVote === "down") {
+          setDownvotes((prev) => prev - 1);
+          removeDownvote(votes.vote_id, jwtToken);
+        }
+        setUserVote("up");
+        upvote(votes.vote_id, jwtToken);
       }
-      setUserVote("up");
-      upvote(votes.vote_id);
+    }
+    catch (error) {
+      console.error("Error handling upvote:", error.message);
     }
   }
 
   const handleDownvote = async () => {
-    if (userVote === "down") {
-      // Remove downvote
-      setDownvotes((prev) => prev - 1);
-      setUserVote(null);
-      removeDownvote(votes.vote_id);
-    } else {
-      setDownvotes((prev) => prev + 1);
-      if (userVote === "up") {
-        setUpvotes((prev) => prev - 1);
-        removeUpvote(votes.vote_id);
+    try {
+      if (userVote === "down") {
+        // Remove downvote
+        setDownvotes((prev) => prev - 1);
+        setUserVote(null);
+        removeDownvote(votes.vote_id, jwtToken);
+      } else {
+        setDownvotes((prev) => prev + 1);
+        if (userVote === "up") {
+          setUpvotes((prev) => prev - 1);
+          removeUpvote(votes.vote_id, jwtToken);
+        }
+        setUserVote("down");
+        downvote(votes.vote_id, jwtToken);
       }
-      setUserVote("down");
-      downvote(votes.vote_id);
+    }
+    catch (error) {
+      console.error("Error handling downvote:", error.message);
     }
   }
   
@@ -246,7 +276,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
       {/* Reply box */}
       {showReplyBox && (
-        <form className="flex flex-col border h-35 rounded-md p-3 mb-2 shadow-xl w-7/8" onSubmit={handleSubmit}>
+        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8" onSubmit={handleSubmit}>
           <textarea
             placeholder="Write your reply..."
             className="w-full border rounded-sm p-2 resize-none focus:outline-none"
@@ -254,16 +284,16 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             onChange={onCommentTextChange}
             maxLength={200}
           />
-          <button className="cursor-pointer self-end mt-2 border-1 px-6 py-2 rounded-md text-sm" 
+          <button className="cursor-pointer self-end shadow-xl mt-2 px-6 py-2 rounded-sm text-sm" 
           type="submit"
           style={{backgroundColor:"var(--color-brown)"}}>
-            Post
+            Reply
           </button>
         </form>
       )}
 
       {/* Comments below review */}
-      <div className="flex w-full">
+      <div className="flex w-full ml-27 mb-6">
         <CommentList parentId={reviewId} parentType="review" refreshKey={refreshKey}/> {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>

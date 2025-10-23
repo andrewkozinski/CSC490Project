@@ -3,9 +3,11 @@ import oracledb
 
 #MAJOR NOTE: This import is what works for both render (where the backend is hosted) and at least for me (andrew) locally
 from database import connect #If this import doesn't work change it temporarily, but be sure to change it back before pushing because the backend won't understand "import connect" when it's on render
-
+from database.comments import delete_all_comments
 #from users import valid_user_id
 from database.users import valid_user_id
+from database.vote import delete_review_vote
+from database.vote import add_vote
 
 def format_review(row):
     return {
@@ -56,8 +58,11 @@ def add_review(user_id, media_id, media_type, rating, review_text):
                 (review_id, user_id, db_media_id, media_type, rating, review_text)
             )
             connection.commit()
+
+            add_vote(review_id, None, 0, 0)
+
             print("Review added successfully.")
-            # Return the new user ID
+            # Return the new review ID
             return review_id
 
         except oracledb.IntegrityError as e:
@@ -79,13 +84,17 @@ def add_review(user_id, media_id, media_type, rating, review_text):
         print(f"User with USER_ID {user_id} does not exist.")
         return None
 
-def delete_review(review_id):
+def delete_review(review_id): # execute order 66
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
-        return
+        return None
 
     try:
+        delete_all_comments(review_id) # execute children
+
+        delete_review_vote(review_id) # execute step children
+
         cursor.execute(
             """
             DELETE FROM ADMIN.REVIEWS WHERE REVIEW_ID = :1
@@ -299,6 +308,36 @@ def edit_review(review_id, review_text):
         error_obj, = e.args
         print("Database error modifying review text:", error_obj.message)
         return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+def get_recent_reviews(limit=3):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM ADMIN.REVIEWS
+            ORDER BY REVIEW_ID DESC
+            FETCH FIRST :1 ROWS ONLY
+            """,
+            (limit,)
+        )
+        rows = cursor.fetchall()
+        reviews = []
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching recent reviews:", error_obj.message)
+        return None
 
     finally:
         connect.stop_connection(connection, cursor)

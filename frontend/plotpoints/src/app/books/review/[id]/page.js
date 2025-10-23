@@ -78,7 +78,7 @@ function BookReviewPage({ params }) {
             height={1000}
           />
             {/* <p className="justify-start">Description:</p> */}
-            <div className="p-4 border-1 h-1/2 rounded-sm w-auto my-2">
+            <div className="p-4 border-1 rounded-sm w-auto my-2 min-h-fit">
               {/* <p className="text-lg">Title:</p> */}
               <p className="text-2xl font-bold inria-serif-bold">{bookDetails.title}</p>
               <p>Authors: {bookDetails.authors}</p>

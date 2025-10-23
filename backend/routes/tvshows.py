@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from database.ratings import get_avg_ratings_by_tv_id
 from models.tvshow import TvShow
-from routes.movies import STREAMING_LINKS
+from routes.movies import STREAMING_LINKS, STREAMING_LINKS_LOWER, stream_link_remove_whitespace
 
 router = APIRouter()
 load_dotenv()
@@ -244,9 +244,8 @@ async def get_tvshow_streaming_links(tv_id: int):
                 for provider in providers:
                     provider_info = {
                         "provider_name": provider['provider_name'],
-                        "logo": f"https://image.tmdb.org/t/p/w500{provider['logo_path']}" if provider.get(
-                            'logo_path') else "",
-                        "link": STREAMING_LINKS.get(provider['provider_name'], "")
+                        "logo": f"https://image.tmdb.org/t/p/w500{provider['logo_path']}" if provider.get('logo_path') else "",
+                        "link": STREAMING_LINKS_LOWER.get(stream_link_remove_whitespace(provider['provider_name']), "")
                     }
                     formatted_providers[category].append(provider_info)
 

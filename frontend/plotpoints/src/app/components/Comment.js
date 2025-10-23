@@ -1,5 +1,7 @@
-import { useState } from "react";
-import {upvote, removeUpvote, downvote, removeDownvote} from '@/lib/votes.js';
+"use client";
+import { useState, useEffect } from "react";
+import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
+import { useSession } from "next-auth/react";
 
 export default function Comment({
   username = "Anonymous",
@@ -9,7 +11,10 @@ export default function Comment({
   commentId = 0,
   votes = {}, // stores vote id, upvotes, and downvotes for a comment
 }) {
+  const { data: session } = useSession();
+  const jwtToken = session?.accessToken;
   const canEdit = currentUser === username;
+
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [showReplyBox, setShowReplyBox] = useState(false);
@@ -20,20 +25,41 @@ export default function Comment({
   //Track user upvote/downvote status to prevent multiple votes
   const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
 
+  //Fetch user voting status
+  useEffect(() => {
+    const fetchVoteStatus = async () => {
+      if (!jwtToken) {
+        console.error("No JWT token found");
+        return;
+      }
+
+      try {
+        const data = await fetchUserVote(votes.vote_id, jwtToken);
+        setUserVote(data);
+        console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
+        //console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchVoteStatus();
+  }, [session?.accessToken, votes.vote_id]);  
+
   const handleUpvote = async () => {
     if (userVote === "up") {
       // Remove upvote
       setUpvotes((prev) => prev - 1);
       setUserVote(null);
-      removeUpvote(votes.vote_id);
+      removeUpvote(votes.vote_id, jwtToken);
     } else {
       setUpvotes((prev) => prev + 1);
       if (userVote === "down") {
         setDownvotes((prev) => prev - 1);
-        removeDownvote(votes.vote_id);
+        removeDownvote(votes.vote_id, jwtToken);
       }
       setUserVote("up");
-      upvote(votes.vote_id);
+      upvote(votes.vote_id, jwtToken);
     }
   }
 
@@ -42,21 +68,21 @@ export default function Comment({
       // Remove downvote
       setDownvotes((prev) => prev - 1);
       setUserVote(null);
-      removeDownvote(votes.vote_id);
+      removeDownvote(votes.vote_id, jwtToken);
     } else {
       setDownvotes((prev) => prev + 1);
       if (userVote === "up") {
         setUpvotes((prev) => prev - 1);
-        removeUpvote(votes.vote_id);
+        removeUpvote(votes.vote_id, jwtToken);
       }
       setUserVote("down");
-      downvote(votes.vote_id);
+      downvote(votes.vote_id, jwtToken);
     }
   }
 
   return (
     <div className="flex flex-col relative">
-      <div className="relative flex border-1 shadow-xl rounded-md m-1 p-3 h-28 max-w-3/4">
+      <div className="relative flex border-1 shadow-xl rounded-sm m-1 p-3 h-28 max-w-3/4">
         {/* Avatar and Text */}
         <div className="flex items-start">
           {/* Avatar circle */}
@@ -152,7 +178,7 @@ export default function Comment({
       <div>
         {showReplyBox && (
           <form
-            className="flex flex-col border h-35 rounded-md max-w-3/5 p-3 mb-2 ml-1 shadow-xl"
+            className="flex flex-col border h-35 rounded-sm max-w-3/5 p-3 mb-2 ml-1 mt-2 shadow-xl"
             onSubmit={(e) => {
               e.preventDefault(); // prevent page reload
               console.log("click");
@@ -161,16 +187,16 @@ export default function Comment({
           >
             <textarea
               placeholder="Write your reply..."
-              className="w-full border rounded-md p-2 resize-none focus:outline-none"
+              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
               value={commentText}
               onChange={onCommentTextChange}
             />
             <button
-              className="cursor-pointer self-end mt-2 border-1 px-6 py-2 rounded-md text-sm"
+              className="cursor-pointer self-end mt-2 shadow px-6 py-2 rounded-sm text-sm"
               type="submit"
               style={{ backgroundColor: "var(--color-brown)" }}
             >
-              Post
+              Reply
             </button>
           </form>
         )}

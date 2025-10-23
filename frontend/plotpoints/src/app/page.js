@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import './Homepage.css';
 import GenreContainer from "./components/GenreContainer";
 import Image from "next/image";
+import Review from "./components/HomepageReview";
+import './components/Homepage.css';
 
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [trendingShows, setTrendingShows] = useState([]);
   const [trendingBooks, setTrendingBooks] = useState([]);
+  const [recentReviews, setRecentReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,15 +23,19 @@ export default function Home() {
         const moviesResponse = await fetch('/api/movies/trending');
         const showsResponse = await fetch('/api/tv/trending');
         const booksResponse = await fetch('/api/books/trending');
+        const reviewsResponse = await fetch('/api/reviews/get/recent_reviews');
         const moviesData = await moviesResponse.json();
         const showsData = await showsResponse.json();
         const booksData = await booksResponse.json();
+        const reviewsData = await reviewsResponse.json();
         console.log(moviesData);
         console.log(showsData);
         setTrendingMovies(moviesData);
         setTrendingShows(showsData);
         console.log(booksData);
         setTrendingBooks(booksData);
+        setRecentReviews(reviewsData.reviews);
+        console.log(reviewsData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching trending data:", error);
@@ -53,7 +59,7 @@ export default function Home() {
           <p className="flex whitespace-nowrap">A unified review site for movies, tv shows and books</p>
 
         </div> */}
-        <div className="wrapper ml-20">
+        <div className="wrapper ml-10">
           <GenreContainer label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
               <img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => window.location.href = `/movies/review/${movie.id}`} style={{ cursor: 'pointer' }}/>
@@ -72,6 +78,18 @@ export default function Home() {
          
     
         </div>
+        <div className="ml-40 -mt-110">
+          <h2 className="text-2xl font-bold pl-10">Recent Reviews</h2>
+          <div className="flex flex-col gap-5 pt-9 ml-10">
+            {recentReviews?.map((review, idx) => (
+              <Review 
+                key={review?.id ?? idx}
+                reviewData={review}
+              />
+            ))}
+          </div>
+      </div>
+      
       </div>
       <Footer/>
     </div>

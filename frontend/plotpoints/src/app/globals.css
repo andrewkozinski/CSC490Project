@@ -3,9 +3,9 @@
 @import "tailwindcss";
 
 :root { /* CSS Variables */
-  --gradient: linear-gradient(to bottom, #F3E9DC 60%, #B0E0E6);
-  --background: #F3E9DC;
-  --foreground: #171717;
+  /* --gradient: linear-gradient(to bottom, #F3E9DC 60%, #B0E0E6);  */
+  background: #F3E9DC;
+  --foreground: #000000;
   --color-blue: #B0E0E6;
   --color-brown: #7e675b96;
 }
@@ -51,6 +51,15 @@
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
   width: 150px;
   height: 225px;
+  object-fit: cover;
+  transition: all 0.3s ease-in-out;
+}
+
+.cover-search {
+  border-radius: 5;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  width: 120px;
+  height: 175px;
   object-fit: cover;
   transition: all 0.3s ease-in-out;
 }
