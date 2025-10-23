@@ -1,17 +1,44 @@
 "use client";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
-import fetchUserReview from "@/utils/fetchUserReview";
 import Review from "../components/ProfileReview";
 import GenreContainer from "../components/GenreContainer";
 import Modal from "../components/EditModal";
 
-import {useState} from "react";
 import { useSession } from "next-auth/react";
 
 export default function ProfilePage(){
+
+     //Grab the ID from the URL
+    //const unwrappedParams = React.use(params);
+    //const id = unwrappedParams.id;
+    //console.log("Profile ID from URL: " + id);
+
+    const [profileDetails, setProfileDetails] = useState(null);
+
+    useEffect(() => {
+
+        const fetchProfileDetails = async () => {
+            try {
+                const response = await fetch(`/api/profiles/get/${id}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch movie details");
+                }
+                const data = await response.json();
+                console.log("Fetched Profile Details:", data);
+                setProfileDetails(data);
+            }
+            catch (error) {
+                console.error("Error fetching profile details:", error);
+                setMovieDetails(null);
+            }
+        }
+
+  }, []);
+
     const { data: session } = useSession();
     console.log("User session data:", session);
     
@@ -81,8 +108,8 @@ export default function ProfilePage(){
                         </div>
                         <p className="text-center border-y-1 self-center">{"User's bio here"}</p>
                         <div className="grid grid-cols-2">
-                            <Link className="text-center" href="">Followers</Link>
-                            <Link className="text-center" href="">Following</Link>
+                            <Link className="text-center m-1" href="/myprofile/followers">Followers</Link>
+                            <Link className="text-center m-1" href="/myprofile/following">Following</Link>
                         </div>
  
                     </div>
