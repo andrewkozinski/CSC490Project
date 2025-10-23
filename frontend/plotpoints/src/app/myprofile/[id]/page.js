@@ -118,7 +118,7 @@ export default function ProfilePage( {params} ){
                     </Image>
                     {/* Get username */}
                     <div className="grid grid-rows-4 gap-2">
-                        <h1 className="text-3xl text-center inria-serif-regular">{session ? session.user.name : "Error: Username not found"}</h1>
+                        <h1 className="text-3xl text-center inria-serif-regular">{profileDetails?.username || "No username."}</h1>
                         <p className="text-center border-y-1 self-center">{profileDetails?.bio || "No description."}</p>
                         <div className="grid grid-cols-2">
                             <Link className="text-center m-1" href="/myprofile/followers">Followers</Link>
