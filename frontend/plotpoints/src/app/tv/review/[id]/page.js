@@ -155,7 +155,6 @@ function TvReviewPage({ params }) {
             avgRating={avgRating}
             reviews={reviews}
           >
-            {/* need to change later*/}
           </Rating>
           <div>
             <p>Reviews:</p>
