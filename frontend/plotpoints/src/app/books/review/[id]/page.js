@@ -68,36 +68,41 @@ function BookReviewPage({ params }) {
     <div>
       <Header />
       <div className="flex m-5">
-        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10 ml-5">
           <Image
             src={bookDetails.thumbnailUrl || ""}
             title={bookDetails.title || ""}
             alt={bookDetails.title || ""}
-            className="w-65 h-96 rounded-xl outline-2 mb-5"
+            className="w-56 h-86 rounded-sm mb-5"
             width={1000}
             height={1000}
           />
-            <p>Description:</p>
-            <div className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-              <p className="text-lg">Title:</p>
-              <p className="text-xl font-bold">{bookDetails.title}</p>
+            {/* <p className="justify-start">Description:</p> */}
+            <div className="p-4 border-1 rounded-sm w-auto my-2 min-h-fit">
+              {/* <p className="text-lg">Title:</p> */}
+              <p className="text-2xl font-bold inria-serif-bold">{bookDetails.title}</p>
               <p>Authors: {bookDetails.authors}</p>
               <p className="mb-2">
                 Date published: {formatDate(bookDetails.date_published)}
               </p>
-              <div className="flex grow">
+              <div className="flex grow prose w-full">
+                {/*
                 <ReactMarkdown>
                   {bookDetails.description || "No description available."}
-                </ReactMarkdown>
+                </ReactMarkdown> */}
+                <div className="markdown-content">
+                  {bookDetails.description || "No description available."}
+                </div>
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-sm shadow-xl">
           <Rating
             id={id}
             placeholder="Write a review!"
             media="book"
             avgRating={avgRating}
+            reviews={reviews}
           >
             {/* need to change later*/}
           </Rating>

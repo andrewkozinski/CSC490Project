@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import '@/app/Homepage.css';
+//import "@/app/Homepage.css";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import GenreContainer from "@/app/components/GenreContainer";

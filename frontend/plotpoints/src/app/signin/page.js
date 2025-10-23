@@ -49,6 +49,7 @@ export default function SignIn() {
           <TextField
             type="email"
             name="email"
+            label="Email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -57,6 +58,7 @@ export default function SignIn() {
           <TextField
             type="password"
             name="password"
+            label="Password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -66,7 +68,7 @@ export default function SignIn() {
           <div className="flex justify-center">
             <button
               onClick={loading ? undefined : handleSignIn}
-              className="brown text-black shadow m-4 py-2 px-6 rounded-lg justify center"
+              className="brown text-black shadow m-4 py-1 px-5 rounded-lg"
               disabled={loading}
             >
               {loading ? "Submitting..." : "Submit"}

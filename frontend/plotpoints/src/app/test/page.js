@@ -29,6 +29,13 @@ export default function SessionInfo() {
     }
   };
 
+  const testFunction = async () => {
+    //const res = await fetch("/api/tv/details/1405/stream_links");
+    const res = await fetch("/api/movies/details/634649/stream_links");
+    const data = await res.json();
+    console.log(data);
+  };
+
   return (
     <>
       <Header />
@@ -91,6 +98,8 @@ export default function SessionInfo() {
           </div>
         )
         }
+
+        {/*<button onClick={testFunction} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Testing Button (currently testing responses from streaming links)</button>*/}
       </div>
       <Footer />
     </>
