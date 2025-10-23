@@ -2,7 +2,7 @@ import oracledb
 from database import connect
 
 
-# import connect
+#import connect
 
 def add_following(follow_id, user_id):  # followee, follower
     connection, cursor = connect.start_connection()
