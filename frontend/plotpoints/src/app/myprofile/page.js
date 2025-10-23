@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Image from "next/image";
@@ -8,6 +9,34 @@ import Review from "../components/ProfileReview";
 import { useSession } from "next-auth/react";
 
 export default function ProfilePage(){
+
+     //Grab the ID from the URL
+    //const unwrappedParams = React.use(params);
+    //const id = unwrappedParams.id;
+    //console.log("Profile ID from URL: " + id);
+
+    const [profileDetails, setProfileDetails] = useState(null);
+
+    useEffect(() => {
+
+        const fetchProfileDetails = async () => {
+            try {
+                const response = await fetch(`/api/profiles/get/${id}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch movie details");
+                }
+                const data = await response.json();
+                console.log("Fetched Profile Details:", data);
+                setProfileDetails(data);
+            }
+            catch (error) {
+                console.error("Error fetching profile details:", error);
+                setMovieDetails(null);
+            }
+        }
+
+  }, []);
+
     const { data: session } = useSession();
     console.log("User session data:", session);
     
