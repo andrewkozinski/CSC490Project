@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from database.users import get_by_id
+from database.users import get_by_id, get_all_users
 from database import profile
 from routes.auth import verify_jwt_token, get_user_id_from_token
+from routes import auth
 
 router = APIRouter()
 
@@ -12,13 +13,35 @@ async def get_username_by_id(user_id: int):
         return user["USERNAME"]
     else:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
+@router.get("/add_profile_for_existing_users")
+async def add_profile_for_existing_users():
+    users = get_all_users()
+    for user in users:
+        user_id = user["USER_ID"]
+        print("USER", user)
+        existing_profile = profile.get_profile(user_id)
+        if not existing_profile:
+            result = profile.create_profile(user_id, "No description.")
+            if result is False:
+                raise HTTPException(status_code=500, detail=f"Failed to create profile for user ID {user_id}")
+            else:
+                print(f"Profile created for user ID {user_id}")
+    return {"message": "Profiles created successfully"}
 
 @router.get("/get/user_information")
 async def get_user_info_by_id(user_id: int):
     user = get_by_id(user_id)
-    if user:
-        return user
+    user_profile = profile.get_profile(user_id)
+    print(user_profile)
+    if user and user_profile:
+        #Format it so that we return username, email, bio, profile_picture_url
+        return {
+            "username": user["USERNAME"],
+            "user_id": user["USER_ID"],
+            "email": user["EMAIL"],
+            "bio": user_profile["bio"],
+        }
     else:
         raise HTTPException(status_code=404, detail="User not found")
 

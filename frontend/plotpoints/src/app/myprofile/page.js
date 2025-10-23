@@ -8,7 +8,6 @@ import Review from "../components/ProfileReview";
 import GenreContainer from "../components/GenreContainer";
 import Modal from "../components/EditModal";
 
-import {useState} from "react";
 import { useSession } from "next-auth/react";
 
 export default function ProfilePage(){

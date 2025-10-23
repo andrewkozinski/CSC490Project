@@ -211,3 +211,37 @@ async def get_recent_reviews(limit: int = 3):
 
 
     return {"reviews": recent_reviews}
+
+@router.get("/get_recent_reviews/by_user/{user_id}")
+async def get_recent_reviews_by_user_id(user_id: int, limit: int = 3):
+    user_reviews = reviews.get_recent_reviews_by_user_id(user_id, limit)
+    if user_reviews is None:
+        raise HTTPException(status_code=404, detail="Review not found")
+
+    for review in user_reviews:
+        votes = vote.get_vote_by_review_id(review["review_id"])
+        review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
+
+        #Get data for the reviewed item
+        if review["media_type"] == "book":
+            #Convert media_id to book id string
+            review["media_id"] = get_book_str_from_id(review["media_id"])
+
+        media_data = await get_review_data(review["media_type"], review["media_id"])
+        review["full_media_data"] = media_data if media_data else {}
+
+        if media_data:
+            if review["media_type"] == "book":
+                review["img"] = media_data.thumbnailUrl
+                review["title"] = media_data.title
+                review["media_type"] = "books"
+            elif review["media_type"] == "movie":
+                review["img"] = media_data.img
+                review["title"] = media_data.title
+                review["media_type"] = "movies"
+            elif review["media_type"] == "tvshow":
+                review["img"] = media_data.img
+                review["title"] = media_data.title
+                review["media_type"] = "tv"
+
+    return {"reviews": user_reviews}
