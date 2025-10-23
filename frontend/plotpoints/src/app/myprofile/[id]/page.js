@@ -24,7 +24,7 @@ export default function ProfilePage( {params} ){
             try {
                 const response = await fetch(`/api/profiles/get/${id}`);
                 if (!response.ok) {
-                    throw new Error("Failed to fetch movie details");
+                    throw new Error("Failed to fetch profile details");
                 }
                 const data = await response.json();
                 console.log("Fetched Profile Details:", data);
