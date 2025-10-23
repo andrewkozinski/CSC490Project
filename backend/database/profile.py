@@ -64,23 +64,20 @@ def update_bio(user_id, new_bio):
     finally:
         connect.stop_connection(connection, cursor)
 
-def update_profile_pic(user_id, file_path):
+def update_profile_pic(user_id, profile_pic_file):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
         return
 
     try:
-        with open(file_path, "rb") as f:
-            blob_data = f.read()
-
         cursor.execute(
             """
             UPDATE PROFILE
             SET PROFILE_PIC = :1
             WHERE USER_ID = :2
             """,
-            (blob_data, user_id)
+            (profile_pic_file, user_id)
         )
 
         if cursor.rowcount == 0:  # no rows updated
@@ -123,3 +120,4 @@ def get_profile(user_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
