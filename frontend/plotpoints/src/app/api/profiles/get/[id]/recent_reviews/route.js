@@ -4,7 +4,7 @@ export async function GET(request, context) {
 
     console.log(`Fetching recent reviews for user id: ${id}`);
 
-    const res = await fetch(`${process.env.API_URL}/reviews/get_recent_reviews/${id}`);
+    const res = await fetch(`${process.env.API_URL}/reviews/get_recent_reviews/by_user/${id}`);
     if (!res.ok) {
         return new Response("Failed to fetch recent reviews womp womp", { status: 500 });
     }
