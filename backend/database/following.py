@@ -150,11 +150,11 @@ def get_all_following(follow_id):
         )
 
         results = cursor.fetchall()
-        votes = [
+        followings = [
             {'follow_id': follow_id, 'user_id': user_id}
             for follow_id, user_id in results
         ]
-        return votes
+        return followings
 
     except oracledb.Error as e:
         error_obj, = e.args
@@ -195,3 +195,5 @@ def get_follower_count(follow_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+#add_following(5,12)
