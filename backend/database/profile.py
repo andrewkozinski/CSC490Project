@@ -104,7 +104,7 @@ def get_profile(user_id):
         return None
 
     try:
-        cursor.execute("SELECT * FROM PROFILE WHERE USER_ID = :1"), (user_id,)
+        cursor.execute("SELECT * FROM PROFILE WHERE USER_ID = :1", (user_id,))
         row = cursor.fetchone()
         profile = {
             "user_id": row[0],
