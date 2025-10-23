@@ -51,19 +51,19 @@ function BookReviewPage({ params }) {
     <div>
       <Header />
       <div className="flex m-5">
-        <div className="flex w-1/3 flex-initial flex-col items-center mt-10">
+        <div className="flex w-1/3 flex-initial flex-col items-center mt-10 ml-5">
           <Image
             src={bookDetails.thumbnailUrl || ""}
             title={bookDetails.title || ""}
             alt={bookDetails.title || ""}
-            className="w-65 h-96 rounded-xl outline-2 mb-5"
+            className="w-56 h-86 rounded-sm mb-5"
             width={1000}
             height={1000}
           />
-          <p>Description:</p>
-          <div className="p-4 border-2 h-1/2 rounded-xl w-auto my-2">
-            <p className="text-lg">Title:</p>
-            <p className="text-xl font-bold">{bookDetails.title}</p>
+          {/* <p>Description:</p> */}
+          <div className="p-4 border-1 h-1/2 rounded-sm w-auto my-2">
+            {/* <p className="text-lg">Title:</p> */}
+            <p className="text-2xl font-bold inria-serif-bold">{bookDetails.title}</p>
             <p>Authors: {bookDetails.authors}</p>
             <p className="mb-2">Date published: {bookDetails.date_published}</p>
             <div className="flex grow">
@@ -73,7 +73,7 @@ function BookReviewPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-xl shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-sm shadow-xl">
           <Review></Review>
         </div>
       </div>

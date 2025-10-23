@@ -1,0 +1,37 @@
+.modal-wrapper {
+  width: 500px;
+  height: 600px;
+  
+}
+
+.modal {
+  background: #F3E9DC;
+  height:fit-content;
+  width:100%;
+  border-radius: 5px;
+  padding: 15px;
+  color: rgb(0, 0, 0);
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-body {
+  padding-top: 10px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 25px;
+  color: black;
+}
