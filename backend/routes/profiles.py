@@ -33,14 +33,14 @@ async def add_profile_for_existing_users():
 async def get_user_info_by_id(user_id: int):
     user = get_by_id(user_id)
     user_profile = profile.get_profile(user_id)
+    print(user_profile)
     if user and user_profile:
         #Format it so that we return username, email, bio, profile_picture_url
         return {
             "username": user["USERNAME"],
             "user_id": user["USER_ID"],
             "email": user["EMAIL"],
-            "bio": user_profile["BIO"],
-            "profile_picture_url": user_profile["PROFILE_PICTURE_URL"]
+            "bio": user_profile["bio"],
         }
     else:
         raise HTTPException(status_code=404, detail="User not found")
