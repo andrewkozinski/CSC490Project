@@ -131,8 +131,12 @@ export default function ProfilePage( {params} ){
                 <div className="m-15">
                     <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
-                        <Review className=""/>
-                        <Review className=""/>
+                        {recentReviews?.map((review, idx) => (
+                            <Review
+                                key={review?.id ?? idx}
+                                reviewData={review}
+                            />
+                        ))}
                 </div>
          
                 </div>
