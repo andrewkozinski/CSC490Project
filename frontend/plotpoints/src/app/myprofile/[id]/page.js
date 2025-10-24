@@ -29,6 +29,18 @@ export default function ProfilePage( {params} ){
     const { data: session } = useSession();
     console.log("User session data:", session);
 
+    // State for the image file
+    const [imageFile, setImageFile] = useState(null);
+    //Actually handles the image file selection
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if(!["image/jpeg", "image/png"].includes(file.type)) {
+            alert("Only JPEG and PNG files are allowed.");
+            return;
+        }
+        setImageFile(file);
+    }
+
     useEffect(() => {
 
         const fetchProfileDetails = async () => {
@@ -148,7 +160,16 @@ export default function ProfilePage( {params} ){
                                                 width="170"
                                                 height="170">
                                             </Image> 
-                                            <button className="blue text-sm shadow py-1 px-5 w-fit h-fit rounded-sm">Choose image...</button>
+
+                                            {/*File input for images, hidden*/}
+                                            <input type="file" id="profileImageUpload" name="profileImageUpload" accept="image/png, image/jpeg" className="hidden" onChange={handleImageChange}/>
+                                            <button className="blue text-sm shadow py-1 px-5 w-fit h-fit rounded-sm"
+                                            onClick={async () => {
+                                                document.getElementById('profileImageUpload').click();
+                                            }}
+                                            >
+                                            Choose image...
+                                            </button>
                                         </div>
                                         <p className="text-sm font-bold text-gray-700 ml-9">Bio</p>                               
                                         <textarea
