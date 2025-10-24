@@ -94,9 +94,9 @@ async def update_profile_picture(jwt_token: str, profile_pic_file: UploadFile = 
 
     #Update profile picture in DB
     result = profile.profile_picture_upload(user_id, file_bytes, file_extension)
-    if result is False:
+    if result is None:
         raise HTTPException(status_code=500, detail="Failed to update profile picture. Please try again.")
-    return {"message": "Profile picture updated successfully"}
+    return {"pfp_url": result,"message": "Profile picture updated successfully"}
 
 @router.get("/all_profiles")
 async def get_all_profiles():
