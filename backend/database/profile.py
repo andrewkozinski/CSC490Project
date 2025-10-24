@@ -190,3 +190,34 @@ def delete_profile_picture(user_id: int):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_all_profiles():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute("SELECT * FROM ADMIN.PROFILE")
+        rows = cursor.fetchall()
+        profiles = []
+        for row in rows:
+            object_name = row[1]
+            profile_pic_url = generate_URL(object_name) if object_name else None
+
+            profile = {
+                "user_id": row[0],
+                "profile_pic": object_name,
+                "profile_pic_url": profile_pic_url,
+                "bio": row[2]
+            }
+            profiles.append(profile)
+        return profiles
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching all profiles:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
