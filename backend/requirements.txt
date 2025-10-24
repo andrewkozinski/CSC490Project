@@ -8,3 +8,4 @@ oracledb
 requests
 PyJWT
 bcrypt
+oci
