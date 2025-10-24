@@ -25,6 +25,7 @@ export default function ProfilePage( {params} ){
     
 
     const [showModal, setShowModal] = useState(false);
+    const [modalBio, setModalBio] = useState("");
     const { data: session } = useSession();
     console.log("User session data:", session);
 
@@ -66,6 +67,12 @@ export default function ProfilePage( {params} ){
             .then(() => setIsLoading(false));
 
     }, []);
+
+    useEffect(() => {
+        if(profileDetails?.bio !== undefined) {
+            setModalBio(profileDetails.bio || "");
+        }
+    }, [profileDetails]);
 
     
     
