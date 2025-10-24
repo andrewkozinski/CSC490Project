@@ -1,7 +1,7 @@
 import oracledb
 import uuid
-import connect
-from Storage import upload_file, delete_file, generate_URL
+from database import connect #NOTE: This is how the import needs to be for the backend to work on render. If testing locally and it doesn't work, you can temporarily change it to "import connect" but be sure to change it back before pushing.
+from database.Storage import upload_file, delete_file, generate_URL
 
 
 DEFAULT_PROFILE_PIC = "def_profile/Default_pfp.jpg"
