@@ -20,6 +20,7 @@ export default function ProfilePage( {params} ){
     console.log("Profile ID from URL: " + id);
 
     const [profileDetails, setProfileDetails] = useState(null);
+    const [profilePicture, setProfilePicture] = useState("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
     const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     
@@ -137,7 +138,7 @@ export default function ProfilePage( {params} ){
                 <div className="mt-10 ml-10 w-70 h-fit">
                     <Image 
                     className="aspect-square rounded-full mb-5 ml-6 border-2 border-[#dfcdb5]" 
-                    src="/images/cat.jpg"
+                    src={profilePicture}
                     alt="User Image"
                     width="230"
                     height="230">
