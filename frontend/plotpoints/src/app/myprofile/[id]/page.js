@@ -153,6 +153,8 @@ export default function ProfilePage( {params} ){
                                         <p className="text-sm font-bold text-gray-700 ml-9">Bio</p>                               
                                         <textarea
                                         placeholder="Write a bio"
+                                        value={modalBio}
+                                        onChange={(e) => setModalBio(e.target.value)}
                                         className="w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
                                         />
                                         <button
