@@ -45,6 +45,7 @@ async def get_user_info_by_id(user_id: int):
             "user_id": user["USER_ID"],
             "email": user["EMAIL"],
             "bio": user_profile["bio"],
+            "profile_picture": user_profile["profile_pic"]
         }
     else:
         raise HTTPException(status_code=404, detail="User not found")
@@ -85,6 +86,8 @@ async def update_profile_picture(jwt_token: str, profile_pic_file: UploadFile = 
 
     #Read file bytes
     file_bytes = await profile_pic_file.read()
+
+    print(file_bytes)
 
     #Update profile picture in DB
     result = profile.update_profile_pic(user_id, file_bytes)
