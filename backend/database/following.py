@@ -1,19 +1,19 @@
 import oracledb
-from database import connect
+# from database import connect
 
 
-#import connect
+import connect
 
-def add_following(follow_id, user_id):  # followee, follower
+
+def add_follower(follow_id, user_id):  # followee, follower
     connection, cursor = connect.start_connection()
-
     if not connection or not cursor:
         return {"error": "Failed to connect to database.", "code": 500}
 
     try:
         cursor.execute(
             """
-            INSERT INTO ADMIN.FOLLOWING (FOLLOW_ID, USER_ID)
+            INSERT INTO ADMIN.FOLLOWERS (FOLLOW_ID, USER_ID)
             VALUES (:1, :2)
             """,
             (follow_id, user_id)
@@ -37,7 +37,7 @@ def add_following(follow_id, user_id):  # followee, follower
         connect.stop_connection(connection, cursor)
 
 
-def delete_following(follow_id, user_id):
+def delete_follower(follow_id, user_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         return {"error": "Failed to connect to database.", "code": 500}
@@ -45,7 +45,7 @@ def delete_following(follow_id, user_id):
     try:
         cursor.execute(
             """
-            DELETE FROM ADMIN.FOLLOWING
+            DELETE FROM ADMIN.FOLLOWERS
             WHERE FOLLOW_ID = :1 AND USER_ID = :2
             """,
             (follow_id, user_id)
@@ -68,16 +68,15 @@ def delete_following(follow_id, user_id):
         connect.stop_connection(connection, cursor)
 
 
-def delete_all_following(follow_id):  # for account deletion
+def delete_all_followers(follow_id):  # for account deletion?
     connection, cursor = connect.start_connection()
-
     if not connection or not cursor:
         return {"error": "Failed to connect to database.", "code": 500}
 
     try:
         cursor.execute(
             """
-            DELETE FROM ADMIN.FOLLOWING 
+            DELETE FROM ADMIN.FOLLOWERS
             WHERE FOLLOW_ID = :1
             """,
             (follow_id,)
@@ -100,7 +99,7 @@ def delete_all_following(follow_id):  # for account deletion
         connect.stop_connection(connection, cursor)
 
 
-def following_exists(follow_id, user_id):
+def follower_exists(follow_id, user_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
@@ -110,7 +109,7 @@ def following_exists(follow_id, user_id):
         cursor.execute(
             """
             SELECT 1
-            FROM ADMIN.USER_VOTE
+            FROM ADMIN.FOLLOWERS
             WHERE FOLLOW_ID = :1 AND USER_ID = :2
             """,
             (follow_id, user_id)
@@ -127,14 +126,14 @@ def following_exists(follow_id, user_id):
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error checking following:", error_obj.message)
+        print("Database error checking followers:", error_obj.message)
         return False
 
     finally:
         connect.stop_connection(connection, cursor)
 
 
-def get_all_following(follow_id):
+def get_all_followers(follow_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
@@ -143,7 +142,7 @@ def get_all_following(follow_id):
     try:
         cursor.execute(
             """
-            SELECT * FROM ADMIN.FOLLOWING
+            SELECT * FROM ADMIN.FOLLOWERS
             WHERE FOLLOW_ID = :1
             """,
             (follow_id,)
@@ -158,7 +157,7 @@ def get_all_following(follow_id):
 
     except oracledb.Error as e:
         error_obj, = e.args
-        print("Database error retrieving followings:", error_obj.message)
+        print("Database error retrieving followers:", error_obj.message)
         return None
 
     finally:
@@ -196,4 +195,3 @@ def get_follower_count(follow_id):
     finally:
         connect.stop_connection(connection, cursor)
 
-#add_following(5,12)
