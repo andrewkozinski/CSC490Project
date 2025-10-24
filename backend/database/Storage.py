@@ -88,4 +88,4 @@ def generate_URL(object_name: str):
     bucket_name = os.getenv("OCI_BUCKET_NAME")
     region = os.getenv("OCI_REGION", "us-ashburn-1")
 
-    return f"https://{namespace}.objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/{object_name}"
+    return f"https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/{object_name}"
