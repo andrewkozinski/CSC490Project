@@ -160,6 +160,35 @@ export default function ProfilePage( {params} ){
                                         <button
                                         className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
                                         //onClick to save image and bio
+                                        onClick={async () => {
+
+                                            //First check if bio has changed
+                                            if (modalBio !== profileDetails?.bio) {
+                                                //API call to save bio
+                                                const response = await fetch('/api/profiles/update/bio', {
+                                                    method: 'PUT',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({ new_bio: modalBio, jwt_token: session?.accessToken })
+                                                });
+
+                                                if (!response.ok) {
+                                                    console.error("Failed to update bio");
+                                                    return;
+                                                }
+
+                                                //Now update local profile details state
+                                                setProfileDetails((prevDetails) => ({
+                                                    ...prevDetails,
+                                                    bio: modalBio
+                                                }));
+
+                                            }
+                                            //Image call will go here when it's implemented.
+
+
+                                            //close modal
+                                            setShowModal(false);
+                                        }}
                                         > 
                                         Save </button>
                                     </div>
