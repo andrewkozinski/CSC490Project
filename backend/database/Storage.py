@@ -72,7 +72,7 @@ def delete_file(object_name: str):
     try:
         client = get_oci_client()
         namespace = get_namespace()
-        bucket_name = os.getenv("OCI__BUCKET_NAME")
+        bucket_name = os.getenv("OCI_BUCKET_NAME")
 
         client.delete_object(
             namespace_name=namespace,
@@ -85,7 +85,7 @@ def delete_file(object_name: str):
         return None
 def generate_URL(object_name: str):
     namespace = get_namespace()
-    bucket_name = os.getenv("OCI__BUCKET_NAME")
+    bucket_name = os.getenv("OCI_BUCKET_NAME")
     region = os.getenv("OCI_REGION", "us-ashburn-1")
 
     return f"https://{namespace}.objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o/{object_name}"
