@@ -98,7 +98,11 @@ export default function SessionInfo() {
           </div>
         )
         }
-
+        <Image src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/profiles/user_5_9d808a2d-5f50-4e3e-b120-f6b05414bcfa.jpg"
+        width={250}
+        height={250}
+        alt={"Test Image from Oracle Cloud"}
+        />
         {/*<button onClick={testFunction} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Testing Button (currently testing responses from streaming links)</button>*/}
       </div>
       <Footer />

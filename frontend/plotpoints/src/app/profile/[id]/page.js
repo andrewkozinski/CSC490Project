@@ -8,7 +8,7 @@ import Link from "next/link";
 import Review from "@/app/components/ProfileReview";
 import GenreContainer from "@/app/components/GenreContainer";
 import Modal from "@/app/components/EditModal";
-
+import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 
 import { useSession } from "next-auth/react";
 
@@ -20,13 +20,27 @@ export default function ProfilePage( {params} ){
     console.log("Profile ID from URL: " + id);
 
     const [profileDetails, setProfileDetails] = useState(null);
+    const [profilePicture, setProfilePicture] = useState("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
     const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     
 
     const [showModal, setShowModal] = useState(false);
+    const [modalBio, setModalBio] = useState("");
     const { data: session } = useSession();
     console.log("User session data:", session);
+
+    // State for the image file
+    const [imageFile, setImageFile] = useState(null);
+    //Actually handles the image file selection
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if(!["image/jpeg", "image/png"].includes(file.type)) {
+            alert("Only JPEG and PNG files are allowed.");
+            return;
+        }
+        setImageFile(file);
+    }
 
     useEffect(() => {
 
@@ -39,6 +53,7 @@ export default function ProfilePage( {params} ){
                 const data = await response.json();
                 console.log("Fetched Profile Details:", data);
                 setProfileDetails(data);
+                setProfilePicture(data.profile_pic_url || "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg");
             }
             catch (error) {
                 console.error("Error fetching profile details:", error);
@@ -66,6 +81,12 @@ export default function ProfilePage( {params} ){
             .then(() => setIsLoading(false));
 
     }, []);
+
+    useEffect(() => {
+        if(profileDetails?.bio !== undefined) {
+            setModalBio(profileDetails.bio || "");
+        }
+    }, [profileDetails]);
 
     
     
@@ -118,7 +139,7 @@ export default function ProfilePage( {params} ){
                 <div className="mt-10 ml-10 w-70 h-fit">
                     <Image 
                     className="aspect-square rounded-full mb-5 ml-6 border-2 border-[#dfcdb5]" 
-                    src="/images/cat.jpg"
+                    src={profilePicture}
                     alt="User Image"
                     width="230"
                     height="230">
@@ -127,8 +148,12 @@ export default function ProfilePage( {params} ){
                     <div className="grid grid-rows-4 gap-2">
                         <div className="flex flex-row justify-center items-center">
                             <h1 className="text-3xl text-center inria-serif-regular">{profileDetails?.username || "Error: Username not found"}</h1>
+                            
+                            {/*Verify current page is the current users profile*/}
+                            {profileDetails?.user_id === session?.user?.id && (
                             <img className="w-8 h-8 ml-3 hover:cursor-pointer hover:scale-110" src="/images/pencil.svg"
-                                onClick={() => setShowModal(true)}/>
+                                onClick={() => setShowModal(true)}/> )}
+
                                 {showModal &&
                                 <Modal onClose={() => setShowModal(false)}>
                                     <h1 className="text-2xl text-center">Edit Profile</h1>
@@ -136,21 +161,74 @@ export default function ProfilePage( {params} ){
                                         <div className="flex flex-row w-full justify-around items-center mt-5">
                                             <Image 
                                                 className="aspect-square rounded-full mb-5 border-2 border-[#dfcdb5]" 
-                                                src="/images/cat.jpg"
+                                                src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
                                                 alt="User Image"
                                                 width="170"
                                                 height="170">
                                             </Image> 
-                                            <button className="blue text-sm shadow py-1 px-5 w-fit h-fit rounded-sm">Choose image...</button>
+
+                                            {/*File input for images, hidden*/}
+                                            <input type="file" id="profileImageUpload" name="profileImageUpload" accept="image/png, image/jpeg" className="hidden" onChange={handleImageChange}/>
+                                            <button className="blue text-sm shadow py-1 px-5 w-fit h-fit rounded-sm"
+                                            onClick={async () => {
+                                                document.getElementById('profileImageUpload').click();
+                                            }}
+                                            >
+                                            Choose image...
+                                            </button>
                                         </div>
                                         <p className="text-sm font-bold text-gray-700 ml-9">Bio</p>                               
                                         <textarea
                                         placeholder="Write a bio"
+                                        value={modalBio}
+                                        onChange={(e) => setModalBio(e.target.value)}
                                         className="w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
                                         />
                                         <button
                                         className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
                                         //onClick to save image and bio
+                                        onClick={async () => {
+
+                                            //Profile picture update goes here
+                                            if(imageFile) {
+                                                
+                                                try {
+                                                    const result = await uploadProfilePicture(imageFile, session?.accessToken);
+                                                    console.log("Profile picture uploaded successfully:", result);
+                                                    setProfilePicture(result.pfp_url);
+                                                } catch (error) {
+                                                    console.error("Error uploading profile picture:", error);
+                                                }
+
+                                            }
+
+                                            //Check if bio has changed
+                                            if (modalBio !== profileDetails?.bio) {
+                                                //API call to save bio
+                                                const response = await fetch('/api/profiles/update/bio', {
+                                                    method: 'PUT',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({ new_bio: modalBio, jwt_token: session?.accessToken })
+                                                });
+
+                                                if (!response.ok) {
+                                                    console.error("Failed to update bio");
+                                                    return;
+                                                }
+
+                                                //Now update local profile details state
+                                                setProfileDetails((prevDetails) => ({
+                                                    ...prevDetails,
+                                                    bio: modalBio
+                                                }));
+
+                                            }
+                                            //Image call will go here when it's implemented.
+
+
+                                            //close modal
+                                            setShowModal(false);
+                                        }}
                                         > 
                                         Save </button>
                                     </div>
