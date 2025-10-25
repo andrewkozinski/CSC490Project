@@ -17,7 +17,7 @@ export default function ProfileReview({ reviewData }) {
                 src={img}
                 title={title}
                 className="min-w-25 min-h-37 max-w-25 min-h-37 rounded-sm hover:cursor-pointer"
-                onClick={() => window.location.href = `/movies/review/${media_id}`}
+                onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block -ml-25">
                     <h1 className="text-2xl text-start inria-serif-regular mb-2">{title}</h1>
