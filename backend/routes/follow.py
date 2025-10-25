@@ -1,9 +1,10 @@
+from fastapi import APIRouter, HTTPException
 import database.following
 import database.users
-from fastapi import APIRouter, HTTPException
 from routes.auth import verify_jwt_token, get_user_id_from_token
 
 router = APIRouter()
+
 #Note:
 #the user id is the person that is following and follow id is the person that is being followed
 
