@@ -1,8 +1,6 @@
 import oracledb
-# from database import connect
-
-
-import connect
+from database import connect #this import is what's needed for render, if you comment it out, the backend will not work on render
+#import connect
 
 
 def add_follower(follow_id, user_id):  # followee, follower
