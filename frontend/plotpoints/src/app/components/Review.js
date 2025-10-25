@@ -156,6 +156,10 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
     const data = await res.json();
 
     if (!res.ok) {
+
+      if(res.status === 401) {
+        alert("Session Expired, please log in again.");
+      }
       throw new Error(data.error || 'Failed to edit review');
     }
 
