@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function FollowProfile({ name, desc, user_id, pfp_url }) {
   return (
     <div
@@ -7,7 +9,16 @@ export default function FollowProfile({ name, desc, user_id, pfp_url }) {
     >
       {/* Profile Section */}
       <div className="flex flex-row items-center">
-        <div className="w-16 h-16 rounded-full bg-gray-200 border-2 cursor-pointer shrink-0" style={{ backgroundImage: `url(${pfp_url})`, backgroundSize: 'cover' }} />
+        <div className="w-16 h-16 rounded-full bg-gray-200 border-2 cursor-pointer shrink-0 overflow-hidden">
+          <Image
+            src={pfp_url}
+            alt="Profile Picture"
+            width={64}
+            height={64}
+            className="w-16 h-16 rounded-full object-cover"
+            onClick={() => window.location.href = `/profile/${user_id}`}
+          />
+        </div>
         <div className="flex flex-col ml-5 text-left">
           <p className="text-lg underline underline-offset-3">
             {name || "Your Name"}
