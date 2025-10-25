@@ -1,8 +1,28 @@
+"use client";
 import Footer from "@/app/components/Footer";
 import Header from "../../components/Header";
 import FollowProfile from "@/app/components/FollowProfile";
+import { useEffect, useState } from "react";
+import { getFollowing } from "@/lib/following";
 
 export default function following() {
+
+  // Fetch following data
+  const [followingData, setFollowingData] = useState([]);
+
+  useEffect(() => {
+    async function fetchFollowing() {
+      try {
+        const data = await getFollowing(5); // This will be replaced with actual user ID from the url
+        setFollowingData(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching following data:", error);
+      }
+    }
+    fetchFollowing();
+  }, []);
+
   return (
     <div>
       <Header></Header>
