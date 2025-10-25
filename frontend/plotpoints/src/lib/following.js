@@ -42,7 +42,7 @@ export async function isFollowing(followId, jwtToken) {
 
 export async function followUser(followId, jwtToken) {
     const res = await fetch(`/api/following/follow/${followId}`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -63,7 +63,7 @@ export async function followUser(followId, jwtToken) {
 
 export async function unfollowUser(followId, jwtToken) {
     const res = await fetch(`/api/following/unfollow/${followId}`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
