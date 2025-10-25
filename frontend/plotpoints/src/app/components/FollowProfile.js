@@ -26,7 +26,7 @@ export default function FollowProfile({ name, desc, user_id }) {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            class="size-8"
+            className="size-8"
           >
             <path
               strokeLinecap="round"
