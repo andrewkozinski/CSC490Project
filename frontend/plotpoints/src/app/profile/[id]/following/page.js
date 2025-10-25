@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { getFollowing } from "@/lib/following";
 
-export default function following({ params }) {
+export default function Following({ params }) {
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id; //user id from the url

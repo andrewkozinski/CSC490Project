@@ -6,7 +6,7 @@ import React from "react";
 import { getFollowers } from "@/lib/following";
 import FollowProfile from "@/app/components/FollowProfile";
 
-export default function followers({ params }) {
+export default function Followers({ params }) {
 
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
