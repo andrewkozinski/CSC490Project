@@ -4,7 +4,7 @@ export async function PUT(request, { params }) {
   const review_id = params.id;
   const { review_text, jwt_token } = await request.json();
 
-  const response = await fetch(`${process.env.API_URL}/edit/${review_id}`, {
+  const response = await fetch(`${process.env.API_URL}/reviews/edit/${review_id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
