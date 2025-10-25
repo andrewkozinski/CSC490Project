@@ -1,4 +1,4 @@
-export default function FollowProfile({ name, desc }) {
+export default function FollowProfile({ name, desc, user_id }) {
   return (
     <div
       className="group m-2 mt-5 p-4 rounded-xl shadow-md blue 
