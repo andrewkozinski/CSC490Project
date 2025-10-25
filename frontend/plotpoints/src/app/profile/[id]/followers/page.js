@@ -35,9 +35,9 @@ export default function followers({ params }) {
         <div className="w-3/4 h-full bottom-0 text-center shadow-lg mb-3 outline-transparent">
 
           {followersData.map((user, index) => (
-            <FollowProfile key={index} name={user.username} desc={user.bio} user_id={user.id} pfp_url={user.profile_pic_url}></FollowProfile>
+            <FollowProfile key={index} name={user.username} desc={user.bio} user_id={user.user_id} pfp_url={user.profile_pic_url}></FollowProfile>
           ))}
-          
+
         </div>
       </div>
       <Footer></Footer>
