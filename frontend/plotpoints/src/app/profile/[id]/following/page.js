@@ -34,7 +34,7 @@ export default function following({ params }) {
         <div className="w-3/4 h-full bottom-0 text-center shadow-lg mb-3 outline-transparent">
           {/* <FollowProfile name="max" desc="yerrr"></FollowProfile> */}
           {followingData.map((user, index) => (
-            <FollowProfile key={index} name={user.username} desc={user.bio} user_id={user.id}></FollowProfile>
+            <FollowProfile key={index} name={user.username} desc={user.bio} user_id={user.id} pfp_url={user.profile_pic_url}></FollowProfile>
           ))}
         </div>
       </div>
