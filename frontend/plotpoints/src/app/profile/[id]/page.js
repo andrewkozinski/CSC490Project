@@ -281,7 +281,7 @@ export default function ProfilePage( {params} ){
                 */}
                 <button onClick={async () => console.log(await followUser(id, session?.accessToken))}>follow</button>
                 <button onClick={async () => console.log(await unfollowUser(id, session?.accessToken))}>unfollow</button>
-                <button onClick={async () => console.log(await isFollowing(id, session?.accessToken))}>log profile details</button>
+                <button onClick={async () => console.log(await isFollowing(id, session?.accessToken))}>is following?</button>
 
             </div>
             <Footer/>
