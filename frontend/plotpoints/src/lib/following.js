@@ -27,12 +27,11 @@ export async function getFollowers(userId) {
 }
 
 export async function isFollowing(followId, jwtToken) {
-    const res = await fetch(`/api/following/is_following/${followId}`, {
-        method: 'PUT',
+    const res = await fetch(`/api/following/is_following/${followId}?jwt_token=${encodeURIComponent(jwtToken)}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ follow_id: followId, jwt_token: jwtToken }),
     });
     if (!res.ok) {
         throw new Error('Failed to check following status');
