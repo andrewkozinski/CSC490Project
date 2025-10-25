@@ -3,17 +3,21 @@ import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
 import FollowProfile from "@/app/components/FollowProfile";
 import { useEffect, useState } from "react";
+import React from "react";
 import { getFollowing } from "@/lib/following";
 
-export default function following() {
-
+export default function following({ params }) {
+  //Grab the ID from the URL
+  const unwrappedParams = React.use(params);
+  const id = unwrappedParams.id; //user id from the url
+  
   // Fetch following data
   const [followingData, setFollowingData] = useState([]);
 
   useEffect(() => {
     async function fetchFollowing() {
       try {
-        const data = await getFollowing(5); // This will be replaced with actual user ID from the url
+        const data = await getFollowing(id);
         setFollowingData(data.following);
         console.log(data);
       } catch (error) {
