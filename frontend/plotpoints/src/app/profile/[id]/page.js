@@ -9,6 +9,7 @@ import Review from "@/app/components/ProfileReview";
 import GenreContainer from "@/app/components/GenreContainer";
 import Modal from "@/app/components/EditModal";
 import { uploadProfilePicture } from "@/lib/profile_picture_upload";
+import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 
 import { useSession } from "next-auth/react";
 
@@ -275,6 +276,11 @@ export default function ProfilePage( {params} ){
                     </GenreContainer>
                 </div> 
                 
+
+                <button onClick={async () => followUser(id, session?.accessToken)}>follow</button>
+                <button onClick={async () => unfollowUser(id, session?.accessToken)}>unfollow</button>
+                <button onClick={async () => console.log(await isFollowing(id, session?.accessToken))}>log profile details</button>
+
             </div>
             <Footer/>
         </div>
