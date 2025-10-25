@@ -1,6 +1,6 @@
 "use client";
 import Footer from "@/app/components/Footer";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 import FollowProfile from "@/app/components/FollowProfile";
 import { useEffect, useState } from "react";
 import { getFollowing } from "@/lib/following";
