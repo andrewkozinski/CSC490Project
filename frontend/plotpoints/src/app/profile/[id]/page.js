@@ -223,8 +223,6 @@ export default function ProfilePage( {params} ){
                                                 }));
 
                                             }
-                                            //Image call will go here when it's implemented.
-
 
                                             //close modal
                                             setShowModal(false);
@@ -237,8 +235,8 @@ export default function ProfilePage( {params} ){
                         </div>
                         <p className="text-center border-y-1 self-center">{profileDetails?.bio || "No description."}</p>
                         <div className="grid grid-cols-2">
-                            <Link className="text-center m-1" href="/myprofile/followers">Followers</Link>
-                            <Link className="text-center m-1" href="/myprofile/following">Following</Link>
+                            <Link className="text-center m-1" href={`/profile/${id}/followers`}>Followers</Link>
+                            <Link className="text-center m-1" href={`/profile/${id}/following`}>Following</Link>
                         </div>
  
                     </div>

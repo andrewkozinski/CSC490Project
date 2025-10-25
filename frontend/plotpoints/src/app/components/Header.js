@@ -35,6 +35,11 @@ export default function Header() {
             <input 
             className="-ml-30"
             placeholder="Search"
+            onKeyDown={e => {
+              if (e.key === 'Enter' && e.target.value.trim() !== '') {
+                router.push(`/search/${encodeURIComponent(e.target.value.trim())}`);
+              }
+            }}
             />
           </div>
         </nav>    
