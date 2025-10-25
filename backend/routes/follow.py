@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 import database.following
 import database.users
+import routes.profiles
 from routes.auth import verify_jwt_token, get_user_id_from_token
 
 router = APIRouter()
@@ -57,7 +58,17 @@ async def is_following(follow_id: int, jwt_token: str):
 async def get_followers(follow_id: int):
     followers = database.following.get_all_followers(follow_id)
     if followers is not None:
-        return {"followers": followers}
+        #Let's format the followers to include username and profile picture
+        formatted_followers = []
+        for follower in followers:
+            user_id = follower["follow_id"]
+            profile = await routes.profiles.get_user_info_by_id(user_id)
+            formatted_followers.append({
+                "user_id": user_id,
+                "username": profile["username"] if profile else "Unknown",
+                "profile_pic_url": profile["profile_pic_url"] if profile else "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg",
+            })
+        return {"followers": formatted_followers}
     raise HTTPException(status_code=500, detail="Error fetching followers")
 
 @router.get("/following/{user_id}")
