@@ -51,6 +51,10 @@ async def create_review(review: CreateReviewRequest):
 
 @router.put("/edit/{review_id}")
 async def edit_review(review_id: int, review_text: str, jwt_token: str):
+    #First verify the jwt
+    verify_jwt_token(jwt_token)
+
+    #Now edit the review
     result = reviews.edit_review(review_id, review_text)
     if result is False:
         raise HTTPException(status_code=404, detail="An error occurred, review not found.")
