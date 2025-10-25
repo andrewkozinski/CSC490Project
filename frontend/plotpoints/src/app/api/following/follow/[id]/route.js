@@ -6,7 +6,7 @@ export async function PUT(request, context) {
         method: 'PUT',
     });
     if (!res.ok) {
-        return new Response("Failed to update bio womp womp", { status: 500 });
+        return new Response("Failed to follow user womp womp", { status: res.status });
     }
     const data = await res.json();
     return new Response(JSON.stringify(data), { status: 200 });
