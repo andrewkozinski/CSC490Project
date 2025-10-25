@@ -52,3 +52,17 @@ async def is_following(follow_id: int, jwt_token: str):
     # Check if following relationship exists
     exists = database.following.follower_exists(follow_id, user_id)
     return {"is_following": exists}
+
+@router.get("/followers/{follow_id}")
+async def get_followers(follow_id: int):
+    followers = database.following.get_all_followers(follow_id)
+    if followers is not None:
+        return {"followers": followers}
+    raise HTTPException(status_code=500, detail="Error fetching followers")
+
+@router.get("/following/{user_id}")
+async def get_following(user_id: int):
+    following = database.following.get_user_following_list(user_id)
+    if following is not None:
+        return {"following": following}
+    raise HTTPException(status_code=500, detail="Error fetching following")
