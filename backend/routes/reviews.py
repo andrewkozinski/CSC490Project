@@ -18,6 +18,11 @@ class DeleteReviewRequest(BaseModel):
     review_id: int
     jwt_token: str
 
+class EditReviewRequest(BaseModel):
+    review_id: int
+    review_text: str
+    jwt_token: str
+
 router = APIRouter()
 
 #Need routes to post, get, update, delete reviews
@@ -50,7 +55,11 @@ async def create_review(review: CreateReviewRequest):
         raise HTTPException(status_code=500, detail="Failed to create review. Please try again.")
 
 @router.put("/edit/{review_id}")
-async def edit_review(review_id: int, review_text: str, jwt_token: str):
+async def edit_review(edit_request: EditReviewRequest):
+    review_id = edit_request.review_id
+    review_text = edit_request.review_text
+    jwt_token = edit_request.jwt_token
+
     #First verify the jwt
     verify_jwt_token(jwt_token)
 
