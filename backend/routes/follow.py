@@ -67,6 +67,7 @@ async def get_followers(follow_id: int):
                 "user_id": user_id,
                 "username": profile["username"] if profile else "Unknown",
                 "profile_pic_url": profile["profile_pic_url"] if profile else "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg",
+                "bio": profile["bio"] if profile else "",
             })
         return {"followers": formatted_followers}
     raise HTTPException(status_code=500, detail="Error fetching followers")
@@ -84,6 +85,7 @@ async def get_following(user_id: int):
                 "user_id": follow_id,
                 "username": profile["username"] if profile else "Unknown",
                 "profile_pic_url": profile["profile_pic_url"] if profile else "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg",
+                "bio": profile["bio"] if profile else "",
             })
         return {"following": formatted_following}
     raise HTTPException(status_code=500, detail="Error fetching following")
