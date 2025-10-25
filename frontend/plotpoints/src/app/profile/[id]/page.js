@@ -276,9 +276,11 @@ export default function ProfilePage( {params} ){
                     </GenreContainer>
                 </div> 
                 
-
-                <button onClick={async () => followUser(id, session?.accessToken)}>follow</button>
-                <button onClick={async () => unfollowUser(id, session?.accessToken)}>unfollow</button>
+                {/* Testing follow/unfollow buttons 
+                THIS IS TEMPORARY AND SHOULD BE REMOVED LATER!!
+                */}
+                <button onClick={async () => console.log(await followUser(id, session?.accessToken))}>follow</button>
+                <button onClick={async () => console.log(await unfollowUser(id, session?.accessToken))}>unfollow</button>
                 <button onClick={async () => console.log(await isFollowing(id, session?.accessToken))}>log profile details</button>
 
             </div>
