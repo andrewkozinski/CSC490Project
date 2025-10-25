@@ -8,7 +8,7 @@ import Link from "next/link";
 import Review from "@/app/components/ProfileReview";
 import GenreContainer from "@/app/components/GenreContainer";
 import Modal from "@/app/components/EditModal";
-
+import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 
 import { useSession } from "next-auth/react";
 
@@ -53,6 +53,7 @@ export default function ProfilePage( {params} ){
                 const data = await response.json();
                 console.log("Fetched Profile Details:", data);
                 setProfileDetails(data);
+                setProfilePicture(data.profile_pic_url || "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg");
             }
             catch (error) {
                 console.error("Error fetching profile details:", error);
@@ -156,7 +157,7 @@ export default function ProfilePage( {params} ){
                                         <div className="flex flex-row w-full justify-around items-center mt-5">
                                             <Image 
                                                 className="aspect-square rounded-full mb-5 border-2 border-[#dfcdb5]" 
-                                                src="/images/cat.jpg"
+                                                src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
                                                 alt="User Image"
                                                 width="170"
                                                 height="170">
@@ -184,7 +185,20 @@ export default function ProfilePage( {params} ){
                                         //onClick to save image and bio
                                         onClick={async () => {
 
-                                            //First check if bio has changed
+                                            //Profile picture update goes here
+                                            if(imageFile) {
+                                                
+                                                try {
+                                                    const result = await uploadProfilePicture(imageFile, session?.accessToken);
+                                                    console.log("Profile picture uploaded successfully:", result);
+                                                    setProfilePicture(result.pfp_url);
+                                                } catch (error) {
+                                                    console.error("Error uploading profile picture:", error);
+                                                }
+
+                                            }
+
+                                            //Check if bio has changed
                                             if (modalBio !== profileDetails?.bio) {
                                                 //API call to save bio
                                                 const response = await fetch('/api/profiles/update/bio', {
