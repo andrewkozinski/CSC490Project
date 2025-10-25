@@ -148,8 +148,12 @@ export default function ProfilePage( {params} ){
                     <div className="grid grid-rows-4 gap-2">
                         <div className="flex flex-row justify-center items-center">
                             <h1 className="text-3xl text-center inria-serif-regular">{profileDetails?.username || "Error: Username not found"}</h1>
+                            
+                            {/*Verify current page is the current users profile*/}
+                            {profileDetails?.user_id === session?.user?.id && (
                             <img className="w-8 h-8 ml-3 hover:cursor-pointer hover:scale-110" src="/images/pencil.svg"
-                                onClick={() => setShowModal(true)}/>
+                                onClick={() => setShowModal(true)}/> )}
+
                                 {showModal &&
                                 <Modal onClose={() => setShowModal(false)}>
                                     <h1 className="text-2xl text-center">Edit Profile</h1>
