@@ -193,3 +193,31 @@ def get_follower_count(follow_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+
+#Gets a list of whom a user is following
+def get_user_following_list(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT FOLLOW_ID FROM ADMIN.FOLLOWERS
+            WHERE USER_ID = :1
+            """,
+            (user_id,)
+        )
+
+        results = cursor.fetchall()
+        following_list = [follow_id for (follow_id,) in results]
+        return following_list
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving following list:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
