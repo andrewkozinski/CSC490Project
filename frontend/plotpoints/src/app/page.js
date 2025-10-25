@@ -20,25 +20,33 @@ export default function Home() {
   useEffect(() => {
     const fetchTrendingData = async () => {
       try {
-        const moviesResponse = await fetch('/api/movies/trending');
-        const showsResponse = await fetch('/api/tv/trending');
-        const booksResponse = await fetch('/api/books/trending');
-        const reviewsResponse = await fetch('/api/reviews/get/recent_reviews');
-        const moviesData = await moviesResponse.json();
-        const showsData = await showsResponse.json();
-        const booksData = await booksResponse.json();
-        const reviewsData = await reviewsResponse.json();
+        const[movieRes, showRes, bookRes, reviewRes] = await Promise.all([
+          fetch('/api/movies/trending'),
+          fetch('/api/tv/trending'),
+          fetch('/api/books/trending'),
+          fetch('/api/reviews/get/recent_reviews')
+        ]);
+
+        const [moviesData, showsData, booksData, reviewsData] = await Promise.all([
+          movieRes.json(),
+          showRes.json(),
+          bookRes.json(),
+          reviewRes.json()
+        ]);
+
         console.log(moviesData);
         console.log(showsData);
+        console.log(booksData);
+        console.log(reviewsData);
+
         setTrendingMovies(moviesData);
         setTrendingShows(showsData);
-        console.log(booksData);
         setTrendingBooks(booksData);
         setRecentReviews(reviewsData.reviews);
-        console.log(reviewsData);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching trending data:", error);
+      }
+      finally {
         setLoading(false);
       }
     };
