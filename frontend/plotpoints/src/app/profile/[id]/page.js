@@ -223,8 +223,6 @@ export default function ProfilePage( {params} ){
                                                 }));
 
                                             }
-                                            //Image call will go here when it's implemented.
-
 
                                             //close modal
                                             setShowModal(false);
