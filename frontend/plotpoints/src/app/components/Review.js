@@ -6,6 +6,7 @@ import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/l
 import Star from "./Star";
 
 export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0}) {
+  const [reviewText, setReviewText] = useState(text);
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
   const { data: session } = useSession();
@@ -140,6 +141,29 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
     setCommentText("");
   };
 
+  const handleSubmitEdit = async (e) => {
+    e.preventDefault();
+    console.log(`Submitting edit for review ${reviewId} with text: ${editText}`);
+
+    const res = await fetch(`/api/reviews/edit/${reviewId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        review_text: editText,
+        jwt_token: session?.accessToken,
+      }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to edit review');
+    }
+
+    //If here it was a success
+    setShowEditBox(false);
+    setReviewText(editText); //Update the reviews text to avoid unnecessary refresh
+  };
+
   return (
     <div className="flex flex-col mt-1">
       <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2">
@@ -183,7 +207,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </div>
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
-            <p className="mt-1 text-gray-700 text-sm">{text}</p>
+            <p className="mt-1 text-gray-700 text-sm">{reviewText}</p>
           </div>
 
           {/* Rating controls */}
@@ -266,6 +290,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             />
             <button
               type="submit"
+              onClick={handleSubmitEdit}
               className="absolute bottom-2 right-2 px-4 py-1 brown rounded cursor-pointer border-1 text-sm"
             >
               Edit
