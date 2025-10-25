@@ -7,7 +7,7 @@ export default function FollowProfile({ name, desc, user_id, pfp_url }) {
     >
       {/* Profile Section */}
       <div className="flex flex-row items-center">
-        <div className="w-16 h-16 rounded-full bg-gray-200 border-2 cursor-pointer shrink-0" />
+        <div className="w-16 h-16 rounded-full bg-gray-200 border-2 cursor-pointer shrink-0" style={{ backgroundImage: `url(${pfp_url})`, backgroundSize: 'cover' }} />
         <div className="flex flex-col ml-5 text-left">
           <p className="text-lg underline underline-offset-3">
             {name || "Your Name"}
