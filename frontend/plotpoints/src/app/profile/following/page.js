@@ -14,7 +14,7 @@ export default function following() {
     async function fetchFollowing() {
       try {
         const data = await getFollowing(5); // This will be replaced with actual user ID from the url
-        setFollowingData(data);
+        setFollowingData(data.following);
         console.log(data);
       } catch (error) {
         console.error("Error fetching following data:", error);
@@ -28,10 +28,10 @@ export default function following() {
       <Header></Header>
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="w-3/4 h-full bottom-0 text-center shadow-lg mb-3 outline-transparent">
-          <FollowProfile name="max" desc="yerrr"></FollowProfile>
-          <FollowProfile></FollowProfile>
-          <FollowProfile></FollowProfile>
-          <FollowProfile></FollowProfile>
+          {/* <FollowProfile name="max" desc="yerrr"></FollowProfile> */}
+          {followingData.map((user, index) => (
+            <FollowProfile key={index} name={user.username} desc={user.bio}></FollowProfile>
+          ))}
         </div>
       </div>
       <Footer></Footer>
