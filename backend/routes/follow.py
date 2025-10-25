@@ -75,5 +75,15 @@ async def get_followers(follow_id: int):
 async def get_following(user_id: int):
     following = database.following.get_user_following_list(user_id)
     if following is not None:
-        return {"following": following}
+        #Same as previous function, we're formatting the following list to include username and profile picture
+        formatted_following = []
+        for follow in following:
+            follow_id = follow
+            profile = await routes.profiles.get_user_info_by_id(follow_id)
+            formatted_following.append({
+                "user_id": follow_id,
+                "username": profile["username"] if profile else "Unknown",
+                "profile_pic_url": profile["profile_pic_url"] if profile else "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg",
+            })
+        return {"following": formatted_following}
     raise HTTPException(status_code=500, detail="Error fetching following")
