@@ -7,6 +7,7 @@ import GenreContainer from "../components/GenreContainer";
 import Image from "next/image";
 import Review from "../components/HomepageReview";
 import '../components/Homepage.css';
+import CoverSlider from "./CoverSlider";
 
 
 export default function Home() {
@@ -68,11 +69,11 @@ export default function Home() {
 
         </div> */}
         <div className="wrapper ml-10">
-          <GenreContainer label="Trending Movies">
+          <CoverSlider label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
               <img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => window.location.href = `/movies/review/${movie.id}`} style={{ cursor: 'pointer' }}/>
             ))}
-          </GenreContainer>
+          </CoverSlider>
           <GenreContainer label="Trending Shows">
             {trendingShows?.results?.map((show) => (
               <img key={show.id} className="image" src={show.img} alt={show.title} onClick={() => window.location.href = `/tv/review/${show.id}`} style={{ cursor: 'pointer' }}/>
