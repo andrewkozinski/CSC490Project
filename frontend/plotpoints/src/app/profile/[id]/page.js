@@ -247,12 +247,16 @@ export default function ProfilePage( {params} ){
                 <div className="m-15 h-fit">
                     <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
-                        {recentReviews?.map((review, idx) => (
-                            <Review
-                                key={review?.id ?? idx}
-                                reviewData={review}
-                            />
-                        ))}
+                        {/*If no recent reviews, then display text stating the user hasn't made any reviews*/}
+                        {recentReviews?.length === 0 ? (
+                            <p>This user hasn't made any reviews yet!</p>
+                        ) : (
+                            recentReviews?.map((review, idx) => (
+                                <Review
+                                    key={review?.id ?? idx}
+                                    reviewData={review}
+                                />
+                        )))}
                     </div>
                 </div>
                 <div className="m-15 h-fit">
