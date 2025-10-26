@@ -57,27 +57,27 @@ function MovieReviewPage({ params }) {
   }, []);
 
   if (isLoading) {
-      return (
-        <div>
-          <Header />
-          <div className="flex flex-col items-center justify-center min-h-screen">
-            <h1 className="text-2xl mb-4">Loading...</h1>
-            <Image src={loadingImage} alt="Loading" width={500} height={300} />
-          </div>
-          <Footer />
+    return (
+      <div>
+        <Header />
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Loading...</h1>
+          <Image src={loadingImage} alt="Loading" width={500} height={300} />
         </div>
-      );
-    }
+        <Footer />
+      </div>
+    );
+  }
 
-    if(!isLoading && !movieDetails) {
-      return (
-        <div>
-          <Header />
-          <p>Error: Failed to load movie details.</p>
-          <Footer />
-        </div>
-      );
-    }
+  if (!isLoading && !movieDetails) {
+    return (
+      <div>
+        <Header />
+        <p>Error: Failed to load movie details.</p>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div>
