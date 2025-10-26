@@ -2,12 +2,12 @@ import Star from "./Star";
 
 export default function HomepageReview({reviewData}) {
 
-    const {title, img, review_text, username, /*profilePicUrl,*/ rating, media_type, media_id} = reviewData || {
+    const {title, img, review_text, username, profile_pic_url, rating, media_type, media_id} = reviewData || {
         title: "Superman",
         img: "https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg",
         review_text: "An awesome take on a classic superhero story!",
         username: "Username",
-        //profilePicUrl: null,
+        profile_pic_url: "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg",
         rating: 5,
         media_type: "movie",
         media_id: 1061474

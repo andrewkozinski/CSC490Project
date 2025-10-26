@@ -10,6 +10,8 @@ import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 import fetchStreamLinks from "@/utils/fetchStreamLinks";
 import Link from "next/link";
+import { randomTennaLoading } from "@/lib/random_tenna_loading";
+import Image from "next/image";
 
 
 function MovieReviewPage({ params }) {
@@ -25,6 +27,10 @@ function MovieReviewPage({ params }) {
   //Stream links, if available
   const [streamLinks, setStreamLinks] = useState([]);
 
+  //Loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -36,9 +42,11 @@ function MovieReviewPage({ params }) {
         const data = await response.json();
         console.log("Fetched Movie Details:", data);
         setMovieDetails(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching movie details:", error);
         setMovieDetails(null);
+        setIsLoading(false);
       }
     };
 
@@ -48,12 +56,26 @@ function MovieReviewPage({ params }) {
     fetchStreamLinks("movies", id, setStreamLinks);
   }, []);
 
-  if (!movieDetails) {
+  if (isLoading) {
     return (
-      <>
+      <div>
         <Header />
-        <p>Loading Movie Details...</p>
-      </>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Loading...</h1>
+          <Image src={loadingImage} alt="Loading" width={500} height={300} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isLoading && !movieDetails) {
+    return (
+      <div>
+        <Header />
+        <p>Error: Failed to load movie details.</p>
+        <Footer />
+      </div>
     );
   }
 
