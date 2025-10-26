@@ -14,6 +14,8 @@ import Image from "next/image";
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 
+import { randomTennaLoading } from "@/lib/random_tenna_loading";
+
 function BookReviewPage({ params }) {
 
   function formatDate(dateString) {
@@ -33,6 +35,9 @@ function BookReviewPage({ params }) {
   const [bookDetails, setBookDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [avgRating, setAvgRating] = useState(0);
+  //Loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
 
   // Need to fetch data using this ID to get the details of the book
   useEffect(() => {
@@ -45,8 +50,10 @@ function BookReviewPage({ params }) {
         const data = await response.json();
         console.log("Fetched Book Details:", data);
         setBookDetails(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching book details:", error);
+        setIsLoading(false);
       }
     };
 
@@ -55,12 +62,26 @@ function BookReviewPage({ params }) {
     fetchAvgRating("books", id, setAvgRating);
   }, [id]);
 
-  if (!bookDetails) {
+  if (isLoading) {
     return (
-      <>
+      <div>
         <Header />
-        <p>Loading Book Details...</p>
-      </>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Loading...</h1>
+          <Image src={loadingImage} alt="Loading" width={500} height={300} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if(!isLoading && !bookDetails) {
+    return (
+      <div>
+        <Header />
+        <p>Error: Failed to load book details.</p>
+        <Footer />
+      </div>
     );
   }
 
