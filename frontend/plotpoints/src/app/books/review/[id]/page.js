@@ -79,7 +79,9 @@ function BookReviewPage({ params }) {
     return (
       <div>
         <Header />
-        <p>Error: Failed to load book details.</p>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Error: Failed to load Book details.</h1>
+        </div>
         <Footer />
       </div>
     );
