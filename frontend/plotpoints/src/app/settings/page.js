@@ -7,6 +7,7 @@ export default function Settings() {
             <Header/>
             <div className="flex flex-1 justify-center items-center">
                 <h1 className="text-2xl inline-block text-center">Settings</h1>
+                {/* uh dark mode? star color? idk */}
             </div>
             <Footer/>
         </div>
