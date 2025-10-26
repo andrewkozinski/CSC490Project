@@ -10,6 +10,7 @@ import GenreContainer from "@/app/components/GenreContainer";
 import Modal from "@/app/components/EditModal";
 import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 import { followUser, unfollowUser, isFollowing } from "@/lib/following";
+import { randomTennaLoading } from "@/lib/random_tenna_loading";
 
 import { useSession } from "next-auth/react";
 
@@ -24,6 +25,7 @@ export default function ProfilePage( {params} ){
     const [profilePicture, setProfilePicture] = useState("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
     const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
     
 
     const [showModal, setShowModal] = useState(false);
@@ -98,7 +100,7 @@ export default function ProfilePage( {params} ){
                 <Header/>
                 <div className="flex flex-col items-center justify-center min-h-screen">
                     <h1 className="text-2xl mb-4">Loading...</h1>
-                    <Image src="/images/spr_tenna_t_pose_big.gif" alt="Loading" width={500} height={300} />
+                    <Image src={loadingImage} alt="Loading" width={500} height={300} />
                 </div>
                 <Footer/>
             </div>
