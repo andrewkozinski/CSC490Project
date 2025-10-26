@@ -24,7 +24,7 @@ export default function Home() {
           fetch('/api/movies/trending'),
           fetch('/api/tv/trending'),
           fetch('/api/books/trending'),
-          fetch('/api/reviews/get/recent_reviews')
+          fetch('/api/reviews/get/recent_reviews?limit=5')
         ]);
 
         const [moviesData, showsData, booksData, reviewsData] = await Promise.all([
