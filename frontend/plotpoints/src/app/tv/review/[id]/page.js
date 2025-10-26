@@ -87,7 +87,9 @@ function TvReviewPage({ params }) {
     return (
       <div>
         <Header />
-        <p>Error: Failed to load TV show details.</p>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Error: Failed to load TV show details.</h1>
+        </div>
         <Footer />
       </div>
     );
