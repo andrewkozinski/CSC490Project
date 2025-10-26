@@ -4,7 +4,7 @@ from database import reviews, vote
 from database.trending_books import convert_book_id_back_to_str as get_book_str_from_id
 from routes.auth import verify_jwt_token, get_user_id_from_token
 from routes.profiles import get_username_by_id
-from routes import books, movies, tvshows
+from routes import books, movies, tvshows, profiles
 
 class CreateReviewRequest(BaseModel):
     #user_id: int #Commented out since JWT token will provide user id
@@ -193,8 +193,10 @@ async def get_recent_reviews(limit: int = 3):
         return {"reviews": []}
 
     for review in recent_reviews:
-        user = await get_username_by_id(review["user_id"])
-        review["username"] = user if user else "Unknown User"
+        #user = await get_username_by_id(review["user_id"])
+        user = await profiles.get_user_info_by_id(review["user_id"])
+        review["username"] = user["username"] if user else "Unknown User"
+        review["profile_pic_url"] = user["profile_pic_url"] if user else "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
         votes = vote.get_vote_by_review_id(review["review_id"])
         review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
