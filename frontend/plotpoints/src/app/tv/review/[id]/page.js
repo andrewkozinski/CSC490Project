@@ -11,6 +11,8 @@ import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 import fetchStreamLinks from "@/utils/fetchStreamLinks";
 import Link from "next/link";
+import { randomTennaLoading } from "@/lib/random_tenna_loading";
+import Image from "next/image";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -30,6 +32,10 @@ function TvReviewPage({ params }) {
   //Stream links, if available
   const [streamLinks, setStreamLinks] = useState([]);
 
+  //Loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
     const fetchTvDetails = async () => {
@@ -41,8 +47,11 @@ function TvReviewPage({ params }) {
         const data = await response.json();
         console.log("Fetched TV Show Details:", data);
         setTvDetails(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching TV show details:", error);
+        setTvDetails(null);
+        setIsLoading(false);
       }
     };
 
@@ -61,12 +70,28 @@ function TvReviewPage({ params }) {
     }
   }, [reviews, session]);
 
-  if (!tvDetails) {
+  if (isLoading) {
     return (
-      <>
+      <div>
         <Header />
-        <p>Loading TV Show Details...</p>
-      </>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Loading...</h1>
+          <Image src={loadingImage} alt="Loading" width={500} height={300} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isLoading && !tvDetails) {
+    return (
+      <div>
+        <Header />
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Error: Failed to load TV show details.</h1>
+        </div>
+        <Footer />
+      </div>
     );
   }
 
