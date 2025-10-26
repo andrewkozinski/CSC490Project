@@ -251,7 +251,7 @@ export default function ProfilePage( {params} ){
                     <div className="flex flex-col gap-5">
                         {/*If no recent reviews, then display text stating the user hasn't made any reviews*/}
                         {recentReviews?.length === 0 ? (
-                            <p>This user hasn't made any reviews yet!</p>
+                            <p>{"This user hasn't made any reviews yet!"}</p>
                         ) : (
                             recentReviews?.map((review, idx) => (
                                 <Review
