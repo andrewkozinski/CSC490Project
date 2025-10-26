@@ -11,6 +11,7 @@ import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 import fetchStreamLinks from "@/utils/fetchStreamLinks";
 import Link from "next/link";
+import Bookmark from "@/app/components/Bookmark";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -85,6 +86,7 @@ function TvReviewPage({ params }) {
             alt={tvDetails ? tvDetails.title : "TV Show Poster"}
             className="w-56 h-86 rounded-sm mb-5"
           />
+          <Bookmark></Bookmark>
           <div>
             {/*description box*/}
             {/* <p className="text-lg">Description:</p> */}
