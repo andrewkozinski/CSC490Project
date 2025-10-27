@@ -27,7 +27,11 @@ export default function ProfileReview({ reviewData }) {
                         return (
                             <Star
                                 key={value}
-                                className="fill-[#FFFC00] stroke-neutral-950 w-6 h-6"
+                                className={`w-6 h-6 ${
+                                value <= rating
+                                    ? "fill-[#FFFC00] stroke-neutral-950"
+                                    : "fill-transparent stroke-neutral-950"
+                                }`}
                                 />
                                 );
                                 })}
