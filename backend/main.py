@@ -10,6 +10,7 @@ from routes.profiles import router as profiles_router
 from routes.comments import router as comments_router
 from routes.votes import router as votes_router
 from routes.follow import router as follow_router
+from routes.bookmarks import router as bookmarks_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -64,6 +65,7 @@ app.include_router(profiles_router, prefix="/profiles") #includes the API router
 app.include_router(comments_router, prefix="/comments") #includes the API router from routes/comments.py
 app.include_router(votes_router, prefix="/votes") #includes the API router from routes/upvotes.py
 app.include_router(follow_router, prefix="/follow") #includes the API router from routes/follow.py
+app.include_router(bookmarks_router, prefix="/bookmarks") #includes the API router from routes/bookmarks.py
 
 # CORS settings
 app.add_middleware(
