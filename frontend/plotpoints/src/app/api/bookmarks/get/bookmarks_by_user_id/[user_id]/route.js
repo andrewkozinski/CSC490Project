@@ -3,8 +3,11 @@ export async function GET(request, { params }) {
     const { user_id } = params;
     console.log("User ID received: ", user_id);
     console.log("Params received: ", params);
+    //Get number of bookmarks to fetch from url query, default to 10 if not provided
+    const { searchParams } = new URL(request.url);
+    const limit = searchParams.get('limit') || 10;
 
-    const res = await fetch(`${process.env.API_URL}/bookmarks/all_bookmarks/user/${user_id}`, {
+    const res = await fetch(`${process.env.API_URL}/bookmarks/all_bookmarks/user/${user_id}?limit=${limit}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

@@ -23,8 +23,8 @@ export const isBookmarked = async (bookmarkId, userId) => {
     return body;
 };
 
-export const getBookmarksByUserId = async (userId) => {
-    const res = await fetch(`/api/bookmarks/get/bookmarks_by_user_id/${userId}`, {
+export const getBookmarksByUserId = async (userId, limit = 3) => {
+    const res = await fetch(`/api/bookmarks/get/bookmarks_by_user_id/${userId}?limit=${limit}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
