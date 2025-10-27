@@ -1,8 +1,7 @@
 //Gets all bookmarks for a specific user by their user ID
 export async function GET(request, { params }) {
-    const { user_id } = params;
+    const { user_id } = await params;
     console.log("User ID received: ", user_id);
-    console.log("Params received: ", params);
     //Get number of bookmarks to fetch from url query, default to 10 if not provided
     const { searchParams } = new URL(request.url);
     const limit = searchParams.get('limit') || 10;
