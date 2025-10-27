@@ -23,6 +23,6 @@ async def is_bookmarked(list_id: int, user_id: int):
     return {"is_bookmarked": False}
 
 @router.get("/all_bookmarks/user/{user_id}")
-async def get_user_bookmarks(user_id: int):
+async def get_user_bookmarks(user_id: int, limit: int = 3):
     # Placeholder implementation
     return {"user_bookmarks": []}
