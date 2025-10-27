@@ -7,12 +7,12 @@ async def get_all_bookmarks():
     # Placeholder implementation
     return {"bookmarks": []}
 
-@router.post("/add")
+@router.post("/add/{list_id}")
 async def add_bookmark(list_id: int, jwt_token: str):
     # Placeholder implementation
     return {"message": "Bookmark added successfully"}
 
-@router.delete("/remove")
+@router.delete("/remove/{list_id}")
 async def remove_bookmark(list_id: int, jwt_token: str):
     # Placeholder implementation
     return {"message": "Bookmark removed successfully"}
