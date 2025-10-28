@@ -12,6 +12,7 @@ import fetchStreamLinks from "@/utils/fetchStreamLinks";
 import Link from "next/link";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import Image from "next/image";
+import Bookmark from "@/app/components/Bookmark";
 
 
 function MovieReviewPage({ params }) {
@@ -99,6 +100,7 @@ function MovieReviewPage({ params }) {
             alt={movieDetails ? movieDetails.title : "Movie Poster"}
             className="w-56 h-86 rounded-sm mb-5"
           />
+          <Bookmark></Bookmark>
           <div>
             {/*description box*/}
             {/* <p className="text-lg">Description:</p> */}
@@ -113,7 +115,6 @@ function MovieReviewPage({ params }) {
               <div className="pt-5">
                 <p>Director: {movieDetails.director}</p>
                 <p>Date Released: {movieDetails.release_date}</p>
-                
                 {streamLinks.length > 0 && (
                   <div className="mt-2">
                     <p>Streaming Links:</p>
