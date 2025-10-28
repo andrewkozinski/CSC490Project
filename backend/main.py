@@ -1,5 +1,9 @@
 import os
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.inmemory import InMemoryBackend
 from routes.movies import router as movies_router
 from routes.auth import router as auth_router
 from routes.tvshows import router as tv_router
@@ -13,7 +17,13 @@ from routes.follow import router as follow_router
 from routes.bookmarks import router as bookmarks_router
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # This initializes cache
+    FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 # Base route to test if the server is running
 @app.get("/")
