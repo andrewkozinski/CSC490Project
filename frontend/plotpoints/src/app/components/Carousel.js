@@ -17,9 +17,9 @@ const Carousel = ({ label, children }) => {
 
     };
     return (
-        <div className="pb-10">
+        <div className="pb-10 w-9/10">
             <div>
-                <h2 className="text-2xl font-bold">{label}</h2>
+                <h2 className="text-2xl font-bold pl-4 pb-3">{label}</h2>
             </div>
             <div className="">
                 <Slider {...settings}>

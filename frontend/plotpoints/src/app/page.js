@@ -63,7 +63,7 @@ export default function Home() {
           <p className="text-center whitespace-nowrap">A unified review site for movies, tv shows, and books</p>
       </div>    
       
-      <div className="flex-row p-15">
+      <div className="flex pl-10 pt-15">
         <div className="w-2/3">
           <Carousel label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
