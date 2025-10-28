@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
 
-export async function PUT(req) {
-  console.log("PUT request received in /api/votes/upvotes");
+export async function POST(req) {
+  console.log("POST request received in /api/bookmarks/route.js");
   const body = await req.json();
   //console.log("Parsed body:", body);
   const { listId, jwtToken } = body;
   console.log("listId:", listId);
+  console.log("jwtToken:", jwtToken);
   try {
     const backendRes = await fetch(`${process.env.API_URL}/bookmarks/add/${listId}?jwt_token=${jwtToken}`, {
-      method: 'PUT',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
 
