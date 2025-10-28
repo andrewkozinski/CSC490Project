@@ -72,6 +72,8 @@ async def edit_review(edit_request: EditReviewRequest):
     result = reviews.edit_review(review_id, review_text)
     if result is False:
         raise HTTPException(status_code=404, detail="An error occurred, review not found.")
+    await FastAPICache.clear(namespace="recent_reviews")
+    await FastAPICache.clear(namespace=f"recent_reviews_user_{get_user_id_from_token(jwt_token)}")
     return {"message": "Review updated successfully"}
 
 @router.delete("/delete/{review_id}")
