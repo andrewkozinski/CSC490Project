@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 
 export default function FollowButton({ profileId, currentUserId, jwtToken }) {
-  if (profileId === currentUserId) return;
-  if (!jwtToken) return;
   const [isUserFollowing, setIsUserFollowing] = useState(false);
   useEffect(() => {
     if (profileId === currentUserId) return; // Your profile
@@ -23,6 +21,9 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
 
     checkFollowingStatus();
   }, [profileId, currentUserId, jwtToken]);
+
+  if (profileId === currentUserId) return;
+  if (!jwtToken) return;
 
   if (currentUserId == undefined) {
     return null;

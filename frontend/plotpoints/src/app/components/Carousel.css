@@ -1,0 +1,22 @@
+/* .slick-slider .slick-slide {
+  margin-right: 5;
+}
+
+.slick-slider .slick-list {
+  margin-right: -5;
+}
+
+.slick-slider .slick-track {
+  display: flex;
+} */
+
+.slick.slide {
+    margin-right: 1;
+}
+
+.slick-list {
+    padding-left: 20;
+    padding-top: 25;
+    padding-bottom: 20;
+    height: 245;
+}

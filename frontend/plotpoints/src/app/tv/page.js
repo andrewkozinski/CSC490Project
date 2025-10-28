@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import GenreContainer from "../components/GenreContainer";
+import Carousel from "../components/Carousel";
+import "../components/Homepage.css";
 
 export default function TV() {
 
@@ -42,18 +44,18 @@ export default function TV() {
 
         {/* Genre Containers */}
 
-        <GenreContainer label ="Kids Shows">
+        <Carousel label ="Kids Shows">
           {kidsShows.map((show) => (
             <img
               key={show.id}
               src={show.img}
               title={show.name}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/tv/review/${show.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
+        </Carousel>
         <GenreContainer label ="Drama Shows">
           {dramaShows.map((show) => (
             <img

@@ -30,10 +30,13 @@ function MovieReviewPage({ params }) {
 
   //Loading state
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
 
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
+
+    setLoadingImage(randomTennaLoading());
+
     const fetchMovieDetails = async () => {
       try {
         const response = await fetch(`/api/movies/details/${id}`);
