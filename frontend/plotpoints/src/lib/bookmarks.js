@@ -23,6 +23,8 @@ export const isBookmarked = async (bookmarkId, userId) => {
     return body;
 };
 
+//Limit is optional, defaults to 3
+//Change this value when you want to fetch more than 3 bookmarks
 export const getBookmarksByUserId = async (userId, limit = 3) => {
     const res = await fetch(`/api/bookmarks/get/bookmarks_by_user_id/${userId}?limit=${limit}`, {
       method: 'GET',
@@ -35,6 +37,8 @@ export const getBookmarksByUserId = async (userId, limit = 3) => {
     return body;
 };
 
+//As the name implies, adds a bookmark for the given listId and jwtToken
+//Will show an alert if the session is expired 
 export async function addBookmark(listId, jwtToken) {
   const response = await fetch(`/api/bookmarks`, {
     method: 'POST',
