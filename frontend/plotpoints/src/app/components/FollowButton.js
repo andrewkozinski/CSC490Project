@@ -31,7 +31,10 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
   if (!isUserFollowing && profileId != currentUserId) {
     return (
       <button
-        onClick={async () => console.log(await followUser(profileId, jwtToken))}
+        onClick={async () => {
+          await followUser(profileId, jwtToken);
+          window.location.reload();
+        }}
         className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-[var(--color-brown)]"
       >
         <svg
@@ -55,9 +58,10 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
   if (isUserFollowing && profileId != currentUserId) {
     return (
       <button
-        onClick={async () =>
-          console.log(await unfollowUser(profileId, jwtToken))
-        }
+        onClick={async () => {
+          await unfollowUser(profileId, jwtToken);
+          window.location.reload();
+        }}
         className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-[var(--color-brown)]"
       >
         <svg
