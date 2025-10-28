@@ -54,7 +54,8 @@ async def create_review(review: CreateReviewRequest):
         vote_result = vote.add_vote(review_id, None, 0, 0)
         #Now clear the cache for get all reviews since a new review has been added
         await FastAPICache.clear(namespace="recent_reviews")
-        await FastAPICache.clear(namespace=f"recent_reviews_user_{jwt_id}")
+        #await FastAPICache.clear(namespace=f"recent_reviews_user_{jwt_id}")
+        await FastAPICache.clear(namespace="recent_reviews_user_{user_id}")
         return {"message": "Review created successfully", "review_id": review_id}
     else:
         raise HTTPException(status_code=500, detail="Failed to create review. Please try again.")
@@ -73,7 +74,8 @@ async def edit_review(edit_request: EditReviewRequest):
     if result is False:
         raise HTTPException(status_code=404, detail="An error occurred, review not found.")
     await FastAPICache.clear(namespace="recent_reviews")
-    await FastAPICache.clear(namespace=f"recent_reviews_user_{get_user_id_from_token(jwt_token)}")
+    #await FastAPICache.clear(namespace=f"recent_reviews_user_{get_user_id_from_token(jwt_token)}")
+    await FastAPICache.clear(namespace="recent_reviews_user_{user_id}")
     return {"message": "Review updated successfully"}
 
 @router.delete("/delete/{review_id}")
@@ -86,7 +88,8 @@ async def delete_review(delete_request: DeleteReviewRequest):
     if result is False:
         raise HTTPException(status_code=404, detail="Review not found")
     await FastAPICache.clear(namespace="recent_reviews")
-    await FastAPICache.clear(namespace=f"recent_reviews_user_{get_user_id_from_token(delete_request.jwt_token)}")
+    #await FastAPICache.clear(namespace=f"recent_reviews_user_{get_user_id_from_token(delete_request.jwt_token)}")
+    await FastAPICache.clear(namespace="recent_reviews_user_{user_id}")
     return {"message": "Review deleted successfully"}
 
 @router.get("/all")
