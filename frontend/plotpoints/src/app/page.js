@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import GenreContainer from "./components/GenreContainer";
 import Image from "next/image";
 import Review from "./components/HomepageReview";
 import './components/Homepage.css';
@@ -25,7 +24,7 @@ export default function Home() {
           fetch('/api/movies/trending'),
           fetch('/api/tv/trending'),
           fetch('/api/books/trending'),
-          fetch('/api/reviews/get/recent_reviews?limit=5')
+          fetch('/api/reviews/get/recent_reviews?limit=6')
         ]);
 
         const [moviesData, showsData, booksData, reviewsData] = await Promise.all([
@@ -83,7 +82,7 @@ export default function Home() {
          
     
         </div>
-        <div className="w-1/3">
+        <div className="w-1/3 pb-10">
           <h2 className="text-2xl font-bold pl-10">Recent Reviews</h2>
           <div className="flex flex-col gap-5 pt-9 ml-10">
             {recentReviews?.map((review, idx) => (

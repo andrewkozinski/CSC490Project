@@ -1,4 +1,5 @@
 import Star from "./Star";
+import "./Homepage.css";
 
 export default function HomepageReview({reviewData}) {
 
@@ -18,7 +19,7 @@ export default function HomepageReview({reviewData}) {
             <img
                 src={img}
                 title={title}
-                className="min-w-25 min-h-37 max-w-25 min-h-37 rounded-sm hover:cursor-pointer"
+                className="image "
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block -ml-25">
