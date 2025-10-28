@@ -7,5 +7,5 @@ export async function GET(request) {
         return new Response("Failed to fetch recent reviews", { status: 500 });
     }
     const data = await res.json();
-    return new Response(JSON.stringify(data), { status: 200, headers: { "Cache-Control": "max-age=60" } /*Cached for one minute */ });
+    return new Response(JSON.stringify(data), { status: 200, /*headers: { "Cache-Control": "max-age=60"*/ } /*Cached for one minute */ });
 }
