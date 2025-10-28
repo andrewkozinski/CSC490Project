@@ -36,7 +36,7 @@ export default function SessionInfo() {
     //const data = await res.json();
     //console.log(data);
     const bookmarkId = 12; 
-    console.log(await addBookmark(bookmarkId, session?.accessToken));
+    console.log(await removeBookmark(bookmarkId, session?.accessToken));
   };
 
   return (
