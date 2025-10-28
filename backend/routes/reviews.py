@@ -1,4 +1,6 @@
 from fastapi import APIRouter, HTTPException
+from fastapi_cache import FastAPICache
+from fastapi_cache.decorator import cache
 from pydantic import BaseModel
 from database import reviews, vote
 from database.trending_books import convert_book_id_back_to_str as get_book_str_from_id
@@ -50,6 +52,9 @@ async def create_review(review: CreateReviewRequest):
     if review_id is not None:
         #Also initialize votes for the review
         vote_result = vote.add_vote(review_id, None, 0, 0)
+        #Now clear the cache for get all reviews since a new review has been added
+        await FastAPICache.clear(namespace="recent_reviews")
+        await FastAPICache.clear(namespace=f"recent_reviews_user_{jwt_id}")
         return {"message": "Review created successfully", "review_id": review_id}
     else:
         raise HTTPException(status_code=500, detail="Failed to create review. Please try again.")
@@ -78,9 +83,12 @@ async def delete_review(delete_request: DeleteReviewRequest):
     result = reviews.delete_review(delete_request.review_id)
     if result is False:
         raise HTTPException(status_code=404, detail="Review not found")
+    await FastAPICache.clear(namespace="recent_reviews")
+    await FastAPICache.clear(namespace=f"recent_reviews_user_{get_user_id_from_token(delete_request.jwt_token)}")
     return {"message": "Review deleted successfully"}
 
 @router.get("/all")
+@cache(namespace="recent-reviews", expire=1800)  # Cache get all reviews for 30 minutes
 async def get_all_reviews():
     all_reviews = reviews.get_all_reviews()
 
@@ -94,6 +102,7 @@ async def get_all_reviews():
 
 #get all reviews by media type: book, tv shows, movies
 @router.get("/by_media_type/{media_type}")
+@cache(namespace="recent-reviews", expire=180)  # Cache for 180 seconds
 async def get_reviews_by_media_type(media_type: str):
     reviews_by_type = reviews.get_reviews_by_media_type(media_type.lower())
     if reviews_by_type is None:
@@ -109,6 +118,7 @@ async def get_reviews_by_media_type(media_type: str):
 
 #Get all reviews by a media type and id
 @router.get("/by_media/{media_type}/{media_id}")
+@cache(namespace="recent-reviews", expire=60)  # Cache for 180 seconds
 async def get_reviews_by_media_type_and_id(media_type: str, media_id: str):
     reviews_by_media_and_id = reviews.get_reviews_by_media_id_and_type(media_id, media_type.lower())
     if reviews_by_media_and_id is None:
@@ -127,6 +137,8 @@ async def get_reviews_by_media_type_and_id(media_type: str, media_id: str):
 
 #Get all reviews by a user id
 @router.get("/by_user/{user_id}")
+#namespace by specific user id to avoid wiping cache for all users when one user adds a review
+@cache(namespace="recent-reviews-user-{user_id}", expire=300)  # Cache for 5 minutes
 async def get_reviews_by_user(user_id: int):
     reviews_by_user = reviews.get_reviews_by_user_id(user_id)
 
@@ -187,6 +199,7 @@ async def get_review_data(media_type: str, media_id: str):
         raise HTTPException(status_code=500, detail="Error fetching media details")
 
 @router.get("/get_recent_reviews")
+@cache(namespace="recent_reviews", expire=300)  # Cache for 5 minutes
 async def get_recent_reviews(limit: int = 3):
     recent_reviews = reviews.get_recent_reviews(limit)
     if recent_reviews is None:
@@ -228,6 +241,7 @@ async def get_recent_reviews(limit: int = 3):
     return {"reviews": recent_reviews}
 
 @router.get("/get_recent_reviews/by_user/{user_id}")
+@cache(namespace="recent_reviews_user_{user_id}", expire=300)  # Cache for 5 minutes needs to tested more
 async def get_recent_reviews_by_user_id(user_id: int, limit: int = 3):
     user_reviews = reviews.get_recent_reviews_by_user_id(user_id, limit)
     if user_reviews is None:
