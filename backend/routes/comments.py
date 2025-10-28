@@ -1,4 +1,6 @@
 from fastapi import APIRouter, HTTPException
+from fastapi_cache import FastAPICache
+from fastapi_cache.decorator import cache
 from pydantic import BaseModel
 from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id, get_comments_by_parent_comm_id
 from database import vote
@@ -55,6 +57,7 @@ async def delete_comment_request(comment: DeleteCommentRequest):
 
     if result is False:
         raise HTTPException(status_code=404, detail="Comment not found")
+    #await FastAPICache.clear(namespace=f"comments_{get_user_id_from_token(comment.jwt_token)}")
     return {"message": "Comment deleted successfully"}
 
 @router.get("/all")
@@ -70,6 +73,7 @@ async def fetch_all_comments():
     raise HTTPException(status_code=500, detail="Error fetching comments")
 
 @router.get("/from_review/{review_id}")
+#@cache(namespace="comments_{review_id}", expire=3600)
 async def fetch_comments_for_review(review_id: int):
     comments = get_comments_by_review_id(review_id)
     if comments is not None:
