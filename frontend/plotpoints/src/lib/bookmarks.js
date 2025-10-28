@@ -34,3 +34,35 @@ export const getBookmarksByUserId = async (userId, limit = 3) => {
     if (!res.ok) throw new Error(body.error || 'Failed to fetch bookmarks');
     return body;
 };
+
+export async function addBookmark(listId, jwtToken) {
+  const response = await fetch(`/api/bookmarks`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
+    },
+    body: JSON.stringify({ listId, jwtToken: jwtToken }),
+  });
+
+  if (!response.ok) {
+    handleHttpError(response);
+  }
+
+  return await response.json();
+};
+
+export async function removeBookmark(listId, jwtToken) {
+  const response = await fetch(`/api/bookmarks`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
+    },
+    body: JSON.stringify({ listId, jwtToken: jwtToken }),
+  })
+  if (!response.ok) {
+    handleHttpError(response);
+  }
+  return await response.json();
+};
