@@ -4,7 +4,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Image from "next/image";
 import Footer from "../components/Footer";
-import { isBookmarked, getBookmarksByUserId } from "@/lib/bookmarks";
+import { isBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } from "@/lib/bookmarks";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
@@ -36,7 +36,7 @@ export default function SessionInfo() {
     //const data = await res.json();
     //console.log(data);
     const bookmarkId = 12; 
-    console.log(await getBookmarksByUserId(1));
+    console.log(await addBookmark(bookmarkId, session?.accessToken));
   };
 
   return (
@@ -47,7 +47,6 @@ export default function SessionInfo() {
        If the value is true, it returns the value to the right of the colon. 
        If the value is false, it returns the value to the right of the colon.
        */}
-
         {status === "loading" ? 
         
         (
