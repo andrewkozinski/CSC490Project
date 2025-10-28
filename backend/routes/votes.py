@@ -47,6 +47,7 @@ async def upvote(vote_id: int, jwt_token: str):
         if result is False:
             raise HTTPException(status_code=500, detail="Error upvoting")
         await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        await FastAPICache.clear(namespace="recent-reviews")
         return {"message": "Upvoted successfully, upvote count incremented"}
     elif existing_vote == "U":
         #Already has an upvote, do nothing or return a message
@@ -60,6 +61,7 @@ async def upvote(vote_id: int, jwt_token: str):
         if result is False:
             raise HTTPException(status_code=500, detail="Error changing downvote to upvote")
         await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        await FastAPICache.clear(namespace="recent-reviews")
         return {"message": "Changed downvote to upvote successfully"}
 
     raise HTTPException(status_code=500, detail="Unexpected error during upvote")
@@ -87,6 +89,7 @@ async def remove_upvote(vote_id: int, jwt_token: str):
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing upvote")
     await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+    await FastAPICache.clear(namespace="recent-reviews")
     return {"message": "Upvote removed successfully, upvote count decremented"}
 
 #Increments downvote count for a review or comment
@@ -110,6 +113,7 @@ async def downvote(vote_id : int, jwt_token: str):
         if result is False:
             raise HTTPException(status_code=500, detail="Error downvoting")
         await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        await FastAPICache.clear(namespace="recent-reviews")
         return {"message": "Downvoted successfully, downvote count incremented"}
     elif existing_vote == "D":
         #Already has a downvote, do nothing or return a message
@@ -123,6 +127,7 @@ async def downvote(vote_id : int, jwt_token: str):
         if result is False:
             raise HTTPException(status_code=500, detail="Error changing upvote to downvote")
         await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        await FastAPICache.clear(namespace="recent-reviews")
         return {"message": "Changed upvote to downvote successfully"}
 
     raise HTTPException(status_code=500, detail="Unexpected error during downvote")
@@ -147,6 +152,8 @@ async def remove_downvote(vote_id: int, jwt_token: str):
     result = decrement_downvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing downvote")
+    await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+    await FastAPICache.clear(namespace="recent-reviews")
     return {"message": "Downvote removed successfully, downvote count decremented"}
 
 #Get what a user voted on a review or comment
