@@ -12,3 +12,17 @@
   cursor: pointer;
 }
 
+.review-img {
+  max-width: 100px;
+  max-height: 185px;
+  border-radius: 5;
+  /* transition: all 0.2s ease-in-out; */
+}
+
+/* .review-img:hover {
+  outline-offset: 2px;
+  outline-width: 2px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+} */
