@@ -13,7 +13,7 @@ async def get_all_bookmarks():
     else:
         return {"bookmarks": []}
 
-@router.post("/add/{list_id}")
+@router.post("/add/media_type/{media_type}/media_id/{media_id}")
 async def add_bookmark(media_type: str, media_id: str, jwt_token: str):
     #Verify the jwt token
     verify_jwt_token(jwt_token)
@@ -26,7 +26,7 @@ async def add_bookmark(media_type: str, media_id: str, jwt_token: str):
         raise HTTPException(status_code=500, detail="Failed to add bookmark")
     return {"list_id": result, "message": "Bookmark added successfully"}
 
-@router.delete("/remove/{list_id}")
+@router.delete("/remove/media_type/{media_type}/media_id/{media_id}")
 async def remove_bookmark(media_type: str, media_id: str, jwt_token: str):
     #Verify the jwt token
     verify_jwt_token(jwt_token)
