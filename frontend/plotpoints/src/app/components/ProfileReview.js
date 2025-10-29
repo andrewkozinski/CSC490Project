@@ -12,11 +12,11 @@ export default function ProfileReview({ reviewData }) {
     };
     
     return (
-        <div className="grid grid-cols-2 rounded-[1px] hover:outline-offset-5 hover:outline-1 w-max" onClick={() => window.location.href = `/${media_type}/review/${media_id}`}>
+        <div className="grid grid-cols-2 rounded-[1px] w-max">
             <img
                 src={img}
                 title={title}
-                className="min-w-25 min-h-37 max-w-25 min-h-37 rounded-sm hover:cursor-pointer"
+                className="min-w-25 min-h-37 max-w-25 min-h-37 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block -ml-25">
