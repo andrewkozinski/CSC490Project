@@ -37,10 +37,13 @@ function BookReviewPage({ params }) {
   const [avgRating, setAvgRating] = useState(0);
   //Loading state
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
 
   // Need to fetch data using this ID to get the details of the book
   useEffect(() => {
+
+    setLoadingImage(randomTennaLoading());
+
     const fetchBookDetails = async () => {
       try {
         const response = await fetch(`/api/books/details/${id}`);

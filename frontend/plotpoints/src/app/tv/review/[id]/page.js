@@ -35,10 +35,13 @@ function TvReviewPage({ params }) {
 
   //Loading state
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
 
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
+
+    setLoadingImage(randomTennaLoading());
+
     const fetchTvDetails = async () => {
       try {
         const response = await fetch(`/api/tv/details/${id}`);

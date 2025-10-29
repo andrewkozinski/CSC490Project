@@ -27,7 +27,7 @@ export default function ProfilePage( {params} ){
     const [profilePicture, setProfilePicture] = useState("http://www.w3.org/2000/svg")
     const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+    const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
     
 
     const [showModal, setShowModal] = useState(false);
@@ -48,7 +48,7 @@ export default function ProfilePage( {params} ){
     }
 
     useEffect(() => {
-
+        setLoadingImage(randomTennaLoading());
         const fetchProfileDetails = async () => {
             try {
                 const response = await fetch(`/api/profiles/get/${id}`);
