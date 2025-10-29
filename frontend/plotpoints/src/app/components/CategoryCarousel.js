@@ -14,7 +14,7 @@ const CatCarousel = ({ label, children }) => {
         autoplay: true,
         autoplaySpeed: 5000,
         arrows: false,
-        speed: 1000
+        speed: 1500
 
     };
     return (

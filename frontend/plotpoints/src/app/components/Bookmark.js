@@ -1,11 +1,12 @@
 export default function Bookmark() {
   return (
-    <div>
+    <div className="flex items-center pb-2">
+      <h1>Add to Bookmarks</h1>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        strokeWidth="1.5"
+        strokeWidth="1"
         stroke="currentColor"
         className ="size-8 hover:fill-black cursor-pointer"
       >
