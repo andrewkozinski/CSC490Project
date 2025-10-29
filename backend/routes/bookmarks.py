@@ -5,17 +5,6 @@ from database import watchlist
 
 router = APIRouter()
 
-async def user_key_builder(func, namespace, request, *args, **kwargs):
-    user_id = kwargs.get("user_id")
-    print(user_id)
-    print(namespace)
-    if user_id is None:
-        for a in args:
-            if isinstance(a, int):
-                user_id = a
-                break
-    return f"{namespace}_user_{user_id}"
-
 @router.get("/all")
 async def get_all_bookmarks():
     # Placeholder implementation
@@ -37,7 +26,6 @@ async def is_bookmarked(media_type:str, media_id:str, user_id: int):
     return {"is_bookmarked": False}
 
 @router.get("/all_bookmarks/user/{user_id}")
-@cache(namespace="recent_reviews_user_{user_id}", expire=300)
 async def get_user_bookmarks(user_id: int, limit: int = 3):
     bookmarks = watchlist.get_user_watchlist(user_id, limit)
     if bookmarks is not None:
