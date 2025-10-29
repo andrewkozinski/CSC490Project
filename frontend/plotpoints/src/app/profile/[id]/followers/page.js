@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { getFollowers } from "@/lib/following";
 import FollowProfile from "@/app/components/FollowProfile";
+import { useSession } from "next-auth/react";
 
 export default function Followers({ params }) {
-
   //Grab the ID from the URL
   const unwrappedParams = React.use(params);
   const id = unwrappedParams.id; //user id from the url
 
+  const { data: session } = useSession();
   //Fetch followers data
   const [followersData, setFollowersData] = useState([]);
-
   useEffect(() => {
     async function fetchFollowers() {
       try {
@@ -33,10 +33,15 @@ export default function Followers({ params }) {
       <Header></Header>
       <div className="flex items-center justify-center h-screen">
         <div className="w-3/4 h-full bottom-0 text-center shadow-lg mb-3 outline-transparent">
-
-          {followersData.map((user, index) => (
-            <FollowProfile key={index} name={user.username} desc={user.bio} user_id={user.user_id} pfp_url={user.profile_pic_url}></FollowProfile>
-          ))}
+        {followersData.length === 0 ? (
+            <p className="text-gray-500 mt-10">
+              This user has no followers yet.
+            </p>
+          ) : (
+          followersData.map((user, index) => (
+            <FollowProfile key={index} name={user.username} desc={user.bio} user_id={user.user_id} pfp_url={user.profile_pic_url} jwtToken ={session?.accessToken} currentUserId={session?.user?.id}></FollowProfile>
+          )))
+        }
 
         </div>
       </div>

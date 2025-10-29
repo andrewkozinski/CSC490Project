@@ -12,7 +12,6 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
       return null;
     }
     const checkFollowingStatus = async () => {
-      console.log(profileId, "and", currentUserId);
       try {
         const data = await isFollowing(profileId, jwtToken);
         console.log("Follow check response:", data);
