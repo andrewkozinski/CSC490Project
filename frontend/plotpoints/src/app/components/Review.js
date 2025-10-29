@@ -172,7 +172,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
     <div className="flex flex-col mt-1">
       <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2">
         {/* Avatar circle */}
-        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer shrink-0">
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0">
           {/*placeholder image*/}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +180,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-8 h-8 text-gray-700"
+            className="w-8 h-8 text-black"
           >
             <path
               strokeLinecap="round"
@@ -190,7 +190,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
           </svg>
         </div>
         {/* Example review content */}
-        <div className="flex flex-col mx-5 justify-between h-full grow">
+        <div className="flex flex-col mx-3 justify-between h-full grow">
           <div>
             <div className="flex flex-row">
               <p className="underline underline-offset-4 mr-3">{username}</p>
@@ -202,7 +202,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
                             key={value}
                             className={`w-6 h-6 ${
                             value <= rating
-                              ? "fill-[#FFFC00] stroke-neutral-950"
+                              ? "fill-black stroke-neutral-950"
                               : "fill-transparent stroke-neutral-950"
                               }`}
                           />
@@ -211,13 +211,13 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </div>
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
-            <p className="mt-1 text-gray-700 text-sm">{reviewText}</p>
+            <p className="mt-1 text-black text-sm">{reviewText}</p>
           </div>
 
           {/* Rating controls */}
           <div className="flex items-center w-full mt-2 space-x-2">
             {/* # of ratings */}
-            <p className="mr-3 text-sm text-gray-700">{upvotes}</p>
+            <p className="mr-3 text-sm text-black">{upvotes}</p>
             {/* plus */}
             <button className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""}`} onClick={handleUpvote}>
               <svg
@@ -236,7 +236,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </svg>
             </button>
             <p>|</p>
-            <p className="text-sm text-gray-700">{downvotes}</p>
+            <p className="text-sm text-black">{downvotes}</p>
 
             {/* minus */}
             <button className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""}`} onClick={handleDownvote}>

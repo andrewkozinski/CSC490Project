@@ -42,7 +42,7 @@ export default function HomepageReview({reviewData}) {
                     />
                     </svg>
                     </div>    
-                    <p className="-ml-1 hover:underline hover:underline-offset-3 hover:cursor-pointer">{username}</p>
+                    <p className="-ml-1 underline underline-offset-3 hover:text-[#ffa2e9] hover:cursor-pointer">{username}</p>
                     <div className="flex flex-row justify-start">
                     {[...Array(5)].map((_, i) => {
                         const value = i + 1;
@@ -51,7 +51,7 @@ export default function HomepageReview({reviewData}) {
                                 key={value}
                                 className={`w-6 h-6 ${
                                 value <= rating
-                                    ? "fill-[#FFFC00] stroke-neutral-950"
+                                    ? "fill-black stroke-neutral-950"
                                     : "fill-transparent stroke-neutral-950"
                                 }`}
                                 />
