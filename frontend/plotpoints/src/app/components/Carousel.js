@@ -13,7 +13,8 @@ const Carousel = ({ label, children }) => {
         lazyLoad: true,
         autoplay: true,
         autoplaySpeed: 5000,
-        arrows: false
+        arrows: false,
+        speed: 1000
 
     };
     return (

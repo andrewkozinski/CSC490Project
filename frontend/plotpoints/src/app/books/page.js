@@ -3,10 +3,10 @@
 import { useState, useEffect} from "react";
 import Image from "next/image";
 import React from "react";
-
 import Header from "../components/Header";
-import GenreContainer from "../components/GenreContainer";
 import Footer from "../components/Footer";
+import Carousel from "../components/CategoryCarousel";
+import "../components/Homepage.css";
 
 export default function Books() {
 
@@ -43,57 +43,57 @@ export default function Books() {
   return (
     <div>
       <Header />
-      <main className="p-6">
+      <main className="p-10">
       
         {/* Genre Containers */}
         
-        <GenreContainer label="Romance Books">
+        <Carousel label="Romance Books">
                   {romanceBooks.map((book) => (
                     <Image
                       key={book.id}
                       src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
                       title={book.title}
                       alt={book.title}
-                      className="cover"
+                      className="image"
                       onClick={() => window.location.href = `/books/review/${book.id}`}
                       style={{ cursor: 'pointer' }}
                       width={1000}
                       height={1500}
                     />
                   ))}
-        </GenreContainer>
+        </Carousel>
 
-        <GenreContainer label="Crime Books">
+        <Carousel label="Crime Books">
                   {crimeBooks.map((book) => (
                     <Image
                       key={book.id}
                       src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
                       title={book.title}
                       alt={book.title}
-                      className="cover"
+                      className="image"
                       onClick={() => window.location.href = `/books/review/${book.id}`}
                       style={{ cursor: 'pointer' }}
                       width={1000}
                       height={1500}
                     />
                   ))}
-        </GenreContainer>
+        </Carousel>
 
-        <GenreContainer label="Fantasy Books">
+        <Carousel label="Fantasy Books">
                   {fantasyBooks.map((book) => (
                     <Image
                       key={book.id}
                       src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
                       title={book.title}
                       alt={book.title}
-                      className="cover"
+                      className="image"
                       onClick={() => window.location.href = `/books/review/${book.id}`}
                       style={{ cursor: 'pointer' }}
                       width={1000}
                       height={1500}
                     />
                   ))}
-        </GenreContainer>
+        </Carousel>
       </main>
       <Footer />
     </div>
