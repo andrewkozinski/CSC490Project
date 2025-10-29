@@ -172,7 +172,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
     <div className="flex flex-col mt-1">
       <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2">
         {/* Avatar circle */}
-        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0">
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#b0e0e68f] border-2 m-2 cursor-pointer shrink-0">
           {/*placeholder image*/}
           <svg
             xmlns="http://www.w3.org/2000/svg"

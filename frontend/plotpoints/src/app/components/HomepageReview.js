@@ -42,7 +42,7 @@ export default function HomepageReview({reviewData}) {
                     />
                     </svg>
                     </div>    
-                    <p className="-ml-1 underline underline-offset-3 hover:text-[#ffa2e9] hover:cursor-pointer">{username}</p>
+                    <p className="-ml-1 underline underline-offset-4 hover:text-[#ffa2e9] hover:cursor-pointer">{username}</p>
                     <div className="flex flex-row justify-start">
                     {[...Array(5)].map((_, i) => {
                         const value = i + 1;
