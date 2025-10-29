@@ -282,24 +282,20 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         )}
       </div>
       {showEditBox && (
-        <form className="flex flex-col mt-2 mb-2">
-          <div className="relative">
-            <textarea
-              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
-              placeholder="Write your edit here..."
-              maxLength={200}
-              rows={4}
-            />
-            <button
-              type="submit"
-              onClick={handleSubmitEdit}
-              className="absolute bottom-2 right-2 px-4 py-1 brown rounded cursor-pointer border-1 text-sm"
-            >
-              Edit
-            </button>
-          </div>
+        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8">
+          <textarea
+            placeholder="Write your edit here..."
+            className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            maxLength={200}
+          />
+          <button className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm" 
+          type="submit"
+          style={{backgroundColor:"var(--color-brown)"}}
+          onClick={handleSubmitEdit}>
+            Edit
+          </button>
         </form>
       )}
 
@@ -313,7 +309,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             onChange={onCommentTextChange}
             maxLength={200}
           />
-          <button className="cursor-pointer self-end shadow-xl mt-2 px-6 py-2 rounded-sm text-sm" 
+          <button className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm" 
           type="submit"
           style={{backgroundColor:"var(--color-brown)"}}>
             Reply
