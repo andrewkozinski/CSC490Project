@@ -208,3 +208,31 @@ def is_bookmarked(user_id, media_id, media_type):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_all_bookmarks():
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT LIST_ID, USER_ID, MEDIA_ID, MEDIA_TYPE
+            FROM ADMIN.WATCHLIST
+            """
+        )
+        results = cursor.fetchall()
+        bookmarks = [
+            {'list_id': list_id, 'user_id': user_id, 'media_id': media_id, 'media_type': media_type}
+            for list_id, user_id, media_id, media_type in results
+        ]
+        return bookmarks
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving all bookmarks:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
