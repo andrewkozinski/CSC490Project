@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import GenreContainer from "../components/GenreContainer";
-import Carousel from "../components/Carousel";
+import Carousel from "../components/CategoryCarousel";
 import "../components/Homepage.css";
 
 export default function TV() {
@@ -40,10 +39,33 @@ export default function TV() {
   return (
     <div>
       <Header />
-      <main className="p-6">
+      <main className="p-10">
 
         {/* Genre Containers */}
-
+        <Carousel label ="Drama Shows">
+          {dramaShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="image"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Carousel>
+        <Carousel label ="Comedy Shows">
+          {comedyShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="image"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Carousel>
         <Carousel label ="Kids Shows">
           {kidsShows.map((show) => (
             <img
@@ -56,42 +78,18 @@ export default function TV() {
             />
           ))}
         </Carousel>
-        <GenreContainer label ="Drama Shows">
-          {dramaShows.map((show) => (
-            <img
-              key={show.id}
-              src={show.img}
-              title={show.name}
-              className="cover"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
-              style={{ cursor: 'pointer' }}
-            />
-          ))}
-        </GenreContainer>
-        <GenreContainer label ="Comedy Shows">
-          {comedyShows.map((show) => (
-            <img
-              key={show.id}
-              src={show.img}
-              title={show.name}
-              className="cover"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
-              style={{ cursor: 'pointer' }}
-            />
-          ))}
-        </GenreContainer>
-        <GenreContainer label ="Crime Shows">
+        <Carousel label ="Crime Shows">
           {crimeShows.map((show) => (
             <img
               key={show.id}
               src={show.img}
               title={show.name}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/tv/review/${show.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
+        </Carousel>
       </main>
       <Footer />
     </div>

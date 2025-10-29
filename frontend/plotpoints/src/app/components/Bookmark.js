@@ -7,7 +7,7 @@ export default function Bookmark() {
         viewBox="0 0 24 24"
         strokeWidth="1.5"
         stroke="currentColor"
-        className ="size-8 hover:fill-yellow-500 cursor-pointer"
+        className ="size-8 hover:fill-black cursor-pointer"
       >
         <path
           strokeLinecap="round"
