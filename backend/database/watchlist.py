@@ -87,3 +87,64 @@ def delete_watchlist(list_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+#Takes in a user id, media id and media type and returns the corresponding list id from the watchlist table
+def get_list_id_from_media_type_and_id(user_id, media_id, media_type):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT LIST_ID
+            FROM ADMIN.WATCHLIST
+            WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3
+            """,
+            (user_id, media_id, media_type)
+        )
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving LIST_ID:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+#Takes in a user id, media id and media type and deletes the corresponding watchlist entry
+def delete_by_media_id_and_type(user_id, media_id, media_type):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        cursor.execute(
+            """
+            DELETE FROM ADMIN.WATCHLIST 
+            WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3
+            """,
+            (user_id, media_id, media_type)
+        )
+        if cursor.rowcount == 0:  # nothing deleted
+            print(f"Error: No watchlist entry found for USER_ID {user_id}, MEDIA_ID {media_id}, MEDIA_TYPE {media_type}.")
+            return False
+        else:
+            connection.commit()
+            print(f"Watchlist entry for USER_ID {user_id}, MEDIA_ID {media_id}, MEDIA_TYPE {media_type} deleted successfully.")
+            return True
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting watchlist entry:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
