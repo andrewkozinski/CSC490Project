@@ -148,3 +148,34 @@ def delete_by_media_id_and_type(user_id, media_id, media_type):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_user_watchlist(user_id, limit=3):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT LIST_ID, MEDIA_ID, MEDIA_TYPE
+            FROM ADMIN.WATCHLIST
+            WHERE USER_ID = :1
+            FETCH FIRST :2 ROWS ONLY
+            """,
+            (user_id, limit)
+        )
+        results = cursor.fetchall()
+        bookmarks = [
+            {'list_id': list_id, 'media_id': media_id, 'media_type': media_type}
+            for list_id, media_id, media_type in results
+        ]
+        return bookmarks
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving user bookmarks:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
