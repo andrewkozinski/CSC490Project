@@ -27,7 +27,7 @@ export default function ProfilePage( {params} ){
     const [profilePicture, setProfilePicture] = useState("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
     const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+    const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
     
 
     const [showModal, setShowModal] = useState(false);
@@ -48,7 +48,7 @@ export default function ProfilePage( {params} ){
     }
 
     useEffect(() => {
-
+        setLoadingImage(randomTennaLoading());
         const fetchProfileDetails = async () => {
             try {
                 const response = await fetch(`/api/profiles/get/${id}`);
