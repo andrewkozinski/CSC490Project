@@ -76,7 +76,7 @@ export default function SignUp() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <div className="flex flex-1 justify-center items-center">
-        <div className="flex flex-col gap-4 w-1/6">
+        <div className="flex flex-col gap-4 w-1/5">
           <h1 className="text-2xl inline-block text-center">Sign Up</h1>
           <TextField
             label="Username"
