@@ -179,3 +179,32 @@ def get_user_watchlist(user_id, limit=3):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def is_bookmarked(user_id, media_id, media_type):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        cursor.execute(
+            """
+            SELECT 1
+            FROM ADMIN.WATCHLIST
+            WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3
+            """,
+            (user_id, media_id, media_type)
+        )
+        result = cursor.fetchone()
+        if result:
+            return True
+        else:
+            return False
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error checking bookmark:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
