@@ -1,7 +1,7 @@
 export default function Bookmark() {
   return (
     <div className="flex items-center pb-2">
-      <h1>Add to Bookmarks</h1>
+      <h1 className="mr-2">Add to Bookmarks</h1>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

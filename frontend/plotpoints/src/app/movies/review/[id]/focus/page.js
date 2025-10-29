@@ -76,7 +76,7 @@ function IndividualMovieReviewPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-sm shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-black rounded-sm shadow-xl">
           <Review></Review>
         </div>
       </div>

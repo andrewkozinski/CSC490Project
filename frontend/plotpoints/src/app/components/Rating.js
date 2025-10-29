@@ -79,7 +79,7 @@ export default function Rating({
               key={value}
               className={`w-8 h-8 ${
                 value <= avgRating
-                  ? "fill-[#FFFC00] stroke-neutral-950"
+                  ? "fill-black stroke-neutral-950"
                   : "fill-transparent stroke-neutral-950"
               }`}
             />
@@ -101,7 +101,7 @@ export default function Rating({
                       key={value}
                       className={`w-8 h-8 ${
                         value <= userReview.rating
-                          ? "fill-[#FFFC00] stroke-neutral-950"
+                          ? "fill-black stroke-neutral-950"
                           : "fill-transparent stroke-neutral-950"
                       }`}
                     />
@@ -128,7 +128,7 @@ export default function Rating({
                       onMouseLeave={() => setHover(0)}
                       className={`cursor-pointer ${
                         value <= (hover || rating)
-                          ? "fill-[#FFFC00] stroke-neutral-950"
+                          ? "fill-black stroke-neutral-950"
                           : "fill-transparent stroke-neutral-950"
                       }`}
                     >

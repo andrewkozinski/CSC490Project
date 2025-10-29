@@ -172,7 +172,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
     <div className="flex flex-col mt-1">
       <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2">
         {/* Avatar circle */}
-        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer shrink-0">
+        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#b0e0e68f] border-2 m-2 cursor-pointer shrink-0">
           {/*placeholder image*/}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +180,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-8 h-8 text-gray-700"
+            className="w-8 h-8 text-black"
           >
             <path
               strokeLinecap="round"
@@ -190,7 +190,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
           </svg>
         </div>
         {/* Example review content */}
-        <div className="flex flex-col mx-5 justify-between h-full grow">
+        <div className="flex flex-col mx-3 justify-between h-full grow">
           <div>
             <div className="flex flex-row">
               <p className="underline underline-offset-4 mr-3">{username}</p>
@@ -202,7 +202,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
                             key={value}
                             className={`w-6 h-6 ${
                             value <= rating
-                              ? "fill-[#FFFC00] stroke-neutral-950"
+                              ? "fill-black stroke-neutral-950"
                               : "fill-transparent stroke-neutral-950"
                               }`}
                           />
@@ -211,13 +211,13 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </div>
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
-            <p className="mt-1 text-gray-700 text-sm">{reviewText}</p>
+            <p className="mt-1 text-black text-sm">{reviewText}</p>
           </div>
 
           {/* Rating controls */}
           <div className="flex items-center w-full mt-2 space-x-2">
             {/* # of ratings */}
-            <p className="mr-3 text-sm text-gray-700">{upvotes}</p>
+            <p className="mr-3 text-sm text-black">{upvotes}</p>
             {/* plus */}
             <button className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""}`} onClick={handleUpvote}>
               <svg
@@ -236,7 +236,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </svg>
             </button>
             <p>|</p>
-            <p className="text-sm text-gray-700">{downvotes}</p>
+            <p className="text-sm text-black">{downvotes}</p>
 
             {/* minus */}
             <button className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""}`} onClick={handleDownvote}>
@@ -282,24 +282,20 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
         )}
       </div>
       {showEditBox && (
-        <form className="flex flex-col mt-2 mb-2">
-          <div className="relative">
-            <textarea
-              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
-              placeholder="Write your edit here..."
-              maxLength={200}
-              rows={4}
-            />
-            <button
-              type="submit"
-              onClick={handleSubmitEdit}
-              className="absolute bottom-2 right-2 px-4 py-1 brown rounded cursor-pointer border-1 text-sm"
-            >
-              Edit
-            </button>
-          </div>
+        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8">
+          <textarea
+            placeholder="Write your edit here..."
+            className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            maxLength={200}
+          />
+          <button className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm" 
+          type="submit"
+          style={{backgroundColor:"var(--color-brown)"}}
+          onClick={handleSubmitEdit}>
+            Edit
+          </button>
         </form>
       )}
 
@@ -313,7 +309,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             onChange={onCommentTextChange}
             maxLength={200}
           />
-          <button className="cursor-pointer self-end shadow-xl mt-2 px-6 py-2 rounded-sm text-sm" 
+          <button className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm" 
           type="submit"
           style={{backgroundColor:"var(--color-brown)"}}>
             Reply

@@ -24,7 +24,7 @@ export default function ProfilePage( {params} ){
     console.log("Profile ID from URL: " + id);
 
     const [profileDetails, setProfileDetails] = useState(null);
-    const [profilePicture, setProfilePicture] = useState("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
+    const [profilePicture, setProfilePicture] = useState("http://www.w3.org/2000/svg")
     const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
