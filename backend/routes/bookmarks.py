@@ -1,4 +1,7 @@
 from fastapi import APIRouter, HTTPException
+from fastapi_cache import FastAPICache
+from fastapi_cache.decorator import cache
+from database import watchlist
 
 router = APIRouter()
 
@@ -8,21 +11,24 @@ async def get_all_bookmarks():
     return {"bookmarks": []}
 
 @router.post("/add/{list_id}")
-async def add_bookmark(list_id: int, jwt_token: str):
+async def add_bookmark(media_type: str, media_id: str, jwt_token: str):
     # Placeholder implementation
     return {"message": "Bookmark added successfully"}
 
 @router.delete("/remove/{list_id}")
-async def remove_bookmark(list_id: int, jwt_token: str):
+async def remove_bookmark(media_type: str, media_id: str, jwt_token: str):
     # Placeholder implementation
     return {"message": "Bookmark removed successfully"}
 
 @router.get("/is_bookmarked/{list_id}")
-async def is_bookmarked(list_id: int, user_id: int):
+async def is_bookmarked(media_type:str, media_id:str, user_id: int):
     # Placeholder implementation
     return {"is_bookmarked": False}
 
 @router.get("/all_bookmarks/user/{user_id}")
 async def get_user_bookmarks(user_id: int, limit: int = 3):
-    # Placeholder implementation
-    return {"user_bookmarks": []}
+    bookmarks = watchlist.get_user_watchlist(user_id, limit)
+    if bookmarks is not None:
+        return {"bookmarks": bookmarks}
+    else:
+        raise HTTPException(status_code=500, detail="Error fetching bookmarks")
