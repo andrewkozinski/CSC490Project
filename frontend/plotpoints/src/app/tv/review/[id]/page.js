@@ -35,10 +35,13 @@ function TvReviewPage({ params }) {
 
   //Loading state
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingImage, setLoadingImage] = useState(() => randomTennaLoading());
+  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
 
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
+
+    setLoadingImage(randomTennaLoading());
+
     const fetchTvDetails = async () => {
       try {
         const response = await fetch(`/api/tv/details/${id}`);
@@ -174,7 +177,7 @@ function TvReviewPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-sm shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-black rounded-sm shadow-xl">
           <Rating
             id={id}
             placeholder="Write a review!"

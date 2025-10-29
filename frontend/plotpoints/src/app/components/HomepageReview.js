@@ -15,11 +15,11 @@ export default function HomepageReview({reviewData}) {
     };
 
     return (
-        <div className="grid grid-cols-2 rounded-[1px] w-max" onClick={() => window.location.href = `/${media_type}/review/${media_id}`}>
+        <div className="grid grid-cols-2 rounded-[1px] w-max">
             <img
                 src={img}
                 title={title}
-                className="image "
+                className="review-img hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block -ml-25">
@@ -42,7 +42,7 @@ export default function HomepageReview({reviewData}) {
                     />
                     </svg>
                     </div>    
-                    <p className="-ml-1">{username}</p>
+                    <p className="-ml-1 underline underline-offset-4 hover:text-[#ffa2e9] hover:cursor-pointer">{username}</p>
                     <div className="flex flex-row justify-start">
                     {[...Array(5)].map((_, i) => {
                         const value = i + 1;
@@ -51,7 +51,7 @@ export default function HomepageReview({reviewData}) {
                                 key={value}
                                 className={`w-6 h-6 ${
                                 value <= rating
-                                    ? "fill-[#FFFC00] stroke-neutral-950"
+                                    ? "fill-black stroke-neutral-950"
                                     : "fill-transparent stroke-neutral-950"
                                 }`}
                                 />
@@ -60,8 +60,7 @@ export default function HomepageReview({reviewData}) {
                     </div>
                 </div>
                 
-                
-                <p className="w-80 text-sm">{review_text}</p>
+                <p className="w-80 text-sm pt-2">{review_text}</p>
             </div>    
             
         </div>
