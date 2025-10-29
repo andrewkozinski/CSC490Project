@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import React from "react";
 import Header from "@/app/components/Header";
@@ -13,6 +14,7 @@ import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 
 import { useSession } from "next-auth/react";
+import FollowButton from "@/app/components/FollowButton";
 
 export default function ProfilePage( {params} ){
 
@@ -241,6 +243,7 @@ export default function ProfilePage( {params} ){
                             <Link className="text-center m-1" href={`/profile/${id}/followers`}>Followers</Link>
                             <Link className="text-center m-1" href={`/profile/${id}/following`}>Following</Link>
                         </div>
+                        <FollowButton profileId={id} currentUserId={session?.user?.id} jwtToken={session?.accessToken}></FollowButton>
  
                     </div>
                     
@@ -285,9 +288,6 @@ export default function ProfilePage( {params} ){
                 {/* Testing follow/unfollow buttons 
                 THIS IS TEMPORARY AND SHOULD BE REMOVED LATER!!
                 */}
-                <button onClick={async () => console.log(await followUser(id, session?.accessToken))}>follow</button>
-                <button onClick={async () => console.log(await unfollowUser(id, session?.accessToken))}>unfollow</button>
-                <button onClick={async () => console.log(await isFollowing(id, session?.accessToken))}>is following?</button>
 
             </div>
             <Footer/>

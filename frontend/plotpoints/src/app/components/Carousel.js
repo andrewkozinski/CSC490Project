@@ -1,32 +1,33 @@
-// Filename - ImageSlider.js
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./slider.css";
+import "./Carousel.css";
 import React from "react";
 
-const CoverSlider = ({ label, children }) => {
+const Carousel = ({ label, children }) => {
     const settings = {
         infinite: true,
         dots: true,
-        slidesToShow: 6,
-        slidesToScroll: 3,
+        slidesToShow: 5,
+        slidesToScroll: 5,
         lazyLoad: true,
         autoplay: true,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 5000,
+        arrows: false,
+        speed: 1000
+
     };
     return (
-        <>
-            <div className="tag">
-                <h2 className="text-2xl font-bold pl-10">{label}</h2>
+        <div className="pb-10 w-9/10">
+            <div>
+                <h2 className="text-2xl font-bold pl-4 pb-3">{label}</h2>
             </div>
-            <div className="imgslider">
+            <div className="">
                 <Slider {...settings}>
                     {children}
                 </Slider>
             </div>
-        </>
+        </div>
     );
 };
-export default CoverSlider;
+export default Carousel;

@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
-import GenreContainer from "../components/GenreContainer";
 import Footer from "../components/Footer";
+import Carousel from "../components/CategoryCarousel";
+import "../components/Homepage.css";
 
 export default function Movies() {
 
@@ -40,7 +41,7 @@ export default function Movies() {
   return (
     <div>
       <Header />
-      <main className="p-6">
+      <main className="p-10">
 
         {/* Takes the response out of the backend and uses the images from the response in the backend */}
         {/*
@@ -53,185 +54,54 @@ export default function Movies() {
         }
         
         */}
-        <GenreContainer label="Horror Movies">
+        <Carousel label="Horror Movies">
           {horrorMovies.map((movie) => (
             <img 
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
-        <GenreContainer label="Comedy Movies">
+        </Carousel>
+        <Carousel label="Comedy Movies">
           {comedyMovies.map((movie) => (
             <img
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
-        <GenreContainer label="Science Fiction Movies">
+        </Carousel>
+        <Carousel label="Science Fiction Movies">
           {sciFiMovies.map((movie) => (
             <img
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
-        <GenreContainer label="History Movies">
+        </Carousel>
+        <Carousel label="History Movies">
           {historyMovies.map((movie) => (
             <img
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
-        
-        {/* OLD PLACEHOLDER CONTENT
-        <GenreContainer label="Horror Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        <GenreContainer label="Drama Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        <GenreContainer label="Comedy Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        <GenreContainer label="Science Fiction Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        */}
+        </Carousel>
       </main>
       <Footer />
     </div>

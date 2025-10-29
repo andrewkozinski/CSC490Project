@@ -1,27 +1,28 @@
-.scroll-container {
-  background-color: #ffffff00;
-  overflow: auto;
-  white-space: nowrap;
-  padding: 10px;
-}
-
-.scroll-container img {
-  padding: 10px;
-}
-
 .image {
-    max-width: 140;
-    max-height: 209;
-    border-radius: 5;
-    transition: all 0.3s ease-in-out;
+  max-width: 130px;
+  max-height: 195px;
+  border-radius: 5;
+  transition: all 0.3s ease-in-out;
 }
 
 .image:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
-    transition: all 0.3s ease-in-out;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
-.wrapper {
-    width: 980;
+.review-img {
+  max-width: 100px;
+  max-height: 185px;
+  border-radius: 5;
+  /* transition: all 0.2s ease-in-out; */
 }
+
+/* .review-img:hover {
+  outline-offset: 2px;
+  outline-width: 2px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+} */
