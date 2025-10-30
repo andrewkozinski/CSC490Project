@@ -31,8 +31,11 @@ export default function Followers({ params }) {
   return (
     <div>
       <Header></Header>
+      <h1 className="text-2xl text-center p-10">Followers</h1>
+
       <div className="flex items-center justify-center h-screen">
-        <div className="w-3/4 h-full bottom-0 text-center shadow-lg mb-3 outline-transparent">
+        
+        <div className="w-1/3 h-full bottom-0 text-center mb-3 outline-transparent">
         {followersData.length === 0 ? (
             <p className="text-gray-500 mt-10">
               This user has no followers yet.

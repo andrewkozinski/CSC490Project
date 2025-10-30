@@ -29,7 +29,7 @@ export default function FollowProfile({
     <div
       className="group m-2 mt-5 p-4 rounded-xl shadow-md blue 
                  hover:shadow-xl hover:-translate-y-1 transition-all duration-300
-                 flex justify-between items-center"
+                 flex justify-between" 
     >
       {/* Profile Section */}
       <div className="flex flex-row items-center">

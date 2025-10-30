@@ -7,8 +7,9 @@ import Footer from "@/app/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import Review from "@/app/components/ProfileReview";
-import GenreContainer from "@/app/components/GenreContainer";
+import Carousel from "@/app/components/ProfileCarousel";
 import Modal from "@/app/components/EditModal";
+import "@/app/components/Homepage.css";
 import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import { useSession } from "next-auth/react";
@@ -117,7 +118,7 @@ export default function ProfilePage( {params} ){
         return (
             <div>
                 <Header/>
-                <div className="flex flex-col items-center justify-center min-h-screen">
+                <div className="flex flex-col items-center justify-center h-4/5 mt-7 mb-7">
                     <h1 className="text-2xl mb-4">Loading...</h1>
                     <Image src={loadingImage} alt="Loading" width={500} height={300} />
                 </div>
@@ -158,9 +159,9 @@ export default function ProfilePage( {params} ){
         <div>   
             <Header/>
             <div className="flex flex-row gap-5 justify-center min-h-screen">
-                <div className="mt-10 ml-10 w-70 h-fit">
+                <div className="grid mt-10 ml-10 w-1/5 max-h-fit">
                     <Image 
-                    className="aspect-square rounded-full mb-5 ml-6 border-2 border-[#dfcdb5]" 
+                    className="aspect-square rounded-full place-self-center mb-2 border-2 border-[#000000]" 
                     src={profilePicture}
                     alt="User Image"
                     width="230"
@@ -182,7 +183,7 @@ export default function ProfilePage( {params} ){
                                     <div className="flex flex-col w-full">   
                                         <div className="flex flex-row w-full justify-around items-center mt-5">
                                             <Image 
-                                                className="aspect-square rounded-full mb-5 border-2 border-[#dfcdb5]" 
+                                                className="aspect-square rounded-full mb-5 border-2 border-[#000000]" 
                                                 src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
                                                 alt="User Image"
                                                 width="170"
@@ -266,12 +267,12 @@ export default function ProfilePage( {params} ){
                     
                 </div>
                 
-                <div className="m-15 h-fit">
+                <div className="grid w-1/3 m-15 h-fit">
                     <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
                         {/*If no recent reviews, then display text stating the user hasn't made any reviews*/}
                         {recentReviews?.length === 0 ? (
-                            <p>{"This user hasn't made any reviews yet!"}</p>
+                            <p className="font-bold">{"This user hasn't made any reviews yet!"}</p>
                         ) : (
                             recentReviews?.map((review, idx) => (
                                 <Review
@@ -281,31 +282,42 @@ export default function ProfilePage( {params} ){
                         )))}
                     </div>
                 </div>
-                <div className="m-15 h-fit">
-                    <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
-                    <GenreContainer >
-                        <img
-                        src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-                        title="Kpop Demon Hunters"
-                        className="cover"
+                <div className="w-1/3 h-fit m-15">
+                    <h1 className="text-md text-start whitespace-nowrap mb-5">Bookmarks</h1>
+                    <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>
+                        
+                    {/* <Carousel label="Bookmarks">
+                        <Image
+                        src="https://covers.openlibrary.org/b/id/6311836-L.jpg"
+                        alt="Graceling"
+                        title="Graceling"
+                        className="image"
+                        width={200}
+                        height={200}
                         />
                         <img
                         src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
                         title="Superman 2025"
-                        className="cover"
+                        className="image"
                         />
                         <img
                         src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
                         title="Weapons"
-                        className="cover"
+                        className="image"
                         />
-                    </GenreContainer>
+                        <img
+                        src="https://image.tmdb.org/t/p/w500/7NAvPYPAu7MeHwP8E9sn81PqsRh.jpg"
+                        title="SpyFam"
+                        className="image"
+                        />
+                        <img
+                        src="https://image.tmdb.org/t/p/w500/AjlRXTpRLAIiuofNqKcqrpUfPCZ.jpg"
+                        title="KDH"
+                        className="image"
+                        />
+                    </Carousel> */}
                 </div> 
                 
-                {/* Testing follow/unfollow buttons 
-                THIS IS TEMPORARY AND SHOULD BE REMOVED LATER!!
-                */}
-
             </div>
             <Footer/>
         </div>

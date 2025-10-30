@@ -30,7 +30,7 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
           await followUser(profileId, jwtToken);
           window.location.reload();
         }}
-        className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-[var(--color-brown)]"
+        className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-[var(--color-brown)] h-10"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
           await unfollowUser(profileId, jwtToken);
           window.location.reload();
         }}
-        className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-[var(--color-brown)]"
+        className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-[var(--color-brown)] h-10"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

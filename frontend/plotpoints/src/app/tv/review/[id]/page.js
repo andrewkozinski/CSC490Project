@@ -78,7 +78,7 @@ function TvReviewPage({ params }) {
     return (
       <div>
         <Header />
-        <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center justify-center h-4/5 mt-7 mb-7">
           <h1 className="text-2xl mb-4">Loading...</h1>
           <Image src={loadingImage} alt="Loading" width={500} height={300} />
         </div>
