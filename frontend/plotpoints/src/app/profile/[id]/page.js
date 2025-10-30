@@ -161,7 +161,7 @@ export default function ProfilePage( {params} ){
             <div className="flex flex-row gap-5 justify-center min-h-screen">
                 <div className="grid mt-10 ml-10 w-1/5 max-h-fit">
                     <Image 
-                    className="aspect-square rounded-full place-self-center border-2 border-[#000000]" 
+                    className="aspect-square rounded-full place-self-center mb-2 border-2 border-[#000000]" 
                     src={profilePicture}
                     alt="User Image"
                     width="230"
@@ -272,7 +272,7 @@ export default function ProfilePage( {params} ){
                     <div className="flex flex-col gap-5">
                         {/*If no recent reviews, then display text stating the user hasn't made any reviews*/}
                         {recentReviews?.length === 0 ? (
-                            <p>{"This user hasn't made any reviews yet!"}</p>
+                            <p className="font-bold">{"This user hasn't made any reviews yet!"}</p>
                         ) : (
                             recentReviews?.map((review, idx) => (
                                 <Review

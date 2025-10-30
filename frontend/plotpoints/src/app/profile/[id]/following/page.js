@@ -35,8 +35,8 @@ export default function Following({ params }) {
           <Header></Header>
           <h1 className="text-2xl text-center p-10">Following</h1>
           <div className="flex flex-row items-center justify-center h-screen">
-            
-            <div className="w-3/4 h-full bottom-0 text-center mb-3 outline-transparent">
+      
+            <div className="w-1/3 h-full bottom-0 text-center mb-3 outline-transparent">
             {followingData.length === 0 ? (
                 <p className="text-gray-500 mt-10">
                   This user isnt following anyone yet.
