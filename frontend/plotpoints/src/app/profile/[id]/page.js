@@ -7,7 +7,7 @@ import Footer from "@/app/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import Review from "@/app/components/ProfileReview";
-import GenreContainer from "@/app/components/GenreContainer";
+
 import Modal from "@/app/components/EditModal";
 import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
@@ -158,9 +158,9 @@ export default function ProfilePage( {params} ){
         <div>   
             <Header/>
             <div className="flex flex-row gap-5 justify-center min-h-screen">
-                <div className="mt-10 ml-10 w-70 h-fit">
+                <div className="grid mt-10 ml-10 w-1/4 max-h-fit">
                     <Image 
-                    className="aspect-square rounded-full mb-5 ml-6 border-2 border-[#dfcdb5]" 
+                    className="aspect-square rounded-full place-self-center border-2 border-[#000000]" 
                     src={profilePicture}
                     alt="User Image"
                     width="230"
@@ -182,7 +182,7 @@ export default function ProfilePage( {params} ){
                                     <div className="flex flex-col w-full">   
                                         <div className="flex flex-row w-full justify-around items-center mt-5">
                                             <Image 
-                                                className="aspect-square rounded-full mb-5 border-2 border-[#dfcdb5]" 
+                                                className="aspect-square rounded-full mb-5 border-2 border-[#000000]" 
                                                 src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
                                                 alt="User Image"
                                                 width="170"
