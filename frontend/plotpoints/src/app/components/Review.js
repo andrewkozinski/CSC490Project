@@ -36,7 +36,9 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
       }
     };
 
-    fetchVoteStatus();
+    if(jwtToken && votes.vote_id) {
+      fetchVoteStatus();
+    }
   }, [session?.accessToken, votes.vote_id]);  
 
   //All the upvote/downvote logic
