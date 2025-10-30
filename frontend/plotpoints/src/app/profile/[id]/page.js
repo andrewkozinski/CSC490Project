@@ -10,11 +10,10 @@ import Review from "@/app/components/ProfileReview";
 import GenreContainer from "@/app/components/GenreContainer";
 import Modal from "@/app/components/EditModal";
 import { uploadProfilePicture } from "@/lib/profile_picture_upload";
-import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
-
 import { useSession } from "next-auth/react";
 import FollowButton from "@/app/components/FollowButton";
+import { getFollowers, getFollowing } from "@/lib/following";
 
 export default function ProfilePage( {params} ){
 
@@ -28,7 +27,9 @@ export default function ProfilePage( {params} ){
     const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
-    
+    // Following/follower numbers
+    const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
     const [modalBio, setModalBio] = useState("");
@@ -92,6 +93,22 @@ export default function ProfilePage( {params} ){
             setModalBio(profileDetails.bio || "");
         }
     }, [profileDetails]);
+
+
+      useEffect(() => {
+        async function fetchFollowInfo() {
+          try {
+            const followingData = await getFollowing(id);
+            const followerData = await getFollowers(id);
+            console.log(followingData, followerData);
+            setFollowing(followingData.following);
+            setFollowers(followerData.followers);
+          } catch (error) {
+            console.error("Error fetching following data:", error);
+          }
+        }
+        fetchFollowInfo();
+      }, [id]);
 
     
     
@@ -240,8 +257,8 @@ export default function ProfilePage( {params} ){
                         </div>
                         <p className="text-center border-y-1 self-center">{profileDetails?.bio || "No description."}</p>
                         <div className="grid grid-cols-2">
-                            <Link className="text-center m-1" href={`/profile/${id}/followers`}>Followers</Link>
-                            <Link className="text-center m-1" href={`/profile/${id}/following`}>Following</Link>
+                            <Link className="text-center m-1" href={`/profile/${id}/followers`}>{followers.length}<br></br>Followers</Link>
+                            <Link className="text-center m-1" href={`/profile/${id}/following`}>{following.length}<br></br>Following</Link>
                         </div>
                         <FollowButton profileId={id} currentUserId={session?.user?.id} jwtToken={session?.accessToken}></FollowButton>
  

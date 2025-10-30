@@ -6,10 +6,12 @@ import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 export default function FollowButton({ profileId, currentUserId, jwtToken }) {
   const [isUserFollowing, setIsUserFollowing] = useState(false);
   useEffect(() => {
-    if (profileId === currentUserId) return; // Your profile
-    if (!jwtToken) return; // Not logged in
+    if (profileId === currentUserId) return;
+    if (jwtToken == undefined) return;
+    if (currentUserId == undefined) {
+      return null;
+    }
     const checkFollowingStatus = async () => {
-      console.log(profileId, "and", currentUserId);
       try {
         const data = await isFollowing(profileId, jwtToken);
         console.log("Follow check response:", data);
@@ -18,18 +20,10 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
         console.error("Error checking follow status:", err);
       }
     };
-
     checkFollowingStatus();
   }, [profileId, currentUserId, jwtToken]);
 
-  if (profileId === currentUserId) return;
-  if (!jwtToken) return;
-
-  if (currentUserId == undefined) {
-    return null;
-  }
-
-  if (!isUserFollowing && profileId != currentUserId) {
+  if (!isUserFollowing && profileId != currentUserId && jwtToken != undefined) {
     return (
       <button
         onClick={async () => {
