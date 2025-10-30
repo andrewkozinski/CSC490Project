@@ -29,13 +29,12 @@
     background-color: #dfcdb5;
 }
 
-.slick.slide {
+/* .slick.slide {
     margin-right: 1;
-}
+} */
 
 .slick-list {
-    padding-left: 20;
     padding-top: 25;
-    padding-bottom: 20;
+    padding-bottom: 10;
     height: 250;
 }

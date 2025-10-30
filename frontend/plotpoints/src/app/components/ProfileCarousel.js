@@ -8,8 +8,8 @@ const ProfileCarousel = ({ label, children}) => {
     const settings = {
         infinite: true,
         dots: true,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToShow: 3,
+        slidesToScroll: 3,
         lazyLoad: true,
         autoplay: false,
         autoplaySpeed: 5000,

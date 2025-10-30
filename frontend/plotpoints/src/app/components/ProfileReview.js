@@ -12,7 +12,7 @@ export default function ProfileReview({ reviewData }) {
     };
     
     return (
-        <div className="grid grid-cols-2 rounded-[1px] max-w-full border">
+        <div className="grid grid-cols-2 rounded-[1px] max-w-full">
             <img
                 src={img}
                 title={title}

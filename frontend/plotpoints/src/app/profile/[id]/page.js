@@ -283,11 +283,17 @@ export default function ProfilePage( {params} ){
                     </div>
                 </div>
                 <div className="w-1/3 h-fit m-15">
-                    <Carousel label="Bookmarks">
-                        <img
-                        src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-                        title="Kpop Demon Hunters"
+                    <h1 className="text-md text-start whitespace-nowrap mb-5">Bookmarks</h1>
+                    <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>
+                        
+                    {/* <Carousel label="Bookmarks">
+                        <Image
+                        src="https://covers.openlibrary.org/b/id/6311836-L.jpg"
+                        alt="Graceling"
+                        title="Graceling"
                         className="image"
+                        width={200}
+                        height={200}
                         />
                         <img
                         src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
@@ -299,7 +305,17 @@ export default function ProfilePage( {params} ){
                         title="Weapons"
                         className="image"
                         />
-                    </Carousel>
+                        <img
+                        src="https://image.tmdb.org/t/p/w500/7NAvPYPAu7MeHwP8E9sn81PqsRh.jpg"
+                        title="SpyFam"
+                        className="image"
+                        />
+                        <img
+                        src="https://image.tmdb.org/t/p/w500/AjlRXTpRLAIiuofNqKcqrpUfPCZ.jpg"
+                        title="KDH"
+                        className="image"
+                        />
+                    </Carousel> */}
                 </div> 
                 
             </div>
