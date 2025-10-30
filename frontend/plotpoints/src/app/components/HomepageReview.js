@@ -15,15 +15,15 @@ export default function HomepageReview({reviewData}) {
     };
 
     return (
-        <div className="grid grid-cols-2 rounded-[1px] w-max">
+        <div className="flex flex-row rounded-[1px] w-max gap-4">
             <img
                 src={img}
                 title={title}
-                className="review-img hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
+                className="w-27 h-42 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
-            <div className="grid grid-rows-2 inline-block -ml-25">
-                <h1 className="text-2xl text-start inria-serif-regular mb-2">{title}</h1>
+            <div className="grid grid-rows-2 inline-block">
+                <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
                 <div className="flex flex-row items-center gap-2">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0">
                     {/*profile pic*/}
@@ -60,7 +60,7 @@ export default function HomepageReview({reviewData}) {
                     </div>
                 </div>
                 
-                <p className="w-80 text-sm pt-2">{review_text}</p>
+                <p className="max-w-80 text-sm pt-2">{review_text}</p>
             </div>    
             
         </div>

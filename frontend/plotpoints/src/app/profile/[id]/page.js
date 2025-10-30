@@ -267,7 +267,7 @@ export default function ProfilePage( {params} ){
                     
                 </div>
                 
-                <div className="grid w-1/3 m-15 h-fit">
+                <div className="grid w-150 m-15 h-fit">
                     <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
                         {/*If no recent reviews, then display text stating the user hasn't made any reviews*/}

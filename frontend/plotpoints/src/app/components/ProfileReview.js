@@ -12,11 +12,11 @@ export default function ProfileReview({ reviewData }) {
     };
     
     return (
-        <div className="flex flex-row rounded-[1px] max-w-full border gap-3">
+        <div className="flex flex-row rounded-[1px] max-w-full gap-4">
             <img
                 src={img}
                 title={title}
-                className="min-w-25 min-h-37 max-w-25 min-h-37 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
+                className="min-w-27 min-h-37 max-w-27 min-h-37 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block ">
@@ -36,7 +36,7 @@ export default function ProfileReview({ reviewData }) {
                                 );
                                 })}
                     </div>
-                    <p className="w-80 text-sm">{review_text}</p>
+                    <p className="w-full text-sm">{review_text}</p>
             </div>    
             
         </div>
