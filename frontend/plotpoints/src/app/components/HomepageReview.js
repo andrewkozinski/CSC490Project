@@ -19,7 +19,7 @@ export default function HomepageReview({reviewData}) {
             <img
                 src={img}
                 title={title}
-                className="w-27 h-42 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
+                className="max-w-27 max-h-42 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block">
