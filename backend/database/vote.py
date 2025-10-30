@@ -1,10 +1,10 @@
 import oracledb
-#import connect
-#from user_vote import delete_all_user_vote
+# import connect
 
 
 from database import connect
 from database.user_vote import delete_all_user_vote
+
 
 def get_new_vote_id():
     connection, cursor = connect.start_connection()
