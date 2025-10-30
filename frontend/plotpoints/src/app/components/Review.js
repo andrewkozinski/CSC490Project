@@ -284,8 +284,8 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
       {showEditBox && (
         <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8">
           <textarea
-            placeholder="Write your edit here..."
-            className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+            placeholder={editText}
+            className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
             maxLength={200}
