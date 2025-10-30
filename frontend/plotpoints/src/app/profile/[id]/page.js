@@ -7,8 +7,9 @@ import Footer from "@/app/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import Review from "@/app/components/ProfileReview";
-
+import Carousel from "@/app/components/ProfileCarousel";
 import Modal from "@/app/components/EditModal";
+import "@/app/components/Homepage.css";
 import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import { useSession } from "next-auth/react";
@@ -158,7 +159,7 @@ export default function ProfilePage( {params} ){
         <div>   
             <Header/>
             <div className="flex flex-row gap-5 justify-center min-h-screen">
-                <div className="grid mt-10 ml-10 w-1/4 max-h-fit">
+                <div className="grid mt-10 ml-10 w-1/5 max-h-fit">
                     <Image 
                     className="aspect-square rounded-full place-self-center border-2 border-[#000000]" 
                     src={profilePicture}
@@ -266,7 +267,7 @@ export default function ProfilePage( {params} ){
                     
                 </div>
                 
-                <div className="m-15 h-fit">
+                <div className="grid w-1/3 m-15 h-fit">
                     <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
                         {/*If no recent reviews, then display text stating the user hasn't made any reviews*/}
@@ -281,31 +282,26 @@ export default function ProfilePage( {params} ){
                         )))}
                     </div>
                 </div>
-                <div className="m-15 h-fit">
-                    <h1 className="text-md text-start whitespace-nowrap">My Bookmarks</h1>
-                    <GenreContainer >
+                <div className="w-1/3 h-fit m-15">
+                    <Carousel label="Bookmarks">
                         <img
                         src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
                         title="Kpop Demon Hunters"
-                        className="cover"
+                        className="image"
                         />
                         <img
                         src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
                         title="Superman 2025"
-                        className="cover"
+                        className="image"
                         />
                         <img
                         src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
                         title="Weapons"
-                        className="cover"
+                        className="image"
                         />
-                    </GenreContainer>
+                    </Carousel>
                 </div> 
                 
-                {/* Testing follow/unfollow buttons 
-                THIS IS TEMPORARY AND SHOULD BE REMOVED LATER!!
-                */}
-
             </div>
             <Footer/>
         </div>

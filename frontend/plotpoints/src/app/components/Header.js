@@ -1,7 +1,7 @@
 'use client';
 import { useSession, signOut } from "next-auth/react";
 import "./Header.css";
-import "./ProfileDropdown.css";
+import "./Profile.css";
 import Link from "next/link";
 import {useRouter} from 'next/navigation';
 
