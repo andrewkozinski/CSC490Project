@@ -133,8 +133,10 @@ async def get_reviews_by_media_type_and_id(media_type: str, media_id: str):
     #Also add vote id for each review
     for review in reviews_by_media_and_id:
         print("USER ID : ", review["user_id"])
-        user = await get_username_by_id(review["user_id"])
-        review["username"] = user if user else "Unknown User"
+        #user = await get_username_by_id(review["user_id"])
+        user = await profiles.get_user_info_by_id(review["user_id"])
+        review["username"] = user["username"] if user else "Unknown User"
+        review["profile_pic_url"] = user["profile_pic_url"] if user else "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
         votes = vote.get_vote_by_review_id(review["review_id"])
         review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
