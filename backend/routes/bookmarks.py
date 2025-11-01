@@ -57,13 +57,19 @@ async def get_user_bookmarks(user_id: int, limit: int = 3):
                 bookmark['media_type'] = "books"
                 book_info = await books.get_book_details(bookmark['media_id'])
                 bookmark['info'] = book_info
+                bookmark['title'] = book_info.title
+                bookmark['img'] = book_info.thumbnailUrl
             elif bookmark['media_type'] == 'tvshow':
                 tvshow_info = await tvshows.get_tvshow(bookmark['media_id'])
                 bookmark['info'] = tvshow_info
+                bookmark['title'] = tvshow_info.title
+                bookmark['img'] = tvshow_info.img_url
             elif bookmark['media_type'] == 'movie':
                 bookmark['media_type'] = "movies"
                 movie_info = await movies.get_movie(bookmark['media_id'])
                 bookmark['info'] = movie_info
+                bookmark['title'] = movie_info.title
+                bookmark['img'] = movie_info.img_url
             else:
                 bookmark['info'] = None
 
