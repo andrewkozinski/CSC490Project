@@ -3,6 +3,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.decorator import cache
 from database import watchlist
 from routes.auth import verify_jwt_token, get_user_id_from_token
+from routes import books, tvshows, movies
 router = APIRouter()
 
 @router.get("/all")
@@ -48,6 +49,22 @@ async def is_bookmarked(media_type:str, media_id:str, user_id: int):
 async def get_user_bookmarks(user_id: int, limit: int = 3):
     bookmarks = watchlist.get_user_watchlist(user_id, limit)
     if bookmarks is not None:
+
+        #Get some information about each bookmark
+
+        for bookmark in bookmarks:
+            if bookmark['media_type'] == 'book':
+                book_info = await books.get_book_details(bookmark['media_id'])
+                bookmark['info'] = book_info
+            elif bookmark['media_type'] == 'tvshow':
+                tvshow_info = await tvshows.get_tvshow(bookmark['media_id'])
+                bookmark['info'] = tvshow_info
+            elif bookmark['media_type'] == 'movie':
+                movie_info = await movies.get_movie(bookmark['media_id'])
+                bookmark['info'] = movie_info
+            else:
+                bookmark['info'] = None
+
         return {"bookmarks": bookmarks}
     else:
         return {"bookmarks": []}
