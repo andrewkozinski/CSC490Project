@@ -35,7 +35,7 @@ function TvReviewPage({ params }) {
 
   //Loading state
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
+  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");  
 
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
@@ -114,7 +114,10 @@ function TvReviewPage({ params }) {
             alt={tvDetails ? tvDetails.title : "TV Show Poster"}
             className="w-56 h-86 rounded-sm mb-5"
           />
-          <Bookmark></Bookmark>
+          {/*Only show bookmarking if user is logged in */}
+          {session && session.user && (
+            <Bookmark mediaType="tvshow" mediaId={id} />
+          )}
           <div>
             {/*description box*/}
             {/* <p className="text-lg">Description:</p> */}

@@ -13,6 +13,7 @@ import Link from "next/link";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import Image from "next/image";
 import Bookmark from "@/app/components/Bookmark";
+import { useSession } from "next-auth/react";
 
 
 function MovieReviewPage({ params }) {
@@ -31,6 +32,9 @@ function MovieReviewPage({ params }) {
   //Loading state
   const [isLoading, setIsLoading] = useState(true);
   const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
+
+  //User session
+  const { data: session } = useSession();
 
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
@@ -100,7 +104,12 @@ function MovieReviewPage({ params }) {
             alt={movieDetails ? movieDetails.title : "Movie Poster"}
             className="w-56 h-86 rounded-sm mb-5"
           />
-          <Bookmark></Bookmark>
+          
+          {/*Only show bookmarking if user is logged in */}
+          {session && session.user && (
+            <Bookmark mediaType="movie" mediaId={id} />
+          )}
+
           <div>
             {/*description box*/}
             {/* <p className="text-lg">Description:</p> */}

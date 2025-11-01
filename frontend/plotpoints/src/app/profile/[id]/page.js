@@ -15,6 +15,7 @@ import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import { useSession } from "next-auth/react";
 import FollowButton from "@/app/components/FollowButton";
 import { getFollowers, getFollowing } from "@/lib/following";
+import { getBookmarksByUserId } from "@/lib/bookmarks";
 
 export default function ProfilePage( {params} ){
 
@@ -31,7 +32,11 @@ export default function ProfilePage( {params} ){
     // Following/follower numbers
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
+    
+    //Bookmarks state
+    const [bookmarks, setBookmarks] = useState([]);
 
+    // Modal state
     const [showModal, setShowModal] = useState(false);
     const [modalBio, setModalBio] = useState("");
     const { data: session } = useSession();
@@ -84,7 +89,17 @@ export default function ProfilePage( {params} ){
             }
         }
 
-        Promise.all([fetchProfileDetails(), fetchRecentReviews()])
+        const fetchBookmarks = async () => {
+            try {
+                const data = await getBookmarksByUserId(id, 10); // Fetch up to 10 bookmarks
+                console.log("fetched bookmarks: ", data.bookmarks);
+                setBookmarks(data.bookmarks || []);
+            } catch (error) {
+                console.error("Error fetching bookmarks:", error);
+                setBookmarks([]);
+            }
+        }
+        Promise.all([fetchProfileDetails(), fetchRecentReviews(), fetchBookmarks()])
             .then(() => setIsLoading(false));
 
     }, []);
@@ -283,11 +298,27 @@ export default function ProfilePage( {params} ){
                     </div>
                 </div>
                 <div className="w-1/3 h-fit m-15">
-                    <h1 className="text-md text-start whitespace-nowrap mb-5">Bookmarks</h1>
-                    <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>
+                    {/* <h1 className="text-md text-start whitespace-nowrap mb-5">Bookmarks</h1>
+                    <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>*/}
+                    <Carousel label="Bookmarks">
                         
-                    {/* <Carousel label="Bookmarks">
-                        <Image
+                        {bookmarks.length === 0 ? (
+                            <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
+                        ) : (
+                            bookmarks.map((bookmark, index) => (
+                                <Image
+                                    key={index}
+                                    alt={bookmark.title}
+                                    src={bookmark.img}
+                                    title={bookmark.title}
+                                    height={200}
+                                    width={200}
+                                    className="image"
+                                    onClick={() => window.location.href = `/${bookmark.media_type}/review/${bookmark.media_id}`}
+                                />
+                            ))
+                        )}  
+                        {/* <Image
                         src="https://covers.openlibrary.org/b/id/6311836-L.jpg"
                         alt="Graceling"
                         title="Graceling"
@@ -314,8 +345,8 @@ export default function ProfilePage( {params} ){
                         src="https://image.tmdb.org/t/p/w500/AjlRXTpRLAIiuofNqKcqrpUfPCZ.jpg"
                         title="KDH"
                         className="image"
-                        />
-                    </Carousel> */}
+                        /> */}
+                    </Carousel>
                 </div> 
                 
             </div>
