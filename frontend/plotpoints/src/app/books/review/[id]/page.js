@@ -14,6 +14,8 @@ import Image from "next/image";
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 
+import { useSession } from "next-auth/react";
+
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 
 function BookReviewPage({ params }) {
@@ -38,6 +40,9 @@ function BookReviewPage({ params }) {
   //Loading state
   const [isLoading, setIsLoading] = useState(true);
   const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
+
+  //User session
+  const { data: session } = useSession();
 
   // Need to fetch data using this ID to get the details of the book
   useEffect(() => {
@@ -71,7 +76,7 @@ function BookReviewPage({ params }) {
         <Header />
         <div className="flex flex-col items-center justify-center h-4/5 mt-7 mb-7">
           <h1 className="text-2xl mb-4">Loading...</h1>
-          <Image src={loadingImage} alt="Loading" width={400} height={200} />
+          <Image src={loadingImage} alt="Loading" width={500} height={300} />
         </div>
         <Footer />
       </div>
@@ -84,6 +89,7 @@ function BookReviewPage({ params }) {
         <Header />
         <div className="flex flex-col items-center justify-center min-h-screen">
           <h1 className="text-2xl mb-4">Error: Failed to load Book details.</h1>
+          <Image src="/images/spr_tenna_grasp_anim_big.gif" alt="Error" width={500} height={300} />
         </div>
         <Footer />
       </div>
@@ -103,7 +109,10 @@ function BookReviewPage({ params }) {
             width={1000}
             height={1000}
           />
-          <Bookmark></Bookmark>
+          {/*Only show bookmarking if user is logged in */}
+          {session && session.user && (
+            <Bookmark mediaType="book" mediaId={id} />
+          )}
             {/* <p className="justify-start">Description:</p> */}
             <div className="p-4 border-1 rounded-sm w-auto my-2 min-h-fit">
               {/* <p className="text-lg">Title:</p> */}
