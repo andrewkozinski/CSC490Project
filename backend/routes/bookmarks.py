@@ -69,7 +69,7 @@ async def get_user_bookmarks(user_id: int, limit: int = 3):
                 movie_info = await movies.get_movie(bookmark['media_id'])
                 bookmark['info'] = movie_info
                 bookmark['title'] = movie_info.title
-                bookmark['img'] = movie_info.img_url
+                bookmark['img'] = movie_info.img
             else:
                 bookmark['info'] = None
 
