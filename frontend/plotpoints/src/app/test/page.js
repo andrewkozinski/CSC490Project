@@ -4,7 +4,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Image from "next/image";
 import Footer from "../components/Footer";
-import { isBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } from "@/lib/bookmarks";
+import { checkIfBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } from "@/lib/bookmarks";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
@@ -38,7 +38,7 @@ export default function SessionInfo() {
     const media_type = "movie";
     const bookmarkId = 11; 
     console.log(await addBookmark("movie", `${11}`, session?.accessToken));
-    console.log(await isBookmarked("movie", `${11}`, session?.user?.id));
+    console.log(await checkIfBookmarked("movie", `${11}`, session?.user?.id));
     console.log(await getBookmarksByUserId(session?.user?.id, 5));
   };
 
