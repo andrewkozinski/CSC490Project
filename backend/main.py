@@ -20,7 +20,17 @@ caches.set_config({
     "reviews": {
         "cache": "aiocache.SimpleMemoryCache",
         "ttl": 300, #5 minutes
+    },
+    "user_votes": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 3600, #1 hour
+    },
+    "profiles": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 3600, #1 hour
     }
+
+
 })
 
 from fastapi import FastAPI

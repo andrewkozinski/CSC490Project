@@ -1,9 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from fastapi_cache import FastAPICache
-from fastapi_cache.decorator import cache
+#from fastapi_cache.decorator import cache
 from database.vote import add_vote, delete_vote, increment_upvote, decrement_upvote, increment_downvote, decrement_downvote, get_vote_id_by_review_and_comment_id, get_all_votes
 from database.user_vote import vote_exists, add_user_vote, delete_user_vote, delete_all_user_vote, get_vote_type, get_all_user_votes
 from routes.auth import verify_jwt_token, get_user_id_from_token
+from aiocache import cached, Cache, caches
 
 router = APIRouter()
 
@@ -46,7 +47,8 @@ async def upvote(vote_id: int, jwt_token: str):
         #Check if there was an error
         if result is False:
             raise HTTPException(status_code=500, detail="Error upvoting")
-        await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        #await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        await caches.get("user_votes").delete(f"user_vote_{vote_id}_{user_id}")  # Clear the cache to reflect updated vote
         await FastAPICache.clear(namespace="recent_reviews")
         return {"message": "Upvoted successfully, upvote count incremented"}
     elif existing_vote == "U":
@@ -60,7 +62,8 @@ async def upvote(vote_id: int, jwt_token: str):
         result = increment_upvote(vote_id)
         if result is False:
             raise HTTPException(status_code=500, detail="Error changing downvote to upvote")
-        await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        #await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        await caches.get("user_votes").delete(f"user_vote_{vote_id}_{user_id}")  # Clear the cache to reflect updated vote
         await FastAPICache.clear(namespace="recent_reviews")
         return {"message": "Changed downvote to upvote successfully"}
 
@@ -88,7 +91,8 @@ async def remove_upvote(vote_id: int, jwt_token: str):
     result = decrement_upvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing upvote")
-    await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+    #await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+    await caches.get("user_votes").delete(f"user_vote_{vote_id}_{user_id}")  # Clear the cache to reflect updated vote
     await FastAPICache.clear(namespace="recent_reviews")
     return {"message": "Upvote removed successfully, upvote count decremented"}
 
@@ -112,8 +116,9 @@ async def downvote(vote_id : int, jwt_token: str):
         #Check if there was an error
         if result is False:
             raise HTTPException(status_code=500, detail="Error downvoting")
-        await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
-        await FastAPICache.clear(namespace="recent_reviews")
+        #await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        await caches.get("user_votes").delete(f"user_vote_{vote_id}_{user_id}")  # Clear the cache to reflect updated vote
+        #await FastAPICache.clear(namespace="recent_reviews")
         return {"message": "Downvoted successfully, downvote count incremented"}
     elif existing_vote == "D":
         #Already has a downvote, do nothing or return a message
@@ -126,8 +131,9 @@ async def downvote(vote_id : int, jwt_token: str):
         result = increment_downvote(vote_id)
         if result is False:
             raise HTTPException(status_code=500, detail="Error changing upvote to downvote")
-        await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
-        await FastAPICache.clear(namespace="recent_reviews")
+        #await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+        #await FastAPICache.clear(namespace="recent_reviews")
+        await caches.get("user_votes").delete(f"user_vote_{vote_id}_{user_id}")  # Clear the cache to reflect updated vote
         return {"message": "Changed upvote to downvote successfully"}
 
     raise HTTPException(status_code=500, detail="Unexpected error during downvote")
@@ -152,13 +158,15 @@ async def remove_downvote(vote_id: int, jwt_token: str):
     result = decrement_downvote(vote_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error removing downvote")
-    await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+    #await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
+    await caches.get("user_votes").delete(f"user_vote_{vote_id}_{user_id}")  # Clear the cache to reflect updated vote
     await FastAPICache.clear(namespace="recent_reviews")
     return {"message": "Downvote removed successfully, downvote count decremented"}
 
 #Get what a user voted on a review or comment
 @router.get("/get_user_vote/{vote_id}")
-@cache(namespace="user_vote_{vote_id}", expire=3600)
+#@cache(namespace="user_vote_{vote_id}", expire=3600)
+@cached(ttl=3600, cache=Cache.MEMORY, alias="user_votes", key_builder=lambda f, *args, **kwargs: f"user_vote_{kwargs['vote_id']}_{get_user_id_from_token(kwargs['jwt_token'])}")
 async def get_user_vote(vote_id: int, jwt_token: str):
     #Verify JWT token
     verify_jwt_token(jwt_token)
@@ -184,7 +192,8 @@ async def delete_votes(review_id: int = None, comment_id: int = None):
     return {"message": "Votes deleted successfully"}
 
 @router.get("/fetch/vote_id/")
-@cache(namespace="fetch_vote_id", expire=3600)
+#@cache(namespace="fetch_vote_id", expire=3600)
+@cached(ttl=3600, cache=Cache.MEMORY, alias="user_votes", key_builder=lambda f, *args, **kwargs: f"fetch_vote_id_{kwargs.get('review_id')}_{kwargs.get('comment_id')}")
 async def fetch_vote_id(review_id: int = None, comment_id: int = None):
     vote_id = get_vote_id_by_review_and_comment_id(review_id, comment_id)
     return {"vote_id": vote_id}
