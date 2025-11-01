@@ -11,30 +11,31 @@ async function handleHttpError(response) {
 }
 
 export const checkIfBookmarked = async (mediaType, mediaId, userId) => {
-    const res = await fetch(`/api/bookmarks/get/is_bookmarked/${mediaType}/${mediaId}?userId=${userId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
 
-    const body = await res.json();
-    if (!res.ok) throw new Error(body.error || 'Failed to check bookmark');
-    return body;
+  const res = await fetch(`/api/bookmarks/get/is_bookmarked/${mediaType}/${mediaId}?userId=${userId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const body = await res.json();
+  if (!res.ok) throw new Error(body.error || 'Failed to check bookmark');
+  return body;
 };
 
 //Limit is optional, defaults to 3
 //Change this value when you want to fetch more than 3 bookmarks
 export const getBookmarksByUserId = async (userId, limit = 3) => {
-    const res = await fetch(`/api/bookmarks/get/bookmarks_by_user_id/${userId}?limit=${limit}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const body = await res.json();
-    if (!res.ok) throw new Error(body.error || 'Failed to fetch bookmarks');
-    return body;
+  const res = await fetch(`/api/bookmarks/get/bookmarks_by_user_id/${userId}?limit=${limit}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const body = await res.json();
+  if (!res.ok) throw new Error(body.error || 'Failed to fetch bookmarks');
+  return body;
 };
 
 //As the name implies, adds a bookmark for the given listId and jwtToken
