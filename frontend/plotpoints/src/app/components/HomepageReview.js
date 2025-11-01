@@ -1,5 +1,6 @@
 import Star from "./Star";
 import "./Homepage.css";
+import ReviewText from "./ReviewText";
 
 export default function HomepageReview({reviewData}) {
 
@@ -60,7 +61,8 @@ export default function HomepageReview({reviewData}) {
                     </div>
                 </div>
                 
-                <p className="max-w-80 text-sm pt-2">{review_text}</p>
+                {/* <p className="max-w-80 text-sm pt-2">{review_text}</p> */}
+                <ReviewText className="max-w-80 text-sm pt-2" content={review_text} />
             </div>    
             
         </div>

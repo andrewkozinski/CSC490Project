@@ -1,11 +1,11 @@
 import SpoilerText from './SpoilerText';
 import { parseSpoilers } from '@/utils/parseSpoilers';
 
-export default function ReviewText({ content }) {
+export default function ReviewText({ content, className }) {
   const parts = parseSpoilers(content);
 
   return (
-    <p className="whitespace-pre-wrap mt-1 text-black text-sm">
+    <p className={`whitespace-pre-wrap ${className}`}>
       {parts.map((part) =>
         part.type === 'spoiler' ? (
           <SpoilerText key={part.key} text={part.content} />

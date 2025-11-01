@@ -1,4 +1,5 @@
 import Star from "./Star";
+import ReviewText from "./ReviewText";
 
 export default function ProfileReview({ reviewData }) {
 
@@ -36,7 +37,8 @@ export default function ProfileReview({ reviewData }) {
                                 );
                                 })}
                     </div>
-                    <p className="w-full text-sm">{review_text}</p>
+                    {/* <p className="w-full text-sm">{review_text}</p> */}
+                    <ReviewText className="w-full text-sm" content={review_text} />
             </div>    
             
         </div>
