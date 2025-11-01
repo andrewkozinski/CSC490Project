@@ -87,7 +87,7 @@ async def get_book_details(book_id: str):
 
 @router.get("/search/genre/{category}")
 async def get_books_by_genre(category: str, page: int = 1):
-    url = f"https://openlibrary.org/subjects/{category.lower().replace(' ', '_')}.json?limit=10&offset={(page-1)*10}"
+    url = f"https://openlibrary.org/subjects/{category.lower().replace(' ', '_')}.json?limit=20&offset={(page-1)*20}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
         if response.status_code == 404:
