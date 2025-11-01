@@ -22,15 +22,18 @@ def add_watchlist(user_id, media_id, media_type):
             )
             connection.commit()
             print("Watchlist added successfully.")
+            return True
 
     except oracledb.IntegrityError as e:
         # ORA-00001 occurs when a unique constraint is violated
         error_obj, = e.args
         print("Integrity error:", error_obj.message)
+        return False
 
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error inserting watchlist:", error_obj.message)
+        return False
 
     finally:
         connect.stop_connection(connection, cursor)

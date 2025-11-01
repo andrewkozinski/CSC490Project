@@ -21,10 +21,10 @@ async def add_bookmark(media_type: str, media_id: str, jwt_token: str):
     #get user id
     user_id = get_user_id_from_token(jwt_token)
 
-    result = await watchlist.add_watchlist(user_id=user_id, media_id=media_id, media_type=media_type)
+    result = watchlist.add_watchlist(user_id=user_id, media_id=media_id, media_type=media_type)
     if result is None:
         raise HTTPException(status_code=500, detail="Failed to add bookmark")
-    return {"list_id": result, "message": "Bookmark added successfully"}
+    return {"message": "Bookmark added successfully"}
 
 @router.delete("/remove/media_type/{media_type}/media_id/{media_id}")
 async def remove_bookmark(media_type: str, media_id: str, jwt_token: str):
@@ -34,14 +34,14 @@ async def remove_bookmark(media_type: str, media_id: str, jwt_token: str):
     #get user id
     user_id = get_user_id_from_token(jwt_token)
 
-    result = await watchlist.delete_by_media_id_and_type(user_id=user_id, media_id=media_id, media_type=media_type)
+    result = watchlist.delete_by_media_id_and_type(user_id=user_id, media_id=media_id, media_type=media_type)
     if result is False:
         raise HTTPException(status_code=500, detail="Failed to remove bookmark")
     return {"message": "Bookmark removed successfully"}
 
 @router.get("/is_bookmarked/{list_id}")
 async def is_bookmarked(media_type:str, media_id:str, user_id: int):
-    result = await watchlist.is_bookmarked(media_type, media_id, user_id)
+    result = watchlist.is_bookmarked(user_id, media_id, media_type)
     return {"is_bookmarked": result}
 
 @router.get("/all_bookmarks/user/{user_id}")
