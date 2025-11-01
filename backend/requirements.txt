@@ -8,3 +8,5 @@ oracledb
 requests
 PyJWT
 bcrypt
+oci
+fastapi-cache2
