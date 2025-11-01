@@ -46,6 +46,7 @@ async def is_bookmarked(media_type:str, media_id:str, user_id: int):
     return {"is_bookmarked": result}
 
 @router.get("/all_bookmarks/user/{user_id}")
+#@cache(expire=300) # Cache for 5 minutes
 async def get_user_bookmarks(user_id: int, limit: int = 3):
     bookmarks = watchlist.get_user_watchlist(user_id, limit)
     if bookmarks is not None:
@@ -64,7 +65,7 @@ async def get_user_bookmarks(user_id: int, limit: int = 3):
                 bookmark['info'] = tvshow_info
                 bookmark['title'] = tvshow_info.title
                 bookmark['img'] = tvshow_info.img
-                bookmark['media_type'] = "tv_shows"
+                bookmark['media_type'] = "tv"
             elif bookmark['media_type'] == 'movie':
                 bookmark['media_type'] = "movies"
                 movie_info = await movies.get_movie(bookmark['media_id'])
