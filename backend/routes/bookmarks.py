@@ -39,7 +39,7 @@ async def remove_bookmark(media_type: str, media_id: str, jwt_token: str):
         raise HTTPException(status_code=500, detail="Failed to remove bookmark")
     return {"message": "Bookmark removed successfully"}
 
-@router.get("/is_bookmarked/{list_id}")
+@router.get("/is_bookmarked/media_type/{media_type}/media_id/{media_id}")
 async def is_bookmarked(media_type:str, media_id:str, user_id: int):
     result = watchlist.is_bookmarked(user_id, media_id, media_type)
     return {"is_bookmarked": result}
