@@ -15,7 +15,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.get("/get_username_by_id")
 #@cache(namespace="profile", expire=3600)  # Cache the response for 1 hour (3600 seconds)
-@cached(ttl=3600, cache=Cache.MEMORY, alias="profiles", key_builder=lambda f, *args, **kwargs: f"username_{kwargs['user_id']}")
+@cached(ttl=3600, cache=Cache.MEMORY, alias="profiles", key_builder=lambda f, *args, **kwargs: f"username_{kwargs.get('user_id', args[0] if args else 'unknown')}")
 async def get_username_by_id(user_id: int):
     user = get_by_id(user_id)
     if user:
@@ -40,7 +40,7 @@ async def add_profile_for_existing_users():
 
 @router.get("/get/user_information")
 #@cache(namespace="profile", expire=3600)  # Cache the response for 1 hour (3600 seconds)
-@cached(ttl=3600, cache=Cache.MEMORY, alias="profiles", key_builder=lambda f, *args, **kwargs: f"profiles_{kwargs['user_id']}")
+@cached(ttl=3600, cache=Cache.MEMORY, alias="profiles", key_builder=lambda f, *args, **kwargs: f"profiles_{kwargs.get('user_id', args[0] if args else 'unknown')}")
 async def get_user_info_by_id(user_id: int):
     user = get_by_id(user_id)
     user_profile = profile.get_profile(user_id)
