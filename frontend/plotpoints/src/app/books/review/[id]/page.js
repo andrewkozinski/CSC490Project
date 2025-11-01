@@ -84,6 +84,7 @@ function BookReviewPage({ params }) {
         <Header />
         <div className="flex flex-col items-center justify-center min-h-screen">
           <h1 className="text-2xl mb-4">Error: Failed to load Book details.</h1>
+          <Image src="/images/spr_tenna_grasp_anim_big.gif" alt="Error" width={500} height={300} />
         </div>
         <Footer />
       </div>
