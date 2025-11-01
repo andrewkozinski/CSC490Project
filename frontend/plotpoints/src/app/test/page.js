@@ -35,8 +35,11 @@ export default function SessionInfo() {
     //const res = await fetch("/api/movies/details/634649/stream_links");
     //const data = await res.json();
     //console.log(data);
-    const bookmarkId = 12; 
-    console.log(await removeBookmark(bookmarkId, session?.accessToken));
+    const media_type = "movie";
+    const bookmarkId = 11; 
+    console.log(await addBookmark("movie", `${11}`, session?.accessToken));
+    console.log(await isBookmarked("movie", `${11}`, session?.user?.id));
+    console.log(await getBookmarksByUserId(session?.user?.id, 5));
   };
 
   return (

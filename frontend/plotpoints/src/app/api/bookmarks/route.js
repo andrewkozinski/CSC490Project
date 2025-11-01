@@ -4,11 +4,12 @@ export async function POST(req) {
   console.log("POST request received in /api/bookmarks/route.js");
   const body = await req.json();
   //console.log("Parsed body:", body);
-  const { listId, jwtToken } = body;
-  console.log("listId:", listId);
+  const { mediaType, mediaId, jwtToken } = body;
+  console.log("mediaType:", mediaType);
+  console.log("mediaId:", mediaId);
   console.log("jwtToken:", jwtToken);
   try {
-    const backendRes = await fetch(`${process.env.API_URL}/bookmarks/add/${listId}?jwt_token=${jwtToken}`, {
+    const backendRes = await fetch(`${process.env.API_URL}/bookmarks/add/media_type/${mediaType}/media_id/${mediaId}?jwt_token=${jwtToken}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -27,9 +28,9 @@ export async function POST(req) {
 
 export async function DELETE(req) {
   const body = await req.json();
-  const { listId, jwtToken } = body;
+  const { mediaType, mediaId, jwtToken } = body;
   try {
-    const backendRes = await fetch(`${process.env.API_URL}/bookmarks/remove/${listId}?jwt_token=${jwtToken}`, {
+    const backendRes = await fetch(`${process.env.API_URL}/bookmarks/remove/media_type/${mediaType}/media_id/${mediaId}?jwt_token=${jwtToken}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     });

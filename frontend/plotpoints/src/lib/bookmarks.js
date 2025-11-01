@@ -10,8 +10,8 @@ async function handleHttpError(response) {
   }
 }
 
-export const isBookmarked = async (bookmarkId, userId) => {
-    const res = await fetch(`/api/bookmarks/get/is_bookmarked/${bookmarkId}?userId=${userId}`, {
+export const isBookmarked = async (mediaType, mediaId, userId) => {
+    const res = await fetch(`/api/bookmarks/get/is_bookmarked/${mediaType}/${mediaId}?userId=${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -39,14 +39,14 @@ export const getBookmarksByUserId = async (userId, limit = 3) => {
 
 //As the name implies, adds a bookmark for the given listId and jwtToken
 //Will show an alert if the session is expired 
-export async function addBookmark(listId, jwtToken) {
+export async function addBookmark(mediaType, mediaId, jwtToken) {
   const response = await fetch(`/api/bookmarks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwtToken}`
     },
-    body: JSON.stringify({ listId, jwtToken: jwtToken }),
+    body: JSON.stringify({ mediaType, mediaId, jwtToken: jwtToken }),
   });
 
   if (!response.ok) {
@@ -56,14 +56,14 @@ export async function addBookmark(listId, jwtToken) {
   return await response.json();
 };
 
-export async function removeBookmark(listId, jwtToken) {
+export async function removeBookmark(mediaType, mediaId, jwtToken) {
   const response = await fetch(`/api/bookmarks`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwtToken}`
     },
-    body: JSON.stringify({ listId, jwtToken: jwtToken }),
+    body: JSON.stringify({ mediaType, mediaId, jwtToken: jwtToken }),
   })
   if (!response.ok) {
     handleHttpError(response);
