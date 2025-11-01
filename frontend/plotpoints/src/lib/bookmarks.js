@@ -10,7 +10,7 @@ async function handleHttpError(response) {
   }
 }
 
-export const isBookmarked = async (mediaType, mediaId, userId) => {
+export const checkIfBookmarked = async (mediaType, mediaId, userId) => {
     const res = await fetch(`/api/bookmarks/get/is_bookmarked/${mediaType}/${mediaId}?userId=${userId}`, {
       method: 'GET',
       headers: {
