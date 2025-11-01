@@ -1,10 +1,10 @@
 //Checks if a specific item is bookmarked by the user, given the user id and bookmark id
 export async function GET(request, { params }) {
-    const { id } = await params;
+    const { mediaType, mediaId } = await params;
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
-    const isBookmarked = await fetch(`${process.env.API_URL}/bookmarks/is_bookmarked/${id}?user_id=${userId}`, {
+    const isBookmarked = await fetch(`${process.env.API_URL}/bookmarks/is_bookmarked/media_type/${mediaType}/media_id/${mediaId}?user_id=${userId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
