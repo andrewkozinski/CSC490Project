@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from fastapi_cache import FastAPICache
-from fastapi_cache.decorator import cache
+#from fastapi_cache import FastAPICache
+#from fastapi_cache.decorator import cache
 from database import watchlist
 from routes.auth import verify_jwt_token, get_user_id_from_token
 from routes import books, tvshows, movies
+from aiocache import cached, Cache, caches
+
 router = APIRouter()
 
 @router.get("/all")
@@ -25,6 +27,10 @@ async def add_bookmark(media_type: str, media_id: str, jwt_token: str):
     result = watchlist.add_watchlist(user_id=user_id, media_id=media_id, media_type=media_type)
     if result is None:
         raise HTTPException(status_code=500, detail="Failed to add bookmark")
+
+    #Invalidate caches here
+    await caches.get("user_bookmarks").delete(f"user_bookmarks_{user_id}")
+    await caches.get("is_bookmarked").delete(f"is_bookmarked_{user_id}_{media_type}_{media_id}")
     return {"message": "Bookmark added successfully"}
 
 @router.delete("/remove/media_type/{media_type}/media_id/{media_id}")
@@ -38,15 +44,22 @@ async def remove_bookmark(media_type: str, media_id: str, jwt_token: str):
     result = watchlist.delete_by_media_id_and_type(user_id=user_id, media_id=media_id, media_type=media_type)
     if result is False:
         raise HTTPException(status_code=500, detail="Failed to remove bookmark")
+
+    #Invalidate caches here
+    await caches.get("user_bookmarks").delete(f"user_bookmarks_{user_id}")
+    await caches.get("is_bookmarked").delete(f"is_bookmarked_{user_id}_{media_type}_{media_id}")
+
     return {"message": "Bookmark removed successfully"}
 
 @router.get("/is_bookmarked/media_type/{media_type}/media_id/{media_id}")
+@cached(ttl=3600, cache=Cache.MEMORY, alias="is_bookmarked", key_builder=lambda f, *args, **kwargs: f"is_bookmarked_{kwargs['user_id']}_{kwargs['media_type']}_{kwargs['media_id']}")
 async def is_bookmarked(media_type:str, media_id:str, user_id: int):
+    print("Checking if bookmarked...")
     result = watchlist.is_bookmarked(user_id, media_id, media_type)
     return {"is_bookmarked": result}
 
 @router.get("/all_bookmarks/user/{user_id}")
-#@cache(expire=300) # Cache for 5 minutes
+@cached(ttl=300, cache=Cache.MEMORY, alias="user_bookmarks", key_builder=lambda f, *args, **kwargs: f"user_bookmarks_{kwargs['user_id']}")
 async def get_user_bookmarks(user_id: int, limit: int = 3):
     bookmarks = watchlist.get_user_watchlist(user_id, limit)
     if bookmarks is not None:

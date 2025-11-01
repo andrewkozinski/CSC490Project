@@ -1,6 +1,28 @@
 import os
 from contextlib import asynccontextmanager
 
+from aiocache import caches, Cache, cached
+#Initializes aiocache configuration
+#Needs to be up here because needs to run before any of the other imports that use caching
+caches.set_config({
+    "default": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    },
+    "user_bookmarks": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    },
+    "is_bookmarked": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 3600, #1 hour
+    },
+    "reviews": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    }
+})
+
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
@@ -16,6 +38,7 @@ from routes.votes import router as votes_router
 from routes.follow import router as follow_router
 from routes.bookmarks import router as bookmarks_router
 from fastapi.middleware.cors import CORSMiddleware
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
