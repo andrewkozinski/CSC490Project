@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import CommentList from "./CommentList";
+import ReviewText from "./ReviewText";
 import { useSession } from "next-auth/react";
 import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 import Star from "./Star";
@@ -213,7 +214,8 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
               </div>
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
-            <p className="mt-1 text-black text-sm">{reviewText}</p>
+            {/* <p className="mt-1 text-black text-sm">{reviewText}</p> */}
+            <ReviewText className="mt-1 text-black text-sm" content={reviewText} />
           </div>
 
           {/* Rating controls */}
