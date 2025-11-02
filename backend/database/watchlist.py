@@ -7,34 +7,39 @@ from database import connect
 
 def add_watchlist(user_id, media_id, media_type):
     connection, cursor = connect.start_connection()
-    # list_id = get_new_list_id()
     if not connection or not cursor:
         print("Failed to connect to database.")
+        return False
+
+    if media_type == "book":
+        cursor.execute("SELECT ADMIN.get_watchlist_book_id(:1) FROM DUAL", (media_id,))
+        result = cursor.fetchone()
+        db_media_id = result[0]
+    else:
+        try:
+            db_media_id = int(media_id)
+        except ValueError:
+            print(f"Error: Non-book MEDIA_ID '{media_id}' is not a valid integer.")
+            return False
 
     try:
-        if not is_bookmarked(user_id, media_id, media_type):
+        if not is_bookmarked(user_id, db_media_id, media_type):
             cursor.execute(
                 """
                 INSERT INTO ADMIN.WATCHLIST (USER_ID,MEDIA_ID,MEDIA_TYPE)
                 VALUES (:1, :2, :3)
                 """,
-                (user_id, media_id, media_type)
+                (user_id, db_media_id, media_type)
             )
             connection.commit()
             print("Watchlist added successfully.")
             return True
-
-    except oracledb.IntegrityError as e:
-        # ORA-00001 occurs when a unique constraint is violated
-        error_obj, = e.args
-        print("Integrity error:", error_obj.message)
-        return False
+        else:
+            print("Watchlist item already exists.")
+            return False
 
     except oracledb.Error as e:
-        error_obj, = e.args
-        print("Database error inserting watchlist:", error_obj.message)
         return False
-
     finally:
         connect.stop_connection(connection, cursor)
 
@@ -77,22 +82,38 @@ def delete_by_media_id_and_type(user_id, media_id, media_type):
         print("Failed to connect to database.")
         return False
 
+    if media_type == "book":
+        try:
+            cursor.execute("SELECT ADMIN.get_watchlist_book_id(:1) FROM DUAL", (media_id,))
+            result = cursor.fetchone()
+            db_media_id = result[0]
+        except oracledb.Error as e:
+            error_obj, = e.args
+            print("Database error during book ID lookup for deletion:", error_obj.message)
+            return False
+    else:
+        try:
+            db_media_id = int(media_id)
+        except ValueError:
+            print(f"Error: Non-book MEDIA_ID '{media_id}' is not a valid integer.")
+            return False
+
     try:
         cursor.execute(
             """
             DELETE FROM ADMIN.WATCHLIST 
             WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3
             """,
-            (user_id, media_id, media_type)
+            (user_id, db_media_id, media_type)
         )
-        if cursor.rowcount == 0:  # nothing deleted
+        if cursor.rowcount == 0:
             print(
-                f"Error: No watchlist entry found for USER_ID {user_id}, MEDIA_ID {media_id}, MEDIA_TYPE {media_type}.")
+                f"Error: No watchlist entry found for USER_ID {user_id}, MEDIA_ID {media_id} ({media_type}).")
             return False
         else:
             connection.commit()
             print(
-                f"Watchlist entry for USER_ID {user_id}, MEDIA_ID {media_id}, MEDIA_TYPE {media_type} deleted successfully.")
+                f"Watchlist entry for USER_ID {user_id}, MEDIA_ID {media_id} ({media_type}) deleted successfully.")
             return True
 
     except oracledb.Error as e:
@@ -142,6 +163,22 @@ def is_bookmarked(user_id, media_id, media_type):
         print("Failed to connect to database.")
         return False
 
+    if media_type == "book":
+        try:
+            cursor.execute("SELECT ADMIN.get_watchlist_book_id(:1) FROM DUAL", (media_id,))
+            result = cursor.fetchone()
+            db_media_id = result[0]
+        except oracledb.Error as e:
+            error_obj, = e.args
+            print("Database error during book ID lookup:", error_obj.message)
+            return False
+    else:
+        try:
+            db_media_id = int(media_id)
+        except ValueError:
+            print(f"Error: Non-book MEDIA_ID '{media_id}' is not a valid integer for bookmark check.")
+            return False
+
     try:
         cursor.execute(
             """
@@ -149,13 +186,10 @@ def is_bookmarked(user_id, media_id, media_type):
             FROM ADMIN.WATCHLIST
             WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3
             """,
-            (user_id, media_id, media_type)
+            (user_id, db_media_id, media_type)
         )
         result = cursor.fetchone()
-        if result:
-            return True
-        else:
-            return False
+        return bool(result)
 
     except oracledb.Error as e:
         error_obj, = e.args
