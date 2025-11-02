@@ -132,7 +132,7 @@ async def downvote(vote_id : int, jwt_token: str):
         if result is False:
             raise HTTPException(status_code=500, detail="Error changing upvote to downvote")
         #await FastAPICache.clear(namespace="user_vote_{vote_id}")  # Clear the cache to reflect updated vote
-        #await FastAPICache.clear(namespace="recent_reviews")
+        await FastAPICache.clear(namespace="recent_reviews")
         await caches.get("user_votes").delete(f"user_vote_{vote_id}_{user_id}")  # Clear the cache to reflect updated vote
         return {"message": "Changed upvote to downvote successfully"}
 
