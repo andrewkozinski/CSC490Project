@@ -51,6 +51,22 @@ def get_list_id_from_media_type_and_id(user_id, media_id, media_type):
         print("Failed to connect to database.")
         return None
 
+    if media_type == "book":
+        try:
+            cursor.execute("SELECT ADMIN.get_watchlist_book_id(:1) FROM DUAL", (media_id,))
+            result = cursor.fetchone()
+            db_media_id = result[0]
+        except oracledb.Error as e:
+            error_obj, = e.args
+            print("Database error during book ID lookup:", error_obj.message)
+            return None
+    else:
+        try:
+            db_media_id = int(media_id)
+        except ValueError:
+            print(f"Error: Non-book MEDIA_ID '{media_id}' is not a valid integer.")
+            return None
+
     try:
         cursor.execute(
             """
@@ -58,7 +74,7 @@ def get_list_id_from_media_type_and_id(user_id, media_id, media_type):
             FROM ADMIN.WATCHLIST
             WHERE USER_ID = :1 AND MEDIA_ID = :2 AND MEDIA_TYPE = :3
             """,
-            (user_id, media_id, media_type)
+            (user_id, db_media_id, media_type)
         )
         result = cursor.fetchone()
         if result:
@@ -73,7 +89,6 @@ def get_list_id_from_media_type_and_id(user_id, media_id, media_type):
 
     finally:
         connect.stop_connection(connection, cursor)
-
 
 # Takes in a user id, media id and media type and deletes the corresponding watchlist entry
 def delete_by_media_id_and_type(user_id, media_id, media_type):
