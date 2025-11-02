@@ -69,6 +69,7 @@ async def get_user_bookmarks(user_id: int, limit: int = 3):
         for bookmark in bookmarks:
             if bookmark['media_type'] == 'book':
                 bookmark['media_type'] = "books"
+                bookmark['media_id'] = watchlist.get_string_id_from_int(bookmark['media_id'])
                 book_info = await books.get_book_details(bookmark['media_id'])
                 bookmark['info'] = book_info
                 bookmark['title'] = book_info.title
