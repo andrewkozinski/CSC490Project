@@ -1,5 +1,5 @@
 import oracledb
-# import connect
+#import connect
 
 
 from database import connect
@@ -89,6 +89,7 @@ def get_list_id_from_media_type_and_id(user_id, media_id, media_type):
 
     finally:
         connect.stop_connection(connection, cursor)
+
 
 # Takes in a user id, media id and media type and deletes the corresponding watchlist entry
 def delete_by_media_id_and_type(user_id, media_id, media_type):
@@ -238,6 +239,32 @@ def get_all_bookmarks():
     except oracledb.Error as e:
         error_obj, = e.args
         print("Database error retrieving all bookmarks:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
+def get_string_id_from_int(db_media_id: int):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute("SELECT ADMIN.get_watchlist_book_str(:1) FROM DUAL", (db_media_id,)
+        )
+        result = cursor.fetchone()
+
+        if result:
+            return str(result[0])
+        else:
+            print(f"No original string ID found for internal ID: {db_media_id}")
+            return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error retrieving original string ID:", error_obj.message)
         return None
 
     finally:
