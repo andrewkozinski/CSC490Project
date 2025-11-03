@@ -1,5 +1,5 @@
 import oracledb
-import connect
+from database import connect
 
 
 def format_notification(row):
