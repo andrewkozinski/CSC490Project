@@ -51,7 +51,7 @@ def get_notification_count_by_user_id(user_id):
             """
             SELECT COUNT(*) 
             FROM ADMIN.NOTIFICATIONS 
-            WHERE USER_ID = :1
+            WHERE USER_ID = :1 AND IS_READ = 0
             """,
             (user_id,)
         )
