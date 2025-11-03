@@ -40,6 +40,38 @@ def get_notifications_by_user_id(user_id):
         connect.stop_connection(connection, cursor)
 
 
+def get_notification_count_by_user_id(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT COUNT(*) 
+            FROM ADMIN.NOTIFICATIONS 
+            WHERE USER_ID = :1
+            """,
+            (user_id,)
+        )
+
+        result = cursor.fetchone()
+
+        if result:
+            return result[0]
+        else:
+            return 0
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching notification count:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
 def read_notification(noti_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
