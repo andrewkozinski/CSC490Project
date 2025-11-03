@@ -1,6 +1,5 @@
 import oracledb
 from database import connect
-from database.users import valid_user_id
 
 
 def get_review_owner(review_id):
@@ -59,5 +58,45 @@ def delete_oldest_notification(user_id):
         error_obj, = e.args
         print("Database error deleting oldest notification:", error_obj.message)
         return False
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
+def insert_notification(target_user_id, noti_type, review_id, action_user_id, comment_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        v_notif_count = get_notification_count(target_user_id)
+        if v_notif_count >= 5:
+            delete_oldest_notification(target_user_id)
+
+        cursor.execute(
+            """
+            INSERT INTO ADMIN.NOTIFICATIONS(
+                NOTI_ID, USER_ID, NOTI_TYPE, REVIEW_ID, ACTION_USER_ID, COMMENT_ID, IS_READ, CREATED_AT
+            ) VALUES (
+                ADMIN.NOTIFICATION_SEQ.NEXTVAL, :1, :2, :3, :4, :5, 0, SYSDATE
+            )
+            """,
+            (target_user_id, noti_type, review_id, action_user_id, comment_id)
+        )
+
+        connection.commit()
+        print(f"Notification (Type: {noti_type}) for User {target_user_id} added successfully.")
+        return True
+
+    except oracledb.IntegrityError as e:
+        error_obj, = e.args
+        print("Integrity error inserting notification:", error_obj.message)
+        return False
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error inserting notification:", error_obj.message)
+        return False
+
     finally:
         connect.stop_connection(connection, cursor)
