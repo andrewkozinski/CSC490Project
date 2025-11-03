@@ -18,3 +18,30 @@ def get_review_owner(review_id):
         return None
     finally:
         connect.stop_connection(connection, cursor)
+
+
+def delete_oldest_notification(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        return False
+
+    try:
+        delete_sql = """
+            DELETE FROM ADMIN.NOTIFICATIONS
+            WHERE NOTI_ID = (
+                SELECT NOTI_ID
+                FROM ADMIN.NOTIFICATIONS
+                WHERE USER_ID = :1
+                ORDER BY CREATED_AT ASC
+                FETCH FIRST 1 ROW ONLY
+            )
+        """
+        cursor.execute(delete_sql, (user_id,))
+        connection.commit()
+        return cursor.rowcount > 0
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error deleting oldest notification:", error_obj.message)
+        return False
+    finally:
+        connect.stop_connection(connection, cursor)
