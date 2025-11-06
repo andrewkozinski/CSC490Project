@@ -7,11 +7,11 @@ export default function SpoilerText({ text }) {
   return (
     <span
       onClick={() => setRevealed(!revealed)}
-      className="cursor-pointer rounded transition-all duration-200"
+      className="cursor-pointer rounded-xs transition-all duration-200"
       style={{
-        backgroundColor: revealed ? 'transparent' : 'black',
+        backgroundColor: revealed ? 'transparent' : '#7e675b8f',
         color: revealed ? 'inherit' : 'transparent',
-        borderRadius: '0.25rem',
+        borderRadius: '0.15rem',
         padding: '0 0.1em',
         userSelect: revealed ? 'text' : 'none',
       }}
