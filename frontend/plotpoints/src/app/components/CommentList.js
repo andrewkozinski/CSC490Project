@@ -62,7 +62,7 @@ export default function CommentsList({reviewId = 0, parentId = 0, parentType = "
           <div>
             {comments.length > 0 ? (
               comments.map((c, id) => (
-                <Comment key={id} username={c.username} text={c.comm_text} reviewId={reviewId} commentId={c.comm_id} votes={c.votes[0]} />
+                <Comment key={id} username={c.username} text={c.comm_text} reviewId={reviewId} commentId={c.comm_id} votes={c.votes[0]} userId={c.user_id}/>
               ))
             ) : (
               <p className="text-sm text-gray-500">No comments yet.</p>

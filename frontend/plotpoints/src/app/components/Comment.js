@@ -1,7 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
+import {
+  upvote,
+  removeUpvote,
+  downvote,
+  removeDownvote,
+  fetchUserVote,
+} from "@/lib/votes.js";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function Comment({
   username = "Anonymous",
@@ -10,6 +17,7 @@ export default function Comment({
   reviewId = 0,
   commentId = 0,
   votes = {}, // stores vote id, upvotes, and downvotes for a comment
+  userId = 0,
 }) {
   const { data: session } = useSession();
   const jwtToken = session?.accessToken;
@@ -36,7 +44,12 @@ export default function Comment({
       try {
         const data = await fetchUserVote(votes.vote_id, jwtToken);
         setUserVote(data);
-        console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
+        console.log(
+          "Fetched user vote status for vote",
+          votes.vote_id,
+          ":",
+          data
+        );
         //console.log("Fetched user vote status for vote", votes.vote_id, ":", data);
       } catch (error) {
         console.error(error.message);
@@ -44,7 +57,7 @@ export default function Comment({
     };
 
     fetchVoteStatus();
-  }, [session?.accessToken, votes.vote_id]);  
+  }, [session?.accessToken, votes.vote_id]);
 
   const handleUpvote = async () => {
     if (userVote === "up") {
@@ -61,7 +74,7 @@ export default function Comment({
       setUserVote("up");
       upvote(votes.vote_id, jwtToken);
     }
-  }
+  };
 
   const handleDownvote = async () => {
     if (userVote === "down") {
@@ -78,34 +91,62 @@ export default function Comment({
       setUserVote("down");
       downvote(votes.vote_id, jwtToken);
     }
-  }
+  };
+
+  //For profile pics
+  const [profilePicture, setProfilePicture] = useState(
+    "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+  );
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const res = await fetch(`/api/profiles/get/${userId}`);
+        if (!res.ok) throw new Error("Failed to fetch profile");
+
+        const data = await res.json();
+
+        setProfilePicture(
+          data.profile_pic_url ||
+            "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+        );
+      } catch (err) {
+        setProfilePicture(
+          "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+        );
+      }
+    }
+
+    if (userId) fetchProfile();
+  }, [userId]);
 
   return (
     <div className="flex flex-col relative">
       <div className="relative flex border-1 shadow-xl rounded-sm m-1 p-3 h-28 max-w-3/4">
         {/* Avatar and Text */}
         <div className="flex items-start">
-          {/* Avatar circle */}
-          <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-200 border-2 m-2 cursor-pointer mr-5 shrink-0">
-            {/* placeholder */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-8 h-8 text-gray-700"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-              />
-            </svg>
+          <div
+            className="group flex items-center justify-center w-14 h-14 rounded-full bg-transparent border-2 m-2 mr-5 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-125"
+            onClick={() => (window.location.href = `/profile/${user_id}`)}
+          >
+            <Image
+              src={profilePicture}
+              title={username}
+              alt="profile picture"
+              width={50}
+              height={50}
+              className="rounded-full w-13 h-13 items-center justify-center"
+              onClick={() => (window.location.href = `/profile/${userId}`)}
+              onError={() =>
+                setProfilePicture(
+                  "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+                )
+              }
+            />
           </div>
 
           <div>
-            <p className="underline underline-offset-4 mb-2">{username}</p>
+            <p className="underline underline-offset-4 mb-2 cursor-pointer" onClick={() => (window.location.href = `/profile/${userId}`)}>{username}</p>
             <p className="text-sm text-gray-700">{text}</p>
           </div>
         </div>
@@ -128,7 +169,12 @@ export default function Comment({
           <p className="text-sm text-gray-700">{upvotes}</p>
 
           {/* plus */}
-          <button className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""}`} onClick={handleUpvote}>
+          <button
+            className={`cursor-pointer hover: ${
+              userVote === "up" ? "text-green-600" : ""
+            }`}
+            onClick={handleUpvote}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -148,7 +194,12 @@ export default function Comment({
           <p className="ml-3 text-sm text-gray-700">{downvotes}</p>
 
           {/* minus */}
-          <button className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""}`} onClick={handleDownvote}>
+          <button
+            className={`cursor-pointer mr-2 ${
+              userVote === "down" ? "text-red-600" : ""
+            }`}
+            onClick={handleDownvote}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
