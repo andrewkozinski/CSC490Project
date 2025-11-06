@@ -1,6 +1,8 @@
 import oracledb
 from database import connect
 
+# import connect
+
 
 def add_block(user_id, blocked_user_id):
     connection, cursor = connect.start_connection()
@@ -28,6 +30,35 @@ def add_block(user_id, blocked_user_id):
             return {"error": "User ID(s) do not exist (Foreign Key violation).", "code": 404}
 
         return {"error": "Integrity error: " + error_obj.message, "code": 400}
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        return {"error": "Database error: " + error_obj.message, "code": 500}
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
+def remove_block(user_id, blocked_user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        return {"error": "Failed to connect to database.", "code": 500}
+
+    try:
+        cursor.execute(
+            """
+            DELETE FROM ADMIN.BLOCK
+            WHERE USER_ID = :1 AND BLOCKED_USER_ID = :2
+            """,
+            (user_id, blocked_user_id)
+        )
+
+        if cursor.rowcount == 0:
+            connection.rollback()
+            return {"error": "Block relationship does not exist.", "code": 404}
+        else:
+            connection.commit()
+            return {"message": f"User {blocked_user_id} successfully unblocked by {user_id}.", "code": 200}
 
     except oracledb.Error as e:
         error_obj, = e.args
