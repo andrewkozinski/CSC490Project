@@ -215,7 +215,7 @@ useEffect(() => {
             width={50}
             height={50}
             className="rounded-full w-13 h-13 items-center justify-center"
-            onClick={() => (window.location.href = `/profile/${user_id}`)}
+            onClick={() => (window.location.href = `/profile/${userId}`)}
             onError={() =>
               setProfilePicture(
                 "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
