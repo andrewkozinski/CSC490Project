@@ -318,34 +318,7 @@ export default function ProfilePage( {params} ){
                                 />
                             ))
                         )}  
-                        {/* <Image
-                        src="https://covers.openlibrary.org/b/id/6311836-L.jpg"
-                        alt="Graceling"
-                        title="Graceling"
-                        className="image"
-                        width={200}
-                        height={200}
-                        />
-                        <img
-                        src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-                        title="Superman 2025"
-                        className="image"
-                        />
-                        <img
-                        src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-                        title="Weapons"
-                        className="image"
-                        />
-                        <img
-                        src="https://image.tmdb.org/t/p/w500/7NAvPYPAu7MeHwP8E9sn81PqsRh.jpg"
-                        title="SpyFam"
-                        className="image"
-                        />
-                        <img
-                        src="https://image.tmdb.org/t/p/w500/AjlRXTpRLAIiuofNqKcqrpUfPCZ.jpg"
-                        title="KDH"
-                        className="image"
-                        /> */}
+                        
                     </Carousel>
                 </div> 
                 
