@@ -1,6 +1,7 @@
 import oracledb
 from database import connect
 
+
 # import connect
 
 
@@ -62,6 +63,34 @@ def remove_block(user_id, blocked_user_id):
 
     except oracledb.Error as e:
         error_obj, = e.args
+        return {"error": "Database error: " + error_obj.message, "code": 500}
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
+def is_user_blocked(user_id, blocked_user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        return {"error": "Failed to connect to database.", "code": 500}
+
+    try:
+        cursor.execute(
+            """
+            SELECT 1 
+            FROM ADMIN.BLOCK
+            WHERE USER_ID = :1 AND BLOCKED_USER_ID = :2
+            """,
+            (user_id, blocked_user_id)
+        )
+
+        result = cursor.fetchone()
+
+        return result is not None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print(f"Database error checking block status: {error_obj.message}")
         return {"error": "Database error: " + error_obj.message, "code": 500}
 
     finally:
