@@ -1,8 +1,8 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import HTTPException, APIRouter
 from routes.auth import verify_jwt_token, get_user_id_from_token
 from database import notifications
-router = FastAPI()
 
+router = APIRouter()
 
 @router.get("/notifications/user_id/{user_id}")
 async def get_notifications_by_user_id(jwt_token: str):
