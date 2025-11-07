@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr
 import jwt
 import bcrypt
 from datetime import datetime, timedelta, timezone
-from database.users import get_all_users, get_by_email, add_user
+from database.users import get_all_users, get_by_email, add_user, delete_user
 
 # Load environment variables
 load_dotenv()
@@ -105,3 +105,18 @@ async def verify_token(request: TokenRequest):
     print("Request made by token: ", request.token)
     payload = verify_jwt_token(request.token)
     return {"valid": True, "payload": payload}
+
+# Delete user account
+@router.delete("/delete_account")
+async def delete_account(jwt_token: str):
+    #Verify JWT token
+    verify_jwt_token(jwt_token)
+
+    #Get the user_id from the token
+    user_id = get_user_id_from_token(jwt_token)
+
+    #Delete user from DB
+    result = delete_user(user_id)
+    if result is False:
+        raise HTTPException(status_code=500, detail="Error deleting account")
+    return {"message": "Account deleted successfully"}
