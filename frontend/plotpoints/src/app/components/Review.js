@@ -5,8 +5,9 @@ import ReviewText from "./ReviewText";
 import { useSession } from "next-auth/react";
 import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 import Star from "./Star";
+import Image from "next/image";
 
-export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0}) {
+export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0, userId=0}) {
   const [reviewText, setReviewText] = useState(text);
   const [showReplyBox, setShowReplyBox] = useState(false);
   //CurrentUser should fetch the current user
@@ -171,51 +172,84 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
     setReviewText(editText); //Update the reviews text to avoid unnecessary refresh
   };
 
+  //For profile pics
+  const [profilePicture, setProfilePicture] = useState(
+  "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+);
+
+useEffect(() => {
+  async function fetchProfile() {
+    try {
+      const res = await fetch(`/api/profiles/get/${userId}`);
+      if (!res.ok) throw new Error("Failed to fetch profile");
+
+      const data = await res.json();
+
+      setProfilePicture(
+        data.profile_pic_url ||
+          "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+      );
+    } catch (err) {
+      setProfilePicture(
+        "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+      );
+    }
+  }
+
+  if (userId) fetchProfile();
+}, [userId]);
+
+
   return (
     <div className="flex flex-col mt-1">
       <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2">
         {/* Avatar circle */}
-        <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#b0e0e68f] border-2 m-2 cursor-pointer shrink-0">
-          {/*placeholder image*/}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-8 h-8 text-black"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-            />
-          </svg>
+        <div
+          className="group flex items-center justify-center w-14 h-14 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-125"
+          onClick={() => (window.location.href = `/profile/${user_id}`)}
+        >
+          <Image
+            src={profilePicture}
+            title={username}
+            alt="profile picture"
+            width={50}
+            height={50}
+            className="rounded-full w-13 h-13 items-center justify-center"
+            onClick={() => (window.location.href = `/profile/${userId}`)}
+            onError={() =>
+              setProfilePicture(
+                "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+              )
+            }
+          />
         </div>
         {/* Example review content */}
         <div className="flex flex-col mx-3 justify-between h-full grow">
           <div>
             <div className="flex flex-row">
-              <p className="underline underline-offset-4 mr-3">{username}</p>
+              <p onClick={() => (window.location.href = `/profile/${userId}`)} className="underline underline-offset-4 mr-3 cursor-pointer">{username}</p>
               <div className="flex flex-row justify-center mb-3">
-                      {[...Array(5)].map((_, i) => {
-                        const value = i + 1;
-                        return (
-                          <Star
-                            key={value}
-                            className={`w-6 h-6 ${
-                            value <= rating
-                              ? "fill-black stroke-neutral-950"
-                              : "fill-transparent stroke-neutral-950"
-                              }`}
-                          />
-                        );
-                      })}
+                {[...Array(5)].map((_, i) => {
+                  const value = i + 1;
+                  return (
+                    <Star
+                      key={value}
+                      className={`w-6 h-6 ${
+                        value <= rating
+                          ? "fill-black stroke-neutral-950"
+                          : "fill-transparent stroke-neutral-950"
+                      }`}
+                    />
+                  );
+                })}
               </div>
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
             {/* <p className="mt-1 text-black text-sm">{reviewText}</p> */}
-            <ReviewText className="mt-1 text-black text-sm" content={reviewText} />
+            <ReviewText
+              className="mt-1 text-black text-sm"
+              content={reviewText}
+            />
           </div>
 
           {/* Rating controls */}
@@ -223,7 +257,12 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             {/* # of ratings */}
             <p className="mr-3 text-sm text-black">{upvotes}</p>
             {/* plus */}
-            <button className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""}`} onClick={handleUpvote}>
+            <button
+              className={`cursor-pointer hover: ${
+                userVote === "up" ? "text-green-600" : ""
+              }`}
+              onClick={handleUpvote}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -243,7 +282,12 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             <p className="text-sm text-black">{downvotes}</p>
 
             {/* minus */}
-            <button className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""}`} onClick={handleDownvote}>
+            <button
+              className={`cursor-pointer mr-2 ${
+                userVote === "down" ? "text-red-600" : ""
+              }`}
+              onClick={handleDownvote}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -279,7 +323,10 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             >
               Edit
             </button>
-            <button className="cursor-pointer text-red-600 hover:text-red-800" onClick={deleteReview}>
+            <button
+              className="cursor-pointer text-red-600 hover:text-red-800"
+              onClick={deleteReview}
+            >
               Delete
             </button>
           </div>
@@ -294,10 +341,12 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             onChange={(e) => setEditText(e.target.value)}
             maxLength={200}
           />
-          <button className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm" 
-          type="submit"
-          style={{backgroundColor:"var(--color-brown)"}}
-          onClick={handleSubmitEdit}>
+          <button
+            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            type="submit"
+            style={{ backgroundColor: "var(--color-brown)" }}
+            onClick={handleSubmitEdit}
+          >
             Post
           </button>
         </form>
@@ -305,7 +354,10 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
       {/* Reply box */}
       {showReplyBox && (
-        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8"
+          onSubmit={handleSubmit}
+        >
           <textarea
             placeholder="Write your reply..."
             className="w-full border rounded-sm p-2 resize-none focus:outline-none"
@@ -313,9 +365,11 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
             onChange={onCommentTextChange}
             maxLength={200}
           />
-          <button className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm" 
-          type="submit"
-          style={{backgroundColor:"var(--color-brown)"}}>
+          <button
+            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            type="submit"
+            style={{ backgroundColor: "var(--color-brown)" }}
+          >
             Reply
           </button>
         </form>
@@ -323,7 +377,12 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
       {/* Comments below review */}
       <div className="flex w-full ml-27 mb-6">
-        <CommentList parentId={reviewId} parentType="review" refreshKey={refreshKey}/> {/*Parent type is for if we ever add replies to comments */}
+        <CommentList
+          parentId={reviewId}
+          parentType="review"
+          refreshKey={refreshKey}
+        />{" "}
+        {/*Parent type is for if we ever add replies to comments */}
       </div>
     </div>
   );

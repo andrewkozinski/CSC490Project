@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 
 export default function FollowButton({ profileId, currentUserId, jwtToken }) {
+  console.log(jwtToken);
+  console.log(isJwtExpired(jwtToken));
+
   const [isUserFollowing, setIsUserFollowing] = useState(false);
   useEffect(() => {
     if (profileId === currentUserId) return;
@@ -11,6 +14,7 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
     if (currentUserId == undefined) {
       return null;
     }
+    if (isJwtExpired(jwtToken)) return;
     const checkFollowingStatus = async () => {
       try {
         const data = await isFollowing(profileId, jwtToken);
@@ -23,7 +27,12 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
     checkFollowingStatus();
   }, [profileId, currentUserId, jwtToken]);
 
-  if (!isUserFollowing && profileId != currentUserId && jwtToken != undefined) {
+  if (
+    !isUserFollowing &&
+    profileId != currentUserId &&
+    jwtToken != undefined &&
+    !isJwtExpired(jwtToken)
+  ) {
     return (
       <button
         onClick={async () => {
@@ -77,5 +86,17 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
       </button>
     );
   }
+  if (isJwtExpired(jwtToken)) {
+    return null;
+  }
   return null;
+}
+
+function isJwtExpired(token) {
+  if (!token) return true;
+
+  const payload = JSON.parse(atob(token.split(".")[1]));
+  const expiry = payload.exp * 1000;
+
+  return Date.now() > expiry;
 }
