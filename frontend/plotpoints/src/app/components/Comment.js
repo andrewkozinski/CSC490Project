@@ -7,6 +7,7 @@ import {
   removeDownvote,
   fetchUserVote,
 } from "@/lib/votes.js";
+import CommentList from "./CommentList.js";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
@@ -34,6 +35,9 @@ export default function Comment({
 
   //Track user upvote/downvote status to prevent multiple votes
   const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+
+  //For refreshing comments after reply
+  const [refreshKey, setRefreshKey] = useState(0);
 
   //Fetch user voting status
   useEffect(() => {
@@ -93,6 +97,27 @@ export default function Comment({
       setUserVote("down");
       downvote(votes.vote_id, jwtToken);
     }
+  };
+
+
+  const handleReply = async (commentText) => {
+    console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
+    console.log(`User ID: ${session?.user?.id}`);
+    // Implement reply submission logic here
+    const res = await fetch(`/api/comments/under_review/${reviewId}/post_comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        review_id: reviewId,
+        //user_id: session?.user?.id,
+        comment_text: commentText,
+        jwt_token: session?.accessToken,
+        parent_comm_id: commentId,
+      }),
+    });
+
+    setShowReplyBox(false); // Close the reply box after submitting
+    setRefreshKey((prev) => prev + 1); // Trigger refresh of comments
   };
 
   //For profile pics
@@ -238,6 +263,8 @@ return (
         onSubmit={(e) => {
           e.preventDefault();
           console.log("Reply submitted:", commentText);
+          handleReply(commentText);
+          setCommentText("");
         }}
       >
         <textarea
@@ -255,6 +282,17 @@ return (
         </button>
       </form>
     )}
+
+    {/* Comments below comment */}
+    <div className="flex w-full ml-27 mb-6">
+      <CommentList
+        reviewId={reviewId}
+        parentId={commentId}
+        parentType="comment"
+        refreshKey={refreshKey}
+      />{" "}
+      {/*Parent type is for if we ever add replies to comments */}
+    </div>
   </div>
 );
 
