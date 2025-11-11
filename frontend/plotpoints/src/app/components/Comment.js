@@ -24,6 +24,7 @@ export default function Comment({
   const canEdit = session?.user?.name === username;
   const date = session;
 
+
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [showReplyBox, setShowReplyBox] = useState(false);
@@ -137,6 +138,7 @@ return (
           width={50}
           height={50}
           className="rounded-full w-11 h-11"
+          onClick={() => (window.location.href = `/profile/${userId}`)}
           onError={() =>
             setProfilePicture(
               "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
