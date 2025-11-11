@@ -49,11 +49,17 @@ export default function Header() {
       (
       <nav className ="flex grid grid-rows-2">
         <div className="flex justify-end items-center mr-2 -m-3">
-          <img 
+          <div className="notification">
+            <img 
             src="/images/notifbell.png"
-            className="icon"
-          > 
-          </img>
+            className="icon">
+            </img>
+            <div className="notification-block -ml-30">
+              {/* Notification list perhaps */}
+              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>My Profile</Link>
+            </div>
+          </div>
+           
           <div className="dropdown">
             <img 
             src="/images/profileicon.png"
