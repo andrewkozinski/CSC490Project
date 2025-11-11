@@ -32,12 +32,13 @@ async def create_comment(comment: ReviewComment):
     print("JWT ID:", jwt_id)
     print("Review ID:", comment.review_id)
     print("Comment Text:", comment.comment_text)
+    print("Parent Comment ID:", comment.parent_comm_id)
 
     comm_id = add_comment(
         review_id=comment.review_id,
         user_id=jwt_id,
         comm_text=comment.comment_text,
-        parent_comm_id=None
+        parent_comm_id=comment.parent_comm_id
     )
     if comm_id is not None:
 
