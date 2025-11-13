@@ -125,6 +125,26 @@ export default function Comment({
     "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
   );
 
+  const deleteComment = async () => {
+    console.log(`Deleting comment ${commentText}`);
+    try {
+    const res = await fetch(`/api/comments/delete/${commentId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jwt_token: session?.accessToken,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to delete review');
+    }
+
+  } catch (error) {
+    console.error(error.message);
+  }
+  }
+
   useEffect(() => {
     async function fetchProfile() {
       try {
@@ -250,7 +270,8 @@ return (
           <button className="cursor-pointer text-blue-600 hover:text-blue-800">
             Edit
           </button>
-          <button className="cursor-pointer text-red-600 hover:text-red-800">
+          <button className="cursor-pointer text-red-600 hover:text-red-800"
+          onClick={deleteComment}>
             Delete
           </button>
         </div>
@@ -259,7 +280,7 @@ return (
     {/* Reply box below comment */}
     {showReplyBox && (
       <form
-        className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8"
+        className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-3/5"
         onSubmit={(e) => {
           e.preventDefault();
           console.log("Reply submitted:", commentText);
@@ -270,6 +291,7 @@ return (
         <textarea
           placeholder="Write your reply..."
           className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+          maxLength={200}
           value={commentText}
           onChange={onCommentTextChange}
         />
