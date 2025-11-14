@@ -11,7 +11,7 @@ export async function PUT(request, { params }) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwt_token}`,
     },
-    body: JSON.stringify({ comment_id, comment_text, jwt_token }),
+    body: JSON.stringify({ comment_id, new_comment_text: comment_text, jwt_token }),
   });
 
   if (!response.ok) {
