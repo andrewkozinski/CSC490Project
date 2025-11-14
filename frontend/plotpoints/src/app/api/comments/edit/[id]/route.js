@@ -2,16 +2,16 @@ import { NextResponse } from 'next/server';
 
 export async function PUT(request, { params }) {
   const params_content = await params;
-  const review_id = params_content.id;
-  const { review_text, jwt_token } = await request.json();
+  const comment_id = params_content.id;
+  const { comment_text, jwt_token } = await request.json();
 
-  const response = await fetch(`${process.env.API_URL}/comments/edit/${review_id}`, {
+  const response = await fetch(`${process.env.API_URL}/comments/edit/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${jwt_token}`,
     },
-    body: JSON.stringify({ review_id, review_text, jwt_token }),
+    body: JSON.stringify({ comment_id, comment_text, jwt_token }),
   });
 
   if (!response.ok) {
