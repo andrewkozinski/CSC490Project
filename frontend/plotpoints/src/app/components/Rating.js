@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Star from "./Star";
 import fetchUserReview from "@/utils/fetchUserReview";
+import SpoilerText from './SpoilerText';
 
 export default function Rating({
   label,
@@ -146,9 +147,18 @@ export default function Rating({
                 maxLength={200}
               />
 
+              <p className="text-xs text-center w-full pb-5 pt-2">
+                Place two vertical bars around any text to mark it as a spoiler when your review is posted.
+              </p>
+              <p className="text-xs text-center w-full pb-2">
+                {"||This text is a spoiler|| will be posted as "}
+                <SpoilerText text="This text is a spoiler" />
+              </p>
+              
+
               {/* Post button */}
               <button
-                className="cursor-pointer brown text-black font-medium shadow mt-3 py-2 px-6 rounded-sm transition"
+                className="cursor-pointer brown text-black text-sm shadow mt-3 py-2 px-6 rounded-sm transition"
                 onClick={handlePost}
               >
                 Post!

@@ -10,7 +10,7 @@ export default function Settings() {
     <div>
       <Header></Header>
       <div className="flex items-center justify-center h-screen">
-        <div className="w-3/4 h-full bottom-0 text-center shadow-lg mb-3 outline-transparent">
+        <div className="w-3/4 h-full bottom-0 text-center mb-3 outline-transparent">
           <h1 className="text-3xl font-bold text-center mt-10">Settings</h1>
         </div>
       </div>
