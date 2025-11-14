@@ -51,7 +51,7 @@ export default function Header() {
       (
       <nav className ="flex grid grid-rows-2">
         <div className="flex justify-end items-center mr-2 -m-3">
-          <div className="dropdown">
+          <div className="notification">
             <img 
             src="/images/notifbell.png"
             className="icon"

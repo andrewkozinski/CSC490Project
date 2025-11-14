@@ -39,8 +39,14 @@
     height: 250;
 }
 
+
+.notification {
+  position: relative;
+  display: inline-block;
+}
+
 .notification-content {
-  display: block;
+  display: none;
   position: absolute;
   background-color: #F3E9DC;
   min-width: 350px;
@@ -56,4 +62,10 @@
   text-decoration: none;
   display: block;
   font-size: smaller;
+}
+
+.notification:hover .notification-content {display: block;}
+
+.notification-content a:hover {
+    background-color: #dfcdb5;
 }
