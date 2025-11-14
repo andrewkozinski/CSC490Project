@@ -1,11 +1,13 @@
 'use client';
 import { useSession, signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
 import "./Header.css";
 import "./Profile.css";
 import Link from "next/link";
 import {useRouter} from 'next/navigation';
 
 export default function Header() {
+  const [showNotifications] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -49,14 +51,17 @@ export default function Header() {
       (
       <nav className ="flex grid grid-rows-2">
         <div className="flex justify-end items-center mr-2 -m-3">
-          <div className="notification">
+          <div className="dropdown">
             <img 
             src="/images/notifbell.png"
-            className="icon">
+            className="icon"
+            >
             </img>
-            <div className="notification-block -ml-30">
+            <div className="notification-content -ml-77">
               {/* Notification list perhaps */}
-              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>My Profile</Link>
+              <h1 className="text-lg font-bold p-4">Notifications</h1>
+              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has commented on your post.</Link>
+              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has followed you.</Link>
             </div>
           </div>
            
