@@ -70,8 +70,9 @@ export default function Header() {
             src="/images/profileicon.png"
             className="icon"> 
             </img> 
-            <div className="dropdown-content -ml-19">
-              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>My Profile</Link>
+            <div className="dropdown-content -ml-24">
+              <h1 className="text-lg font-bold p-4">My Account</h1>
+              <Link className ="" href={`/profile/${session?.user?.id}`}>My Profile</Link>
               <Link href="/settings">Settings</Link>
               <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/" onClick={() => signOut()} >Sign Out</Link>
             </div>
