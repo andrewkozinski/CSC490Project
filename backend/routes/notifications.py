@@ -16,30 +16,37 @@ async def get_notifications_by_user_id(user_id: str):
         #return {"notifications": notifs}
         for notif in notifs:
             # Get the review associated with a notification
-            if notif["review_id"]:
+            if notif["review_id"] or notif["comment_id"]:
                 review = get_review_by_review_id(notif["review_id"])
                 if review:
                     notif["review_content"] = review
 
-                    if notif["noti_type"] is "U":
+                    if notif["noti_type"] == "U":
                         notif["notif_message"] = "Your review has been upvoted."
-                    elif notif["noti_type"] is "D":
+                    elif notif["noti_type"] == "D":
                         notif["notif_message"] = "Your review has been downvoted."
-                    elif notif["noti_type"] is "C":
+                    elif notif["noti_type"] == "C":
                         notif["notif_message"] = "Your review has a new comment."
                     else: # Fallback message
                         notif["notif_message"] = "You have a new notification regarding your review."
+
+                    media_type = ""
+                    if review["media_type"] == "movie" or review["media_type"] == "book":
+                        media_type = review["media_type"].lower() + "s"  # e.g., "movie" -> "movies"
+                    else:
+                        media_type = "tv"
+                    notif["link"] = f"/{media_type}/{review["media_id"]}/reviews/{review["review_id"]}"
 
             if notif["comment_id"]:
                 comment = get_comment_by_comm_id(notif["comment_id"])
                 if comment:
                     notif["comment_content"] = comment
 
-                    if notif["noti_type"] is "U":
+                    if notif["noti_type"] == "U":
                         notif["notif_message"] = "Your comment has been upvoted."
-                    elif notif["noti_type"] is "D":
+                    elif notif["noti_type"] == "D":
                         notif["notif_message"] = "Your comment has been downvoted."
-                    elif notif["noti_type"] is "C":
+                    elif notif["noti_type"] == "C":
                         notif["notif_message"] = "Your comment has a new reply."
                     else: # Fallback message
                         notif["notif_message"] = "You have a new notification regarding your comment."
