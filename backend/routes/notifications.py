@@ -14,14 +14,12 @@ async def get_poster_url(media_type: str, media_id: str) -> str:
 
     if media_type == "movie":
         movie = await get_movie(int(media_id))
-        print(f"Movie data: {movie}")
         return movie.img_url
     elif media_type == "tvshow":
         tvshow = await get_tvshow(int(media_id))
         return tvshow.img_url
     elif media_type == "book":
         book = await get_book_details(media_id)
-        print(f"Book data: {book}")
         return book.thumbnailUrl
     return ""
 
