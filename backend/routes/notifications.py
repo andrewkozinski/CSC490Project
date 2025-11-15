@@ -9,18 +9,18 @@ from database import notifications
 
 router = APIRouter()
 
-async def get_poster_url(media_type: str, media_id: str) -> str:
+async def get_poster_url_and_title(media_type: str, media_id: str) -> (str,str):
     print(f"Fetching poster URL for media_type: {media_type}, media_id: {media_id}")
 
     if media_type == "movie":
         movie = await get_movie(int(media_id))
-        return movie.img_url
+        return movie.img, movie.title
     elif media_type == "tvshow":
         tvshow = await get_tvshow(int(media_id))
-        return tvshow.img_url
+        return tvshow.img, tvshow.title
     elif media_type == "book":
         book = await get_book_details(media_id)
-        return book.thumbnailUrl
+        return book.thumbnailUrl, book.title
     return ""
 
 @router.get("/user_id/{user_id}")
@@ -37,18 +37,20 @@ async def get_notifications_by_user_id(user_id: str):
                 review = get_review_by_review_id(notif["review_id"])
                 if review:
 
-                    review["img"] = await get_poster_url(review["media_type"], review["media_id"])
+                    review["img"], review["media_title"] = await get_poster_url_and_title(review["media_type"], review["media_id"])
 
                     notif["review_content"] = review
 
+                    base_message = f"Your review on {review['media_title']} "
+
                     if notif["noti_type"] == "U":
-                        notif["notif_message"] = "Your review has been upvoted."
+                        notif["notif_message"] = base_message + "has been upvoted."
                     elif notif["noti_type"] == "D":
-                        notif["notif_message"] = "Your review has been downvoted."
+                        notif["notif_message"] = base_message + "has been downvoted."
                     elif notif["noti_type"] == "C":
-                        notif["notif_message"] = "Your review has a new comment."
+                        notif["notif_message"] = base_message + "Your review has a new comment."
                     else: # Fallback message
-                        notif["notif_message"] = "You have a new notification regarding your review."
+                        notif["notif_message"] = f"Your review on {review['media_title']} has a new notification."
 
                     media_type = ""
                     if review["media_type"] == "movie" or review["media_type"] == "book":
@@ -62,14 +64,16 @@ async def get_notifications_by_user_id(user_id: str):
                 if comment:
                     notif["comment_content"] = comment
 
+                    base_message = f"Your comment on {notif["review_content"]['media_title']} "
+
                     if notif["noti_type"] == "U":
-                        notif["notif_message"] = "Your comment has been upvoted."
+                        notif["notif_message"] = base_message + "has been upvoted."
                     elif notif["noti_type"] == "D":
-                        notif["notif_message"] = "Your comment has been downvoted."
+                        notif["notif_message"] = base_message + "has been downvoted."
                     elif notif["noti_type"] == "C":
-                        notif["notif_message"] = "Your comment has a new reply."
+                        notif["notif_message"] = base_message + "has a new reply."
                     else: # Fallback message
-                        notif["notif_message"] = "You have a new notification regarding your comment."
+                        notif["notif_message"] = f"Your comment on {notif["review_content"]['media_title']} has a new notification."
 
             # Fallback message
             if notif["notif_message"] is None:
