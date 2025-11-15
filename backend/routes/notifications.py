@@ -57,7 +57,7 @@ async def get_notifications_by_user_id(user_id: str):
                         media_type = review["media_type"].lower() + "s"  # e.g., "movie" -> "movies"
                     else:
                         media_type = "tv"
-                    notif["link"] = f"/{media_type}/{review["media_id"]}/reviews/{review["review_id"]}"
+                    notif["link"] = f"/{media_type}/review/{review["media_id"]}"
 
             if notif["comment_id"]:
                 comment = get_comment_by_comm_id(notif["comment_id"])
