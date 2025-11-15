@@ -264,3 +264,39 @@ def get_comments_by_parent_comm_id(parent_comm_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_comment_by_comm_id(comm_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM COMMENTS
+            WHERE COMM_ID = :1
+            """,
+            (comm_id,)
+        )
+        row = cursor.fetchone()
+        if row:
+            comment = {
+                "comm_id": row[0],
+                "review_id": row[1],
+                "user_id": row[2],
+                "comm_text": row[3],
+                "parent_comm_id": row[4]
+            }
+            return comment
+        else:
+            print(f"Error: COMM_ID {comm_id} does not exist.")
+            return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching comment by comm id:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
