@@ -20,10 +20,33 @@ async def get_notifications_by_user_id(user_id: str):
                 review = get_review_by_review_id(notif["review_id"])
                 if review:
                     notif["review_content"] = review
+
+                    if notif["noti_type"] is "U":
+                        notif["notif_message"] = "Your review has been upvoted."
+                    elif notif["noti_type"] is "D":
+                        notif["notif_message"] = "Your review has been downvoted."
+                    elif notif["noti_type"] is "C":
+                        notif["notif_message"] = "Your review has a new comment."
+                    else: # Fallback message
+                        notif["notif_message"] = "You have a new notification regarding your review."
+
             if notif["comment_id"]:
                 comment = get_comment_by_comm_id(notif["comment_id"])
                 if comment:
                     notif["comment_content"] = comment
+
+                    if notif["noti_type"] is "U":
+                        notif["notif_message"] = "Your comment has been upvoted."
+                    elif notif["noti_type"] is "D":
+                        notif["notif_message"] = "Your comment has been downvoted."
+                    elif notif["noti_type"] is "C":
+                        notif["notif_message"] = "Your comment has a new reply."
+                    else: # Fallback message
+                        notif["notif_message"] = "You have a new notification regarding your comment."
+
+            # Fallback message
+            if notif["notif_message"] is None:
+                notif["notif_message"] = "You have a new notification."
         return notifs
     raise HTTPException(status_code=500, detail="Error fetching notifications")
 
