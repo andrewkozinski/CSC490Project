@@ -383,6 +383,12 @@ def get_review_by_review_id(review_id):
         row = cursor.fetchone()
         if row:
             review = format_review(row)
+            # Convert media_id back to string if media_type is book
+            if review["media_type"] == "book":
+                cursor.execute("SELECT BOOK_STR FROM ADMIN.BOOKID_MAPPING WHERE BOOK_ID = :1", (review["media_id"],))
+                result = cursor.fetchone()
+                if result:
+                    review["media_id"] = result[0]
             return review
         else:
             print(f"Review with REVIEW_ID {review_id} not found.")
