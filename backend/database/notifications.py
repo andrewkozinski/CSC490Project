@@ -7,7 +7,7 @@ def format_notification(row):
         "noti_id": row[0],
         "user_id": row[1],
         "noti_type": row[2],
-        "review_type": row[3],
+        "review_id": row[3],
         "action_user_id": row[4],
         "comment_id": row[5],
         "is_read": row[6],
