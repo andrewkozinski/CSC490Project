@@ -5,11 +5,33 @@ import "./Header.css";
 import "./Profile.css";
 import Link from "next/link";
 import {useRouter} from 'next/navigation';
+import { getNotifications, getNotifCount, readNotification } from "@/lib/notifications";
+import Image from "next/image";
 
 export default function Header() {
   const [showNotifications] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
+
+  const [notificationsList, setNotificationsList] = useState([]);
+
+
+  useEffect(() => {
+    // Fetch notifications for the user
+    const fetchNotifications = async () => {
+      try {
+        const notifications = await getNotifications(session?.user?.id);
+        setNotificationsList(notifications);
+        console.log("Fetched notifications:", notifications);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    if (session) {
+      fetchNotifications();
+    }
+  }, [session]);
 
   return (
     /// Changed it so that its a flex box that contains the left side for the title and sections
@@ -60,8 +82,34 @@ export default function Header() {
             <div className="notification-content -ml-77">
               {/* Notification list perhaps */}
               <h1 className="text-lg font-bold p-4">Notifications</h1>
-              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has commented on your post.</Link>
-              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has followed you.</Link>
+              {/* <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has commented on your post.</Link>
+              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has followed you.</Link> */}
+
+              {notificationsList.length === 0 ? (
+                <p className="p-4">No new notifications</p>
+              ) : (
+                notificationsList.map((notification, index) => (
+                  <Link 
+                    key={index}
+                    className="hover:rounded-tr-sm hover:rounded-tl-sm"
+                    href={notification.link}
+                    onClick={async () => {
+                      try {
+                        await readNotification(notification.noti_id, session?.accessToken);
+                        // Optionally update the notifications list or state here
+                      } catch (error) {
+                        console.error("Error marking notification as read:", error);
+                      }
+                    }}
+                  >
+                    {/* <Image src={notification.review_content.img} alt="Notification" className="icon" width={100} height={100} /> */}
+                    <p>{notification.notif_message}</p>
+                    <p>Read status: {notification.is_read == 1 ? "Read" : "Unread"}</p> {/*Read == 1, unread == 0 */}
+                  </Link>
+                ))
+              )}
+
+
             </div>
           </div>
            
