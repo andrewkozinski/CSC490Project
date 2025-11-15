@@ -1,10 +1,29 @@
 from fastapi import HTTPException, APIRouter
 from routes.auth import verify_jwt_token, get_user_id_from_token
+from routes.movies import get_movie
+from routes.tvshows import get_tvshow
+from routes.books import get_book_details
 from database.reviews import get_review_by_review_id
 from database.comments import get_comment_by_comm_id
 from database import notifications
 
 router = APIRouter()
+
+async def get_poster_url(media_type: str, media_id: str) -> str:
+    print(f"Fetching poster URL for media_type: {media_type}, media_id: {media_id}")
+
+    if media_type == "movie":
+        movie = await get_movie(int(media_id))
+        print(f"Movie data: {movie}")
+        return movie.img_url
+    elif media_type == "tvshow":
+        tvshow = await get_tvshow(int(media_id))
+        return tvshow.img_url
+    elif media_type == "book":
+        book = await get_book_details(media_id)
+        print(f"Book data: {book}")
+        return book.thumbnailUrl
+    return ""
 
 @router.get("/user_id/{user_id}")
 async def get_notifications_by_user_id(user_id: str):
@@ -19,6 +38,9 @@ async def get_notifications_by_user_id(user_id: str):
             if notif["review_id"] or notif["comment_id"]:
                 review = get_review_by_review_id(notif["review_id"])
                 if review:
+
+                    review["img"] = await get_poster_url(review["media_type"], review["media_id"])
+
                     notif["review_content"] = review
 
                     if notif["noti_type"] == "U":
