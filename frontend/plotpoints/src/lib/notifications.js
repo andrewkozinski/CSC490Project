@@ -38,7 +38,7 @@ export const readNotification = async (notiId, jwtToken) => {
         body: JSON.stringify({ notiId, jwtToken }),
     }); 
     if (!res.ok) {
-        throw new Error('Failed to read notification');
+        throw new Error('Failed to read notification with error code ' + res.status + "and message " + res.statusText);
     }
     const data = await res.json();
     return data;
