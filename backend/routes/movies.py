@@ -292,6 +292,44 @@ async def get_trending_movies(page: int = 1):
             "results": movies
         }
 
+@router.get("/search/upcoming")
+async def get_upcoming_movies(page: int = 1):
+    url = f"https://api.themoviedb.org/3/movie/upcoming?api_key={TMDB_API_KEY}&page={page}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        movies = []
+        for item in data.get('results', []):
+
+            credits_url = f"https://api.themoviedb.org/3/movie/{item['id']}/credits?api_key={TMDB_API_KEY}"
+            credits_response = await client.get(credits_url)
+            if credits_response.status_code != 200:
+                continue  # Skip if we can't get credits
+            credits_details = credits_response.json()
+            director = next((member for member in credits_details['crew'] if member['job'] == 'Director'), None)
+
+            movie = Movie(
+                id=str(item['id']),
+                title=item['title'],
+                genre=[GENRE_ID_TO_NAME.get(genre_id, "Unknown") for genre_id in item.get('genre_ids', [])],
+                director=director['name'] if director else "Unknown",
+                #director="Unknown",
+                year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
+                release_date=item.get('release_date', "N/A"),
+                overview=item.get('overview', "No overview available."),
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+            )
+            movies.append(movie)
+
+        return {
+            "page": data.get('page', 1),
+            "total_results": data.get('total_results', 0),
+            "total_pages": data.get('total_pages', 1),
+            "results": movies
+        }
+
 @router.get("/{movie_id}", response_model=Movie)
 async def get_movie(movie_id: int):
 
