@@ -75,6 +75,11 @@ async def get_notifications_by_user_id(user_id: str):
                     else: # Fallback message
                         notif["notif_message"] = f"Your comment on {notif["review_content"]['media_title']} has a new notification."
 
+            if notif["review_content"]["img"] is not None:
+                notif["img"] = notif["review_content"]["img"]
+            else:
+                notif["img"] = ""
+
             # Fallback message
             if notif["notif_message"] is None:
                 notif["notif_message"] = "You have a new notification."
