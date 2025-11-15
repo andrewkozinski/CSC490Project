@@ -6,7 +6,7 @@ from database import notifications
 
 router = APIRouter()
 
-@router.get("/notifications/user_id/{user_id}")
+@router.get("/user_id/{user_id}")
 async def get_notifications_by_user_id(user_id: str):
     # Verify JWT token
     #verify_jwt_token(jwt_token)
@@ -27,7 +27,7 @@ async def get_notifications_by_user_id(user_id: str):
         return notifs
     raise HTTPException(status_code=500, detail="Error fetching notifications")
 
-@router.get("/notifications/count")
+@router.get("/count")
 async def get_notification_count(user_id: str):
     # Verify JWT token
     #verify_jwt_token(jwt_token)
@@ -37,7 +37,7 @@ async def get_notification_count(user_id: str):
         return {"unread_count": count}
     raise HTTPException(status_code=500, detail="Error fetching notification count")
 
-@router.put("/notifications/read/{noti_id}")
+@router.put("/read/{noti_id}")
 async def read_notification(noti_id: int, jwt_token: str):
     # Verify JWT token
     verify_jwt_token(jwt_token)
