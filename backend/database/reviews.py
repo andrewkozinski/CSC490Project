@@ -372,3 +372,24 @@ def get_recent_reviews_by_user_id(user_id, limit=3):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+def get_review_by_review_id(review_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+    try:
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS WHERE REVIEW_ID = :1", (review_id,))
+        row = cursor.fetchone()
+        if row:
+            review = format_review(row)
+            return review
+        else:
+            print(f"Review with REVIEW_ID {review_id} not found.")
+            return None
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching review by review ID:", error_obj.message)
+        return None
+    finally:
+        connect.stop_connection(connection, cursor)
