@@ -96,7 +96,6 @@ export default function Header() {
                     onClick={async () => {
                       try {
                         await readNotification(notification.noti_id, session?.accessToken);
-                        // Optionally update the notifications list or state here
                       } catch (error) {
                         console.error("Error marking notification as read:", error);
                       }
