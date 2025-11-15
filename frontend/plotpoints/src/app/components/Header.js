@@ -101,7 +101,7 @@ export default function Header() {
                       }
                     }}
                   >
-                    {/* <Image src={notification.review_content.img} alt="Notification" className="icon" width={100} height={100} /> */}
+                    {/* <Image src={notification.img} alt="Notification" className="icon" width={100} height={100} /> */}
                     <p>{notification.notif_message}</p>
                     <p>Read status: {notification.is_read == 1 ? "Read" : "Unread"}</p> {/*Read == 1, unread == 0 */}
                   </Link>
