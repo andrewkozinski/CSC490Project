@@ -12,6 +12,7 @@ export default function TV() {
   const [dramaShows, setDramaShows] = useState([]);
   const [comedyShows, setComedyShows] = useState([]);
   const [crimeShows, setCrimeShows] = useState([]);
+  const [airingTodayShows, setAiringTodayShows] = useState([]);
 
   //Handles fetching tv shows from the backend
   useEffect(() => {
@@ -28,12 +29,25 @@ export default function TV() {
         console.error(err);
       }
     };
+    const fetchAiringTodayShows = async () => {
+      try {
+        const res = await fetch(`/api/tv/airing_today`);
+        if (!res.ok) throw new Error("Failed to fetch airing today TV shows");
+        const data = await res.json();
+        setAiringTodayShows(data.results || []);
+        console.log("AIRING TODAY SHOWS:");
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
     // Fetch shows for each genre
     fetchShows("kids", setKidsShows);
     fetchShows("drama", setDramaShows);
     fetchShows("comedy", setComedyShows);
     fetchShows("crime", setCrimeShows);    
+    fetchAiringTodayShows();
   }, []);
 
   return (
