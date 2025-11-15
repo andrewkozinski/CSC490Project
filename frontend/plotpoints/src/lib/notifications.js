@@ -28,3 +28,18 @@ export const getNotifCount = async (userId) => {
     const data = await res.json();
     return data;
 }
+
+export const readNotification = async (notiId, jwtToken) => {
+    const res = await fetch(`/api/notifications/read`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ notiId, jwtToken }),
+    }); 
+    if (!res.ok) {
+        throw new Error('Failed to read notification');
+    }
+    const data = await res.json();
+    return data;
+}
