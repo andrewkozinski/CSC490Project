@@ -104,6 +104,18 @@ export default function TV() {
             />
           ))}
         </Carousel>
+        <Carousel label ="Airing Today">
+          {airingTodayShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="image"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Carousel>
       </main>
       <Footer />
     </div>
