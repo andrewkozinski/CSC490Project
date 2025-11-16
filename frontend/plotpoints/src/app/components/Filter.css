@@ -1,0 +1,59 @@
+.select-wrapper {
+    display: flex;
+    position: relative;
+    display: inline-block;
+    gap: 15px;
+}
+
+.select-wrapper::after {
+    display: flex;
+    font-size: 14px;
+    color: #333;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.filter-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    place-content: center;
+    
+}
+
+.select-filter {
+    appearance: none;  
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    width: 170px;
+    height: 35px;
+    background-color: #dfcdb5;
+    padding: 5px 10px 5px;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.3);
+    z-index: 1;
+    transition: all 0.1s ease-in-out;
+}
+
+
+.select-filter:hover {
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+
+/* .filter-container select {
+    background-color: #fff;
+    color: #333;
+} */
+
+/* .filter-heading {
+    color: #F3E9DC;
+    font-size: 15px;
+    margin-bottom: 20px;
+} */

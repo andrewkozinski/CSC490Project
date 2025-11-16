@@ -50,7 +50,7 @@ export default function Header() {
       (
         <nav className ="grid grid-rows-2 mr-5 justify-end">
           <div>
-          <Link className="text fields brown shadow mr-10 mt-1" href="/signup">Sign Up</Link>
+          <Link className="text fields blue shadow mr-10 mt-1" href="/signup">Sign Up</Link>
           <Link className="text fields blue shadow -ml-5" href="/signin">Sign In</Link>
           </div>
           <div className="fields grid grid-cols-2 shadow search blue mt-2 items-center">
