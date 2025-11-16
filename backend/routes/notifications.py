@@ -52,7 +52,16 @@ async def get_notifications_by_user_id(user_id: str):
                     elif notif["noti_type"] == "D":
                         notif["notif_message"] = base_message + "has been downvoted."
                     elif notif["noti_type"] == "C":
-                        notif["notif_message"] = base_message + "Your review has a new comment."
+
+                        #Get the user information
+                        action_user_info = await get_user_info_by_id(notif["action_user_id"])
+                        if action_user_info:
+                            notif["action_username"] = action_user_info["username"]
+                            notif["notif_message"] = base_message + f"received a new comment from {action_user_info['username']}."
+                            notif["img"] = action_user_info["profile_pic_url"]
+                        else:
+                            notif["notif_message"] = base_message + " has a new comment."
+
                     else: # Fallback message
                         notif["notif_message"] = f"Your review on {review['media_title']} has a new notification."
 
@@ -75,7 +84,15 @@ async def get_notifications_by_user_id(user_id: str):
                     elif notif["noti_type"] == "D":
                         notif["notif_message"] = base_message + "has been downvoted."
                     elif notif["noti_type"] == "C":
-                        notif["notif_message"] = base_message + "has a new reply."
+
+                        action_user_info = await get_user_info_by_id(notif["action_user_id"])
+                        if action_user_info:
+                            notif["action_username"] = action_user_info["username"]
+                            notif["notif_message"] = base_message + f"received a new comment from \"{action_user_info['username']}\""
+                            notif["img"] = action_user_info["profile_pic_url"]
+                        else:
+                            notif["notif_message"] = base_message + " has a new comment."
+
                     else: # Fallback message
                         notif["notif_message"] = f"Your comment on {notif["review_content"]['media_title']} has a new notification."
 
@@ -93,10 +110,11 @@ async def get_notifications_by_user_id(user_id: str):
                     notif["img"] = follower_info["profile_pic_url"]
 
             # Set image if review has one
-            if notif["review_id"] is not None and notif["review_content"]["img"] is not None:
-                notif["img"] = notif["review_content"]["img"]
-            elif notif["img"] == "": #No image available
-                notif["img"] = "https://placehold.co/100x150?text=No+Image"
+            if "img" not in notif or notif["img"] is None or notif["img"] == "":
+                if notif["review_id"] is not None and notif["review_content"]["img"] is not None:
+                    notif["img"] = notif["review_content"]["img"]
+                elif notif["img"] == "":  # No image available
+                    notif["img"] = "https://placehold.co/100x150?text=No+Image"
 
             # Fallback message
             if notif["notif_message"] == "":
