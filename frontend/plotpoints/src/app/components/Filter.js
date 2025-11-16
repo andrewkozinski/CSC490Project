@@ -56,6 +56,7 @@ const FilterControls = () => {
                 value={filters.type}
                 onChange={handleFilterChange}>
                 <option value="">Media Type</option>
+                <option value="All">All</option>
                 <option value="Movies">Movies</option>
                 <option value="Shows">TV Shows</option>
                 <option value="Books">Books</option>
