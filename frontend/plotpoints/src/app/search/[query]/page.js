@@ -3,6 +3,7 @@
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import Image from "next/image";
+import Filter from "@/app/components/Filter";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -59,6 +60,7 @@ export default function Home() {
             {/*I am well aware this doesn't look good but it was more so just to get something displayed somewhere */}
             <div className="m-20">
                 <h1 className="inria-serif-bold text-center text-3xl -mt-5">Search for: {decodedQuery}</h1>
+                <Filter/>
                 <div className="ml-13">
                 <h1 className="font-bold text-2xl mt-20 mb-5">Movies</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
