@@ -226,6 +226,59 @@ async def get_tvshows_airing_today(page: int = 1):
             "results": tv_shows
         }
 
+@router.get("/search/filter")
+async def filter_tvshows(genre: str = None, release_year: int = None, page: int = 1):
+    url = f"https://api.themoviedb.org/3/discover/tv?api_key={TMDB_API_KEY}&page={page}"
+
+    if genre:
+        # Find the genre ID from the name
+        genre_id = next((id for id, name in GENRE_ID_TO_NAME.items()
+                        if name.lower() == genre.lower()), None)
+        if genre_id is None:
+            raise HTTPException(status_code=400, detail="Invalid genre name")
+        url += f"&with_genres={genre_id}"
+
+    if release_year:
+        url += f"&first_air_date_year={release_year}"
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        tv_shows = []
+        for item in data.get('results', []):
+
+            #Grab more detailed information for each tv show
+            #to get number of seasons and episodes
+            detail_url = f"https://api.themoviedb.org/3/tv/{item['id']}?api_key={TMDB_API_KEY}"
+            detail_response = await client.get(detail_url)
+            detail_response.raise_for_status()
+            detail_item = detail_response.json()
+            #get created_by from detail_item as a list of strings
+            created_by=[creator['name'] for creator in detail_item.get('created_by', [])]
+
+            tv_show = TvShow(
+                id=str(item['id']),
+                title=item['name'],
+                genre=[GENRE_ID_TO_NAME.get(genre_id, "Unknown") for genre_id in item.get('genre_ids', [])], #map genre ids to names
+                created_by=created_by or ["N/A"],
+                release_date=item.get('first_air_date', "N/A"),
+                seasons=detail_item.get('number_of_seasons', 0),
+                episodes=detail_item.get('number_of_episodes', 0),
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "",
+                description=item.get('overview', "No overview available.")
+            )
+            tv_shows.append(tv_show)
+
+        return {
+            "page": data.get('page', 1),
+            "total_results": data.get('total_results', 0),
+            "total_pages": data.get('total_pages', 1),
+            "results": tv_shows
+        }
+
+
 @router.get("/{tv_id}", response_model=TvShow)
 async def get_tvshow(tv_id: int):
     url = f"https://api.themoviedb.org/3/tv/{tv_id}?api_key={TMDB_API_KEY}"
