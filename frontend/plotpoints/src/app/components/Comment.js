@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 export default function Comment({
+  removeCommentFromList = () => {},
   username = "Anonymous",
   text = "No comment",
   currentUser = "Anonymous", // logged-in user
@@ -139,6 +140,8 @@ export default function Comment({
     if (!res.ok) {
       throw new Error(data.error || 'Failed to delete review');
     }
+    //remove from commentList
+    removeCommentFromList(commentId);
 
   } catch (error) {
     console.error(error.message);
