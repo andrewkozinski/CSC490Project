@@ -29,13 +29,21 @@ async def search_books(query: str, page: int = 1):
         books = []
         for doc in data.get("docs", []):
             cover_links = build_cover_links(doc.get("cover_i"))
+
+            #Get genres by the id
+            book_id = doc.get("key", "").replace("/works/", "")
+            #genres = await get_book_genres(doc.get("key", "").replace("/works/", ""))
+            #categories = genres.get("genres", ["N/A"])
+
             book = Book(
-                id=doc.get("key", "").replace("/works/", ""),
+                #id=doc.get("key", "").replace("/works/", ""),
+                id=book_id,
                 title=doc.get("title", "N/A"),
                 description=doc.get("first_sentence", "N/A") if isinstance(doc.get("first_sentence"), str) else "N/A",
                 authors=doc.get("author_name", ["N/A"]),
                 date_published=str(doc.get("first_publish_year", "N/A")),
                 categories=doc.get("subject", ["N/A"]),
+                #categories=categories,
                 thumbnailUrl=cover_links["large"],
             )
             books.append(book)
