@@ -3,6 +3,7 @@ from routes.auth import verify_jwt_token, get_user_id_from_token
 from routes.movies import get_movie
 from routes.tvshows import get_tvshow
 from routes.books import get_book_details
+from routes.profiles import get_user_info_by_id
 from database.reviews import get_review_by_review_id
 from database.comments import get_comment_by_comm_id
 from database import notifications
@@ -32,6 +33,9 @@ async def get_notifications_by_user_id(user_id: str):
     if notifs is not None:
         #return {"notifications": notifs}
         for notif in notifs:
+
+            notif["notif_message"] = ""
+
             # Get the review associated with a notification
             if notif["review_id"] or notif["comment_id"]:
                 review = get_review_by_review_id(notif["review_id"])
@@ -75,13 +79,27 @@ async def get_notifications_by_user_id(user_id: str):
                     else: # Fallback message
                         notif["notif_message"] = f"Your comment on {notif["review_content"]['media_title']} has a new notification."
 
-            if notif["review_content"]["img"] is not None:
+            if notif["noti_type"] == "F":
+
+                #Get the user who followed
+                follower_info = await get_user_info_by_id(notif["action_user_id"])
+
+                print(f"Follower info: {follower_info}")
+
+                if follower_info:
+                    notif["follower_username"] = follower_info["username"]
+                    notif["notif_message"] = f"{follower_info['username']} has started following you."
+                    notif["link"] = f"/profile/{follower_info['user_id']}"
+                    notif["img"] = follower_info["profile_pic_url"]
+
+            # Set image if review has one
+            if notif["review_id"] is not None and notif["review_content"]["img"] is not None:
                 notif["img"] = notif["review_content"]["img"]
-            else:
-                notif["img"] = ""
+            elif notif["img"] == "": #No image available
+                notif["img"] = "https://placehold.co/100x150?text=No+Image"
 
             # Fallback message
-            if notif["notif_message"] is None:
+            if notif["notif_message"] == "":
                 notif["notif_message"] = "You have a new notification."
         return notifs
     raise HTTPException(status_code=500, detail="Error fetching notifications")
