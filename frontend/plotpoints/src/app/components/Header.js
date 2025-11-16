@@ -91,7 +91,7 @@ export default function Header() {
                 notificationsList.map((notification, index) => (
                   <Link 
                     key={index}
-                    className="hover:rounded-tr-sm hover:rounded-tl-sm"
+                    className=""
                     href={notification.link}
                     onClick={async () => {
                       try {

@@ -11,8 +11,8 @@
   cursor: pointer;
   width: 60px;
   height: 30px;
-  background: grey;
-  border-radius: 100px;
+  background: #7e675b8f;
+  border-radius: 100;
   position: relative;
   transition: background-color .2s;
 }
@@ -25,7 +25,8 @@
   right: 5px;
   width: 20px;
   height: 20px;
-  border-radius: 45px;
+  border-radius: 50px;
+  border-color: black;
   transition: 0.3s;
   background: #F3E9DC;
   box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
@@ -38,4 +39,5 @@
 
 .react-switch-label:active .react-switch-button {
   width: 60px;
+  background: #B0E0E6;
 }
