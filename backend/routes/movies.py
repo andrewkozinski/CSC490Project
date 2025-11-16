@@ -167,7 +167,7 @@ async def search_movies(query: str, page: int = 1):
                 year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
                 release_date=item.get('release_date', "N/A"),
                 overview=item.get('overview', "No overview available."),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "https://placehold.co/100x150?text=No+Image"
             )
             movies.append(movie)
 
@@ -226,7 +226,7 @@ async def search_movies_by_genre(genre_name: str, page: int = 1):
                 year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
                 release_date=item.get('release_date', "N/A"),
                 overview=item.get('overview', "No overview available."),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "https://placehold.co/100x150?text=No+Image"
             )
             movies.append(movie)
 
@@ -281,7 +281,7 @@ async def get_trending_movies(page: int = 1):
                 year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
                 release_date=item.get('release_date', "N/A"),
                 overview=item.get('overview', "No overview available."),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "https://placehold.co/100x150?text=No+Image"
             )
             movies.append(movie)
 
@@ -319,7 +319,7 @@ async def get_upcoming_movies(page: int = 1):
                 year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
                 release_date=item.get('release_date', "N/A"),
                 overview=item.get('overview', "No overview available."),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "https://placehold.co/100x150?text=No+Image"
             )
             movies.append(movie)
 
@@ -366,7 +366,7 @@ async def filter_movies(genre: str | None = None, year: int | None = None, page:
                 year=item['release_date'].split('-')[0] if item.get('release_date') else "Unknown",
                 release_date=item.get('release_date', "N/A"),
                 overview=item.get('overview', "No overview available."),
-                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else ""
+                img="https://image.tmdb.org/t/p/w500" + item['poster_path'] if item.get('poster_path') else "https://placehold.co/100x150?text=No+Image"
             )
             movies.append(movie)
 
@@ -416,7 +416,7 @@ async def get_movie(movie_id: int):
             year=movie_details['release_date'].split('-')[0] if movie_details.get('release_date') else "Unknown",
             release_date=movie_details.get('release_date', "N/A"),
             overview=movie_details.get('overview', "No overview available."),
-            img = "https://image.tmdb.org/t/p/w500" + movie_details['poster_path'] if movie_details.get('poster_path') else ""
+            img = "https://image.tmdb.org/t/p/w500" + movie_details['poster_path'] if movie_details.get('poster_path') else "https://placehold.co/100x150?text=No+Image"
         )
 
         return movie
