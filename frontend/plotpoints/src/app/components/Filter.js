@@ -41,12 +41,7 @@ export default function Filter() {
             
                 <FilterControls />
                 <ul>
-                    {filteredCourses.map((course) => (
-                        <li key={course.id}>
-                            {course.title} - {course.category}
-                            ({course.level}) - {course.price}
-                        </li>
-                    ))}
+                    {/* list of media */}
                 </ul>
             </div>
         </FilterContext.Provider>
@@ -58,7 +53,7 @@ const FilterControls = () => {
         <div className="filter-container">
             <select className="select-filter"
                 name="type"
-                value={filters.category}
+                value={filters.type}
                 onChange={handleFilterChange}>
                 <option value="">Media Type</option>
                 <option value="Movies">Movies</option>
@@ -68,26 +63,25 @@ const FilterControls = () => {
             <select 
                 className="select-filter"
                 name="genre" 
-                value={filters.level}
+                value={filters.genre}
                 onChange={handleFilterChange}>
                 <option value="">Genre</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
+                <option value="Beginner">Action & Adventure</option>
+                <option value="Intermediate">Animation</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Crime">Crime</option>
+                <option value="Documentary">Documentary</option>
+                <option value="Drama">Drama</option>
+                <option value="Family">Family</option>
+                <option value="Mystery">Mystery</option>
             </select>
             <select 
                 className="select-filter"
                 name="year" 
-                value={filters.price}
+                value={filters.year}
                 onChange={handleFilterChange}>
                 <option value="">Release Year</option>
-                <option value="₹1000">₹1000</option>
-                <option value="₹1200">₹1200</option>
-                <option value="₹1500">₹1500</option>
-                <option value="₹1800">₹1800</option>
-                <option value="₹2000">₹2000</option>
-                <option value="₹2200">₹2200</option>
-                <option value="₹2500">₹2500</option>
+    
             </select>
         </div>
     );

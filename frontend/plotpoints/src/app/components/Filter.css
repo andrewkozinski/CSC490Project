@@ -24,54 +24,36 @@
     
 }
 
-/* .select-filter {
-    padding: 8px;
-    width: 200px;
-    height: 35px;
-    background-color: #F3E9DC;
-    min-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
-    z-index: 1;
-    border-radius: 10;
-} */
-
 .select-filter {
-    appearance: none;  /* Standard */
-    -webkit-appearance: none; /* Safari */
-    -moz-appearance: none; /* Firefox */
-    width: 150px;
+    appearance: none;  
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    width: 170px;
     height: 35px;
-    background-color: #F3E9DC;
-    border: 1px solid #000000;
-    padding: 5px 5px 5px;
+    background-color: #dfcdb5;
+    padding: 5px 10px 5px;
     border-radius: 6px;
-    font-size: 15px;
-    /* color: #333; */
+    font-size: 14px;
     outline: none;
+    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.3);
+    z-index: 1;
+    transition: all 0.1s ease-in-out;
 }
 
-.select-filter:focus {
-    border-color: #000000;
-    background-color: #eef7ff;
-    box-shadow: none; 
-}
 
 .select-filter:hover {
-    background-color: #f1f1f1;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
 }
 
-.select-filter option:checked {
-    background-color: #B0E0E6;
-    color: white;
-}
 
 /* .filter-container select {
     background-color: #fff;
     color: #333;
 } */
 
-.filter-heading {
-    color: #B0E0E6;
+/* .filter-heading {
+    color: #F3E9DC;
     font-size: 15px;
     margin-bottom: 20px;
-}
+} */
