@@ -188,6 +188,18 @@ async def filter_books(category: str | None = None, year: int | None = None, pag
             "results": books,
         }
 
+@router.get("/get_genres/{book_id}")
+async def get_book_genres(book_id: str):
+    url = f"https://openlibrary.org/works/{book_id}.json"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="Book not found")
+        response.raise_for_status()
+        item = response.json()
+        genres = item.get("subjects", [])
+        return {"book_id": book_id, "genres": genres}
+
 @router.get("/{book_id}/average_rating")
 async def get_book_average_rating(book_id: str):
     avg_rating = get_avg_ratings_by_book_id(book_id)
