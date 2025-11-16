@@ -297,7 +297,7 @@ export default function ProfilePage( {params} ){
                         )))}
                     </div>
                 </div>
-                <div className="w-1/3 h-fit m-15">
+                <div className="w-1/3 h-fit mt-15 ml-10 mr-10">
                     {/* <h1 className="text-md text-start whitespace-nowrap mb-5">Bookmarks</h1>
                     <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>*/}
                     <Carousel label="Bookmarks">

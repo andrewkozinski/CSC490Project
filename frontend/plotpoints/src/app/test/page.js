@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Image from "next/image";
 import Footer from "../components/Footer";
 import { checkIfBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } from "@/lib/bookmarks";
+import { getNotifications, getNotifCount, readNotification} from "@/lib/notifications";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
@@ -35,11 +36,13 @@ export default function SessionInfo() {
     //const res = await fetch("/api/movies/details/634649/stream_links");
     //const data = await res.json();
     //console.log(data);
-    const media_type = "movie";
-    const bookmarkId = 11; 
-    console.log(await addBookmark("movie", `${11}`, session?.accessToken));
-    console.log(await checkIfBookmarked("movie", `${11}`, session?.user?.id));
-    console.log(await getBookmarksByUserId(session?.user?.id, 5));
+    // const media_type = "movie";
+    // const bookmarkId = 11; 
+    // console.log(await addBookmark("movie", `${11}`, session?.accessToken));
+    // console.log(await checkIfBookmarked("movie", `${11}`, session?.user?.id));
+    // console.log(await getBookmarksByUserId(session?.user?.id, 5));
+    //console.log(await getNotifications(session?.user?.id));
+    console.log(await readNotification(123, session?.accessToken));
   };
 
   return (

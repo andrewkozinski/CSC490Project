@@ -380,6 +380,7 @@ useEffect(() => {
         <CommentList
           parentId={reviewId}
           parentType="review"
+          reviewId={reviewId}
           refreshKey={refreshKey}
         />{" "}
         {/*Parent type is for if we ever add replies to comments */}
