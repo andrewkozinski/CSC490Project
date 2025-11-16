@@ -154,6 +154,40 @@ async def get_trending_books():
         response.append(book_details)
     return {"total_results": len(response), "results": response}
 
+#Filter by genre and year
+@router.get("/search/filter")
+async def filter_books(category: str | None = None, year: int | None = None, page: int = 1):
+    url = f"https://openlibrary.org/subjects/{category.lower().replace(' ', '_') if category else 'all'}.json?limit=20&offset={(page-1)*20}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        if response.status_code == 404:
+            raise HTTPException(status_code=404, detail="Category not found")
+        response.raise_for_status()
+        data = response.json()
+
+        books = []
+        for work in data.get("works", []):
+            publish_years = work.get("first_publish_year")
+            if year and publish_years != year:
+                continue
+            cover_links = build_cover_links(work.get("cover_id"))
+            book = Book(
+                id=work.get("key", "").replace("/works/", ""),
+                title=work.get("title", "N/A"),
+                description=work.get("description", "N/A"),
+                authors=[a.get("name", "N/A") for a in work.get("authors", [])],
+                date_published=str(work.get("first_publish_year", "N/A")),
+                categories=[category] if category else work.get("subjects", ["N/A"]),
+                thumbnailUrl=cover_links["thumbnail"],
+            )
+            books.append(book)
+
+        return {
+            "page": page,
+            "total_results": len(books),
+            "results": books,
+        }
+
 @router.get("/{book_id}/average_rating")
 async def get_book_average_rating(book_id: str):
     avg_rating = get_avg_ratings_by_book_id(book_id)
