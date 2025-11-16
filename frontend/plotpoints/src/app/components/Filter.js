@@ -4,8 +4,9 @@ import "./Filter.css";
 
 const FilterContext = createContext();
 
-export default function Filter() {
+export default function Filter( {filters, handleFilterChange} ) {
     
+    /*
     const [filters, setFilters] = useState({
         type: '',
         genre: '',
@@ -17,7 +18,7 @@ export default function Filter() {
             ...prevFilters,
             [name]: value,
         }));
-    };
+    };*/
 
     const media = [
         
@@ -67,14 +68,15 @@ const FilterControls = () => {
                 value={filters.genre}
                 onChange={handleFilterChange}>
                 <option value="">Genre</option>
-                <option value="Beginner">Action & Adventure</option>
-                <option value="Intermediate">Animation</option>
+                <option value="Action & Adventure">Action & Adventure</option>
+                <option value="Animation">Animation</option>
                 <option value="Comedy">Comedy</option>
                 <option value="Crime">Crime</option>
                 <option value="Documentary">Documentary</option>
                 <option value="Drama">Drama</option>
                 <option value="Family">Family</option>
                 <option value="Mystery">Mystery</option>
+                <option value="Fantasy">Fantasy</option>
             </select>
             <select 
                 className="select-filter"
