@@ -7,13 +7,9 @@ import Switch from "../components/Switch";
 import "../components/Homepage.css";
 
 export default function Settings() {
-  const [textToggle, setReviewText] = useState(
-    () => localStorage.getItem("reviewText") === "true" || false
-  );
-
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true" || false
-  );
+  const [darkMode, setDarkMode] = useState(false);
+  const [textToggle, setReviewText] = useState(false);
+  const [loaded, setLoaded] = useState(false); //needed to set the toggles according to localStorage
 
   useEffect(() => {
     console.log("Loaded from localStorage:", {
@@ -23,24 +19,27 @@ export default function Settings() {
   }, []);
 
   useEffect(() => {
-    const savedTextToggle = localStorage.getItem("reviewText");
-    const savedDarkMode = localStorage.getItem("darkMode");
+    const savedDark = localStorage.getItem("darkMode");
+    const savedReview = localStorage.getItem("reviewText");
 
-    if (savedTextToggle !== null) {
-      setReviewText(savedTextToggle === "true");
-    }
-    if (savedDarkMode !== null) {
-      setDarkMode(savedDarkMode === "true");
-    }
+    if (savedDark !== null) setDarkMode(savedDark === "true");
+    if (savedReview !== null) setReviewText(savedReview === "true");
+    setLoaded(true);
   }, []);
 
   useEffect(() => {
+    if (loaded) {
     localStorage.setItem("reviewText", textToggle);
-  }, [textToggle]);
+    console.log("reviewText set: ", textToggle);
+    }
+  }, [textToggle, loaded]);
 
   useEffect(() => {
+    if (loaded) {
     localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
+    console.log("darkMode set: ", darkMode)
+    }
+  }, [darkMode, loaded]);
 
   return (
     <div>
