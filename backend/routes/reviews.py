@@ -264,25 +264,30 @@ async def get_recent_reviews_by_user_id(user_id: int, limit: int = 3):
         review["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
         #Get data for the reviewed item
-        if review["media_type"] == "book":
-            #Convert media_id to book id string
-            review["media_id"] = get_book_str_from_id(review["media_id"])
-
-        media_data = await get_review_data(review["media_type"], review["media_id"])
-        review["full_media_data"] = media_data if media_data else {}
-
-        if media_data:
+        try:
             if review["media_type"] == "book":
-                review["img"] = media_data.thumbnailUrl
-                review["title"] = media_data.title
-                review["media_type"] = "books"
-            elif review["media_type"] == "movie":
-                review["img"] = media_data.img
-                review["title"] = media_data.title
-                review["media_type"] = "movies"
-            elif review["media_type"] == "tvshow":
-                review["img"] = media_data.img
-                review["title"] = media_data.title
-                review["media_type"] = "tv"
+                # Convert media_id to book id string
+                review["media_id"] = get_book_str_from_id(review["media_id"])
+
+            media_data = await get_review_data(review["media_type"], review["media_id"])
+            review["full_media_data"] = media_data if media_data else {}
+
+            if media_data:
+                if review["media_type"] == "book":
+                    review["img"] = media_data.thumbnailUrl
+                    review["title"] = media_data.title
+                    review["media_type"] = "books"
+                elif review["media_type"] == "movie":
+                    review["img"] = media_data.img
+                    review["title"] = media_data.title
+                    review["media_type"] = "movies"
+                elif review["media_type"] == "tvshow":
+                    review["img"] = media_data.img
+                    review["title"] = media_data.title
+                    review["media_type"] = "tv"
+        except Exception as e:
+            print(f"Error fetching media data for review ID {review['review_id']}: {e} of media type {review['media_type']} and media id {review['media_id']}")
+            review["img"] = "https://placehold.co/100x150?text=Error"
+            review["title"] = "N/A"
 
     return {"reviews": user_reviews}
