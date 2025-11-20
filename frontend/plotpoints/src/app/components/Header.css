@@ -8,6 +8,10 @@
     display: inline-block;
 }
 
+body.dark .header{
+    background-color: white;
+}
+
 .hoverCat {
     @apply hover:text-[#ffa2e9];
 }
