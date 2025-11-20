@@ -134,7 +134,7 @@ export default function Home() {
                     ))}
                 </div>
 
-                <h1 className="font-bold text-2xl mb-5 mt-20">Books</h1> 
+                {/* <h1 className="font-bold text-2xl mb-5 mt-20">Books</h1> 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
                     {filteredBooks?.map(book => (
                         <div key={book.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/books/review/${book.id}`}>
@@ -146,7 +146,7 @@ export default function Home() {
                             </div>    
                         </div>
                     ))}
-                </div>
+                </div> */}
                 </div>
                 
             </div>

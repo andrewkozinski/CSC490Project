@@ -75,10 +75,41 @@ export default function Header() {
         <div className="flex justify-end items-center mr-2 -m-3">
           <div className="notification">
             <img 
-            src="/images/notifbell.png"
-            className="icon"
-            >
+                  src="/images/notifbell.png"
+                  className="icon crop-fit">
             </img>
+            {/* <div>
+              {notificationsList.length === 0 ? (
+                <img 
+                  src="/images/notifbell.png"
+                  className="icon crop-fit">
+                  </img>
+              ) : (
+                notificationsList.map((notification, index) => (
+                  <Link 
+                    key={index}
+                    className=""
+                    href={notification.link}
+                    onClick={async () => {
+                      try {
+                        await readNotification(notification.noti_id, session?.accessToken);
+                      } catch (error) {
+                        console.error("Error marking notification as read:", error);
+                      }
+                    }}
+                  >
+                    {notification.is_read == 1 ? "" : 
+                    (<img 
+                      src="/images/notifunread.png"
+                      className="icon">
+                      </img>)}
+                  </Link>
+                ))
+              )}
+            
+            </div> */}
+            
+        
             <div className="notification-content -ml-77">
               {/* Notification list perhaps */}
               <h1 className="text-lg font-bold p-4">Notifications</h1>
