@@ -39,7 +39,7 @@ export default function HomepageReview({reviewData}) {
                 <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
                 <div className="flex flex-row items-center gap-2">
                 <div
-                className="group flex items-center justify-center w-11 h-11 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-125"
+                className="group flex items-center justify-center w-11 h-11 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
                 onClick={() => window.location.href = `/profile/${user_id}`}
                 >
                 <Image
