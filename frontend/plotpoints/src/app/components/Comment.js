@@ -207,7 +207,8 @@ return (
 
       {/* Avatar circle */}
       <div
-        className="group flex items-center justify-center w-12 h-12 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-125"
+        className="group flex items-center justify-center w-12 h-12 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
+        onClick={() => (window.location.href = `/profile/${userId}`)}
       >
         <Image
           src={profilePicture}

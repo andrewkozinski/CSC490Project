@@ -88,7 +88,9 @@ export default function Header() {
               {notificationsList.length === 0 ? (
                 <p className="p-4">No new notifications</p>
               ) : (
+                
                 notificationsList.map((notification, index) => (
+                  
                   <Link 
                     key={index}
                     className=""
@@ -102,9 +104,23 @@ export default function Header() {
                     }}
                   >
                     {/* <Image src={notification.img} alt="Notification" className="icon" width={100} height={100} /> */}
+                    {/* {notification.is_read == 1 ? (
+                      <p>{notification.notif_message}</p>
+
+                    ) : (
+                      <div className="flex flex-row gap-5">
+                          <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="0" cy="0" r="10" fill="red"/>
+                          </svg>
+                          <p>{notification.notif_message}</p>
+
+                      </div>
+                      
+                    )} */}
                     <p>{notification.notif_message}</p>
-                    <p>Read status: {notification.is_read == 1 ? "Read" : "Unread"}</p> {/*Read == 1, unread == 0 */}
+                    <p className="font-bold">{notification.is_read == 1 ? "Read" : "Unread"}</p> {/*Read == 1, unread == 0 */}
                   </Link>
+                  
                 ))
               )}
 
