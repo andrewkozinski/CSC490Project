@@ -157,10 +157,16 @@ async def get_books_by_genre_and_title(category: str, title: str, page: int = 1)
 async def get_trending_books():
     books = get_top_books_reviewed()
     response = []
-    for book in books:
-        book_details = await get_book_details(book_id=book['book_id'])
-        response.append(book_details)
-    return {"total_results": len(response), "results": response}
+    try:
+        for book in books:
+            book_details = await get_book_details(book_id=book['book_id'])
+            response.append(book_details)
+        return {"total_results": len(response), "results": response}
+    except Exception as e:
+        # Log the error
+        print("Error fetching trending books:", str(e))
+        # We want to return an empty list if there's an error
+        return {"total_results": 0, "results": []}
 
 #Filter by genre and year
 @router.get("/search/filter")
