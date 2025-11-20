@@ -1,0 +1,50 @@
+
+.filter-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    place-content: center;
+    
+}
+
+.select-filter {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    -ms-appearance: none;
+
+    width: 170px;
+    height: 35px;
+    background-color: #dfcdb5;
+    padding: 5px 10px 5px;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.3);
+    z-index: 1;
+    transition: all 0.2s ease-in-out;
+
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='black' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+    padding-right: 32px;
+
+    option {
+        background-color: #aa650b;
+        color: #000000;
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+
+.select-filter:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+    transition: all 0.2s ease-in-out;
+}
+
+
+

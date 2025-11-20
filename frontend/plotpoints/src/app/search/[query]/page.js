@@ -3,6 +3,7 @@
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import Image from "next/image";
+import Filter from "@/app/components/Filter";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -20,6 +21,45 @@ export default function Home() {
     const [movieResults, setMovieResults] = useState([]);
     const [tvResults, setTvResults] = useState([]);
     const [bookResults, setBookResults] = useState([]);
+
+    //Filtering stuff
+    const [filters, setFilters] = useState({
+        type: "",
+        genre: "",
+        year: ""
+    });
+    const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({ ...prev, [name]: value }));
+    };
+
+    const filteredMovies = movieResults.filter(m => {
+        return (
+            (filters.genre === "" || m.genre?.includes(filters.genre)) &&
+            (filters.year === "" || m.year == filters.year) &&
+            (filters.type === "" || filters.type === "Movies" || filters.type === "All")
+        );
+    });
+
+    const filteredTV = tvResults.filter(t => {
+
+        //console.log("Filtering TV Show:", t);
+        console.log("With filters:", filters);
+        return (
+            (filters.genre === "" || t.genre?.includes(filters.genre)) &&
+            (filters.year === "" || t.release_date?.includes(filters.year)) &&
+            (filters.type === "" || filters.type === "Shows" || filters.type === "All")
+        );
+    });
+
+    const filteredBooks = bookResults.filter(b => {
+        return (
+            (filters.genre === "" || b.categories?.includes(filters.genre)) &&
+            (filters.year === "" || b.date_published?.includes(filters.year)) &&
+            (filters.type === "" || filters.type === "Books" || filters.type === "All")
+        );
+    });
+
 
     useEffect(() => {
         const fetchSearchResults = async () => {
@@ -58,11 +98,13 @@ export default function Home() {
             {/*For now, we're just displaying the results. Nothing fancy, search bar should be in here in future*/}
             {/*I am well aware this doesn't look good but it was more so just to get something displayed somewhere */}
             <div className="m-20">
-                <h1 className="inria-serif-bold text-center text-3xl -mt-5">Search for: {decodedQuery}</h1>
+                <h1 className="inria-serif-bold text-center text-3xl -mt-5 mb-10">Search for: {decodedQuery}</h1>
+                <h2 className="text-center font-bold">Filters</h2>
+                <Filter filters={filters} handleFilterChange={handleFilterChange} />
                 <div className="ml-13">
-                <h1 className="font-bold text-2xl mt-20 mb-5">Movies</h1>
+                <h1 className="font-bold text-2xl mt-10 mb-5">Movies</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
-                    {movieResults?.map(movie => (
+                    {filteredMovies?.map(movie => (
                         !movie.img ? null : (
                             <div key={movie.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/movies/review/${movie.id}`}>
                                 <Image src={movie.img} alt={movie.title} width={100} height={150} className="cover"/>
@@ -79,7 +121,7 @@ export default function Home() {
 
                 <h1 className="font-bold text-2xl mb-5 mt-20">TV Shows</h1>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
-                    {tvResults?.map(show => (
+                    {filteredTV?.map(show => (
                         !show.img ? null : (
                         <div key={show.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/tv/review/${show.id}`}>
                             <Image src={show.img ? show.img : null} alt={show.title} width={100} height={150} className="cover"/>
@@ -94,7 +136,7 @@ export default function Home() {
 
                 <h1 className="font-bold text-2xl mb-5 mt-20">Books</h1> 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4rem" }}>
-                    {bookResults?.map(book => (
+                    {filteredBooks?.map(book => (
                         <div key={book.id} style={{ width: 150, cursor: "pointer" }} onClick={() => window.location.href = `/books/review/${book.id}`}>
                             <Image src={book.thumbnailUrl ? book.thumbnailUrl : null} alt={book.title} width={100} height={150} className="cover"/>
                             <div className="text-center mt-3">

@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 export default function Comment({
+  removeCommentFromList = () => {},
   username = "Anonymous",
   text = "No comment",
   currentUser = "Anonymous", // logged-in user
@@ -25,8 +26,12 @@ export default function Comment({
   const canEdit = session?.user?.name === username;
   const date = session;
 
+  
+  const [showEditBox, setShowEditBox] = useState(false);
+  const [editText, setEditText] = useState("");
 
-  const [commentText, setCommentText] = useState("");
+
+  const [commentText, setCommentText] = useState(text);
   const onCommentTextChange = (e) => setCommentText(e.target.value);
   const [showReplyBox, setShowReplyBox] = useState(false);
 
@@ -120,6 +125,33 @@ export default function Comment({
     setRefreshKey((prev) => prev + 1); // Trigger refresh of comments
   };
 
+  const handleSubmitEdit = async (e) => {
+    e.preventDefault();
+    console.log(`Submitting edit for review ${commentId} with text: ${editText}`);
+
+    const res = await fetch(`/api/comments/edit/${commentId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        comment_text: editText,
+        jwt_token: session?.accessToken,
+      }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+
+      if(res.status === 401) {
+        alert("Session Expired, please log in again.");
+      }
+      throw new Error(data.error || 'Failed to edit comment');
+    }
+
+    //If here it was a success
+    setShowEditBox(false);
+    setCommentText(editText); //Update the reviews text to avoid unnecessary refresh
+  };
+
   //For profile pics
   const [profilePicture, setProfilePicture] = useState(
     "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
@@ -137,8 +169,10 @@ export default function Comment({
     });
     const data = await res.json();
     if (!res.ok) {
-      throw new Error(data.error || 'Failed to delete review');
+      throw new Error(data.error || 'Failed to delete comment');
     }
+    //remove from commentList
+    removeCommentFromList(commentId);
 
   } catch (error) {
     console.error(error.message);
@@ -193,14 +227,15 @@ return (
       </div>
 
       {/* Comment text */}
-      <div className="flex flex-col mx-3 grow">
+      <div className="flex flex-col mx-3">
         {/* Username and text */}
         <div>
-          <p onClick={() => (window.location.href = `/profile/${userId}`)}
-            className="underline underline-offset-4 cursor-pointer mb-1">
+          <p
+            className="underline underline-offset-4 cursor-pointer mb-1"
+            onClick={() => (window.location.href = `/profile/${userId}`)}>
             {username}
           </p>
-          <p className="text-sm text-gray-700">{text}</p>
+          <p className="text-sm text-gray-700">{commentText}</p>
         </div>
         {/* Rating controls under the text */}
         <div className="flex items-center w-full mt-2 space-x-2">
@@ -267,7 +302,8 @@ return (
       {/* Edit/Delete buttons (top right) */}
       {canEdit && (
         <div className="absolute top-2 right-3 flex space-x-3">
-          <button className="cursor-pointer text-blue-600 hover:text-blue-800">
+          <button className="cursor-pointer text-blue-600 hover:text-blue-800"
+          onClick={() => setShowEditBox((prev) => !prev)}>
             Edit
           </button>
           <button className="cursor-pointer text-red-600 hover:text-red-800"
@@ -277,6 +313,25 @@ return (
         </div>
       )}
     </div>
+    {showEditBox && (
+        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-3/5">
+          <textarea
+            placeholder="Write your edit..."
+            className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
+            defaultValue={commentText}
+            onChange={(e) => setEditText(e.target.value)}
+            maxLength={200}
+          />
+          <button
+            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            type="submit"
+            style={{ backgroundColor: "var(--color-brown)" }}
+            onClick={handleSubmitEdit}
+          >
+            Post
+          </button>
+        </form>
+      )}
     {/* Reply box below comment */}
     {showReplyBox && (
       <form
