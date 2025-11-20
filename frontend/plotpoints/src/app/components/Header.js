@@ -15,6 +15,11 @@ export default function Header() {
 
   const [notificationsList, setNotificationsList] = useState([]);
 
+  //Since header is on every page, added this check for dark mode
+  useEffect(() => {
+  const savedDark = localStorage.getItem("darkMode") === "true";
+  document.body.classList.toggle("dark", savedDark);
+  }, []);
 
   useEffect(() => {
     // Fetch notifications for the user
@@ -74,11 +79,11 @@ export default function Header() {
       <nav className ="flex grid grid-rows-2">
         <div className="flex justify-end items-center mr-2 -m-3">
           <div className="notification">
-            <img 
-            src="/images/notifbell.png"
-            className="icon"
-            >
-            </img>
+            {/*Notification bell */}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-8">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+            </svg>
+
             <div className="notification-content -ml-77">
               {/* Notification list perhaps */}
               <h1 className="text-lg font-bold p-4">Notifications</h1>
@@ -113,10 +118,10 @@ export default function Header() {
           </div>
            
           <div className="dropdown">
-            <img 
-            src="/images/profileicon.png"
-            className="icon"> 
-            </img> 
+            {/*Profile pic svg */ }
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-8 m-3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
             <div className="dropdown-content -ml-24">
               <h1 className="text-lg font-bold p-4">My Account</h1>
               <Link className ="" href={`/profile/${session?.user?.id}`}>My Profile</Link>
