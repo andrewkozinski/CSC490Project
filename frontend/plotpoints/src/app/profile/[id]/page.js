@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import FollowButton from "@/app/components/FollowButton";
 import { getFollowers, getFollowing } from "@/lib/following";
 import { getBookmarksByUserId } from "@/lib/bookmarks";
+import "@/app/components/Profile.css";
 
 export default function ProfilePage( {params} ){
 
@@ -297,13 +298,14 @@ export default function ProfilePage( {params} ){
                         )))}
                     </div>
                 </div>
-                <div className="w-1/3 h-fit mt-15 ml-10 mr-10">
-                    {/* <h1 className="text-md text-start whitespace-nowrap mb-5">Bookmarks</h1>
+                <div className="w-1/3 h-fit mt-15 mr-10">
+                    {/* 
                     <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>*/}
-                    <Carousel label="Bookmarks">
+                    <h1 className="text-md whitespace-nowrap ml-4">Bookmarks</h1>
+                    <Carousel >
                         
                         {bookmarks.length === 0 ? (
-                            <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
+                            <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
                         ) : (
                             bookmarks.map((bookmark, index) => (
                                 <Image
@@ -313,7 +315,7 @@ export default function ProfilePage( {params} ){
                                     title={bookmark.title}
                                     height={200}
                                     width={200}
-                                    className="image"
+                                    className="bookmark"
                                     onClick={() => window.location.href = `/${bookmark.media_type}/review/${bookmark.media_id}`}
                                 />
                             ))

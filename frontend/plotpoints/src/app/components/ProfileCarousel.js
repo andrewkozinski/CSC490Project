@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./Profile.css";
 import React from "react";
 
-const ProfileCarousel = ({ label, children}) => {
+const ProfileCarousel = ({children}) => {
     const settings = {
         infinite: true,
         dots: true,
@@ -14,13 +14,15 @@ const ProfileCarousel = ({ label, children}) => {
         autoplay: false,
         autoplaySpeed: 5000,
         arrows: false,
-        speed: 1000
+        speed: 1000,
+        vertical: false,
+        adaptiveHeight: false
 
     };
     return (
-        <div className="pb-10 w-full">
+        <div className="pb-10 w-full profile-carousel" >
             <div>
-                <h1 className="text-md text-start whitespace-nowrap mb-5">{label}</h1>
+                {/* <h1 className="text-md text-start whitespace-nowrap mb-5">{label}</h1> */}
             </div>
             <div className="">
                 <Slider {...settings}>
