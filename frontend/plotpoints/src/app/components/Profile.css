@@ -85,6 +85,43 @@
     background-color: #dfcdb5;
 }
 
+/* Dark Mode colors*/
+body.dark {
+  background-color: #111;
+  color: white;
+}
+
+/* Dropdown */
+body.dark .dropdown-content {
+  background-color: #222;
+}
+
+body.dark .dropdown-content a {
+  color: white;
+}
+
+body.dark .dropdown-content a:hover {
+  background-color: #333;
+}
+
+/* Notification dropdown */
+body.dark .notification-content {
+  background-color: #222;
+}
+
+body.dark .notification-content a {
+  color: white;
+}
+
+body.dark .notification-content a:hover {
+  background-color: #333;
+}
+
+/* Make SVGs white */
+body.dark svg {
+  fill: white;
+  stroke: white;
+}
 .cover-profile {
   max-width: 120px;
   max-height: 165px;
