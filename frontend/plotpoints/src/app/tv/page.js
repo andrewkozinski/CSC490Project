@@ -55,7 +55,18 @@ export default function TV() {
       <Header />
       <main className="p-10">
 
-        {/* Genre Containers */}
+        <Carousel label ="Airing Today">
+          {airingTodayShows.map((show) => (
+            <img
+              key={show.id}
+              src={show.img}
+              title={show.name}
+              className="image"
+              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Carousel>
         <Carousel label ="Drama Shows">
           {dramaShows.map((show) => (
             <img
@@ -104,18 +115,7 @@ export default function TV() {
             />
           ))}
         </Carousel>
-        <Carousel label ="Airing Today">
-          {airingTodayShows.map((show) => (
-            <img
-              key={show.id}
-              src={show.img}
-              title={show.name}
-              className="image"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
-              style={{ cursor: 'pointer' }}
-            />
-          ))}
-        </Carousel>
+        
       </main>
       <Footer />
     </div>
