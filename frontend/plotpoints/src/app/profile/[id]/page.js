@@ -274,8 +274,8 @@ export default function ProfilePage( {params} ){
                         </div>
                         <p className="text-center border-y-1 self-center">{profileDetails?.bio || "No description."}</p>
                         <div className="grid grid-cols-2">
-                            <Link className="text-center m-1" href={`/profile/${id}/followers`}>{followers.length}<br></br>Followers</Link>
-                            <Link className="text-center m-1" href={`/profile/${id}/following`}>{following.length}<br></br>Following</Link>
+                            <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/followers`}>{followers.length}<br></br>Followers</Link>
+                            <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/following`}>{following.length}<br></br>Following</Link>
                         </div>
                         <FollowButton profileId={id} currentUserId={session?.user?.id} jwtToken={session?.accessToken}></FollowButton>
  
