@@ -68,6 +68,18 @@ export default function Movies() {
         }
         
         */}
+        <Carousel label="Upcoming Movies">
+          {upcomingMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Carousel>
         <Carousel label="Horror Movies">
           {horrorMovies.map((movie) => (
             <img 
@@ -116,18 +128,7 @@ export default function Movies() {
             />
           ))}
         </Carousel>
-        <Carousel label="Upcoming Movies">
-          {upcomingMovies.map((movie) => (
-            <img
-              key={movie.id}
-              src={movie.img}
-              title={movie.title}
-              className="image"
-              onClick={() => window.location.href = `/movies/review/${movie.id}`}
-              style={{ cursor: 'pointer' }}
-            />
-          ))}
-        </Carousel>
+        
       </main>
       <Footer />
     </div>

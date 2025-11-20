@@ -5,20 +5,6 @@ import "./Filter.css";
 const FilterContext = createContext();
 
 export default function Filter( {filters, handleFilterChange} ) {
-    
-    /*
-    const [filters, setFilters] = useState({
-        type: '',
-        genre: '',
-        year: '',
-    });
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [name]: value,
-        }));
-    };*/
 
     const media = [
         
@@ -68,6 +54,8 @@ const FilterControls = () => {
                 value={filters.genre}
                 onChange={handleFilterChange}>
                 <option value="">Genre</option>
+                <option value="Action">Action</option>
+                <option value="Adventure">Adventure</option>
                 <option value="Action & Adventure">Action & Adventure</option>
                 <option value="Animation">Animation</option>
                 <option value="Comedy">Comedy</option>
@@ -75,17 +63,26 @@ const FilterControls = () => {
                 <option value="Documentary">Documentary</option>
                 <option value="Drama">Drama</option>
                 <option value="Family">Family</option>
-                <option value="Mystery">Mystery</option>
                 <option value="Fantasy">Fantasy</option>
+                <option value="History">History</option>
+                <option value="Horror">Horror</option>
+                <option value="Kids">Kids</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Romance">Romance</option>
+                <option value="News">News</option>
+                <option value="Reality">Reality</option>
+                <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
+                <option value="Thriller">Thriller</option>
+                
             </select>
-            <select 
+            {/* <select 
                 className="select-filter"
                 name="year" 
                 value={filters.year}
                 onChange={handleFilterChange}>
                 <option value="">Release Year</option>
     
-            </select>
+            </select> */}
         </div>
     );
 };

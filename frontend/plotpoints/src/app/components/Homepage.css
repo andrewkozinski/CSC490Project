@@ -12,11 +12,18 @@
   cursor: pointer;
 }
 
-.review-img {
-  max-width: 100px;
-  max-height: 165px;
+.bookmark {
+  max-width: 110px;
+  max-height: 175px;
   border-radius: 5;
-  /* transition: all 0.2s ease-in-out; */
+  transition: all 0.3s ease-in-out;
+}
+
+.bookmark:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 /* .review-img:hover {
