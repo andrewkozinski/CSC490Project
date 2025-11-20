@@ -7,6 +7,7 @@ import {
   removeDownvote,
   fetchUserVote,
 } from "@/lib/votes.js";
+import CommentList from "./CommentList.js";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
@@ -21,7 +22,9 @@ export default function Comment({
 }) {
   const { data: session } = useSession();
   const jwtToken = session?.accessToken;
-  const canEdit = currentUser === username;
+  const canEdit = session?.user?.name === username;
+  const date = session;
+
 
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
@@ -32,6 +35,9 @@ export default function Comment({
 
   //Track user upvote/downvote status to prevent multiple votes
   const [userVote, setUserVote] = useState(null); // null, 'upvote', 'downvote'
+
+  //For refreshing comments after reply
+  const [refreshKey, setRefreshKey] = useState(0);
 
   //Fetch user voting status
   useEffect(() => {
@@ -93,10 +99,51 @@ export default function Comment({
     }
   };
 
+
+  const handleReply = async (commentText) => {
+    console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
+    console.log(`User ID: ${session?.user?.id}`);
+    // Implement reply submission logic here
+    const res = await fetch(`/api/comments/under_review/${reviewId}/post_comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        review_id: reviewId,
+        //user_id: session?.user?.id,
+        comment_text: commentText,
+        jwt_token: session?.accessToken,
+        parent_comm_id: commentId,
+      }),
+    });
+
+    setShowReplyBox(false); // Close the reply box after submitting
+    setRefreshKey((prev) => prev + 1); // Trigger refresh of comments
+  };
+
   //For profile pics
   const [profilePicture, setProfilePicture] = useState(
     "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
   );
+
+  const deleteComment = async () => {
+    console.log(`Deleting comment ${commentText}`);
+    try {
+    const res = await fetch(`/api/comments/delete/${commentId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jwt_token: session?.accessToken,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to delete review');
+    }
+
+  } catch (error) {
+    console.error(error.message);
+  }
+  }
 
   useEffect(() => {
     async function fetchProfile() {
@@ -120,57 +167,48 @@ export default function Comment({
     if (userId) fetchProfile();
   }, [userId]);
 
-  return (
-    <div className="flex flex-col relative">
-      <div className="relative flex border-1 shadow-xl rounded-sm m-1 p-3 h-28 max-w-3/4">
-        {/* Avatar and Text */}
-        <div className="flex items-start">
-          <div
-            className="group flex items-center justify-center w-14 h-14 rounded-full bg-transparent border-2 m-2 mr-5 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-125"
-            onClick={() => (window.location.href = `/profile/${user_id}`)}
-          >
-            <Image
-              src={profilePicture}
-              title={username}
-              alt="profile picture"
-              width={50}
-              height={50}
-              className="rounded-full w-13 h-13 items-center justify-center"
-              onClick={() => (window.location.href = `/profile/${userId}`)}
-              onError={() =>
-                setProfilePicture(
-                  "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-                )
-              }
-            />
-          </div>
+return (
+  <div className="flex flex-col mt-1">
+    <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2 max-w-3/4">
 
-          <div>
-            <p className="underline underline-offset-4 mb-2 cursor-pointer" onClick={() => (window.location.href = `/profile/${userId}`)}>{username}</p>
-            <p className="text-sm text-gray-700">{text}</p>
-          </div>
+      {/* Avatar circle */}
+      <div
+        className="group flex items-center justify-center w-12 h-12 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-125"
+        onClick={() => (window.location.href = `/profile/${userId}`)}
+      >
+        <Image
+          src={profilePicture}
+          title={username}
+          alt="profile picture"
+          width={50}
+          height={50}
+          className="rounded-full w-11 h-11"
+          onClick={() => (window.location.href = `/profile/${userId}`)}
+          onError={() =>
+            setProfilePicture(
+              "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+            )
+          }
+        />
+      </div>
+
+      {/* Comment text */}
+      <div className="flex flex-col mx-3 grow">
+        {/* Username and text */}
+        <div>
+          <p onClick={() => (window.location.href = `/profile/${userId}`)}
+            className="underline underline-offset-4 cursor-pointer mb-1">
+            {username}
+          </p>
+          <p className="text-sm text-gray-700">{text}</p>
         </div>
-
-        {/* Top-right Edit/Delete buttons */}
-        {canEdit && (
-          <div className="absolute top-2 right-3 flex items-center">
-            <button className="cursor-pointer text-blue-600 hover:text-blue-800">
-              Edit
-            </button>
-            <button className="cursor-pointer ml-3 text-red-600 hover:text-red-800">
-              Delete
-            </button>
-          </div>
-        )}
-
-        {/* Bottom-right rating controls */}
-        <div className="absolute bottom-2 right-4 flex items-center space-x-2">
-          {/* # of ratings */}
+        {/* Rating controls under the text */}
+        <div className="flex items-center w-full mt-2 space-x-2">
           <p className="text-sm text-gray-700">{upvotes}</p>
 
           {/* plus */}
           <button
-            className={`cursor-pointer hover: ${
+            className={`cursor-pointer ${
               userVote === "up" ? "text-green-600" : ""
             }`}
             onClick={handleUpvote}
@@ -190,12 +228,14 @@ export default function Comment({
               />
             </svg>
           </button>
+
           <p>|</p>
-          <p className="ml-3 text-sm text-gray-700">{downvotes}</p>
+
+          <p className="group text-sm text-gray-700 ">{downvotes}</p>
 
           {/* minus */}
           <button
-            className={`cursor-pointer mr-2 ${
+            className={`group cursor-pointer mr-2 ${
               userVote === "down" ? "text-red-600" : ""
             }`}
             onClick={handleDownvote}
@@ -215,43 +255,67 @@ export default function Comment({
               />
             </svg>
           </button>
-          <div>
-            {/* Reply button */}
-            <button
-              onClick={() => setShowReplyBox((prev) => !prev)}
-              className="text-sm underline underline-offset-3 cursor-pointer"
-            >
-              Reply
-            </button>
-          </div>
         </div>
       </div>
-      <div>
-        {showReplyBox && (
-          <form
-            className="flex flex-col border h-35 rounded-sm max-w-3/5 p-3 mb-2 ml-1 mt-2 shadow-xl"
-            onSubmit={(e) => {
-              e.preventDefault(); // prevent page reload
-              console.log("click");
-              console.log("Reply submitted:", commentText);
-            }}
-          >
-            <textarea
-              placeholder="Write your reply..."
-              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
-              value={commentText}
-              onChange={onCommentTextChange}
-            />
-            <button
-              className="cursor-pointer self-end mt-2 shadow px-6 py-2 rounded-sm text-sm"
-              type="submit"
-              style={{ backgroundColor: "var(--color-brown)" }}
-            >
-              Reply
-            </button>
-          </form>
-        )}
-      </div>
+      {/* Reply button */}
+      <button
+        onClick={() => setShowReplyBox((prev) => !prev)}
+        className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+      >
+        Reply
+      </button>
+      {/* Edit/Delete buttons (top right) */}
+      {canEdit && (
+        <div className="absolute top-2 right-3 flex space-x-3">
+          <button className="cursor-pointer text-blue-600 hover:text-blue-800">
+            Edit
+          </button>
+          <button className="cursor-pointer text-red-600 hover:text-red-800"
+          onClick={deleteComment}>
+            Delete
+          </button>
+        </div>
+      )}
     </div>
-  );
+    {/* Reply box below comment */}
+    {showReplyBox && (
+      <form
+        className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-3/5"
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("Reply submitted:", commentText);
+          handleReply(commentText);
+          setCommentText("");
+        }}
+      >
+        <textarea
+          placeholder="Write your reply..."
+          className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+          maxLength={200}
+          value={commentText}
+          onChange={onCommentTextChange}
+        />
+        <button
+          className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+          type="submit"
+          style={{ backgroundColor: "var(--color-brown)" }}
+        >
+          Reply
+        </button>
+      </form>
+    )}
+
+    {/* Comments below comment */}
+    <div className="flex w-full ml-27 mb-6">
+      <CommentList
+        reviewId={reviewId}
+        parentId={commentId}
+        parentType="comment"
+        refreshKey={refreshKey}
+      />{" "}
+      {/*Parent type is for if we ever add replies to comments */}
+    </div>
+  </div>
+);
+
 }

@@ -12,6 +12,7 @@ export default function Movies() {
   const [historyMovies, setHistoryMovies] = useState([]);
   const [comedyMovies, setComedyMovies] = useState([]);
   const [sciFiMovies, setSciFiMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
 
   //Handles fetching movies from the backend
   useEffect(() => {
@@ -28,12 +29,25 @@ export default function Movies() {
         console.error(err);
       }
     };
-    
+
+    const fetchUpcomingMovies = async () => {
+      try {
+        const res = await fetch(`/api/movies/upcoming`);
+        if (!res.ok) throw new Error("Failed to fetch upcoming movies");
+        const data = await res.json();
+        setUpcomingMovies(data.results || []);
+        console.log("UPCOMING MOVIES:");
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     // Fetch movies for each genre
     fetchMovies("horror", setHorrorMovies);
     fetchMovies("history", setHistoryMovies);
     fetchMovies("comedy", setComedyMovies);
     fetchMovies("science fiction", setSciFiMovies);
+    fetchUpcomingMovies();
 
     
   }, []);
@@ -54,6 +68,18 @@ export default function Movies() {
         }
         
         */}
+        <Carousel label="Upcoming Movies">
+          {upcomingMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Carousel>
         <Carousel label="Horror Movies">
           {horrorMovies.map((movie) => (
             <img 
@@ -102,6 +128,7 @@ export default function Movies() {
             />
           ))}
         </Carousel>
+        
       </main>
       <Footer />
     </div>

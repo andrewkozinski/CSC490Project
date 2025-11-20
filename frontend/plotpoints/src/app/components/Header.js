@@ -1,13 +1,37 @@
 'use client';
 import { useSession, signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
 import "./Header.css";
 import "./Profile.css";
 import Link from "next/link";
 import {useRouter} from 'next/navigation';
+import { getNotifications, getNotifCount, readNotification } from "@/lib/notifications";
+import Image from "next/image";
 
 export default function Header() {
+  const [showNotifications] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
+
+  const [notificationsList, setNotificationsList] = useState([]);
+
+
+  useEffect(() => {
+    // Fetch notifications for the user
+    const fetchNotifications = async () => {
+      try {
+        const notifications = await getNotifications(session?.user?.id);
+        setNotificationsList(notifications);
+        console.log("Fetched notifications:", notifications);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    if (session) {
+      fetchNotifications();
+    }
+  }, [session]);
 
   return (
     /// Changed it so that its a flex box that contains the left side for the title and sections
@@ -49,18 +73,69 @@ export default function Header() {
       (
       <nav className ="flex grid grid-rows-2">
         <div className="flex justify-end items-center mr-2 -m-3">
-          <img 
+          <div className="notification">
+            <img 
             src="/images/notifbell.png"
             className="icon"
-          > 
-          </img>
+            >
+            </img>
+            <div className="notification-content -ml-77">
+              {/* Notification list perhaps */}
+              <h1 className="text-lg font-bold p-4">Notifications</h1>
+              {/* <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has commented on your post.</Link>
+              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has followed you.</Link> */}
+
+              {notificationsList.length === 0 ? (
+                <p className="p-4">No new notifications</p>
+              ) : (
+                
+                notificationsList.map((notification, index) => (
+                  
+                  <Link 
+                    key={index}
+                    className=""
+                    href={notification.link}
+                    onClick={async () => {
+                      try {
+                        await readNotification(notification.noti_id, session?.accessToken);
+                      } catch (error) {
+                        console.error("Error marking notification as read:", error);
+                      }
+                    }}
+                  >
+                    {/* <Image src={notification.img} alt="Notification" className="icon" width={100} height={100} /> */}
+                    {/* {notification.is_read == 1 ? (
+                      <p>{notification.notif_message}</p>
+
+                    ) : (
+                      <div className="flex flex-row gap-5">
+                          <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="0" cy="0" r="10" fill="red"/>
+                          </svg>
+                          <p>{notification.notif_message}</p>
+
+                      </div>
+                      
+                    )} */}
+                    <p>{notification.notif_message}</p>
+                    <p className="font-bold">{notification.is_read == 1 ? "Read" : "Unread"}</p> {/*Read == 1, unread == 0 */}
+                  </Link>
+                  
+                ))
+              )}
+
+
+            </div>
+          </div>
+           
           <div className="dropdown">
             <img 
             src="/images/profileicon.png"
             className="icon"> 
             </img> 
-            <div className="dropdown-content -ml-19">
-              <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>My Profile</Link>
+            <div className="dropdown-content -ml-24">
+              <h1 className="text-lg font-bold p-4">My Account</h1>
+              <Link className ="" href={`/profile/${session?.user?.id}`}>My Profile</Link>
               <Link href="/settings">Settings</Link>
               <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/" onClick={() => signOut()} >Sign Out</Link>
             </div>
