@@ -67,27 +67,33 @@ async def get_user_bookmarks(user_id: int, limit: int = 3):
         #Get some information about each bookmark
 
         for bookmark in bookmarks:
-            if bookmark['media_type'] == 'book':
-                bookmark['media_type'] = "books"
-                bookmark['media_id'] = watchlist.get_string_id_from_int(bookmark['media_id'])
-                book_info = await books.get_book_details(bookmark['media_id'])
-                bookmark['info'] = book_info
-                bookmark['title'] = book_info.title
-                bookmark['img'] = book_info.thumbnailUrl
-            elif bookmark['media_type'] == 'tvshow':
-                tvshow_info = await tvshows.get_tvshow(bookmark['media_id'])
-                bookmark['info'] = tvshow_info
-                bookmark['title'] = tvshow_info.title
-                bookmark['img'] = tvshow_info.img
-                bookmark['media_type'] = "tv"
-            elif bookmark['media_type'] == 'movie':
-                bookmark['media_type'] = "movies"
-                movie_info = await movies.get_movie(bookmark['media_id'])
-                bookmark['info'] = movie_info
-                bookmark['title'] = movie_info.title
-                bookmark['img'] = movie_info.img
-            else:
-                bookmark['info'] = None
+            try:
+                if bookmark['media_type'] == 'book':
+                    bookmark['media_type'] = "books"
+                    bookmark['media_id'] = watchlist.get_string_id_from_int(bookmark['media_id'])
+                    book_info = await books.get_book_details(bookmark['media_id'])
+                    bookmark['info'] = book_info
+                    bookmark['title'] = book_info.title
+                    bookmark['img'] = book_info.thumbnailUrl
+                elif bookmark['media_type'] == 'tvshow':
+                    tvshow_info = await tvshows.get_tvshow(bookmark['media_id'])
+                    bookmark['info'] = tvshow_info
+                    bookmark['title'] = tvshow_info.title
+                    bookmark['img'] = tvshow_info.img
+                    bookmark['media_type'] = "tv"
+                elif bookmark['media_type'] == 'movie':
+                    bookmark['media_type'] = "movies"
+                    movie_info = await movies.get_movie(bookmark['media_id'])
+                    bookmark['info'] = movie_info
+                    bookmark['title'] = movie_info.title
+                    bookmark['img'] = movie_info.img
+                else:
+                    bookmark['info'] = None
+            except Exception as e:
+                print(f"Error fetching info for bookmark {bookmark['media_type']} {bookmark['media_id']}: {str(e)}")
+                bookmark['info'] = "Error fetching info"
+                bookmark['title'] = "N/A"
+                bookmark['img'] = "https://placehold.co/100x150?text=Error"
 
         return {"bookmarks": bookmarks}
     else:
