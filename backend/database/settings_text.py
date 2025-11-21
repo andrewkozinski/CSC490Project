@@ -1,7 +1,6 @@
 import oracledb
 from database import connect
-from database.users import valid_user_id
-
+#import connect
 
 def get_new_setting_text_id():
     connection, cursor = connect.start_connection()
@@ -26,45 +25,41 @@ def add_settings_text(user_id, review_text_enabled=1):
         print("Failed to connect to database.")
         return None
 
-    if valid_user_id(user_id):
-        try:
-            if review_text_enabled not in (0, 1):
-                review_text_enabled = 1
+    try:
+        if review_text_enabled not in (0, 1):
+            review_text_enabled = 1
 
-            cursor.execute(
-                """
-                INSERT INTO ADMIN.SETTINGS_TEXT 
-                (SETTING_ID, USER_ID, REVIEW_TEXT_ENABLED)
-                VALUES (:1, :2, :3)
-                """,
-                (setting_id, user_id, review_text_enabled)
-            )
-            connection.commit()
+        cursor.execute(
+            """
+            INSERT INTO ADMIN.SETTINGS_TEXT 
+            (SETTING_ID, USER_ID, REVIEW_TEXT_ENABLED)
+            VALUES (:1, :2, :3)
+            """,
+            (setting_id, user_id, review_text_enabled)
+        )
+        connection.commit()
 
-            print(f"Text setting for USER_ID {user_id} added successfully with SETTING_ID {setting_id}.")
-            return setting_id
+        print(f"Text setting for USER_ID {user_id} added successfully with SETTING_ID {setting_id}.")
+        return setting_id
 
-        except oracledb.IntegrityError as e:
-            error_obj, = e.args
-            if "ORA-00001" in error_obj.message:
-                if "UNIQUE_SETTINGS_USER" in error_obj.message:
-                    print(f"Error: Text setting already exists for USER_ID {user_id}.")
-                elif "SETTINGS_TEXT_PK" in error_obj.message:
-                    print(f"Error: SETTING_ID {setting_id} already exists.")
-            else:
-                print("Integrity error:", error_obj.message)
-            return None
-
-        except oracledb.Error as e:
-            error_obj, = e.args
-            print("Database error inserting settings text:", error_obj.message)
-            return None
-
-        finally:
-            connect.stop_connection(connection, cursor)
-    else:
-        print(f"User with USER_ID {user_id} does not exist.")
+    except oracledb.IntegrityError as e:
+        error_obj, = e.args
+        if "ORA-00001" in error_obj.message:
+            if "UNIQUE_SETTINGS_USER" in error_obj.message:
+                print(f"Error: Text setting already exists for USER_ID {user_id}.")
+            elif "SETTINGS_TEXT_PK" in error_obj.message:
+                print(f"Error: SETTING_ID {setting_id} already exists.")
+        else:
+            print("Integrity error:", error_obj.message)
         return None
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error inserting settings text:", error_obj.message)
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
 
 
 def get_settings_text_by_user_id(user_id):
