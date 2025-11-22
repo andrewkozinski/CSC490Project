@@ -53,6 +53,7 @@ from routes.bookmarks import router as bookmarks_router
 from routes.notifications import router as notifications_router
 from routes.recommendations import router as recommendations_router
 from routes.blocking import router as blocking_router
+from routes.settings import router as settings_router
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -118,6 +119,7 @@ app.include_router(bookmarks_router, prefix="/bookmarks", tags=["bookmarks"]) #i
 app.include_router(notifications_router, prefix="/notifications", tags=["notifications"]) #includes the API router from routes/notifications.py
 app.include_router(recommendations_router, prefix="/recommendations", tags=["recommendations"]) #includes the API router from routes/recommendations.py
 app.include_router(blocking_router, prefix="/blocking", tags=["blocking"]) #includes the API router from routes/blocking.py
+app.include_router(settings_router, prefix="/settings", tags=["settings"]) #includes the API router from routes/settings.py
 
 # CORS settings
 app.add_middleware(
