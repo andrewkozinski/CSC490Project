@@ -127,8 +127,8 @@ async def _personal_recommendations(media_type: str, user_id: int, limit: int = 
                 if len(recommended_tvshows) >= limit:
                     break
                 #recommended_tvshows.extend(genre_tvshows['results'])
-            #return recommended_tvshows[:limit]
-            return _dedupe_results(recommended_tvshows)[:limit]
+            return recommended_tvshows[:limit]
+            #return _dedupe_results(recommended_tvshows)[:limit]
 
     #If somehow here, then fallback to general recommendations
     return await _general_recommendations(media_type, limit)
