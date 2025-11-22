@@ -29,7 +29,7 @@ async def unblock_user(user_id_to_unblock: int, jwt_token: str):
     user_id = get_user_id_from_token(jwt_token)
 
     #Unblock the user
-    result = block.add_block(user_id, user_id_to_unblock)
+    result = block.remove_block(user_id, user_id_to_unblock)
 
     if result["code"] != 200:
         raise HTTPException(status_code=result["code"], detail=result["error"])
@@ -42,8 +42,8 @@ async def is_user_blocked(user_id_to_check: int, user_id: int):
 
     result = block.is_user_blocked(user_id, user_id_to_check)
 
-    if result["error"] is not None:
-        raise HTTPException(status_code=result["code"], detail=result["error"])
+    # if result["error"] is not None:
+    #     raise HTTPException(status_code=result["code"], detail=result["error"])
 
     return {
         "user_id_checked": user_id_to_check,
