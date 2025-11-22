@@ -19,6 +19,12 @@ export const isReviewTextEnabled = async (jwt) => {
     }
 };
 
+/**
+ * Updates the review text setting for the user
+ * @param {*} review_text_setting New setting value (true/false)
+ * @param {*} jwt_token JWT Token of the user
+ * @returns 
+ */
 export const updateReviewTextSetting = async (review_text_setting, jwt_token) => {
     try {
         const res = await fetch(`/api/settings/review_text/update`, {
