@@ -1,6 +1,38 @@
 import os
 from contextlib import asynccontextmanager
 
+from aiocache import caches, Cache, cached
+#Initializes aiocache configuration
+#Needs to be up here because needs to run before any of the other imports that use caching
+caches.set_config({
+    "default": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    },
+    "user_bookmarks": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    },
+    "is_bookmarked": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 3600, #1 hour
+    },
+    "reviews": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    },
+    "user_votes": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 3600, #1 hour
+    },
+    "profiles": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 3600, #1 hour
+    }
+
+
+})
+
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
@@ -15,7 +47,10 @@ from routes.comments import router as comments_router
 from routes.votes import router as votes_router
 from routes.follow import router as follow_router
 from routes.bookmarks import router as bookmarks_router
+from routes.notifications import router as notifications_router
+from routes.recommendations import router as recommendations_router
 from fastapi.middleware.cors import CORSMiddleware
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -76,6 +111,8 @@ app.include_router(comments_router, prefix="/comments") #includes the API router
 app.include_router(votes_router, prefix="/votes") #includes the API router from routes/upvotes.py
 app.include_router(follow_router, prefix="/follow") #includes the API router from routes/follow.py
 app.include_router(bookmarks_router, prefix="/bookmarks") #includes the API router from routes/bookmarks.py
+app.include_router(notifications_router, prefix="/notifications") #includes the API router from routes/notifications.py
+app.include_router(recommendations_router, prefix="/recommendations") #includes the API router from routes/recommendations.py
 
 # CORS settings
 app.add_middleware(

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi_cache import FastAPICache
 from fastapi_cache.decorator import cache
 from pydantic import BaseModel
-from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id, get_comments_by_parent_comm_id
+from database.comments import add_comment, delete_comment, get_all_comments, get_comments_by_review_id, get_comments_by_parent_comm_id, edit_comment
 from database import vote
 from routes.profiles import get_username_by_id
 from routes.auth import verify_jwt_token, get_user_id_from_token
@@ -15,6 +15,11 @@ class ReviewComment(BaseModel):
 
 class DeleteCommentRequest(BaseModel):
     comment_id: int
+    jwt_token: str
+
+class EditCommentRequest(BaseModel):
+    comment_id: int
+    new_comment_text: str
     jwt_token: str
 
 router = APIRouter()
@@ -32,12 +37,13 @@ async def create_comment(comment: ReviewComment):
     print("JWT ID:", jwt_id)
     print("Review ID:", comment.review_id)
     print("Comment Text:", comment.comment_text)
+    print("Parent Comment ID:", comment.parent_comm_id)
 
     comm_id = add_comment(
         review_id=comment.review_id,
         user_id=jwt_id,
         comm_text=comment.comment_text,
-        parent_comm_id=None
+        parent_comm_id=comment.parent_comm_id
     )
     if comm_id is not None:
 
@@ -47,6 +53,17 @@ async def create_comment(comment: ReviewComment):
         return {"message": "Comment created successfully", "comm_id": comm_id}
     else:
         HTTPException(status_code=500, detail="Failed to create comment. Please try again.")
+
+@router.put("/edit/")
+async def edit_comment_request(comment: EditCommentRequest):
+
+    verify_jwt_token(comment.jwt_token)
+
+    result = edit_comment(comment.comment_id, comment.new_comment_text)
+
+    if result is False:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    return {"message": "Comment edited successfully"}
 
 @router.delete("/delete/")
 async def delete_comment_request(comment: DeleteCommentRequest):
