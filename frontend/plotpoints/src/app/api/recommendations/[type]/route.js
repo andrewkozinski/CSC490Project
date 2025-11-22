@@ -4,7 +4,7 @@ export async function GET(request, { params }) {
     const userId = searchParams.get("userId");
 
     //const apiUrl = `${process.env.API_URL}/search/all?query=${encodeURIComponent(query)}&page=${page}`;
-    const apiUrl = `${process.env.API_URL}/recommendations/${type}?userId=${encodeURIComponent(userId)}`;
+    const apiUrl = `${process.env.API_URL}/recommendations/${type}?user_id=${encodeURIComponent(userId)}`;
     
     const res = await fetch(apiUrl);
 
