@@ -11,7 +11,7 @@ router = APIRouter()
 
 async def _general_recommendations(media_type: str, limit: int = 10):
     if media_type == "book":
-        return trending_books.get_top_books_reviewed()
+        return await books.get_trending_books()
     elif media_type == "movie":
         return await movies.get_trending_movies(limit)
     elif media_type == "tvshow":
