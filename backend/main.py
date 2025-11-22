@@ -48,6 +48,7 @@ from routes.votes import router as votes_router
 from routes.follow import router as follow_router
 from routes.bookmarks import router as bookmarks_router
 from routes.notifications import router as notifications_router
+from routes.recommendations import router as recommendations_router
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -111,6 +112,7 @@ app.include_router(votes_router, prefix="/votes") #includes the API router from 
 app.include_router(follow_router, prefix="/follow") #includes the API router from routes/follow.py
 app.include_router(bookmarks_router, prefix="/bookmarks") #includes the API router from routes/bookmarks.py
 app.include_router(notifications_router, prefix="/notifications") #includes the API router from routes/notifications.py
+app.include_router(recommendations_router, prefix="/recommendations") #includes the API router from routes/recommendations.py
 
 # CORS settings
 app.add_middleware(
