@@ -8,6 +8,7 @@ import { checkIfBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } fr
 import { getNotifications, getNotifCount, readNotification} from "@/lib/notifications";
 import { getRecommendedMedia } from "@/lib/recommendations";
 import { blockUser, unblockUser, isBlocked } from "@/lib/blocking";
+import { isReviewTextEnabled, updateReviewTextSetting } from "@/lib/settings";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
@@ -49,7 +50,13 @@ export default function SessionInfo() {
     // console.log(await getRecommendedMedia("movies", session?.user?.id));
     // console.log(await getRecommendedMedia("books", session?.user?.id));
     // console.log(await unblockUser(6, session?.accessToken));
-    console.log(await isBlocked(6, session?.user?.id));
+    // console.log(await isBlocked(6, session?.user?.id));
+    console.log(await isReviewTextEnabled(session?.accessToken));
+    console.log(await updateReviewTextSetting(true, session?.accessToken));
+    console.log(await isReviewTextEnabled(session?.accessToken));
+    console.log(await updateReviewTextSetting(false, session?.accessToken));
+    console.log(await isReviewTextEnabled(session?.accessToken));
+
   };
 
   return (
