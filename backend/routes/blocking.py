@@ -15,7 +15,7 @@ async def block_user(user_id_to_block: int, jwt_token: str):
     #Block the user
     result = block.add_block(user_id, user_id_to_block)
 
-    if result["code"] != 200:
+    if result["code"] != 201:
         raise HTTPException(status_code=result["code"], detail=result["error"])
 
     return {"message": f"User {user_id_to_block} has been blocked."}
