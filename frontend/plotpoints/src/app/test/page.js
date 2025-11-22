@@ -6,6 +6,7 @@ import Image from "next/image";
 import Footer from "../components/Footer";
 import { checkIfBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } from "@/lib/bookmarks";
 import { getNotifications, getNotifCount, readNotification} from "@/lib/notifications";
+import { getRecommendedMedia } from "@/lib/recommendations";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
@@ -42,7 +43,10 @@ export default function SessionInfo() {
     // console.log(await checkIfBookmarked("movie", `${11}`, session?.user?.id));
     // console.log(await getBookmarksByUserId(session?.user?.id, 5));
     //console.log(await getNotifications(session?.user?.id));
-    console.log(await readNotification(123, session?.accessToken));
+    // console.log(await readNotification(123, session?.accessToken));
+    console.log(await getRecommendedMedia("tvshows", session?.user?.id));
+    console.log(await getRecommendedMedia("movies", session?.user?.id));
+    console.log(await getRecommendedMedia("books", session?.user?.id));
   };
 
   return (
@@ -111,7 +115,7 @@ export default function SessionInfo() {
         height={250}
         alt={"Test Image from Oracle Cloud"}
         /> */}
-        <button onClick={testFunction} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Testing Button (Bookmark related functions)</button>
+        <button onClick={testFunction} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Testing Button</button>
       </div>
       <Footer />
     </>
