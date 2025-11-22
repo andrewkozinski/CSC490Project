@@ -2,12 +2,11 @@ from fastapi import APIRouter, HTTPException
 from typing import Optional
 from routes import movies, tvshows, books
 from routes import reviews as review_routes
-from models import book, movie, tvshow
-
-from database import trending_books, ratings, reviews
+#from models import book, movie, tvshow
+from aiocache import cached, Cache, caches
+#from database import trending_books, ratings, reviews
 
 router = APIRouter()
-
 
 async def _general_recommendations(media_type: str, limit: int = 20):
     if media_type == "book":
@@ -56,7 +55,9 @@ async def _personal_recommendations(media_type: str, user_id: int, limit: int = 
                 try:
                     print("Fetching books for genre:", genre)
                     genre_books = await books.get_books_by_genre(genre)
-                    recommended_books.extend(genre_books['results'])
+                    #Only add a certain amount from each genre to avoid overfilling
+                    num_book_to_add_per_genre = max(1, limit // len(preferred_genres))
+                    recommended_books.extend(genre_books["results"][:num_book_to_add_per_genre])
                     if len(recommended_books) >= limit:
                         break
                 except Exception as e:
@@ -67,14 +68,23 @@ async def _personal_recommendations(media_type: str, user_id: int, limit: int = 
             recommended_movies = []
             for genre in preferred_genres:
                 genre_movies = await movies.search_movies_by_genre(genre, page=1)
-                recommended_movies.extend(genre_movies['results'])
-            #return list(unique_movies)[:limit]
+                #Only add a certain amount from each genre to avoid overfilling
+                num_movies_to_add_per_genre = max(1, limit // len(preferred_genres))
+                recommended_movies.extend(genre_movies['results'][:num_movies_to_add_per_genre])
+                if len(recommended_movies) >= limit:
+                    break
+                #recommended_movies.extend(genre_movies['results'])
             return recommended_movies[:limit]
         elif media_type == "tvshow":
             recommended_tvshows = []
             for genre in preferred_genres:
                 genre_tvshows = await tvshows.search_tvshows_by_genre(genre, page=1)
-                recommended_tvshows.extend(genre_tvshows['results'])
+                #Only add a certain amount from each genre to avoid overfilling
+                num_tvshows_to_add_per_genre = max(1, limit // len(preferred_genres))
+                recommended_tvshows.extend(genre_tvshows['results'][:num_tvshows_to_add_per_genre])
+                if len(recommended_tvshows) >= limit:
+                    break
+                #recommended_tvshows.extend(genre_tvshows['results'])
             return recommended_tvshows[:limit]
 
     #If somehow here, then fallback to general recommendations
@@ -82,6 +92,7 @@ async def _personal_recommendations(media_type: str, user_id: int, limit: int = 
 
 
 @router.get("/books", summary="Get book recommendations")
+@cached(ttl=600, cache=Cache.MEMORY, alias="recommendations", key_builder=lambda f, *args, **kwargs: f"recommend_books_{kwargs.get('limit',20)}_{kwargs.get('user_id','none')}")
 async def recommend_books(limit: int = 20, user_id: Optional[int] = None):
     if user_id is not None:
         return await _personal_recommendations("book", user_id, limit)
@@ -89,6 +100,7 @@ async def recommend_books(limit: int = 20, user_id: Optional[int] = None):
 
 
 @router.get("/movies", summary="Get movie recommendations")
+@cached(ttl=600, cache=Cache.MEMORY, alias="recommendations", key_builder=lambda f, *args, **kwargs: f"recommend_movies_{kwargs.get('limit',20)}_{kwargs.get('user_id','none')}")
 async def recommend_movies(limit: int = 20, user_id: Optional[int] = None):
     if user_id is not None:
         return await _personal_recommendations("movie", user_id, limit)
@@ -96,6 +108,7 @@ async def recommend_movies(limit: int = 20, user_id: Optional[int] = None):
 
 
 @router.get("/tvshows", summary="Get TV show recommendations")
+@cached(ttl=600, cache=Cache.MEMORY, alias="recommendations", key_builder=lambda f, *args, **kwargs: f"recommend_tvshows_{kwargs.get('limit',20)}_{kwargs.get('user_id','none')}")
 async def recommend_tvshows(limit: int = 20, user_id: Optional[int] = None):
     if user_id is not None:
         return await _personal_recommendations("tvshow", user_id, limit)

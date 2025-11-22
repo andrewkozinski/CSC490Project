@@ -28,8 +28,11 @@ caches.set_config({
     "profiles": {
         "cache": "aiocache.SimpleMemoryCache",
         "ttl": 3600, #1 hour
+    },
+    "recommendations": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 600, #10 minutes
     }
-
 
 })
 
