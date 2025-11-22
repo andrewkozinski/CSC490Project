@@ -4,7 +4,7 @@ from routes.auth import verify_jwt_token, get_user_id_from_token
 
 router = APIRouter()
 
-@router.get("/review_text/is_enabled/")
+@router.get("/review_text/is_enabled")
 async def get_review_text_setting(jwt_token: str):
 
     # Verify JWT token
@@ -23,7 +23,7 @@ async def get_review_text_setting(jwt_token: str):
         "review_text_enabled": bool(setting["review_text_enabled"])
     }
 
-@router.post("/review_text/")
+@router.put("/review_text")
 async def update_review_text_setting(review_text_setting: bool, jwt_token: str):
 
     # Verify JWT token
