@@ -8,6 +8,16 @@ from aiocache import cached, Cache, caches
 
 router = APIRouter()
 
+def _dedupe_results(items):
+    seen = set()
+    unique = []
+    for item in items:
+        media_id = item.id
+        if media_id and media_id not in seen:
+            seen.add(media_id)
+            unique.append(item)
+    return unique
+
 async def _general_recommendations(media_type: str, limit: int = 20):
     if media_type == "book":
         return await books.get_trending_books()
@@ -49,6 +59,9 @@ async def _personal_recommendations(media_type: str, user_id: int, limit: int = 
                 continue
 
     if preferred_genres:
+        seen_ids = set()
+        num_to_add_per_genre = max(1, limit // len(preferred_genres))
+
         if media_type == "book":
             recommended_books = []
             for genre in preferred_genres:
@@ -56,36 +69,66 @@ async def _personal_recommendations(media_type: str, user_id: int, limit: int = 
                     print("Fetching books for genre:", genre)
                     genre_books = await books.get_books_by_genre(genre)
                     #Only add a certain amount from each genre to avoid overfilling
-                    num_book_to_add_per_genre = max(1, limit // len(preferred_genres))
-                    recommended_books.extend(genre_books["results"][:num_book_to_add_per_genre])
+                    #recommended_books.extend(genre_books["results"][:num_book_to_add_per_genre])
+                    count = 0
+                    for book_item in genre_books["results"]:
+                        if book_item.id not in seen_ids:
+                            recommended_books.append(book_item)
+                            seen_ids.add(book_item.id)
+                            count += 1
+                            if count >= num_to_add_per_genre:
+                                continue
+                        if len(recommended_books) >= limit:
+                            break
                     if len(recommended_books) >= limit:
                         break
                 except Exception as e:
                     print(f"Error fetching books for genre {genre}: {str(e)}")
                     continue
             return recommended_books[:limit]
+            #return _dedupe_results(recommended_books)[:limit]
         elif media_type == "movie":
             recommended_movies = []
             for genre in preferred_genres:
                 genre_movies = await movies.search_movies_by_genre(genre, page=1)
                 #Only add a certain amount from each genre to avoid overfilling
-                num_movies_to_add_per_genre = max(1, limit // len(preferred_genres))
-                recommended_movies.extend(genre_movies['results'][:num_movies_to_add_per_genre])
+                #recommended_movies.extend(genre_movies['results'][:num_movies_to_add_per_genre])
+                count = 0
+                for movie_item in genre_movies['results']:
+                    if movie_item.id not in seen_ids:
+                        recommended_movies.append(movie_item)
+                        seen_ids.add(movie_item.id)
+                        count += 1
+                        if count >= num_to_add_per_genre:
+                            continue
+                    if len(recommended_movies) >= limit:
+                        break
                 if len(recommended_movies) >= limit:
                     break
                 #recommended_movies.extend(genre_movies['results'])
             return recommended_movies[:limit]
+            #return _dedupe_results(recommended_movies)[:limit]
         elif media_type == "tvshow":
             recommended_tvshows = []
             for genre in preferred_genres:
                 genre_tvshows = await tvshows.search_tvshows_by_genre(genre, page=1)
                 #Only add a certain amount from each genre to avoid overfilling
-                num_tvshows_to_add_per_genre = max(1, limit // len(preferred_genres))
-                recommended_tvshows.extend(genre_tvshows['results'][:num_tvshows_to_add_per_genre])
+                #recommended_tvshows.extend(genre_tvshows['results'][:num_to_add_per_genre])
+                count = 0
+                for tvshow_item in genre_tvshows['results']:
+                    if tvshow_item.id not in seen_ids:
+                        recommended_tvshows.append(tvshow_item)
+                        seen_ids.add(tvshow_item.id)
+                        count += 1
+                        if count >= num_to_add_per_genre:
+                            continue
+                    if len(recommended_tvshows) >= limit:
+                        break
                 if len(recommended_tvshows) >= limit:
                     break
                 #recommended_tvshows.extend(genre_tvshows['results'])
-            return recommended_tvshows[:limit]
+            #return recommended_tvshows[:limit]
+            return _dedupe_results(recommended_tvshows)[:limit]
 
     #If somehow here, then fallback to general recommendations
     return await _general_recommendations(media_type, limit)
