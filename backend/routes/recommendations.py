@@ -9,7 +9,7 @@ from database import trending_books, ratings, reviews
 router = APIRouter()
 
 
-async def _general_recommendations(media_type: str, limit: int = 10):
+async def _general_recommendations(media_type: str, limit: int = 20):
     if media_type == "book":
         return await books.get_trending_books()
     elif media_type == "movie":
@@ -19,7 +19,7 @@ async def _general_recommendations(media_type: str, limit: int = 10):
     else:
         raise HTTPException(status_code=500, detail=f"No recommendation backend available for media type of: {media_type}")
 
-async def _personal_recommendations(media_type: str, user_id: int, limit: int = 10):
+async def _personal_recommendations(media_type: str, user_id: int, limit: int = 20):
     #user_reviews = reviews.get_reviews_by_user_id(user_id)
     user_reviews = await review_routes.get_recent_reviews_by_user_id(user_id, limit=50)
     user_reviews = user_reviews["reviews"]
@@ -82,21 +82,21 @@ async def _personal_recommendations(media_type: str, user_id: int, limit: int = 
 
 
 @router.get("/books", summary="Get book recommendations")
-async def recommend_books(limit: int = 10, user_id: Optional[int] = None):
+async def recommend_books(limit: int = 20, user_id: Optional[int] = None):
     if user_id is not None:
         return await _personal_recommendations("book", user_id, limit)
     return await _general_recommendations("book", limit)
 
 
 @router.get("/movies", summary="Get movie recommendations")
-async def recommend_movies(limit: int = 10, user_id: Optional[int] = None):
+async def recommend_movies(limit: int = 20, user_id: Optional[int] = None):
     if user_id is not None:
         return await _personal_recommendations("movie", user_id, limit)
     return await _general_recommendations("movie", limit)
 
 
 @router.get("/tvshows", summary="Get TV show recommendations")
-async def recommend_tvshows(limit: int = 10, user_id: Optional[int] = None):
+async def recommend_tvshows(limit: int = 20, user_id: Optional[int] = None):
     if user_id is not None:
         return await _personal_recommendations("tvshow", user_id, limit)
     return await _general_recommendations("tvshow", limit)
