@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Carousel from "../components/CategoryCarousel";
 import "../components/Homepage.css";
 import SkeletonImage from "../components/SkeletonImage";
+import { getRecommendedTVShows } from "@/lib/recommendations";
 
 export default function TV() {
 
@@ -57,21 +58,9 @@ export default function TV() {
 
   // Fetch recommended TV shows based on user ID
   useEffect(() => {
-    const fetchRecommendedShows = async () => {
-      if (session?.user?.id) {
-        try {
-          const res = await fetch(`/api/recommendations/tvshows?userId=${encodeURIComponent(session.user.id)}`);
-          if (!res.ok) throw new Error("Failed to fetch recommended TV shows");
-          const data = await res.json();
-          setRecommendedShows(data || []);
-          console.log("RECOMMENDED TV SHOWS:");
-          console.log(data);
-        } catch (err) {
-          console.error(err);
-        }
-      }
+    if (session?.user?.id) {
+      getRecommendedTVShows(session.user.id).then(setRecommendedShows).catch(console.error);
     }
-    fetchRecommendedShows();
   }, [session?.user]);
 
   return (
