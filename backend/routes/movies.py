@@ -1,3 +1,4 @@
+from aiocache import cached
 from fastapi import APIRouter, HTTPException
 import httpx
 import os
@@ -189,6 +190,7 @@ async def search_movies_detailed(query: str, page: int = 1):
 
 #Search by genre
 @router.get("/search/genre/{genre_name}")
+@cached(ttl=3600)
 async def search_movies_by_genre(genre_name: str, page: int = 1):
     # Find the genre ID from the name
 
@@ -239,6 +241,7 @@ async def search_movies_by_genre(genre_name: str, page: int = 1):
 
 #Search by genre and title
 @router.get("/search/genre/{genre}/{title}")
+@cached(ttl=3600)
 async def search_tvshows_by_genre_and_title(genre: str, title: str, page: int = 1):
     # Use the search movie by title function first
 
@@ -378,6 +381,7 @@ async def filter_movies(genre: str | None = None, year: int | None = None, page:
         }
 
 @router.get("/{movie_id}", response_model=Movie)
+@cached(ttl=3600)
 async def get_movie(movie_id: int):
 
     async with httpx.AsyncClient() as client:
@@ -422,6 +426,7 @@ async def get_movie(movie_id: int):
         return movie
 
 @router.get("/{movie_id}/streaming_links")
+@cached(ttl=3600)
 async def get_movie_streaming_links(movie_id: int):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key={TMDB_API_KEY}"
     async with httpx.AsyncClient() as client:

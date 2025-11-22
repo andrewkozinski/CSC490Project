@@ -1,3 +1,4 @@
+from aiocache import cached
 from fastapi import APIRouter, HTTPException
 import httpx
 from models.book import Book
@@ -56,6 +57,7 @@ async def search_books(query: str, page: int = 1):
 
 
 @router.get("/{book_id}")
+@cached(ttl=3600)
 async def get_book_details(book_id: str):
     url = f"https://openlibrary.org/works/{book_id}.json"
     async with httpx.AsyncClient() as client:
@@ -94,6 +96,7 @@ async def get_book_details(book_id: str):
 
 
 @router.get("/search/genre/{category}")
+@cached(ttl=3600)
 async def get_books_by_genre(category: str, page: int = 1):
     url = f"https://openlibrary.org/subjects/{category.lower().replace(' ', '_')}.json?limit=20&offset={(page-1)*20}"
     async with httpx.AsyncClient() as client:
@@ -125,6 +128,7 @@ async def get_books_by_genre(category: str, page: int = 1):
 
 
 @router.get("/search/genre/{category}/{title}")
+@cached(ttl=3600)
 async def get_books_by_genre_and_title(category: str, title: str, page: int = 1):
     url = f"https://openlibrary.org/search.json?subject={category}&title={title}&page={page}"
     async with httpx.AsyncClient() as client:

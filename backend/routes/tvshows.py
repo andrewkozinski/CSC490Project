@@ -1,3 +1,4 @@
+from aiocache import cached
 from fastapi import APIRouter, HTTPException
 import httpx
 import os
@@ -280,6 +281,7 @@ async def filter_tvshows(genre: str = None, release_year: int = None, page: int 
 
 
 @router.get("/{tv_id}", response_model=TvShow)
+@cached(ttl=3600)
 async def get_tvshow(tv_id: int):
     url = f"https://api.themoviedb.org/3/tv/{tv_id}?api_key={TMDB_API_KEY}"
     async with httpx.AsyncClient() as client:
@@ -316,6 +318,7 @@ async def get_tvshow_detailed(tv_id: int):
         return response.json()
 
 @router.get("/{tv_id}/streaming_links")
+@cached(ttl=3600)
 async def get_tvshow_streaming_links(tv_id: int):
     url = f"https://api.themoviedb.org/3/tv/{tv_id}/watch/providers?api_key={TMDB_API_KEY}"
     async with httpx.AsyncClient() as client:
