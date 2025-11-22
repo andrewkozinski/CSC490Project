@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import { checkIfBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } from "@/lib/bookmarks";
 import { getNotifications, getNotifCount, readNotification} from "@/lib/notifications";
 import { getRecommendedMedia } from "@/lib/recommendations";
-import { blockUser, unblockUser, isBlocked } from "@/lib/blocking";
+import { blockUser, unblockUser, isBlocked, isBlockedByOtherUser } from "@/lib/blocking";
 import { isReviewTextEnabled, updateReviewTextSetting } from "@/lib/settings";
 
 export default function SessionInfo() {
@@ -51,12 +51,12 @@ export default function SessionInfo() {
     // console.log(await getRecommendedMedia("books", session?.user?.id));
     // console.log(await unblockUser(6, session?.accessToken));
     // console.log(await isBlocked(6, session?.user?.id));
-    console.log(await isReviewTextEnabled(session?.accessToken));
-    console.log(await updateReviewTextSetting(true, session?.accessToken));
-    console.log(await isReviewTextEnabled(session?.accessToken));
-    console.log(await updateReviewTextSetting(false, session?.accessToken));
-    console.log(await isReviewTextEnabled(session?.accessToken));
-
+    // console.log(await isReviewTextEnabled(session?.accessToken));
+    // console.log(await updateReviewTextSetting(true, session?.accessToken));
+    // console.log(await isReviewTextEnabled(session?.accessToken));
+    // console.log(await updateReviewTextSetting(false, session?.accessToken));
+    // console.log(await isReviewTextEnabled(session?.accessToken));
+    console.log(await isBlockedByOtherUser(6, session?.user?.id));
   };
 
   return (
