@@ -10,7 +10,7 @@ import { isReviewTextEnabled, updateReviewTextSetting } from "@/lib/settings";
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(false);
-  const [textToggle, setReviewText] = useState(false);
+  const [textToggle, setReviewText] = useState(true);
   const [loaded, setLoaded] = useState(false); //needed to set the toggles according to localStorage
   const { data: session} = useSession();
 
@@ -20,6 +20,19 @@ export default function Settings() {
       darkMode: localStorage.getItem("darkMode")
     });
   }, []);
+
+  //Grab initial review text setting from server
+  useEffect(() => {
+    const fetchSetting = async () => {
+      if (session?.accessToken) {
+        const isEnabled = await isReviewTextEnabled(session.accessToken);
+        console.log("Fetched review text setting from server:", isEnabled);
+        setReviewText(isEnabled.review_text_enabled);
+        localStorage.setItem("reviewText", isEnabled.review_text_enabled);
+      }
+    };
+    fetchSetting();
+  }, [session]);
 
   useEffect(() => {
     const savedDark = localStorage.getItem("darkMode");
@@ -54,19 +67,6 @@ export default function Settings() {
     };
     updateSetting();
   }, [textToggle, session]);
-
-  //Grab initial review text setting from server
-  useEffect(() => {
-    const fetchSetting = async () => {
-      if (session?.accessToken) {
-        const isEnabled = await isReviewTextEnabled(session.accessToken);
-        console.log("Fetched review text setting from server:", isEnabled);
-        setReviewText(isEnabled.review_text_enabled);
-        localStorage.setItem("reviewText", isEnabled.review_text_enabled);
-      }
-    };
-    fetchSetting();
-  }, [session]);
 
   return (
     <div>
