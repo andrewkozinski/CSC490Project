@@ -58,15 +58,15 @@ export default function Settings() {
   }, [darkMode, loaded]);
 
   // Update review text setting on the server when toggled
-  useEffect(() => {
-    const updateSetting = async () => {
-      if (session?.accessToken) {
-        const result = await updateReviewTextSetting(textToggle, session.accessToken);
-        console.log("Review text setting updated on server:", result);
-      }
-    };
-    updateSetting();
-  }, [textToggle, session]);
+  // useEffect(() => {
+  //   const updateSetting = async () => {
+  //     if (session?.accessToken) {
+  //       const result = await updateReviewTextSetting(textToggle, session.accessToken);
+  //       console.log("Review text setting updated on server:", result);
+  //     }
+  //   };
+  //   updateSetting();
+  // }, [textToggle, session]);
 
   return (
     <div>
@@ -83,6 +83,13 @@ export default function Settings() {
               isOn={textToggle}
               handleToggle={() => {
                 console.log("Review Text Toggle:", !textToggle);
+                const updateSetting = async () => {
+                  if (session?.accessToken) {
+                    const result = await updateReviewTextSetting(!textToggle, session.accessToken);
+                    console.log("Review text setting updated on server:", result);
+                  }
+                };
+                updateSetting();
                 setReviewText(!textToggle)
               }
               }>
