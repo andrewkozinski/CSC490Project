@@ -19,14 +19,16 @@ def _dedupe_results(items):
     return unique
 
 async def _general_recommendations(media_type: str, limit: int = 20):
+    response = None
     if media_type == "book":
-        return await books.get_trending_books()
+        response = await books.get_trending_books()
     elif media_type == "movie":
-        return await movies.get_trending_movies(limit)
+        response = await movies.get_trending_movies(limit)
     elif media_type == "tvshow":
-        return await tvshows.get_trending_tvshows(limit)
+        response = await tvshows.get_trending_tvshows(limit)
     else:
         raise HTTPException(status_code=500, detail=f"No recommendation backend available for media type of: {media_type}")
+    return response["results"]
 
 async def _personal_recommendations(media_type: str, user_id: int, limit: int = 20):
     #user_reviews = reviews.get_reviews_by_user_id(user_id)
