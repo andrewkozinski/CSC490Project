@@ -9,6 +9,7 @@ import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
 import Bookmark from "@/app/components/Bookmark";
+import Favorite from "@/app/components/Favorite";
 import Image from "next/image";
 
 import fetchReviews from "@/utils/fetchReviews";
@@ -111,7 +112,11 @@ function BookReviewPage({ params }) {
           />
           {/*Only show bookmarking if user is logged in */}
           {session && session.user && (
-            <Bookmark mediaType="book" mediaId={id} />
+            <div>
+              <Bookmark mediaType="book" mediaId={id} />
+              <Favorite/>
+            </div>
+            
           )}
             {/* <p className="justify-start">Description:</p> */}
             <div className="p-4 border-1 rounded-sm w-auto my-2 min-h-fit">

@@ -12,6 +12,7 @@ import fetchAvgRating from "@/utils/fetchAvgRating";
 import fetchStreamLinks from "@/utils/fetchStreamLinks";
 import Link from "next/link";
 import Bookmark from "@/app/components/Bookmark";
+import Favorite from "@/app/components/Favorite";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import Image from "next/image";
 
@@ -117,7 +118,13 @@ function TvReviewPage({ params }) {
           />
           {/*Only show bookmarking if user is logged in */}
           {session && session.user && (
-            <Bookmark mediaType="tvshow" mediaId={id} />
+            <div>
+              <Bookmark mediaType="tvshow" mediaId={id} />
+              <Favorite/>
+            </div>
+
+
+            
           )}
           <div>
             {/*description box*/}
