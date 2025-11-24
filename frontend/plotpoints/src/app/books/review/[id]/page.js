@@ -112,7 +112,7 @@ function BookReviewPage({ params }) {
           />
           {/*Only show bookmarking if user is logged in */}
           {session && session.user && (
-            <div>
+            <div className="flex flex-col items-center">
               <Bookmark mediaType="book" mediaId={id} />
               <Favorite/>
             </div>

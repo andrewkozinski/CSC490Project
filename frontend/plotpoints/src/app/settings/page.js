@@ -4,15 +4,20 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Switch from "../components/Switch";
+import Modal from "../components/EditModal";
 import "../components/Homepage.css";
 import { useSession } from "next-auth/react";
 import { isReviewTextEnabled, updateReviewTextSetting } from "@/lib/settings";
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(false);
-  const [textToggle, setReviewText] = useState(true);
+  const [textToggle, setReviewText] = useState(false);
   const [loaded, setLoaded] = useState(false); //needed to set the toggles according to localStorage
   const { data: session} = useSession();
+
+  //For delete account modal
+  const [showModal, setShowModal] = useState(false);
+  
 
   useEffect(() => {
     console.log("Loaded from localStorage:", {
@@ -95,7 +100,7 @@ export default function Settings() {
               }>
             </Switch>
           </div>
-          <div className="flex flex-row w-full items-center justify-center gap-38 p-5">
+          <div className="flex flex-row w-full items-center justify-center gap-38 p-5 pb-20">
             <h2 className="font-bold text-start">Dark Mode
               <p className="text-xs font-thin">Toggle to activate dark mode</p>
             </h2>
@@ -107,6 +112,44 @@ export default function Settings() {
               }}
             />
 
+          </div>
+          <div className="flex flex-row w-full items-center justify-center gap-38 p-5 pb-20">
+            {/* <h2 className="font-bold text-start">Delete Account
+              <p className="text-xs font-thin">Description</p>
+            </h2> */}
+            <button
+              className="red text-black shadow m-4 px-4 py-2 rounded-lg hover:cursor-pointer"
+              onClick={() => setShowModal(true)}> 
+              {showModal &&
+              <Modal>
+                <h1 className="text-2xl text-center">Delete Account</h1>
+                  <div className="flex flex-col w-full">   
+                    <h2 className="font-bold p-10">
+                      Are you sure? 
+                    </h2>
+                    <p className="pb-10">
+                      You will no longer be able to view any of your account information or access it.<br/>
+                      Your bookmarks and favorites will be lost.<br/>
+                    </p>
+                    <div className="flex flex-row w-full justify-around items-center">
+                      <button
+                        className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                        onClick={() => setShowModal(false)}>        
+                                        
+                        Cancel 
+                      </button>
+                      <button
+                        className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                        onClick={() => setShowModal(false)}>        
+                                        
+                        Confirm 
+                      </button>
+                    </div>
+                  </div>
+              </Modal>
+              }
+              Delete Account
+            </button>
           </div>
         </div>
       </div>
