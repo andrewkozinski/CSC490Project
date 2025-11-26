@@ -3,7 +3,7 @@
  * @param {*} jwt JWT Token of the user 
  * @returns 
  */
-export const isReviewTextEnabled = async (jwt) => {
+export const getUserSettings = async (jwt) => {
     try {
         const res = await fetch(`/api/settings/review_text/is_enabled/${encodeURIComponent(jwt)}`);
         if (!res.ok) {

@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import Switch from "../components/Switch";
 import "../components/Homepage.css";
 import { useSession } from "next-auth/react";
-import { isReviewTextEnabled, updateReviewTextSetting } from "@/lib/settings";
+import { getUserSettings, updateReviewTextSetting } from "@/lib/settings";
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(false);
@@ -21,14 +21,16 @@ export default function Settings() {
     });
   }, []);
 
-  //Grab initial review text setting from server
+  //Grab initial review text & and dark mode setting from server
   useEffect(() => {
     const fetchSetting = async () => {
       if (session?.accessToken) {
-        const isEnabled = await isReviewTextEnabled(session.accessToken);
-        console.log("Fetched review text setting from server:", isEnabled);
+        const isEnabled = await getUserSettings(session.accessToken);
+        console.log("Fetched settings from server:", isEnabled);
         setReviewText(isEnabled.review_text_enabled);
         localStorage.setItem("reviewText", isEnabled.review_text_enabled);
+        setDarkMode(isEnabled.dark_mode_enabled);
+        localStorage.setItem("darkMode", isEnabled.dark_mode_enabled);
       }
     };
     fetchSetting();
