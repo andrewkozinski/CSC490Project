@@ -41,4 +41,18 @@ async def update_review_text_setting(review_text_setting: bool, jwt_token: str):
     if result is False:
         return {"message": "Failed to update review text setting."}
 
-    return {"message": "Review text setting updated successfully."}
+
+@router.put("/dark_mode")
+async def update_dark_mode_setting(dark_mode_setting: bool, jwt_token: str):
+
+    # Verify JWT token
+    verify_jwt_token(jwt_token)
+
+    user_id = get_user_id_from_token(jwt_token)
+
+    # Update the setting in the database
+    result = settings_text.update_dark_mode_enabled(user_id, int(dark_mode_setting))
+
+    if result is False:
+        return {"message": "Failed to update dark mode setting."}
+    return {"message": "Dark mode setting updated successfully."}
