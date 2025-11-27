@@ -45,19 +45,21 @@ export default function Settings() {
     setLoaded(true);
   }, []);
 
-  useEffect(() => {
-    if (loaded) {
-    localStorage.setItem("reviewText", textToggle);
-    console.log("reviewText set: ", textToggle);
-    }
-  }, [textToggle, loaded]);
+  //Use effect logic was causing some weird bugs, so commenting out for now
+  
+  // useEffect(() => {
+  //   if (loaded) {
+  //   localStorage.setItem("reviewText", textToggle);
+  //   console.log("reviewText set: ", textToggle);
+  //   }
+  // }, [textToggle, loaded]);
 
-  useEffect(() => {
-    if (loaded) {
-    localStorage.setItem("darkMode", darkMode);
-    console.log("darkMode set: ", darkMode)
-    }
-  }, [darkMode, loaded]);
+  // useEffect(() => {
+  //   if (loaded) {
+  //   localStorage.setItem("darkMode", darkMode);
+  //   console.log("darkMode set: ", darkMode)
+  //   }
+  // }, [darkMode, loaded]);
 
   // Update review text setting on the server when toggled
   // useEffect(() => {
@@ -94,6 +96,7 @@ export default function Settings() {
                 };
                 updateSetting(!textToggle);
                 setReviewText(!textToggle)
+                localStorage.setItem("reviewText", !textToggle);
               }
               }>
             </Switch>
@@ -115,6 +118,7 @@ export default function Settings() {
                 };
                 updateSetting(!darkMode);
                 setDarkMode(!darkMode);
+                localStorage.setItem("darkMode", !darkMode);
               }}
             />
 
