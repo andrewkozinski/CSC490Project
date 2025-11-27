@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 export async function PUT(request, { params }) {
 //   const params_content = await params;
 //   const review_id = params_content.id;
-  const { review_text_setting, jwt_token } = await request.json();
+  const { dark_mode_setting, jwt_token } = await request.json();
 
-  const response = await fetch(`${process.env.API_URL}/settings/dark_mode?dark_mode_setting=${encodeURIComponent(review_text_setting)}&jwt_token=${encodeURIComponent(jwt_token)}`, {
+  const response = await fetch(`${process.env.API_URL}/settings/dark_mode?dark_mode_setting=${encodeURIComponent(dark_mode_setting)}&jwt_token=${encodeURIComponent(jwt_token)}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
