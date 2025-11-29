@@ -248,7 +248,8 @@ def get_all_users():
                 "USER_ID": row[0],
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
-                "EMAIL": row[3]
+                "EMAIL": row[3],
+                "IS_ADMIN": row[4]
             }
             users.append(user)
         return users
@@ -275,7 +276,8 @@ def get_by_email(email: EmailStr):
                 "USER_ID": row[0],
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
-                "EMAIL": row[3]
+                "EMAIL": row[3],
+                "IS_ADMIN": row[4]
             }
             return user
         else:
@@ -316,7 +318,8 @@ def get_by_id(user_id):
                 "USER_ID": row[0],
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
-                "EMAIL": row[3]
+                "EMAIL": row[3],
+                "IS_ADMIN": row[4]
             }
             return user
         else:
@@ -326,3 +329,39 @@ def get_by_id(user_id):
         error_obj, = e.args
         print("Database error fetching user by ID:", error_obj.message)
         return None
+
+def update_is_admin(user_id, admin):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return
+
+    try:
+        cursor.execute(
+            """
+            UPDATE USERS
+            SET IS_ADMIN = :1
+            WHERE USER_ID = :2
+            """,
+            (admin, user_id)
+        )
+
+        if cursor.rowcount == 0:  # no rows updated
+            print(f"Error: USER_ID {user_id} does not exist.")
+        else:
+            connection.commit()
+            print(f"IS_ADMIN for USER_ID {user_id} updated successfully to '{admin}'.")
+
+    except oracledb.IntegrityError as e:
+        error_obj, = e.args
+        if "ORA-00001" in error_obj.message and "IS_ADMIN" in error_obj.message:
+            print(f"Error: IS_ADMIN '{admin}' already exists.")
+        else:
+            print("Integrity error:", error_obj.message)
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error updating IS_ADMIN:", error_obj.message)
+
+    finally:
+        connect.stop_connection(connection, cursor)
