@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import Switch from "../components/Switch";
 import "../components/Homepage.css";
 import { useSession } from "next-auth/react";
-import { isReviewTextEnabled, updateReviewTextSetting } from "@/lib/settings";
+import { getUserSettings, updateReviewTextSetting, updateDarkModeSetting } from "@/lib/settings";
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(false);
@@ -21,14 +21,16 @@ export default function Settings() {
     });
   }, []);
 
-  //Grab initial review text setting from server
+  //Grab initial review text & and dark mode setting from server
   useEffect(() => {
     const fetchSetting = async () => {
       if (session?.accessToken) {
-        const isEnabled = await isReviewTextEnabled(session.accessToken);
-        console.log("Fetched review text setting from server:", isEnabled);
+        const isEnabled = await getUserSettings(session.accessToken);
+        console.log("Fetched settings from server:", isEnabled);
         setReviewText(isEnabled.review_text_enabled);
         localStorage.setItem("reviewText", isEnabled.review_text_enabled);
+        setDarkMode(isEnabled.dark_mode_enabled);
+        localStorage.setItem("darkMode", isEnabled.dark_mode_enabled);
       }
     };
     fetchSetting();
@@ -43,19 +45,21 @@ export default function Settings() {
     setLoaded(true);
   }, []);
 
-  useEffect(() => {
-    if (loaded) {
-    localStorage.setItem("reviewText", textToggle);
-    console.log("reviewText set: ", textToggle);
-    }
-  }, [textToggle, loaded]);
+  //Use effect logic was causing some weird bugs, so commenting out for now
+  
+  // useEffect(() => {
+  //   if (loaded) {
+  //   localStorage.setItem("reviewText", textToggle);
+  //   console.log("reviewText set: ", textToggle);
+  //   }
+  // }, [textToggle, loaded]);
 
-  useEffect(() => {
-    if (loaded) {
-    localStorage.setItem("darkMode", darkMode);
-    console.log("darkMode set: ", darkMode)
-    }
-  }, [darkMode, loaded]);
+  // useEffect(() => {
+  //   if (loaded) {
+  //   localStorage.setItem("darkMode", darkMode);
+  //   console.log("darkMode set: ", darkMode)
+  //   }
+  // }, [darkMode, loaded]);
 
   // Update review text setting on the server when toggled
   // useEffect(() => {
@@ -83,14 +87,16 @@ export default function Settings() {
               isOn={textToggle}
               handleToggle={() => {
                 console.log("Review Text Toggle:", !textToggle);
-                const updateSetting = async () => {
+                const updateSetting = async (newValue) => {
                   if (session?.accessToken) {
-                    const result = await updateReviewTextSetting(!textToggle, session.accessToken);
+                    const result = await updateReviewTextSetting(newValue, session.accessToken);
                     console.log("Review text setting updated on server:", result);
                   }
+                  
                 };
-                updateSetting();
+                updateSetting(!textToggle);
                 setReviewText(!textToggle)
+                localStorage.setItem("reviewText", !textToggle);
               }
               }>
             </Switch>
@@ -103,7 +109,16 @@ export default function Settings() {
               isOn={darkMode}
               handleToggle={() => {
                 console.log("Dark Mode Toggle:", !darkMode);
+                const updateSetting = async (newValue) => {
+                  console.log("Updating dark mode to:", newValue);
+                  if (session?.accessToken) {
+                    const result = await updateDarkModeSetting(newValue, session.accessToken);
+                    console.log("Dark mode setting updated on server:", result);
+                  }
+                };
+                updateSetting(!darkMode);
                 setDarkMode(!darkMode);
+                localStorage.setItem("darkMode", !darkMode);
               }}
             />
 
