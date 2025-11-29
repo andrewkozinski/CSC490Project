@@ -240,7 +240,7 @@ def get_all_users():
         return []
 
     try:
-        cursor.execute("SELECT * FROM USERS")
+        cursor.execute("SELECT * FROM ADMIN.USERS")
         rows = cursor.fetchall()
         users = []
         for row in rows:
