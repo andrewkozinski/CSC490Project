@@ -71,13 +71,21 @@ body {
 /* Dark Mode changes */
 body.dark {
   background: #000;
-  color: white;
+}
+body.dark p,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6 {
+  color: white !important;
 }
 
 body.dark svg {
   stroke: white;
+  fill: transparent;
 }
-
 .markdown-content {
   width: 100%;
   word-break: break-word;
