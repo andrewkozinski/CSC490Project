@@ -311,7 +311,7 @@ def get_by_id(user_id):
         return []
 
     try:
-        cursor.execute("SELECT * FROM USERS WHERE USER_ID = :1", (user_id,))
+        cursor.execute("SELECT * FROM ADMIN.USERS WHERE USER_ID = :1", (user_id,))
         row = cursor.fetchone()
         if row:
             user = {
