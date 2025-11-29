@@ -1,6 +1,6 @@
 import oracledb
-# from database import connect
-import connect
+from database import connect
+#import connect
 
 
 # Add a favorite entry
