@@ -32,8 +32,15 @@ caches.set_config({
     "recommendations": {
         "cache": "aiocache.SimpleMemoryCache",
         "ttl": 600, #10 minutes
-    }
-
+    },
+    "is_favorited": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 3600, #1 hour
+    },
+    "user_favorites": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    },
 })
 
 from fastapi import FastAPI
@@ -54,6 +61,7 @@ from routes.notifications import router as notifications_router
 from routes.recommendations import router as recommendations_router
 from routes.blocking import router as blocking_router
 from routes.settings import router as settings_router
+from routes.favorites import router as favorites_router
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -120,6 +128,7 @@ app.include_router(notifications_router, prefix="/notifications", tags=["notific
 app.include_router(recommendations_router, prefix="/recommendations", tags=["recommendations"]) #includes the API router from routes/recommendations.py
 app.include_router(blocking_router, prefix="/blocking", tags=["blocking"]) #includes the API router from routes/blocking.py
 app.include_router(settings_router, prefix="/settings", tags=["settings"]) #includes the API router from routes/settings.py
+app.include_router(favorites_router, prefix="/favorites", tags=["favorites"]) #includes the API router from routes/favorites.py
 
 # CORS settings
 app.add_middleware(
