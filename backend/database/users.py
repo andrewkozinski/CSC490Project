@@ -339,7 +339,7 @@ def update_is_admin(user_id, admin):
     try:
         cursor.execute(
             """
-            UPDATE USERS
+            UPDATE ADMIN.USERS
             SET IS_ADMIN = :1
             WHERE USER_ID = :2
             """,
