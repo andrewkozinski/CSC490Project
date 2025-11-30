@@ -41,6 +41,10 @@ caches.set_config({
         "cache": "aiocache.SimpleMemoryCache",
         "ttl": 300, #5 minutes
     },
+    "recent_reviews": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 300, #5 minutes
+    }
 })
 
 from fastapi import FastAPI
