@@ -144,7 +144,7 @@ GENRE_NAME_TO_ID = {
 @router.get("/search")
 async def search_movies(query: str, page: int = 1):
     url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={query}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -183,7 +183,7 @@ async def search_movies(query: str, page: int = 1):
 @router.get("/search/detailed")
 async def search_movies_detailed(query: str, page: int = 1):
     url = f"https://api.themoviedb.org/3/search/movie?api_key={TMDB_API_KEY}&query={query}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         return response.json()
@@ -203,7 +203,7 @@ async def search_movies_by_genre(genre_name: str, page: int = 1):
     if genre_id is None:
         raise HTTPException(status_code=400, detail="Invalid genre name")
     url = f"https://api.themoviedb.org/3/discover/movie?api_key={TMDB_API_KEY}&with_genres={genre_id}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -260,7 +260,7 @@ async def search_tvshows_by_genre_and_title(genre: str, title: str, page: int = 
 @router.get("/search/trending")
 async def get_trending_movies(page: int = 1):
     url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={TMDB_API_KEY}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -298,7 +298,7 @@ async def get_trending_movies(page: int = 1):
 @router.get("/search/upcoming")
 async def get_upcoming_movies(page: int = 1):
     url = f"https://api.themoviedb.org/3/movie/upcoming?api_key={TMDB_API_KEY}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -346,7 +346,7 @@ async def filter_movies(genre: str | None = None, year: int | None = None, page:
     if year:
         url += f"&primary_release_year={year}"
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -384,7 +384,7 @@ async def filter_movies(genre: str | None = None, year: int | None = None, page:
 @cached(ttl=3600)
 async def get_movie(movie_id: int):
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
 
         get_movie_url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}"
         movie_response = await client.get(get_movie_url)
@@ -429,7 +429,7 @@ async def get_movie(movie_id: int):
 @cached(ttl=3600)
 async def get_movie_streaming_links(movie_id: int):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key={TMDB_API_KEY}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="Movie not found")
