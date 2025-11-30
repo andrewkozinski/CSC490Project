@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import React from "react";
-import ReactMarkdown from "react-markdown";
+// import ReactMarkdown from "react-markdown";
 
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
@@ -110,7 +110,7 @@ function BookReviewPage({ params }) {
             width={1000}
             height={1000}
           />
-          {/*Only show bookmarking if user is logged in */}
+          {/*Only show bookmarking & favoriting if user is logged in */}
           {session && session.user && (
             <div className="flex flex-col items-center">
               <Bookmark mediaType="book" mediaId={id} />
