@@ -16,9 +16,9 @@ export async function GET(request, { params }) {
     });
 
     if(!isFavorited.ok) {
-        return new Response(JSON.stringify({ error: "Failed to check favorite status" }), { status: isBookmarked.status });
+        return new Response(JSON.stringify({ error: "Failed to check favorite status" }), { status: isFavorited.status });
     }
     
-    const data = await isBookmarked.json();
+    const data = await isFavorited.json();
     return new Response(JSON.stringify(data), { status: 200 });
 }

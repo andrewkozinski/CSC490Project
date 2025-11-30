@@ -14,6 +14,7 @@ import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import Image from "next/image";
 import Bookmark from "@/app/components/Bookmark";
 import { useSession } from "next-auth/react";
+import Favorite from "@/app/components/Favorite";
 
 
 function MovieReviewPage({ params }) {
@@ -109,6 +110,11 @@ function MovieReviewPage({ params }) {
           {/*Only show bookmarking if user is logged in */}
           {session && session.user && (
             <Bookmark mediaType="movie" mediaId={id} />
+          )}
+
+          {/*Only show favoriting if user is logged in */}
+          {session && session.user && (
+            <Favorite mediaType="movie" mediaId={id} />
           )}
 
           <div>

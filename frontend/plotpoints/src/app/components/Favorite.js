@@ -10,23 +10,23 @@ export default function Favorite({mediaType, mediaId}) {
   const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
-    const checkBookmarkStatus = async () => {
+    const checkFavoriteStatus = async () => {
       if (session && session.user && session.user.id) {
         try {
           const result = await checkIfFavorited(mediaType, mediaId, session?.user?.id);
           setIsFavorited(result.is_favorited);
         }
         catch (error) {
-          console.error("Error checking bookmark status:", error);
+          console.error("Error checking favorite status:", error);
         }
       }
     };
-    checkBookmarkStatus();
+    checkFavoriteStatus();
   }, [session, mediaType, mediaId]);
 
-  const handleBookmark = async () => {
+  const handleFavorite = async () => {
     if (!session || !session.accessToken) {
-      alert("You must be logged in to bookmark items.");
+      alert("You must be logged in to favorite items.");
       return;
     }
     try {
@@ -37,16 +37,16 @@ export default function Favorite({mediaType, mediaId}) {
       }
       setIsFavorited(!isFavorited);
     } catch (error) {
-      console.error("Error toggling bookmark:", error);
+      console.error("Error toggling favorite:", error);
     }
   };
 
   return (
     <div className="flex items-center pb-2">
-      {isBookmarked ? (
-        <h1 className="mr-2">Remove from Bookmarks</h1>
+      {isFavorited ? (
+        <h1 className="mr-2">Remove from Favorites</h1>
       ) : (
-        <h1 className="mr-2">Add to Bookmarks</h1>
+        <h1 className="mr-2">Add to Favorites</h1>
       )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ export default function Favorite({mediaType, mediaId}) {
         strokeWidth="1"
         stroke="currentColor"
         className={isFavorited === true ? "size-8 fill-black cursor-pointer" : "size-8 hover:fill-black cursor-pointer"}
-        onClick={handleBookmark}
+        onClick={handleFavorite}
       >
         <path
           strokeLinecap="round"
