@@ -52,6 +52,14 @@ export default function Settings() {
     setLoaded(true);
   }, []);
 
+  useEffect(() => {
+  if (darkMode) {
+    document.body.classList.add("dark");
+  } else {
+    document.body.classList.remove("dark");
+  }
+}, [darkMode]);
+
   //Use effect logic was causing some weird bugs, so commenting out for now
   
   // useEffect(() => {
