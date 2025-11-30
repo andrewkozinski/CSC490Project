@@ -14,8 +14,10 @@ import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import { useSession } from "next-auth/react";
 import FollowButton from "@/app/components/FollowButton";
+import BlockButton from "@/app/components/BlockButton";
 import { getFollowers, getFollowing } from "@/lib/following";
 import { getBookmarksByUserId } from "@/lib/bookmarks";
+import { getFavoritesByUserId } from "@/lib/favorites";
 import "@/app/components/Profile.css";
 
 export default function ProfilePage( {params} ){
@@ -36,6 +38,9 @@ export default function ProfilePage( {params} ){
     
     //Bookmarks state
     const [bookmarks, setBookmarks] = useState([]);
+
+    //Favorites state
+    const [favorites, setFavorites] = useState([]);
 
     // Modal state
     const [showModal, setShowModal] = useState(false);
@@ -100,7 +105,19 @@ export default function ProfilePage( {params} ){
                 setBookmarks([]);
             }
         }
-        Promise.all([fetchProfileDetails(), fetchRecentReviews(), fetchBookmarks()])
+
+        const fetchFavorites = async () => {
+            try {
+                const data = await getFavoritesByUserId(id, 10); // Fetch up to 10 favorites
+                console.log("fetched favorites: ", data.favorites);
+                setFavorites(data.favorites || []);
+            } catch (error) {
+                console.error("Error fetching favorites:", error);
+                setFavorites([]);
+            }
+        }
+
+        Promise.all([fetchProfileDetails(), fetchRecentReviews(), fetchBookmarks(), fetchFavorites()])
             .then(() => setIsLoading(false));
 
     }, []);
@@ -184,7 +201,7 @@ export default function ProfilePage( {params} ){
                     height="230">
                     </Image>
                     {/* Get username */}
-                    <div className="grid grid-rows-4 gap-2">
+                    <div className="grid grid-rows-5 gap-2">
                         <div className="flex flex-row justify-center items-center">
                             <h1 className="text-3xl text-center inria-serif-regular">{profileDetails?.username || "Error: Username not found"}</h1>
                             
@@ -278,6 +295,7 @@ export default function ProfilePage( {params} ){
                             <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/following`}>{following.length}<br></br>Following</Link>
                         </div>
                         <FollowButton profileId={id} currentUserId={session?.user?.id} jwtToken={session?.accessToken}></FollowButton>
+                        <BlockButton profileId={id} currentUserId={session?.user?.id} jwtToken={session?.accessToken}></BlockButton>
  
                     </div>
                     
@@ -321,6 +339,26 @@ export default function ProfilePage( {params} ){
                             ))
                         )}  
                         
+                    </Carousel>
+                    <h1 className="text-md whitespace-nowrap ml-4 mt-10">Favorites</h1>
+                    <Carousel >
+                        {favorites.length === 0 ? (
+                            <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no favorites yet!</h1>
+                        ) : (
+                            favorites.map((favorite, index) => (
+                                <Image
+
+                                    key={index}
+                                    alt={favorite.title}
+                                    src={favorite.img}
+                                    title={favorite.title}
+                                    height={200}
+                                    width={200}
+                                    className="bookmark"
+                                    onClick={() => window.location.href = `/${favorite.media_type}/review/${favorite.media_id}`}
+                                />
+                            ))
+                        )}
                     </Carousel>
                 </div> 
                 
