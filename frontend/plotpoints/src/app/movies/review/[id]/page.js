@@ -15,6 +15,7 @@ import Image from "next/image";
 import Bookmark from "@/app/components/Bookmark";
 import Favorite from "@/app/components/Favorite";
 import { useSession } from "next-auth/react";
+import Favorite from "@/app/components/Favorite";
 
 
 function MovieReviewPage({ params }) {
@@ -115,6 +116,11 @@ function MovieReviewPage({ params }) {
             </div>
             
 
+          )}
+
+          {/*Only show favoriting if user is logged in */}
+          {session && session.user && (
+            <Favorite mediaType="movie" mediaId={id} />
           )}
 
           <div>

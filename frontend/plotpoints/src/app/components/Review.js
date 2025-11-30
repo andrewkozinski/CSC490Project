@@ -245,9 +245,9 @@ useEffect(() => {
               </div>
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
-            {/* <p className="mt-1 text-black text-sm">{reviewText}</p> */}
+            {/* <p className="mt-1  text-sm">{reviewText}</p> */}
             <ReviewText
-              className="mt-1 text-black text-sm"
+              className="mt-1  text-sm"
               content={reviewText}
             />
           </div>
@@ -255,7 +255,7 @@ useEffect(() => {
           {/* Rating controls */}
           <div className="flex items-center w-full mt-2 space-x-2">
             {/* # of ratings */}
-            <p className="mr-3 text-sm text-black">{upvotes}</p>
+            <p className="mr-3 text-sm ">{upvotes}</p>
             {/* plus */}
             <button
               className={`cursor-pointer hover: ${
@@ -279,7 +279,7 @@ useEffect(() => {
               </svg>
             </button>
             <p>|</p>
-            <p className="text-sm text-black">{downvotes}</p>
+            <p className="text-sm ">{downvotes}</p>
 
             {/* minus */}
             <button
