@@ -15,7 +15,6 @@ import Bookmark from "@/app/components/Bookmark";
 import Favorite from "@/app/components/Favorite";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import Image from "next/image";
-import Favorite from "@/app/components/Favorite";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -121,18 +120,9 @@ function TvReviewPage({ params }) {
           {session && session.user && (
             <div className="flex flex-col items-center">
               <Bookmark mediaType="tvshow" mediaId={id} />
-              <Favorite/>
+              <Favorite mediaType="tvshow" mediaId={id} />
             </div>
-
-
-            
           )}
-
-          {/* Only show favoriting if user is logged in */}
-          {session && session.user && (
-            <Favorite mediaType="tvshow" mediaId={id} />
-          )}
-
 
           <div>
             {/*description box*/}

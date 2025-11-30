@@ -115,13 +115,8 @@ function BookReviewPage({ params }) {
           {session && session.user && (
             <div className="flex flex-col items-center">
               <Bookmark mediaType="book" mediaId={id} />
-              <Favorite/>
+              <Favorite mediaType="book" mediaId={id} />
             </div>
-            
-          )}
-          {/*Only show favoriting if user is logged in */}
-          {session && session.user && (
-            <Favorite mediaType="book" mediaId={id} />
           )}
             {/* <p className="justify-start">Description:</p> */}
             <div className="p-4 border-1 rounded-sm w-auto my-2 min-h-fit">
