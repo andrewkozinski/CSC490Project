@@ -54,7 +54,7 @@ async def get_user_info_by_id(user_id: int):
             "bio": user_profile["bio"],
             "profile_picture": user_profile["profile_pic"],
             "profile_pic_url": user_profile["profile_pic_url"],
-            "is_admin": user["is_admin"],
+            "is_admin": user["IS_ADMIN"],
         }
     else:
         raise HTTPException(status_code=404, detail="User not found")
