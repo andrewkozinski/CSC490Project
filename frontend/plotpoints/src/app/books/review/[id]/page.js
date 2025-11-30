@@ -11,7 +11,6 @@ import ReviewList from "../../../components/ReviewList";
 import Bookmark from "@/app/components/Bookmark";
 import Favorite from "@/app/components/Favorite";
 import Image from "next/image";
-import Favorite from "@/app/components/Favorite";
 
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
