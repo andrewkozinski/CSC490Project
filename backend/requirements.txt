@@ -10,3 +10,4 @@ PyJWT
 bcrypt
 oci
 fastapi-cache2
+aiocache

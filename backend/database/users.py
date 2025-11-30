@@ -4,6 +4,7 @@ import oracledb
 from database import connect
 
 from database.profile import create_profile #This is the import that works for the database and my end
+from database.settings_text import add_settings_text
 #import connect
 
 def add_user(username, hashed_password, email):
@@ -22,6 +23,7 @@ def add_user(username, hashed_password, email):
         )
         connection.commit()
         create_profile(user_id, "No Description.") # empty profile pic, default bio
+        add_settings_text(user_id, review_text_enabled=1)
         return {"user_id": user_id}
 
     except oracledb.IntegrityError as e:

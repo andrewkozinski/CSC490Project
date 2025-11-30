@@ -9,6 +9,7 @@ import Header from "../../../components/Header";
 import Rating from "../../../components/Rating";
 import ReviewList from "../../../components/ReviewList";
 import Bookmark from "@/app/components/Bookmark";
+import Favorite from "@/app/components/Favorite";
 import Image from "next/image";
 import Favorite from "@/app/components/Favorite";
 
@@ -112,7 +113,11 @@ function BookReviewPage({ params }) {
           />
           {/*Only show bookmarking if user is logged in */}
           {session && session.user && (
-            <Bookmark mediaType="book" mediaId={id} />
+            <div className="flex flex-col items-center">
+              <Bookmark mediaType="book" mediaId={id} />
+              <Favorite/>
+            </div>
+            
           )}
           {/*Only show favoriting if user is logged in */}
           {session && session.user && (

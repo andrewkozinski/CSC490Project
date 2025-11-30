@@ -13,6 +13,7 @@ import Link from "next/link";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";
 import Image from "next/image";
 import Bookmark from "@/app/components/Bookmark";
+import Favorite from "@/app/components/Favorite";
 import { useSession } from "next-auth/react";
 import Favorite from "@/app/components/Favorite";
 
@@ -109,7 +110,12 @@ function MovieReviewPage({ params }) {
           
           {/*Only show bookmarking if user is logged in */}
           {session && session.user && (
-            <Bookmark mediaType="movie" mediaId={id} />
+            <div className="flex flex-col items-center">
+              <Bookmark mediaType="movie" mediaId={id} />
+              <Favorite/>
+            </div>
+            
+
           )}
 
           {/*Only show favoriting if user is logged in */}
