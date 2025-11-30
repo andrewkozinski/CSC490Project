@@ -8,6 +8,8 @@ import Modal from "../components/EditModal";
 import "../components/Homepage.css";
 import { useSession } from "next-auth/react";
 import { getUserSettings, updateReviewTextSetting, updateDarkModeSetting } from "@/lib/settings";
+import { deleteAccount } from "@/lib/delete";
+import { signOut } from "next-auth/react";
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(false);
@@ -135,8 +137,10 @@ export default function Settings() {
             <button
               className="red text-black shadow m-4 px-4 py-2 rounded-lg hover:cursor-pointer"
               onClick={() => setShowModal(true)}> 
-              {showModal &&
-              <Modal>
+              Delete Account
+            </button>
+            {showModal &&
+              <Modal onClose={() => setShowModal(false)}>
                 <h1 className="text-2xl text-center">Delete Account</h1>
                   <div className="flex flex-col w-full">   
                     <h2 className="font-bold p-10">
@@ -155,7 +159,21 @@ export default function Settings() {
                       </button>
                       <button
                         className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
-                        onClick={() => setShowModal(false)}>        
+                        onClick={async () => {
+                          setShowModal(false);
+                          if (session?.accessToken) {
+                            try {
+                              const result = await deleteAccount(session.accessToken);
+                              console.log("Account deleted:", result);
+                              //Sign out the user
+                              signOut();
+                              //Redirect to homepage
+                              window.location.href = "/";
+                            } catch (error) {
+                              console.error("Error deleting account:", error);
+                            }
+                          }
+                        }}>        
                                         
                         Confirm 
                       </button>
@@ -163,8 +181,6 @@ export default function Settings() {
                   </div>
               </Modal>
               }
-              Delete Account
-            </button>
           </div>
         </div>
       </div>
