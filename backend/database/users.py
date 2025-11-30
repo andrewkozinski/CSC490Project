@@ -249,7 +249,7 @@ def get_all_users():
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
                 "EMAIL": row[3],
-                #"IS_ADMIN": row[4] commented out because it doesnt work
+                # "IS_ADMIN": row[4]
             }
             users.append(user)
         return users
@@ -277,7 +277,7 @@ def get_by_email(email: EmailStr):
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
                 "EMAIL": row[3],
-                #"IS_ADMIN": row[4] commented out as it does not work
+                "IS_ADMIN": row[4]
             }
             return user
         else:
@@ -319,7 +319,7 @@ def get_by_id(user_id):
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
                 "EMAIL": row[3],
-                #"IS_ADMIN": row[4] commented out because it does not work
+                "IS_ADMIN": row[4]
             }
             return user
         else:
