@@ -386,7 +386,7 @@ async def get_movie(movie_id: int):
 
     async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
 
-        get_movie_url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}"
+        get_movie_url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}&append_to_response=credits"
         movie_response = await client.get(get_movie_url)
 
         if movie_response.status_code != 200:
@@ -401,13 +401,15 @@ async def get_movie(movie_id: int):
         # }
         # ],
 
-        credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={TMDB_API_KEY}"
-        credits_response = await client.get(credits_url)
+        #credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={TMDB_API_KEY}"
+        #credits_response = await client.get(credits_url)
 
-        if credits_response.status_code != 200:
-            raise HTTPException(status_code=credits_response.status_code, detail="Credits not found")
+        credits_details = movie_details.get('credits', {})
 
-        credits_details = credits_response.json()
+        # if credits_response.status_code != 200:
+        #     raise HTTPException(status_code=credits_response.status_code, detail="Credits not found")
+
+        #credits_details = credits_response.json()
 
         #Get the director from the crew list
         director = next((member for member in credits_details['crew'] if member['job'] == 'Director'), None)
