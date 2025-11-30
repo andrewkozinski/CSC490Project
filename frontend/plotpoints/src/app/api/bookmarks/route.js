@@ -22,7 +22,7 @@ export async function POST(req) {
     const data = await backendRes.json();
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: 'Upvote failed' }, { status: 500 });
+    return NextResponse.json({ error: 'Bookmark failed' }, { status: 500 });
   }
 }
 
@@ -43,6 +43,6 @@ export async function DELETE(req) {
     const data = await backendRes.json();
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: 'Remove upvote failed' }, { status: 500 });
+    return NextResponse.json({ error: 'Remove bookmark failed' }, { status: 500 });
   }
 }
