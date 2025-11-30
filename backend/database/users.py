@@ -5,6 +5,7 @@ from database import connect
 
 from database.profile import create_profile #This is the import that works for the database and my end
 from database.settings_text import add_settings_text
+from database.profile import delete_profile_picture
 #import connect
 
 def add_user(username, hashed_password, email):
@@ -76,6 +77,7 @@ def delete_user(user_id):
 
     try:
         new_name = "deleted_user" + str(user_id)
+        delete_profile_picture(user_id)
         cursor.execute(
             """
             UPDATE USERS 
@@ -269,7 +271,7 @@ def get_by_email(email: EmailStr):
         return []
 
     try:
-        cursor.execute("SELECT * FROM USERS WHERE EMAIL = :1", (email,))
+        cursor.execute("SELECT * FROM ADMIN.USERS WHERE EMAIL = :1", (email,))
         row = cursor.fetchone()
         if row:
             user = {
