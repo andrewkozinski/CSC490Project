@@ -166,7 +166,7 @@ export default function Settings() {
                               const result = await deleteAccount(session.accessToken);
                               console.log("Account deleted:", result);
                               //Sign out the user
-                              signOut();
+                              await signOut();
                               //Redirect to homepage
                               window.location.href = "/";
                             } catch (error) {
