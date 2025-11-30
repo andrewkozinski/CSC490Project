@@ -26,7 +26,7 @@ async def add_favorite(media_type: str, media_id: str, jwt_token: str):
     return {"message": "Favorite added successfully"}
 
 @router.delete("/remove/media_type/{media_type}/media_id/{media_id}")
-async def remove_bookmark(media_type: str, media_id: str, jwt_token: str):
+async def remove_favorite(media_type: str, media_id: str, jwt_token: str):
     #Verify the jwt token
     verify_jwt_token(jwt_token)
 
