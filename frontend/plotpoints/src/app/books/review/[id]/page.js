@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import React from "react";
-import ReactMarkdown from "react-markdown";
+// import ReactMarkdown from "react-markdown";
 
 import Footer from "@/app/components/Footer";
 import Header from "../../../components/Header";
@@ -11,7 +11,6 @@ import ReviewList from "../../../components/ReviewList";
 import Bookmark from "@/app/components/Bookmark";
 import Favorite from "@/app/components/Favorite";
 import Image from "next/image";
-import Favorite from "@/app/components/Favorite";
 
 import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
@@ -111,17 +110,12 @@ function BookReviewPage({ params }) {
             width={1000}
             height={1000}
           />
-          {/*Only show bookmarking if user is logged in */}
+          {/*Only show bookmarking & favoriting if user is logged in */}
           {session && session.user && (
             <div className="flex flex-col items-center">
               <Bookmark mediaType="book" mediaId={id} />
-              <Favorite/>
+              <Favorite mediaType="book" mediaId={id} />
             </div>
-            
-          )}
-          {/*Only show favoriting if user is logged in */}
-          {session && session.user && (
-            <Favorite mediaType="book" mediaId={id} />
           )}
             {/* <p className="justify-start">Description:</p> */}
             <div className="p-4 border-1 rounded-sm w-auto my-2 min-h-fit">

@@ -27,7 +27,7 @@ export const checkIfFavorited = async (mediaType, mediaId, userId) => {
 //Limit is optional, defaults to 3
 //Change this value when you want to fetch more than 3 favorites
 export const getFavoritesByUserId = async (userId, limit = 3) => {
-  const res = await fetch(`/api/favorites/all_favorites/user/${userId}?limit=${limit}`, {
+  const res = await fetch(`/api/favorites/favorites_by_user_id/${userId}?limit=${limit}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
