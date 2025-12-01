@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Review from "../components/ProfileReview";
 import GenreContainer from "../components/GenreContainer";
-import Modal from "../components/EditModal";
+import Modal from "../components/Modal";
 
 import { useSession } from "next-auth/react";
 

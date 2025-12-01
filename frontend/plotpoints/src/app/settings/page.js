@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Switch from "../components/Switch";
-import Modal from "../components/EditModal";
+import Modal from "../components/Modal";
 import "../components/Homepage.css";
 import { useSession } from "next-auth/react";
 import { getUserSettings, updateReviewTextSetting, updateDarkModeSetting } from "@/lib/settings";
@@ -155,8 +155,9 @@ export default function Settings() {
                       Are you sure? 
                     </h2>
                     <p className="pb-10">
-                      You will no longer be able to view any of your account information or access it.<br/>
+                      Your profile will no longer be visible.<br/>
                       Your bookmarks and favorites will be lost.<br/>
+                      Your reviews and comments will be viewable but not accessible.
                     </p>
                     <div className="flex flex-row w-full justify-around items-center">
                       <button
@@ -166,7 +167,7 @@ export default function Settings() {
                         Cancel 
                       </button>
                       <button
-                        className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                        className="red text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
                         onClick={async () => {
                           setShowModal(false);
                           if (session?.accessToken) {

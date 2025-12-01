@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Review from "@/app/components/ProfileReview";
 import Carousel from "@/app/components/ProfileCarousel";
-import Modal from "@/app/components/EditModal";
+import Modal from "@/app/components/Modal";
 import "@/app/components/Homepage.css";
 import { uploadProfilePicture } from "@/lib/profile_picture_upload";
 import { randomTennaLoading } from "@/lib/random_tenna_loading";

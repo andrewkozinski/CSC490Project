@@ -21,6 +21,9 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
   const [showEditBox, setShowEditBox] = useState(false);
   const [editText, setEditText] = useState("");
+
+  const showReviewText = true;
+
   //Fetch user voting status
   useEffect(() => {
     const fetchVoteStatus = async () => {
@@ -246,10 +249,16 @@ useEffect(() => {
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
             {/* <p className="mt-1  text-sm">{reviewText}</p> */}
-            <ReviewText
+            {showReviewText == true ? 
+              <ReviewText
               className="mt-1  text-sm"
               content={reviewText}
-            />
+              />
+            : <div/> }
+            {/* <ReviewText
+              className="mt-1  text-sm"
+              content={reviewText}
+            /> */}
           </div>
 
           {/* Rating controls */}
@@ -305,14 +314,23 @@ useEffect(() => {
             </button>
           </div>
         </div>
-
-        {/* Reply button */}
+        
+        {showReviewText == true ? 
         <button
           onClick={() => setShowReplyBox((prev) => !prev)}
           className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
         >
           Reply
         </button>
+        : <div/> }
+
+        {/* Reply button */}
+        {/* <button
+          onClick={() => setShowReplyBox((prev) => !prev)}
+          className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+        >
+          Reply
+        </button> */}
 
         {/* Edit/Delete buttons (top right) */}
         {canEdit && (

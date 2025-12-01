@@ -27,6 +27,11 @@ export default function HomepageReview({reviewData}) {
     }
     , [profile_pic_url]);
 
+    // get value from local storage
+    // const showReview = localStorage.getItem("reviewText");
+    const showReviewText = true;
+
+
     return (
         <div className="flex flex-row rounded-[1px] w-max gap-4">
             <img
@@ -73,7 +78,9 @@ export default function HomepageReview({reviewData}) {
                 </div>
                 
                 {/* <p className="max-w-80 text-sm pt-2">{review_text}</p> */}
-                <ReviewText className="max-w-80 text-sm pt-2" content={review_text} />
+                {showReviewText == true ? <ReviewText className="max-w-80 text-sm pt-2" content={review_text} /> 
+                : <div/> }
+                
             </div>    
             
         </div>
