@@ -1,5 +1,6 @@
 import Star from "./Star";
 import ReviewText from "./ReviewText";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function ProfileReview({ reviewData }) {
 
@@ -12,6 +13,9 @@ export default function ProfileReview({ reviewData }) {
         media_id: 1061474
     };
     
+    // const showReviewText = true;
+    const { reviewText: showReviewText } = useSettings();
+
     return (
         <div className="flex flex-row rounded-[1px] max-w-full gap-4">
             <img
@@ -38,7 +42,10 @@ export default function ProfileReview({ reviewData }) {
                                 })}
                     </div>
                     {/* <p className="w-full text-sm">{review_text}</p> */}
-                    <ReviewText className="w-full text-sm" content={review_text} />
+                    {showReviewText == true ? 
+                    <ReviewText className="w-full text-sm" content={review_text} /> 
+                    : <div/> }
+                    
             </div>    
             
         </div>

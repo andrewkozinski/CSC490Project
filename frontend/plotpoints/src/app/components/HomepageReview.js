@@ -3,6 +3,7 @@ import "./Homepage.css";
 import ReviewText from "./ReviewText";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useSettings } from "../context/SettingsProvider";
 
 
 export default function HomepageReview({reviewData}) {
@@ -26,6 +27,13 @@ export default function HomepageReview({reviewData}) {
         testImg.onload = () => setPfp(profile_pic_url);
     }
     , [profile_pic_url]);
+
+    // get value from local storage
+    // const showReview = localStorage.getItem("reviewText");
+    // const showReviewText = true;
+
+    //Get the show review text setting from SettingsProvider
+    const { reviewText: showReviewText } = useSettings();
 
     return (
         <div className="flex flex-row rounded-[1px] w-max gap-4">
@@ -73,7 +81,9 @@ export default function HomepageReview({reviewData}) {
                 </div>
                 
                 {/* <p className="max-w-80 text-sm pt-2">{review_text}</p> */}
-                <ReviewText className="max-w-80 text-sm pt-2" content={review_text} />
+                {showReviewText == true ? <ReviewText className="max-w-80 text-sm pt-2" content={review_text} /> 
+                : <div/> }
+                
             </div>    
             
         </div>

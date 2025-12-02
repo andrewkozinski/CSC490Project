@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 import Star from "./Star";
 import Image from "next/image";
+import { useSettings } from "../context/SettingsProvider";
 import { isBlocked } from "@/lib/blocking";
 
 export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0, userId=0, blockedUsers = [],}) {
@@ -22,6 +23,10 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
   const [showEditBox, setShowEditBox] = useState(false);
   const [editText, setEditText] = useState("");
+
+  // const showReviewText = true;
+  const { reviewText: showReviewText } = useSettings();
+
   //Fetch user voting status
   useEffect(() => {
     const fetchVoteStatus = async () => {
@@ -270,7 +275,13 @@ useEffect(() => {
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
             {/* <p className="mt-1  text-sm">{reviewText}</p> */}
-            <ReviewText
+            {showReviewText == true ? 
+              <ReviewText
+              className="mt-1  text-sm"
+              content={reviewText}
+              />
+            : <div/> }
+            {/* <ReviewText
               className="mt-1  text-sm"
               content={displayText}
             />
@@ -331,8 +342,8 @@ useEffect(() => {
             </button>
           </div>
         </div>
-
-        {/* Reply button */}
+        
+        {showReviewText == true ? 
         <button
           onClick={() => setShowReplyBox((prev) => !prev)}
           className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
@@ -340,6 +351,15 @@ useEffect(() => {
         >
           Reply
         </button>
+        : <div/> }
+
+        {/* Reply button */}
+        {/* <button
+          onClick={() => setShowReplyBox((prev) => !prev)}
+          className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+        >
+          Reply
+        </button> */}
 
         {/* Edit/Delete buttons (top right) */}
         {canEdit && (
