@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import CommentList from "./CommentList";
 import ReviewText from "./ReviewText";
 import { useSession } from "next-auth/react";
-import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
+import { upvote, removeUpvote, downvote, removeDownvote, fetchUserVote } from '@/lib/votes.js';
 import Star from "./Star";
 import Image from "next/image";
 import { useSettings } from "../context/SettingsProvider";
 import { isBlocked } from "@/lib/blocking";
 
-export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0, userId=0, blockedUsers = [],}) {
+export default function Review({ reviewId = 0, username = "Anonymous", text = "No text available", currentUser = "Anonymous", removeReviewFromList = () => { }, votes = {}, rating = 0, userId = 0, blockedUsers = [], }) {
   const [reviewText, setReviewText] = useState(text);
   const [showReplyBox, setShowReplyBox] = useState(false);
   const { data: session } = useSession();
@@ -44,10 +44,10 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
       }
     };
 
-    if(jwtToken && votes.vote_id) {
+    if (jwtToken && votes.vote_id) {
       fetchVoteStatus();
     }
-  }, [session?.accessToken, votes.vote_id]);  
+  }, [session?.accessToken, votes.vote_id]);
 
   //All the upvote/downvote logic
   const [upvotes, setUpvotes] = useState(votes.upvotes || 0);
@@ -99,7 +99,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
       console.error("Error handling downvote:", error.message);
     }
   }
-  
+
   //Reply logic
   const handleReply = async (commentText) => {
     console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
@@ -125,24 +125,24 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   const deleteReview = async () => {
     console.log(`Deleting review ${reviewId}`);
     try {
-    const res = await fetch(`/api/reviews/delete/${reviewId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jwt_token: session?.accessToken,
-      }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || 'Failed to delete review');
+      const res = await fetch(`/api/reviews/delete/${reviewId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jwt_token: session?.accessToken,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete review');
+      }
+
+      //Remove from the list of reviews
+      removeReviewFromList(reviewId);
+
+    } catch (error) {
+      console.error(error.message);
     }
-
-    //Remove from the list of reviews
-    removeReviewFromList(reviewId);
-
-  } catch (error) {
-    console.error(error.message);
-  }
   }
 
   const handleSubmit = (e) => {
@@ -167,7 +167,7 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
     if (!res.ok) {
 
-      if(res.status === 401) {
+      if (res.status === 401) {
         alert("Session Expired, please log in again.");
       }
       throw new Error(data.error || 'Failed to edit review');
@@ -180,8 +180,8 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
   //For profile pics
   const [profilePicture, setProfilePicture] = useState(
-  "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-);
+    "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+  );
 
   // Check if this user is blocked
   const [isBlockedUser, setIsBlockedUser] = useState(false);
@@ -192,41 +192,41 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
 
   //Fetch blocked status
   useEffect(() => {
-  if (!currentUserId || !jwtToken || userId === currentUserId) return;
+    if (!currentUserId || !jwtToken || userId === currentUserId) return;
 
-  const fetchBlockedStatus = async () => {
-    try {
-      const data = await isBlocked(userId, currentUserId);
-      setIsBlockedUser(data.is_blocked);
-    } catch (err) {
-      console.error("Error checking block status:", err);
-    }
-  };
-  fetchBlockedStatus();
-}, [userId, currentUserId, jwtToken]);
+    const fetchBlockedStatus = async () => {
+      try {
+        const data = await isBlocked(userId, currentUserId);
+        setIsBlockedUser(data.is_blocked);
+      } catch (err) {
+        console.error("Error checking block status:", err);
+      }
+    };
+    fetchBlockedStatus();
+  }, [userId, currentUserId, jwtToken]);
 
 
-useEffect(() => {
-  async function fetchProfile() {
-    try {
-      const res = await fetch(`/api/profiles/get/${userId}`);
-      if (!res.ok) throw new Error("Failed to fetch profile");
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const res = await fetch(`/api/profiles/get/${userId}`);
+        if (!res.ok) throw new Error("Failed to fetch profile");
 
-      const data = await res.json();
+        const data = await res.json();
 
-      setProfilePicture(
-        data.profile_pic_url ||
+        setProfilePicture(
+          data.profile_pic_url ||
           "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-      );
-    } catch (err) {
-      setProfilePicture(
-        "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-      );
+        );
+      } catch (err) {
+        setProfilePicture(
+          "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+        );
+      }
     }
-  }
 
-  if (userId) fetchProfile();
-}, [userId]);
+    if (userId) fetchProfile();
+  }, [userId]);
 
 
   return (
@@ -263,11 +263,10 @@ useEffect(() => {
                   return (
                     <Star
                       key={value}
-                      className={`w-6 h-6 ${
-                        value <= rating
+                      className={`w-6 h-6 ${value <= rating
                           ? "fill-black stroke-neutral-950"
                           : "fill-transparent stroke-neutral-950"
-                      }`}
+                        }`}
                     />
                   );
                 })}
@@ -275,162 +274,161 @@ useEffect(() => {
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
             {/* <p className="mt-1  text-sm">{reviewText}</p> */}
-            {showReviewText == true ? 
+            {showReviewText == true ?
               <ReviewText
-              className="mt-1  text-sm"
-              content={reviewText}
+                className="mt-1  text-sm"
+                content={reviewText}
               />
-            : <div/> }
+              : <div />}
             {/* <ReviewText
               className="mt-1  text-sm"
               content={displayText}
             />
+            </div>*/}
+
+            {/* Rating controls */}
+            <div className="flex items-center w-full mt-2 space-x-2">
+              {/* # of ratings */}
+              <p className="mr-3 text-sm ">{upvotes}</p>
+              {/* plus */}
+              <button
+                className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""
+                  }`}
+                onClick={handleUpvote}
+                disabled={isBlockedUser}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </button>
+              <p>|</p>
+              <p className="text-sm ">{downvotes}</p>
+
+              {/* minus */}
+              <button
+                className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""
+                  }`}
+                onClick={handleDownvote}
+                disabled={isBlockedUser}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
 
-          {/* Rating controls */}
-          <div className="flex items-center w-full mt-2 space-x-2">
-            {/* # of ratings */}
-            <p className="mr-3 text-sm ">{upvotes}</p>
-            {/* plus */}
+          {showReviewText == true ?
             <button
-              className={`cursor-pointer hover: ${
-                userVote === "up" ? "text-green-600" : ""
-              }`}
-              onClick={handleUpvote}
+              onClick={() => setShowReplyBox((prev) => !prev)}
+              className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
               disabled={isBlockedUser}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
+              Reply
             </button>
-            <p>|</p>
-            <p className="text-sm ">{downvotes}</p>
+            : <div />}
 
-            {/* minus */}
-            <button
-              className={`cursor-pointer mr-2 ${
-                userVote === "down" ? "text-red-600" : ""
-              }`}
-              onClick={handleDownvote}
-              disabled={isBlockedUser}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        {showReviewText == true ? 
-        <button
-          onClick={() => setShowReplyBox((prev) => !prev)}
-          className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
-          disabled={isBlockedUser}
-        >
-          Reply
-        </button>
-        : <div/> }
-
-        {/* Reply button */}
-        {/* <button
+          {/* Reply button */}
+          {/* <button
           onClick={() => setShowReplyBox((prev) => !prev)}
           className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
         >
           Reply
         </button> */}
 
-        {/* Edit/Delete buttons (top right) */}
-        {canEdit && (
-          <div className="absolute top-2 right-3 flex space-x-3">
+          {/* Edit/Delete buttons (top right) */}
+          {canEdit && (
+            <div className="absolute top-2 right-3 flex space-x-3">
+              <button
+                className="cursor-pointer text-blue-600 hover:text-blue-800"
+                onClick={() => setShowEditBox((prev) => !prev)}
+              >
+                Edit
+              </button>
+              <button
+                className="cursor-pointer text-red-600 hover:text-red-800"
+                onClick={deleteReview}
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+        {showEditBox && (
+          <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8">
+            <textarea
+              placeholder="Write your edit..."
+              className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
+              defaultValue={reviewText}
+              onChange={(e) => setEditText(e.target.value)}
+              maxLength={200}
+            />
             <button
-              className="cursor-pointer text-blue-600 hover:text-blue-800"
-              onClick={() => setShowEditBox((prev) => !prev)}
+              className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+              type="submit"
+              style={{ backgroundColor: "var(--color-brown)" }}
+              onClick={handleSubmitEdit}
             >
-              Edit
+              Post
             </button>
-            <button
-              className="cursor-pointer text-red-600 hover:text-red-800"
-              onClick={deleteReview}
-            >
-              Delete
-            </button>
-          </div>
+          </form>
         )}
-      </div>
-      {showEditBox && (
-        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8">
-          <textarea
-            placeholder="Write your edit..."
-            className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
-            defaultValue={reviewText}
-            onChange={(e) => setEditText(e.target.value)}
-            maxLength={200}
-          />
-          <button
-            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
-            type="submit"
-            style={{ backgroundColor: "var(--color-brown)" }}
-            onClick={handleSubmitEdit}
-          >
-            Post
-          </button>
-        </form>
-      )}
 
-      {/* Reply box */}
-      {showReplyBox && (
-        <form
-          className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8"
-          onSubmit={handleSubmit}
-        >
-          <textarea
-            placeholder="Write your reply..."
-            className="w-full border rounded-sm p-2 resize-none focus:outline-none"
-            value={commentText}
-            onChange={onCommentTextChange}
-            maxLength={200}
-          />
-          <button
-            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
-            type="submit"
-            style={{ backgroundColor: "var(--color-brown)" }}
+        {/* Reply box */}
+        {showReplyBox && (
+          <form
+            className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8"
+            onSubmit={handleSubmit}
           >
-            Reply
-          </button>
-        </form>
-      )}
+            <textarea
+              placeholder="Write your reply..."
+              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+              value={commentText}
+              onChange={onCommentTextChange}
+              maxLength={200}
+            />
+            <button
+              className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+              type="submit"
+              style={{ backgroundColor: "var(--color-brown)" }}
+            >
+              Reply
+            </button>
+          </form>
+        )}
 
-      {/* Comments below review */}
-      <div className="flex w-full ml-27 mb-6">
-        <CommentList
-          parentId={reviewId}
-          parentType="review"
-          reviewId={reviewId}
-          refreshKey={refreshKey}
-        />{" "}
-        {/*Parent type is for if we ever add replies to comments */}
+        {/* Comments below review */}
+        <div className="flex w-full ml-27 mb-6">
+          <CommentList
+            parentId={reviewId}
+            parentType="review"
+            reviewId={reviewId}
+            refreshKey={refreshKey}
+          />{" "}
+          {/*Parent type is for if we ever add replies to comments */}
+        </div>
       </div>
     </div>
   );
