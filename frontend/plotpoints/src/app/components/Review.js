@@ -420,6 +420,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
         )}
 
         {/* Comments below review */}
+        {showReviewText == true ? 
         <div className="flex w-full ml-27 mb-6">
           <CommentList
             parentId={reviewId}
@@ -427,8 +428,18 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             reviewId={reviewId}
             refreshKey={refreshKey}
           />{" "}
-          {/*Parent type is for if we ever add replies to comments */}
-        </div>
+          </div>
+        : <div/> }
+        
+        {/* <div className="flex w-full ml-27 mb-6">
+          <CommentList
+            parentId={reviewId}
+            parentType="review"
+            reviewId={reviewId}
+            refreshKey={refreshKey}
+          />{" "}
+          {/*Parent type is for if we ever add replies to comments 
+        </div> */}
       </div>
     </div>
   );
