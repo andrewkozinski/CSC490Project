@@ -5,6 +5,7 @@ from database import connect
 
 from database.profile import create_profile #This is the import that works for the database and my end
 from database.settings_text import add_settings_text
+from database.profile import delete_profile_picture
 #import connect
 
 def add_user(username, hashed_password, email):
@@ -76,6 +77,7 @@ def delete_user(user_id):
 
     try:
         new_name = "deleted_user" + str(user_id)
+        delete_profile_picture(user_id)
         cursor.execute(
             """
             UPDATE USERS 
@@ -240,7 +242,7 @@ def get_all_users():
         return []
 
     try:
-        cursor.execute("SELECT * FROM USERS")
+        cursor.execute("SELECT * FROM ADMIN.USERS")
         rows = cursor.fetchall()
         users = []
         for row in rows:
@@ -248,7 +250,8 @@ def get_all_users():
                 "USER_ID": row[0],
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
-                "EMAIL": row[3]
+                "EMAIL": row[3],
+                # "IS_ADMIN": row[4]
             }
             users.append(user)
         return users
@@ -268,14 +271,15 @@ def get_by_email(email: EmailStr):
         return []
 
     try:
-        cursor.execute("SELECT * FROM USERS WHERE EMAIL = :1", (email,))
+        cursor.execute("SELECT * FROM ADMIN.USERS WHERE EMAIL = :1", (email,))
         row = cursor.fetchone()
         if row:
             user = {
                 "USER_ID": row[0],
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
-                "EMAIL": row[3]
+                "EMAIL": row[3],
+                "IS_ADMIN": row[4]
             }
             return user
         else:
@@ -309,14 +313,15 @@ def get_by_id(user_id):
         return []
 
     try:
-        cursor.execute("SELECT * FROM USERS WHERE USER_ID = :1", (user_id,))
+        cursor.execute("SELECT * FROM ADMIN.USERS WHERE USER_ID = :1", (user_id,))
         row = cursor.fetchone()
         if row:
             user = {
                 "USER_ID": row[0],
                 "USERNAME": row[1],
                 "HASHED_PASSWORD": row[2],
-                "EMAIL": row[3]
+                "EMAIL": row[3],
+                "IS_ADMIN": row[4]
             }
             return user
         else:
@@ -326,3 +331,39 @@ def get_by_id(user_id):
         error_obj, = e.args
         print("Database error fetching user by ID:", error_obj.message)
         return None
+
+def update_is_admin(user_id, admin):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return
+
+    try:
+        cursor.execute(
+            """
+            UPDATE ADMIN.USERS
+            SET IS_ADMIN = :1
+            WHERE USER_ID = :2
+            """,
+            (admin, user_id)
+        )
+
+        if cursor.rowcount == 0:  # no rows updated
+            print(f"Error: USER_ID {user_id} does not exist.")
+        else:
+            connection.commit()
+            print(f"IS_ADMIN for USER_ID {user_id} updated successfully to '{admin}'.")
+
+    except oracledb.IntegrityError as e:
+        error_obj, = e.args
+        if "ORA-00001" in error_obj.message and "IS_ADMIN" in error_obj.message:
+            print(f"Error: IS_ADMIN '{admin}' already exists.")
+        else:
+            print("Integrity error:", error_obj.message)
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error updating IS_ADMIN:", error_obj.message)
+
+    finally:
+        connect.stop_connection(connection, cursor)

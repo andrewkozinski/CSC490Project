@@ -6,6 +6,7 @@ import jwt
 import bcrypt
 from datetime import datetime, timedelta, timezone
 from database.users import get_all_users, get_by_email, add_user, delete_user
+from aiocache import cached, Cache, caches
 
 # Load environment variables
 load_dotenv()
@@ -119,4 +120,12 @@ async def delete_account(jwt_token: str):
     result = delete_user(user_id)
     if result is False:
         raise HTTPException(status_code=500, detail="Error deleting account")
+
+    #Invalidate profile caches related to the user
+    await caches.get("profiles").delete(f"profiles_{user_id}")
+    await caches.get("profiles").delete("all_profiles")
+
+    #Invalidate recent reviews cache
+    await caches.get("recent_reviews").delete("recent_reviews")
+
     return {"message": "Account deleted successfully"}

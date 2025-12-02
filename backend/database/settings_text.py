@@ -1,6 +1,8 @@
 import oracledb
 from database import connect
-#import connect
+
+
+# import connect
 
 def get_new_setting_text_id():
     connection, cursor = connect.start_connection()
@@ -18,7 +20,7 @@ def get_new_setting_text_id():
         return 0
 
 
-def add_settings_text(user_id, review_text_enabled=1):
+def add_settings_text(user_id, review_text_enabled=1, dark_mode_enabled=0):
     connection, cursor = connect.start_connection()
     setting_id = get_new_setting_text_id()
     if not connection or not cursor:
@@ -32,10 +34,10 @@ def add_settings_text(user_id, review_text_enabled=1):
         cursor.execute(
             """
             INSERT INTO ADMIN.SETTINGS_TEXT 
-            (SETTING_ID, USER_ID, REVIEW_TEXT_ENABLED)
-            VALUES (:1, :2, :3)
+            (SETTING_ID, USER_ID, REVIEW_TEXT_ENABLED, DARK_MODE_ENABLED)
+            VALUES (:1, :2, :3, :4)
             """,
-            (setting_id, user_id, review_text_enabled)
+            (setting_id, user_id, review_text_enabled, dark_mode_enabled)
         )
         connection.commit()
 
@@ -62,7 +64,7 @@ def add_settings_text(user_id, review_text_enabled=1):
         connect.stop_connection(connection, cursor)
 
 
-def get_settings_text_by_user_id(user_id):
+def get_settings_by_user_id(user_id):
     connection, cursor = connect.start_connection()
     if not connection or not cursor:
         print("Failed to connect to database.")
@@ -71,7 +73,7 @@ def get_settings_text_by_user_id(user_id):
     try:
         cursor.execute(
             """
-            SELECT SETTING_ID, USER_ID, REVIEW_TEXT_ENABLED 
+            SELECT SETTING_ID, USER_ID, REVIEW_TEXT_ENABLED, DARK_MODE_ENABLED 
             FROM ADMIN.SETTINGS_TEXT 
             WHERE USER_ID = :1
             """,
@@ -83,10 +85,11 @@ def get_settings_text_by_user_id(user_id):
             return {
                 "setting_id": row[0],
                 "user_id": row[1],
-                "review_text_enabled": row[2]
+                "review_text_enabled": row[2],
+                "dark_mode_enabled": row[3]
             }
         else:
-            print(f"No text settings found for USER_ID {user_id}.")
+            print(f"No settings found for USER_ID {user_id}.")
             return None
 
     except oracledb.Error as e:
@@ -124,6 +127,43 @@ def update_review_text_enabled(user_id, review_text_enabled):
         else:
             connection.commit()
             print(f"REVIEW_TEXT_ENABLED for USER_ID {user_id} updated successfully to {review_text_enabled}.")
+            return True
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error modifying settings text:", error_obj.message)
+        return False
+
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
+def update_dark_mode_enabled(user_id, dark_mode_enabled):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return False
+
+    try:
+        if dark_mode_enabled not in (0, 1):
+            print("Invalid value for dark_mode_enabled. Must be 0 or 1.")
+            return False
+
+        cursor.execute(
+            """
+            UPDATE ADMIN.SETTINGS_TEXT
+            SET DARK_MODE_ENABLED = :1
+            WHERE USER_ID = :2
+            """,
+            (dark_mode_enabled, user_id)
+        )
+
+        if cursor.rowcount == 0:
+            print(f"Error: Settings not found for USER_ID {user_id}. No update performed.")
+            return False
+        else:
+            connection.commit()
+            print(f"DARK_MODE_ENABLED for USER_ID {user_id} updated successfully to {dark_mode_enabled}.")
             return True
 
     except oracledb.Error as e:
