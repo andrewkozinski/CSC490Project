@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/lib/votes.js';
 import Star from "./Star";
 import Image from "next/image";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0, userId=0}) {
   const [reviewText, setReviewText] = useState(text);
@@ -22,7 +23,8 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   const [showEditBox, setShowEditBox] = useState(false);
   const [editText, setEditText] = useState("");
 
-  const showReviewText = true;
+  // const showReviewText = true;
+  const { reviewText: showReviewText } = useSettings();
 
   //Fetch user voting status
   useEffect(() => {

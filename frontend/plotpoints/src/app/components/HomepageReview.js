@@ -3,6 +3,7 @@ import "./Homepage.css";
 import ReviewText from "./ReviewText";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useSettings } from "../context/SettingsProvider";
 
 
 export default function HomepageReview({reviewData}) {
@@ -29,8 +30,10 @@ export default function HomepageReview({reviewData}) {
 
     // get value from local storage
     // const showReview = localStorage.getItem("reviewText");
-    const showReviewText = true;
+    // const showReviewText = true;
 
+    //Get the show review text setting from SettingsProvider
+    const { reviewText: showReviewText } = useSettings();
 
     return (
         <div className="flex flex-row rounded-[1px] w-max gap-4">

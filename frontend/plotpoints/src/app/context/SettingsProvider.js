@@ -38,7 +38,7 @@ export function SettingsProvider({ children }) {
     fetchSettings();
   }, [session]);
 
-  // apply dark mode class
+  //apply dark mode class
   useEffect(() => {
     if (darkMode) document.body.classList.add("dark");
     else document.body.classList.remove("dark");

@@ -1,5 +1,6 @@
 import Star from "./Star";
 import ReviewText from "./ReviewText";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function ProfileReview({ reviewData }) {
 
@@ -12,7 +13,8 @@ export default function ProfileReview({ reviewData }) {
         media_id: 1061474
     };
     
-    const showReviewText = true;
+    // const showReviewText = true;
+    const { reviewText: showReviewText } = useSettings();
 
     return (
         <div className="flex flex-row rounded-[1px] max-w-full gap-4">
