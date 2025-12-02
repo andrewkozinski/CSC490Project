@@ -7,14 +7,15 @@ import {upvote, removeUpvote, downvote, removeDownvote, fetchUserVote} from '@/l
 import Star from "./Star";
 import Image from "next/image";
 import { useSettings } from "../context/SettingsProvider";
+import { isBlocked } from "@/lib/blocking";
 
-export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0, userId=0}) {
+export default function Review({ reviewId = 0, username= "Anonymous", text="No text available", currentUser = "Anonymous", removeReviewFromList = () => {}, votes = {}, rating=0, userId=0, blockedUsers = [],}) {
   const [reviewText, setReviewText] = useState(text);
   const [showReplyBox, setShowReplyBox] = useState(false);
-  //CurrentUser should fetch the current user
   const { data: session } = useSession();
   const canEdit = session?.user?.name === username;
   const jwtToken = session?.accessToken;
+  const currentUserId = session?.user?.id;
 
   const [commentText, setCommentText] = useState("");
   const onCommentTextChange = (e) => setCommentText(e.target.value);
@@ -182,6 +183,29 @@ export default function Review({ reviewId = 0, username= "Anonymous", text="No t
   "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
 );
 
+  // Check if this user is blocked
+  const [isBlockedUser, setIsBlockedUser] = useState(false);
+
+  // Override username and text if blocked
+  const displayUsername = isBlockedUser ? "Blocked User" : username;
+  const displayText = isBlockedUser ? "This message is from a blocked user" : reviewText;
+
+  //Fetch blocked status
+  useEffect(() => {
+  if (!currentUserId || !jwtToken || userId === currentUserId) return;
+
+  const fetchBlockedStatus = async () => {
+    try {
+      const data = await isBlocked(userId, currentUserId);
+      setIsBlockedUser(data.is_blocked);
+    } catch (err) {
+      console.error("Error checking block status:", err);
+    }
+  };
+  fetchBlockedStatus();
+}, [userId, currentUserId, jwtToken]);
+
+
 useEffect(() => {
   async function fetchProfile() {
     try {
@@ -232,7 +256,7 @@ useEffect(() => {
         <div className="flex flex-col mx-3 justify-between h-full grow">
           <div>
             <div className="flex flex-row">
-              <p onClick={() => (window.location.href = `/profile/${userId}`)} className="underline underline-offset-4 mr-3 cursor-pointer">{username}</p>
+              <p onClick={() => (window.location.href = `/profile/${userId}`)} className="underline underline-offset-4 mr-3 cursor-pointer">{displayUsername}</p>
               <div className="flex flex-row justify-center mb-3">
                 {[...Array(5)].map((_, i) => {
                   const value = i + 1;
@@ -259,8 +283,8 @@ useEffect(() => {
             : <div/> }
             {/* <ReviewText
               className="mt-1  text-sm"
-              content={reviewText}
-            /> */}
+              content={displayText}
+            />
           </div>
 
           {/* Rating controls */}
@@ -273,6 +297,7 @@ useEffect(() => {
                 userVote === "up" ? "text-green-600" : ""
               }`}
               onClick={handleUpvote}
+              disabled={isBlockedUser}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -298,6 +323,7 @@ useEffect(() => {
                 userVote === "down" ? "text-red-600" : ""
               }`}
               onClick={handleDownvote}
+              disabled={isBlockedUser}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -321,6 +347,7 @@ useEffect(() => {
         <button
           onClick={() => setShowReplyBox((prev) => !prev)}
           className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+          disabled={isBlockedUser}
         >
           Reply
         </button>
