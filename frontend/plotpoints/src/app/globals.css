@@ -10,6 +10,11 @@
   --color-brown: #7e675b8f;
 }
 
+.dark {
+  --background: #1F1F1F;
+  --foreground: #F0F0F0;
+}
+
 
 /* @theme {
   --color-blue: #B0E0E6;
@@ -68,24 +73,6 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-/* Dark Mode changes */
-body.dark {
-  background: #000;
-}
-body.dark p,
-body.dark h1,
-body.dark h2,
-body.dark h3,
-body.dark h4,
-body.dark h5,
-body.dark h6 {
-  color: white !important;
-}
-
-body.dark svg {
-  stroke: white;
-  fill: transparent;
-}
 .markdown-content {
   width: 100%;
   word-break: break-word;
