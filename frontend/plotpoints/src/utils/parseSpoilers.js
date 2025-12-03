@@ -1,4 +1,11 @@
 export function parseSpoilers(text) {
+  if (typeof text !== 'string') {
+    return [{
+      type: 'text',
+      content: '',
+      key: 0
+    }];
+  }
   const parts = text.split(/(\|\|.*?\|\|)/g);
 
   return parts.map((part, i) => {

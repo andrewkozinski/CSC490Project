@@ -84,14 +84,14 @@ export default function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
             </svg>
 
-            <div className="notification-content -ml-77">
+            <div className="notification-content -ml-79 mt-3">
               {/* Notification list perhaps */}
               <h1 className="text-lg font-bold p-4">Notifications</h1>
               {/* <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has commented on your post.</Link>
               <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has followed you.</Link> */}
 
               {notificationsList.length === 0 ? (
-                <p className="p-4">No new notifications</p>
+                <p className="p-4 text-sm">No new notifications</p>
               ) : (
                 
                 notificationsList.map((notification, index) => (
