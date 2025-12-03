@@ -264,8 +264,8 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
                     <Star
                       key={value}
                       className={`w-6 h-6 ${value <= rating
-                          ? "fill-black stroke-neutral-950"
-                          : "fill-transparent stroke-neutral-950"
+                        ? "fill-black dark:fill-white stroke-black dark:stroke-white"
+                        : "fill-transparent stroke-black dark:stroke-white"
                         }`}
                     />
                   );

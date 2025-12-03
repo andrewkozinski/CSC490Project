@@ -3,12 +3,12 @@ import "./Homepage.css";
 import ReviewText from "./ReviewText";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useSettings } from "../context/SettingsProvider";
+import { isBlocked } from "@/lib/blocking";
 
 
-export default function HomepageReview({reviewData}) {
+export default function HomepageReview({ reviewData }) {
 
-    const {title, img, review_text, username, profile_pic_url, rating, media_type, media_id, user_id} = reviewData || {
+    const { title, img, review_text, username, profile_pic_url, rating, media_type, media_id, user_id } = reviewData || {
         title: "Superman",
         img: "https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg",
         review_text: "An awesome take on a classic superhero story!",
@@ -17,7 +17,7 @@ export default function HomepageReview({reviewData}) {
         rating: 5,
         media_type: "movie",
         media_id: 1061474,
-        user_id:5
+        user_id: 5
     };
     const [pfp, setPfp] = useState(profile_pic_url);
 
@@ -26,14 +26,7 @@ export default function HomepageReview({reviewData}) {
         testImg.src = profile_pic_url;
         testImg.onload = () => setPfp(profile_pic_url);
     }
-    , [profile_pic_url]);
-
-    // get value from local storage
-    // const showReview = localStorage.getItem("reviewText");
-    // const showReviewText = true;
-
-    //Get the show review text setting from SettingsProvider
-    const { reviewText: showReviewText } = useSettings();
+        , [profile_pic_url]);
 
     return (
         <div className="flex flex-row rounded-[1px] w-max gap-4">
@@ -46,46 +39,43 @@ export default function HomepageReview({reviewData}) {
             <div className="grid grid-rows-2 inline-block">
                 <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
                 <div className="flex flex-row items-center gap-2">
-                <div
-                className="group flex items-center justify-center w-11 h-11 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
-                onClick={() => window.location.href = `/profile/${user_id}`}
-                >
-                <Image
-                    src={pfp}
-                    title={username}
-                    alt="profile picture"
-                    width={50}
-                    height={50}
-                    className="rounded-full w-10 h-10 object-cover"
-                    onError={() =>
-                    setPfp("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
-                    }
-                />
-                </div>
+                    <div
+                        className="group flex items-center justify-center w-11 h-11 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
+                        onClick={() => window.location.href = `/profile/${user_id}`}
+                    >
+                        <Image
+                            src={pfp}
+                            title={username}
+                            alt="profile picture"
+                            width={50}
+                            height={50}
+                            className="rounded-full w-10 h-10 object-cover"
+                            onError={() =>
+                                setPfp("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
+                            }
+                        />
+                    </div>
                     <p onClick={() => window.location.href = `/profile/${user_id}`} className="-ml-1 underline underline-offset-4 hover:text-[#ffa2e9] hover:cursor-pointer">{username}</p>
                     <div className="flex flex-row justify-start">
-                    {[...Array(5)].map((_, i) => {
-                        const value = i + 1;
-                        return (
-                            <Star
-                                key={value}
-                                className={`w-6 h-6 ${
-                                value <= rating
-                                    ? "fill-black stroke-neutral-950"
-                                    : "fill-transparent stroke-neutral-950"
-                                }`}
+                        {[...Array(5)].map((_, i) => {
+                            const value = i + 1;
+                            return (
+                                <Star
+                                    key={value}
+                                    className={`w-6 h-6 ${value <= rating
+                                            ? "fill-black dark:fill-white stroke-black dark:stroke-white"
+                                            : "fill-transparent stroke-black dark:stroke-white"
+                                        }`}
                                 />
-                                );
-                                })}
+                            );
+                        })}
                     </div>
                 </div>
-                
+
                 {/* <p className="max-w-80 text-sm pt-2">{review_text}</p> */}
-                {showReviewText == true ? <ReviewText className="max-w-80 text-sm pt-2" content={review_text} /> 
-                : <div/> }
-                
-            </div>    
-            
+                <ReviewText className="max-w-80 text-sm pt-2" content={review_text} />
+            </div>
+
         </div>
     );
 }
