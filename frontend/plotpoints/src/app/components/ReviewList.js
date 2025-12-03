@@ -56,7 +56,7 @@ export default function Reviews({ reviewData = [] }) {
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm font-medium">Reviews ({reviews.length})</p>
         <select
-          className="px-2 py-1 border rounded"
+          className="px-2 py-1 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
         >

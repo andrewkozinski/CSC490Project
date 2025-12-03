@@ -79,8 +79,8 @@ export default function Rating({
             <Star
               key={value}
               className={`w-8 h-8 ${value <= avgRating
-                ? "fill-black dark:fill-white stroke-black dark:stroke-white"
-                : "fill-transparent stroke-black dark:stroke-white"
+                ? "fill-black dark:fill-white stroke-black dark:stroke-black"
+                : "fill-transparent stroke-black dark:stroke-black"
                 }`}
             />
           );
@@ -100,8 +100,8 @@ export default function Rating({
                     <Star
                       key={value}
                       className={`w-8 h-8 ${value <= userReview.rating
-                        ? "fill-black dark:fill-white stroke-black dark:stroke-white"
-                        : "fill-transparent stroke-black dark:stroke-white"
+                        ? "fill-black dark:fill-white stroke-black dark:stroke-black"
+                        : "fill-transparent stroke-black dark:stroke-black"
                         }`}
                     />
                   );
@@ -129,8 +129,8 @@ export default function Rating({
                     >
                       <Star
                         className={`w-8 h-8 ${value <= (hover || rating)
-                          ? "fill-black dark:fill-white stroke-black dark:stroke-white"
-                          : "fill-transparent stroke-black dark:stroke-white"
+                          ? "fill-black dark:fill-white stroke-black dark:stroke-black"
+                          : "fill-transparent stroke-black dark:stroke-black"
                           }`}
                       />
                     </button>

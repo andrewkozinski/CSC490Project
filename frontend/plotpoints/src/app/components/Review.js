@@ -238,23 +238,23 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
           onClick={() => (window.location.href = `/profile/${user_id}`)}
         >
           <Image
-            src={
-              isBlockedUser
-                ? "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-                : profilePicture
-            }
-            title={username}
-            alt="profile picture"
-            width={50}
-            height={50}
-            className="rounded-full w-13 h-13 items-center justify-center"
-            onClick={() => (window.location.href = `/profile/${userId}`)}
-            onError={() =>
-              setProfilePicture(
-                "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-              )
-            }
-          />
+  src={
+    isBlockedUser
+      ? "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+      : profilePicture
+  }
+  title={username}
+  alt="profile picture"
+  width={50}
+  height={50}
+  className="rounded-full w-13 h-13 items-center justify-center"
+  onClick={() => (window.location.href = `/profile/${userId}`)}
+  onError={() =>
+    setProfilePicture(
+      "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+    )
+  }
+/>
 
         </div>
         {/* Example review content */}
@@ -269,8 +269,8 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
                     <Star
                       key={value}
                       className={`w-6 h-6 ${value <= rating
-                        ? "fill-black dark:fill-white stroke-black dark:stroke-white"
-                        : "fill-transparent stroke-black dark:stroke-white"
+                        ? "fill-black dark:fill-white stroke-black dark:stroke-black"
+                        : "fill-transparent stroke-black dark:stroke-black"
                         }`}
                     />
                   );

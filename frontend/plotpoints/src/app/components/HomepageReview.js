@@ -103,11 +103,10 @@ export default function HomepageReview({ reviewData }) {
                             return (
                                 <Star
                                     key={value}
-                                    className={`w-6 h-6 ${
-                                        value <= rating
-                                            ? "fill-black dark:fill-white stroke-black dark:stroke-white"
-                                            : "fill-transparent stroke-black dark:stroke-white"
-                                    }`}
+                                    className={`w-6 h-6 ${value <= rating
+                                        ? "fill-black stroke-black dark:fill-white dark:stroke-black"
+                                        : "fill-transparent stroke-black dark:fill-transparent dark:stroke-black"
+                                        }`}
                                 />
                             );
                         })}
