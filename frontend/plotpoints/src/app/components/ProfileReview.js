@@ -31,6 +31,7 @@ export default function ProfileReview({ reviewData }) {
                         const value = i + 1;
                         return (
                             <Star
+                            key={value}
                             className={`w-6 h-6
                                 ${value <= rating
                                 ? "fill-black dark:fill-white stroke-neutral-950 dark:stroke-white"
