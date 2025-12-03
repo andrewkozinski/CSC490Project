@@ -261,7 +261,7 @@ return (
             onClick={() => (window.location.href = `/profile/${userId}`)}>
             {displayUsername}
           </p>
-          <p className="text-sm text-gray-700">{displayText}</p>
+          <p className="text-sm text-black">{displayText}</p>
         </div>
         {/* Rating controls under the text */}
         <div className="flex items-center w-full mt-2 space-x-2">
@@ -371,9 +371,9 @@ return (
       >
         <textarea
           placeholder="Write your reply..."
-          className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+          className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
           maxLength={200}
-          value={displayText}
+          // value={displayText}
           onChange={onCommentTextChange}
         />
         <button
