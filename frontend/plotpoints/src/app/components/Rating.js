@@ -78,11 +78,10 @@ export default function Rating({
           return (
             <Star
               key={value}
-              className={`w-8 h-8 ${
-                value <= avgRating
+              className={`w-8 h-8 ${value <= avgRating
                   ? "fill-black stroke-neutral-950"
                   : "fill-transparent stroke-neutral-950"
-              }`}
+                }`}
             />
           );
         })}
@@ -100,11 +99,10 @@ export default function Rating({
                   return (
                     <Star
                       key={value}
-                      className={`w-8 h-8 ${
-                        value <= userReview.rating
+                      className={`w-8 h-8 ${value <= userReview.rating
                           ? "fill-black stroke-neutral-950"
                           : "fill-transparent stroke-neutral-950"
-                      }`}
+                        }`}
                     />
                   );
                 })}
@@ -127,14 +125,16 @@ export default function Rating({
                       onClick={() => setRating(value)}
                       onMouseEnter={() => setHover(value)}
                       onMouseLeave={() => setHover(0)}
-                      className={`cursor-pointer ${
-                        value <= (hover || rating)
-                          ? "fill-black stroke-neutral-950"
-                          : "fill-transparent stroke-neutral-950"
-                      }`}
+                      className="cursor-pointer"
                     >
-                      <Star className="w-8 h-8" />
+                      <Star
+                        className={`w-8 h-8 ${value <= (hover || rating)
+                            ? "fill-black stroke-neutral-950"
+                            : "fill-transparent stroke-neutral-950"
+                          }`}
+                      />
                     </button>
+
                   );
                 })}
               </div>
@@ -154,7 +154,7 @@ export default function Rating({
                 {"||This text is a spoiler|| will be posted as "}
                 <SpoilerText text="This text is a spoiler" />
               </p>
-              
+
 
               {/* Post button */}
               <button

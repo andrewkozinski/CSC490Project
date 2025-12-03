@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { blockUser, unblockUser, isBlocked } from "@/lib/blocking";
-import Modal from "./EditModal";
+import Modal from "./Modal";
 
 export default function BlockButton({ profileId, currentUserId, jwtToken }) {
     const [isUserBlocked, setIsUserBlocked] = useState(false);

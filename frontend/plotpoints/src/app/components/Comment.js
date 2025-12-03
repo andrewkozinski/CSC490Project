@@ -10,6 +10,7 @@ import {
 import CommentList from "./CommentList.js";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { isBlocked } from "@/lib/blocking";
 
 export default function Comment({
   removeCommentFromList = () => {},
@@ -201,6 +202,31 @@ export default function Comment({
     if (userId) fetchProfile();
   }, [userId]);
 
+  //For blocked users
+  const currentUserId = session?.user?.id;
+  const [isBlockedUser, setIsBlockedUser] = useState(false);
+
+  useEffect(() => {
+  if (!currentUserId || !jwtToken || userId === currentUserId) return;
+
+  const fetchBlockedStatus = async () => {
+    try {
+      const data = await isBlocked(userId, currentUserId);
+      setIsBlockedUser(data.is_blocked);
+    } catch (err) {
+      console.error("Error checking block status:", err);
+    }
+  };
+
+  fetchBlockedStatus();
+}, [userId, currentUserId, jwtToken]);
+
+
+const displayUsername = isBlockedUser ? "Blocked User" : username;
+const displayText = isBlockedUser ? "This message is from a blocked user" : commentText;
+
+
+
 return (
   <div className="flex flex-col mt-1">
     <div className="relative flex items-center border-1 shadow-xl rounded-sm p-3 mb-2 max-w-3/4">
@@ -212,7 +238,7 @@ return (
       >
         <Image
           src={profilePicture}
-          title={username}
+          title={displayUsername}
           alt="profile picture"
           width={50}
           height={50}
@@ -233,9 +259,9 @@ return (
           <p
             className="underline underline-offset-4 cursor-pointer mb-1"
             onClick={() => (window.location.href = `/profile/${userId}`)}>
-            {username}
+            {displayUsername}
           </p>
-          <p className="text-sm text-gray-700">{commentText}</p>
+          <p className="text-sm text-black">{displayText}</p>
         </div>
         {/* Rating controls under the text */}
         <div className="flex items-center w-full mt-2 space-x-2">
@@ -318,7 +344,7 @@ return (
           <textarea
             placeholder="Write your edit..."
             className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
-            defaultValue={commentText}
+            defaultValue={displayText}
             onChange={(e) => setEditText(e.target.value)}
             maxLength={200}
           />
@@ -338,16 +364,16 @@ return (
         className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-3/5"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("Reply submitted:", commentText);
-          handleReply(commentText);
+          console.log("Reply submitted:", displayText);
+          handleReply(displayText);
           setCommentText("");
         }}
       >
         <textarea
           placeholder="Write your reply..."
-          className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+          className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
           maxLength={200}
-          value={commentText}
+          // value={displayText}
           onChange={onCommentTextChange}
         />
         <button
