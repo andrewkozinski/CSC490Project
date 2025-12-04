@@ -8,6 +8,7 @@ import Star from "./Star";
 import Image from "next/image";
 import { useSettings } from "../context/SettingsProvider";
 import { isBlocked } from "@/lib/blocking";
+import "@/app/components/Header.css";
 
 export default function Review({ reviewId = 0, username = "Anonymous", text = "No text available", currentUser = "Anonymous", removeReviewFromList = () => { }, votes = {}, rating = 0, userId = 0, blockedUsers = [], }) {
   const [reviewText, setReviewText] = useState(text);
@@ -395,7 +396,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             maxLength={200}
           />
           <button
-            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            className="cursor-pointer self-end shadow mt-3 px-6 py-2 rounded-sm text-sm"
             type="submit"
             style={{ backgroundColor: "var(--color-brown)" }}
             onClick={handleSubmitEdit}
@@ -419,9 +420,9 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             maxLength={200}
           />
           <button
-            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            className="cursor-pointer self-end shadow reply-btn brown mt-3 px-6 py-2 rounded-md text-sm"
             type="submit"
-            style={{ backgroundColor: "var(--color-brown)" }}
+            
           >
             Reply
           </button>
@@ -438,7 +439,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             refreshKey={refreshKey}
           />{" "}
         </div>
-        : <div />}
+        : <div/>}
 
       {/* <div className="flex w-full ml-27 mb-6">
           <CommentList

@@ -68,6 +68,10 @@
   transition: all 0.3s ease-in-out;
 }
 
+html.dark .cover:hover {
+  box-shadow: 0 0 15px #F3E9DC;
+}
+
 body {
   background: var(--background);
   background-attachment: fixed; /* Stops the gradient from repeating throughout the page. */
@@ -85,4 +89,12 @@ body {
 
 .beige {
   color: #F3E9DC;
+}
+
+.font-color {
+  color: black;
+}
+
+html.dark .font-color{
+  color: #282828; 
 }

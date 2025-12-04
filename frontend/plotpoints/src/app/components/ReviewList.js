@@ -53,8 +53,8 @@ export default function Reviews({ reviewData = [] }) {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center justify-between mb-4">
-        <p className="text-sm font-medium">Reviews ({reviews.length})</p>
+      <div className="flex items-center justify-end mb-4 mt-2">
+        {/* <p className="text-sm font-medium">Reviews ({reviews.length})</p> */}
         <select
           className="px-2 py-1 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           value={sortOrder}

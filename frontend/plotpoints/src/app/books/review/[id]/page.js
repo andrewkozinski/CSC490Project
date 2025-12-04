@@ -147,7 +147,7 @@ function BookReviewPage({ params }) {
             {/* need to change later*/}
           </Rating>
           <div>
-            <p>Reviews:</p>
+            {/* <p>Reviews:</p> */}
             <ReviewList reviewData={reviews} />
           </div>
         </div>

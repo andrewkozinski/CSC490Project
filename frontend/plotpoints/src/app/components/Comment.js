@@ -11,6 +11,7 @@ import CommentList from "./CommentList.js";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { isBlocked } from "@/lib/blocking";
+import "@/app/components/Header.css";
 
 export default function Comment({
   removeCommentFromList = () => {},
@@ -349,9 +350,8 @@ return (
             maxLength={200}
           />
           <button
-            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            className="cursor-pointer self-end reply-btn brown shadow mt-3 px-6 py-2 rounded-md text-sm"
             type="submit"
-            style={{ backgroundColor: "var(--color-brown)" }}
             onClick={handleSubmitEdit}
           >
             Post
@@ -377,9 +377,9 @@ return (
           onChange={onCommentTextChange}
         />
         <button
-          className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+          className="cursor-pointer self-end reply-btn brown shadow mt-3 px-6 py-2 rounded-md text-sm"
           type="submit"
-          style={{ backgroundColor: "var(--color-brown)" }}
+          
         >
           Reply
         </button>

@@ -4,6 +4,7 @@ import Star from "./Star";
 import fetchUserReview from "@/utils/fetchUserReview";
 import SpoilerText from './SpoilerText';
 import { useSettings } from "../context/SettingsProvider";
+import "../components/Header.css";
 
 export default function Rating({
   label,
@@ -160,7 +161,7 @@ export default function Rating({
 
               {/* Post button */}
               <button
-                className="cursor-pointer brown text-sm shadow mt-3 py-2 px-6 rounded-sm transition"
+                className="cursor-pointer blue text-sm btn-post shadow mt-3 py-2 px-6 rounded-md transition hover:bg-blue"
                 onClick={handlePost}
               >
                 Post!

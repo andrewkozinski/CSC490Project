@@ -235,7 +235,8 @@ export default function ProfilePage( {params} ){
                                     <div className="flex flex-col w-full">   
                                         <div className="flex flex-row w-full justify-around items-center mt-5">
                                             <Image 
-                                                className="aspect-square rounded-full mb-5 border-2 border-[#000000]" 
+                                                className={`aspect-square rounded-full mb-5 border-2 
+                                                     ${darkOn ? "border-[#F3E9DC]" : "border-black"}`}
                                                 src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
                                                 alt="User Image"
                                                 width="170"
@@ -244,7 +245,8 @@ export default function ProfilePage( {params} ){
 
                                             {/*File input for images, hidden*/}
                                             <input type="file" id="profileImageUpload" name="profileImageUpload" accept="image/png, image/jpeg" className="hidden" onChange={handleImageChange}/>
-                                            <button className="blue text-sm btn-shadow py-1 px-5 w-fit h-fit rounded-sm transition hover:cursor-pointer hover:bg-[#B0E0E6]"
+                                            <button className={`blue text-sm btn-shadow py-1 px-5 w-fit h-fit rounded-md transition hover:cursor-pointer hover:bg-[#B0E0E6]
+                                                ${ darkOn ? "text-black": ""}`}
                                             onClick={async () => {
                                                 document.getElementById('profileImageUpload').click();
                                             }}
@@ -252,7 +254,7 @@ export default function ProfilePage( {params} ){
                                             Choose image...
                                             </button>
                                         </div>
-                                        <p className="text-sm font-bold text-gray-700 ml-9">Bio</p>                               
+                                        <p className="text-sm font-bold font-color  ml-9">Bio</p>                               
                                         <textarea
                                         placeholder="Write a bio"
                                         value={modalBio}
@@ -260,7 +262,7 @@ export default function ProfilePage( {params} ){
                                         className="w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
                                         />
                                         <button
-                                        className="blue text-sm text-black btn-shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                                        className="blue text-sm text-black btn-shadow m-4 py-1 px-5 w-fit rounded-md place-self-center"
                                         //onClick to save image and bio
                                         onClick={async () => {
 
