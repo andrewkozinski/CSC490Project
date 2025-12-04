@@ -238,23 +238,23 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
           onClick={() => (window.location.href = `/profile/${user_id}`)}
         >
           <Image
-  src={
-    isBlockedUser
-      ? "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-      : profilePicture
-  }
-  title={username}
-  alt="profile picture"
-  width={50}
-  height={50}
-  className="rounded-full w-13 h-13 items-center justify-center"
-  onClick={() => (window.location.href = `/profile/${userId}`)}
-  onError={() =>
-    setProfilePicture(
-      "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-    )
-  }
-/>
+            src={
+              isBlockedUser
+                ? "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+                : profilePicture
+            }
+            title={username}
+            alt="profile picture"
+            width={50}
+            height={50}
+            className="rounded-full w-13 h-13 items-center justify-center"
+            onClick={() => (window.location.href = `/profile/${userId}`)}
+            onError={() =>
+              setProfilePicture(
+                "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+              )
+            }
+          />
 
         </div>
         {/* Example review content */}
@@ -285,148 +285,148 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
                 content={isBlockedUser ? "This message is from a blocked user" : reviewText}
               />
             }
-              : <div/>
+            <div />
             {/* <ReviewText
               className="mt-1  text-sm"
               content={displayText}
             /> */}
-            </div>
-
-            {/* Rating controls */}
-            <div className="flex items-center w-full mt-2 space-x-2">
-              {/* # of ratings */}
-              <p className="mr-3 text-sm ">{upvotes}</p>
-              {/* plus */}
-              <button
-                className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""
-                  }`}
-                onClick={handleUpvote}
-                disabled={isBlockedUser}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="size-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              </button>
-              <p>|</p>
-              <p className="text-sm ">{downvotes}</p>
-
-              {/* minus */}
-              <button
-                className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""
-                  }`}
-                onClick={handleDownvote}
-                disabled={isBlockedUser}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="size-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              </button>
-            </div>
           </div>
 
-          {showReviewText == true ?
+          {/* Rating controls */}
+          <div className="flex items-center w-full mt-2 space-x-2">
+            {/* # of ratings */}
+            <p className="mr-3 text-sm ">{upvotes}</p>
+            {/* plus */}
             <button
-              onClick={() => setShowReplyBox((prev) => !prev)}
-              className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+              className={`cursor-pointer hover: ${userVote === "up" ? "text-green-600" : ""
+                }`}
+              onClick={handleUpvote}
               disabled={isBlockedUser}
             >
-              Reply
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
             </button>
-            : <div />}
+            <p>|</p>
+            <p className="text-sm ">{downvotes}</p>
 
-          {/* Reply button */}
-          {/* <button
+            {/* minus */}
+            <button
+              className={`cursor-pointer mr-2 ${userVote === "down" ? "text-red-600" : ""
+                }`}
+              onClick={handleDownvote}
+              disabled={isBlockedUser}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {showReviewText == true ?
+          <button
+            onClick={() => setShowReplyBox((prev) => !prev)}
+            className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+            disabled={isBlockedUser}
+          >
+            Reply
+          </button>
+          : <div />}
+
+        {/* Reply button */}
+        {/* <button
           onClick={() => setShowReplyBox((prev) => !prev)}
           className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
         >
           Reply
         </button> */}
 
-          {/* Edit/Delete buttons (top right) */}
-          {canEdit && (
-            <div className="absolute top-2 right-3 flex space-x-3">
-              <button
-                className="cursor-pointer text-blue-600 hover:text-blue-800"
-                onClick={() => setShowEditBox((prev) => !prev)}
-              >
-                Edit
-              </button>
-              <button
-                className="cursor-pointer text-red-600 hover:text-red-800"
-                onClick={deleteReview}
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
-        {showEditBox && (
-          <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8">
-            <textarea
-              placeholder="Write your edit..."
-              className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
-              defaultValue={reviewText}
-              onChange={(e) => setEditText(e.target.value)}
-              maxLength={200}
-            />
+        {/* Edit/Delete buttons (top right) */}
+        {canEdit && (
+          <div className="absolute top-2 right-3 flex space-x-3">
             <button
-              className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
-              type="submit"
-              style={{ backgroundColor: "var(--color-brown)" }}
-              onClick={handleSubmitEdit}
+              className="cursor-pointer text-blue-600 hover:text-blue-800"
+              onClick={() => setShowEditBox((prev) => !prev)}
             >
-              Post
+              Edit
             </button>
-          </form>
+            <button
+              className="cursor-pointer text-red-600 hover:text-red-800"
+              onClick={deleteReview}
+            >
+              Delete
+            </button>
+          </div>
         )}
-
-        {/* Reply box */}
-        {showReplyBox && (
-          <form
-            className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8"
-            onSubmit={handleSubmit}
+      </div>
+      {showEditBox && (
+        <form className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8">
+          <textarea
+            placeholder="Write your edit..."
+            className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
+            defaultValue={reviewText}
+            onChange={(e) => setEditText(e.target.value)}
+            maxLength={200}
+          />
+          <button
+            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            type="submit"
+            style={{ backgroundColor: "var(--color-brown)" }}
+            onClick={handleSubmitEdit}
           >
-            <textarea
-              placeholder="Write your reply..."
-              className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
-              value={commentText}
-              onChange={onCommentTextChange}
-              maxLength={200}
-            />
-            <button
-              className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
-              type="submit"
-              style={{ backgroundColor: "var(--color-brown)" }}
-            >
-              Reply
-            </button>
-          </form>
-        )}
+            Post
+          </button>
+        </form>
+      )}
 
-        {/* Comments below review */}
-        {showReviewText == true ? 
+      {/* Reply box */}
+      {showReplyBox && (
+        <form
+          className="flex flex-col border h-35 rounded-sm p-3 mb-2 shadow-xl w-7/8"
+          onSubmit={handleSubmit}
+        >
+          <textarea
+            placeholder="Write your reply..."
+            className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
+            value={commentText}
+            onChange={onCommentTextChange}
+            maxLength={200}
+          />
+          <button
+            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            type="submit"
+            style={{ backgroundColor: "var(--color-brown)" }}
+          >
+            Reply
+          </button>
+        </form>
+      )}
+
+      {/* Comments below review */}
+      {showReviewText == true ?
         <div className="flex w-full ml-27 mb-6">
           <CommentList
             parentId={reviewId}
@@ -434,10 +434,10 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             reviewId={reviewId}
             refreshKey={refreshKey}
           />{" "}
-          </div>
-        : <div/> }
-        
-        {/* <div className="flex w-full ml-27 mb-6">
+        </div>
+        : <div />}
+
+      {/* <div className="flex w-full ml-27 mb-6">
           <CommentList
             parentId={reviewId}
             parentType="review"
@@ -446,7 +446,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
           />{" "}
           {/*Parent type is for if we ever add replies to comments 
         </div> */}
-      </div>
-    
+    </div>
+
   );
 }
