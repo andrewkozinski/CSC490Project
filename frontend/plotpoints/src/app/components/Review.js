@@ -24,7 +24,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
   const [showEditBox, setShowEditBox] = useState(false);
   const [editText, setEditText] = useState("");
 
-  // const showReviewText = true;
+  // const showReviewText = false;
   const { reviewText: showReviewText } = useSettings();
 
   //Fetch user voting status
@@ -286,11 +286,12 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
               />
             }
 
+              : <div/>}
             {/* <ReviewText
               className="mt-1  text-sm"
               content={displayText}
-            />
-            </div>*/}
+            /> */}
+            </div>
 
             {/* Rating controls */}
             <div className="flex items-center w-full mt-2 space-x-2">
@@ -410,7 +411,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
           >
             <textarea
               placeholder="Write your reply..."
-              className="w-full border rounded-sm p-2 resize-none focus:outline-none"
+              className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
               value={commentText}
               onChange={onCommentTextChange}
               maxLength={200}
@@ -426,6 +427,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
         )}
 
         {/* Comments below review */}
+        {showReviewText == true ? 
         <div className="flex w-full ml-27 mb-6">
           <CommentList
             parentId={reviewId}
@@ -433,9 +435,19 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             reviewId={reviewId}
             refreshKey={refreshKey}
           />{" "}
-          {/*Parent type is for if we ever add replies to comments */}
-        </div>
+          </div>
+        : <div/> }
+        
+        {/* <div className="flex w-full ml-27 mb-6">
+          <CommentList
+            parentId={reviewId}
+            parentType="review"
+            reviewId={reviewId}
+            refreshKey={refreshKey}
+          />{" "}
+          {/*Parent type is for if we ever add replies to comments 
+        </div> */}
       </div>
-    </div>
+    
   );
 }

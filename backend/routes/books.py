@@ -1,3 +1,4 @@
+from aiocache import cached
 from fastapi import APIRouter, HTTPException
 import httpx
 from models.book import Book
@@ -19,7 +20,7 @@ def build_cover_links(cover_id: int | None):
 @router.get("/search")
 async def search_books(query: str, page: int = 1):
     url = f"https://openlibrary.org/search.json?q={query}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -56,9 +57,10 @@ async def search_books(query: str, page: int = 1):
 
 
 @router.get("/{book_id}")
+@cached(ttl=3600)
 async def get_book_details(book_id: str):
     url = f"https://openlibrary.org/works/{book_id}.json"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="Book not found")
@@ -94,9 +96,10 @@ async def get_book_details(book_id: str):
 
 
 @router.get("/search/genre/{category}")
+@cached(ttl=3600)
 async def get_books_by_genre(category: str, page: int = 1):
     url = f"https://openlibrary.org/subjects/{category.lower().replace(' ', '_')}.json?limit=20&offset={(page-1)*20}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="Category not found for category " + category)
@@ -125,9 +128,10 @@ async def get_books_by_genre(category: str, page: int = 1):
 
 
 @router.get("/search/genre/{category}/{title}")
+@cached(ttl=3600)
 async def get_books_by_genre_and_title(category: str, title: str, page: int = 1):
     url = f"https://openlibrary.org/search.json?subject={category}&title={title}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -172,7 +176,7 @@ async def get_trending_books():
 @router.get("/search/filter")
 async def filter_books(category: str | None = None, year: int | None = None, page: int = 1):
     url = f"https://openlibrary.org/subjects/{category.lower().replace(' ', '_') if category else 'all'}.json?limit=20&offset={(page-1)*20}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="Category not found")
@@ -205,7 +209,7 @@ async def filter_books(category: str | None = None, year: int | None = None, pag
 @router.get("/get_genres/{book_id}")
 async def get_book_genres(book_id: str):
     url = f"https://openlibrary.org/works/{book_id}.json"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="Book not found")

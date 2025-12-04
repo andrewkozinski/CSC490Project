@@ -1,3 +1,4 @@
+from aiocache import cached
 from fastapi import APIRouter, HTTPException
 import httpx
 import os
@@ -30,7 +31,7 @@ GENRE_ID_TO_NAME = {
 @router.get("/search")
 async def search_tvshows(query: str, page: int = 1):
     url = f"https://api.themoviedb.org/3/search/tv?api_key={TMDB_API_KEY}&query={query}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -80,7 +81,7 @@ async def search_tvshows(query: str, page: int = 1):
 @router.get("/search/detailed")
 async def search_tvshows_detailed(query: str, page: int = 1):
     url = f"https://api.themoviedb.org/3/search/tv?api_key={TMDB_API_KEY}&query={query}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         return response.json()
@@ -94,7 +95,7 @@ async def search_tvshows_by_genre(genre_name: str, page: int = 1):
     if genre_id is None:
         raise HTTPException(status_code=400, detail="Invalid genre name")
     url = f"https://api.themoviedb.org/3/discover/tv?api_key={TMDB_API_KEY}&with_genres={genre_id}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -149,7 +150,7 @@ async def search_tvshows_by_genre_and_title(genre: str, title: str, page: int = 
 @router.get("/search/trending")
 async def get_trending_tvshows(page: int = 1):
     url = f"https://api.themoviedb.org/3/trending/tv/week?api_key={TMDB_API_KEY}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -189,7 +190,7 @@ async def get_trending_tvshows(page: int = 1):
 @router.get("/search/airing_today")
 async def get_tvshows_airing_today(page: int = 1):
     url = f"https://api.themoviedb.org/3/tv/airing_today?api_key={TMDB_API_KEY}&page={page}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -241,7 +242,7 @@ async def filter_tvshows(genre: str = None, release_year: int = None, page: int 
     if release_year:
         url += f"&first_air_date_year={release_year}"
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         response.raise_for_status()
         data = response.json()
@@ -280,9 +281,10 @@ async def filter_tvshows(genre: str = None, release_year: int = None, page: int 
 
 
 @router.get("/{tv_id}", response_model=TvShow)
+@cached(ttl=3600)
 async def get_tvshow(tv_id: int):
     url = f"https://api.themoviedb.org/3/tv/{tv_id}?api_key={TMDB_API_KEY}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="TV show not found")
@@ -308,7 +310,7 @@ async def get_tvshow(tv_id: int):
 @router.get("/detailed/{tv_id}")
 async def get_tvshow_detailed(tv_id: int):
     url = f"https://api.themoviedb.org/3/tv/{tv_id}?api_key={TMDB_API_KEY}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="TV show not found")
@@ -316,9 +318,10 @@ async def get_tvshow_detailed(tv_id: int):
         return response.json()
 
 @router.get("/{tv_id}/streaming_links")
+@cached(ttl=3600)
 async def get_tvshow_streaming_links(tv_id: int):
     url = f"https://api.themoviedb.org/3/tv/{tv_id}/watch/providers?api_key={TMDB_API_KEY}"
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(20.0, connect=10.0)) as client:
         response = await client.get(url)
         if response.status_code == 404:
             raise HTTPException(status_code=404, detail="TV show not found")
