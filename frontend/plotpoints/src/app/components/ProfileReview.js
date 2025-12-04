@@ -24,7 +24,11 @@ export default function ProfileReview({ reviewData }) {
             <img
                 src={img}
                 title={title}
-                className="min-w-27 min-h-37 max-w-27 min-h-37 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
+                className={`max-w-27 max-h-37 min-w-27 max-w-37 rounded-sm hover:cursor-pointer
+                    ${ darkOn ? 
+                        "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
+                      : "hover:outline-1 hover:outline-black hover:outline-offset-3"
+                    }`}
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block ">

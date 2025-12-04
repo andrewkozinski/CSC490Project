@@ -75,7 +75,7 @@ export default function HomepageReview({ reviewData }) {
                 title={title}
                 className={`max-w-27 max-h-42 rounded-sm hover:cursor-pointer
                     ${ darkOn ? 
-                        "hover:outline-1 hover:outline-white hover:outline-offset-3" 
+                        "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
                       : "hover:outline-1 hover:outline-black hover:outline-offset-3"
                     }`}
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}

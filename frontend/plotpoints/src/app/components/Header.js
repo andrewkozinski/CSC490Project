@@ -6,7 +6,8 @@ import "./Profile.css";
 import Link from "next/link";
 import {useRouter} from 'next/navigation';
 import { getNotifications, getNotifCount, readNotification } from "@/lib/notifications";
-import Image from "next/image";
+import { useSettings } from "../context/SettingsProvider";
+
 
 export default function Header() {
   const [showNotifications] = useState(false);
@@ -14,6 +15,7 @@ export default function Header() {
   const router = useRouter();
 
   const [notificationsList, setNotificationsList] = useState([]);
+  const { darkMode: darkOn} = useSettings();
 
 
   useEffect(() => {
@@ -142,11 +144,13 @@ export default function Header() {
           </div>
 
         </div>
-        <div className="fields grid grid-cols-2 shadow search blue mt-2 mr-5 items-center">
+        <div className={`fields grid grid-cols-2 shadow search mt-2 mr-5 items-center
+            ${darkOn ? "bg-[#B0E0E6]": "blue" }
+          `}>
           <img className="h-4 w-4 -ml-2" src="/images/search.svg">
           </img>
           <input 
-            className="-ml-30"
+            className="-ml-30 text-[#282828]"
             placeholder="Search"
             onKeyDown={e => {
               if (e.key === 'Enter' && e.target.value.trim() !== '') {
