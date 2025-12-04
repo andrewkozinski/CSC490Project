@@ -97,6 +97,12 @@ async def fetch_comments_for_review(review_id: int):
 
         #For each comment, add a username field by looking up the user id
         for comment in comments:
+
+            if comment["parent_comm_id"] != None:
+                #This means it's a reply to another comment
+                # we just want replies to the review, skip it
+                continue
+
             user_id = comment["user_id"]
             print(user_id)
             if user_id:
