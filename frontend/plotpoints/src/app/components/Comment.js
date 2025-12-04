@@ -376,7 +376,6 @@ return (
           e.preventDefault();
           console.log("Reply submitted:", displayText);
           handleReply(replyInput);
-          setCommentText("");
         }}
       >
         <textarea
@@ -388,8 +387,7 @@ return (
         />
         <button
           className="cursor-pointer self-end reply-btn brown shadow mt-3 px-6 py-2 rounded-md text-sm"
-          type="submit"
-          
+          type="submit" 
         >
           Reply
         </button>
