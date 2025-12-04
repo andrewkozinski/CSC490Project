@@ -109,6 +109,9 @@ export default function Comment({
     }
   };
 
+  //for reply fix
+  const [replyInput, setReplyInput] = useState("");
+
 
   const handleReply = async (commentText) => {
     console.log(`Replying to review ${reviewId} with comment: ${commentText}`);
@@ -120,13 +123,14 @@ export default function Comment({
       body: JSON.stringify({
         review_id: reviewId,
         //user_id: session?.user?.id,
-        comment_text: commentText,
+        comment_text: replyInput,
         jwt_token: session?.accessToken,
         parent_comm_id: commentId,
       }),
     });
 
     setShowReplyBox(false); // Close the reply box after submitting
+    setReplyInput(""); //Reset reply input
     setRefreshKey((prev) => prev + 1); // Trigger refresh of comments
   };
 
@@ -371,7 +375,7 @@ return (
         onSubmit={(e) => {
           e.preventDefault();
           console.log("Reply submitted:", displayText);
-          handleReply(displayText);
+          handleReply(replyInput);
           setCommentText("");
         }}
       >
@@ -380,7 +384,7 @@ return (
           className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
           maxLength={200}
           //value={displayText}
-          onChange={onCommentTextChange}
+          onChange={(e) => setReplyInput(e.target.value)}
         />
         <button
           className="cursor-pointer self-end reply-btn brown shadow mt-3 px-6 py-2 rounded-md text-sm"
