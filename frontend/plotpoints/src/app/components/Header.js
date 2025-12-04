@@ -24,7 +24,16 @@ export default function Header() {
 
   const hasUnread = unreadCount > 0;
 
+  const [isVisible, setIsVisible] = useState(false);
 
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const closeNotification = () => {
+    setIsVisible(false);
+  };
+  
   useEffect(() => {
     // Fetch notifications for the user
     const fetchNotifications = async () => {

@@ -254,7 +254,7 @@ export default function ProfilePage( {params} ){
                                             Choose image...
                                             </button>
                                         </div>
-                                        <p className="text-sm font-bold font-color  ml-9">Bio</p>                               
+                                        <p className="text-sm font-bold ml-9">Bio</p>                               
                                         <textarea
                                         placeholder="Write a bio"
                                         value={modalBio}
