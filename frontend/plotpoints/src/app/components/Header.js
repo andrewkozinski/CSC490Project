@@ -137,7 +137,9 @@ export default function Header() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M 16.858710562414302 8.340192043895755 A 3 3 0 1 1 16.8687105624143 8.340192043895755" />
                       </svg>
                       } */}
-                      <p>{notification.notif_message}</p>
+                      <p>{notification.notif_message}
+                        
+                      </p>
                     </div>
                     
                     <p className="font-bold text-red-500">{notification.is_read == 1 ? "" : "Unread"}</p> 
