@@ -60,10 +60,10 @@ export default function Favorite({mediaType, mediaId}) {
         className={`size-8 cursor-pointer ${
           isFavorited
             ? darkMode
-              ? "fill-white stroke-white"
+              ? "fill-[#F3E9DC] stroke-[#F3E9DC]"
               : "fill-black stroke-black"
             : darkMode
-            ? "hover:fill-white stroke-white fill-transparent"
+            ? "hover:fill-[#F3E9DC] stroke-[#F3E9DC] fill-transparent"
             : "hover:fill-black stroke-black fill-transparent"
         }`}
         onClick={handleFavorite}

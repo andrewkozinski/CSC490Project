@@ -1,6 +1,7 @@
 import Star from "./Star";
 import ReviewText from "./ReviewText";
 import { useSettings } from "../context/SettingsProvider";
+import "./Profile.css";
 
 export default function ProfileReview({ reviewData }) {
 
@@ -36,8 +37,8 @@ export default function ProfileReview({ reviewData }) {
                             key={value}
                             className={`w-6 h-6
                                 ${value <= rating
-                                ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
-                                : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
+                                ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                                : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                                 }`}
                             />
 

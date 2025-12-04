@@ -68,7 +68,7 @@ html.dark .notification-content {
 
 html.dark .dropdown-content a,
 html.dark .notification-content a {
-  color: white;
+  color: #F3E9DC;
 }
 
 html.dark .dropdown-content a:hover,
@@ -91,3 +91,8 @@ html.dark .notification-content a:hover {
 .img-body {
   padding: 10;
 }
+
+
+/* .beige {
+  background-color: #F3E9DC;
+} */

@@ -8,10 +8,11 @@
   --foreground: #000000;
   --color-blue: #B0E0E6;
   --color-brown: #7e675b8f;
+  --color-beige: #F3E9DC;
 }
 
 .dark {
-  --background: #363636;
+  --background: rgb(40,40,40);
   --foreground: #F3E9DC;
 }
 
@@ -82,5 +83,5 @@ body {
 }
 
 .beige {
-  background-color: #F3E9DC;
+  color: #F3E9DC;
 }

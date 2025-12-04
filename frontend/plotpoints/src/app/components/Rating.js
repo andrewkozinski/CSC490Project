@@ -81,8 +81,8 @@ export default function Rating({
             <Star
               key={value}
               className={`w-8 h-8 ${value <= avgRating
-                ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
-                : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
+                ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                 }`}
             />
           );
@@ -102,8 +102,8 @@ export default function Rating({
                     <Star
                       key={value}
                       className={`w-8 h-8 ${value <= userReview.rating
-                        ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
-                        : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
+                        ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                        : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                         }`}
                     />
                   );
@@ -131,8 +131,8 @@ export default function Rating({
                     >
                       <Star
                         className={`w-8 h-8 ${value <= (hover || rating)
-                          ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
-                          : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
+                          ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                          : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                           }`}
                       />
                     </button>
