@@ -2,9 +2,11 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import React from "react";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function App() {
   const [result, setResult] = React.useState("");
+  const { darkMode: darkOn} = useSettings();
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -36,21 +38,22 @@ export default function App() {
           <div className="flex flex-col w-2/6">
             <h1 className="text-2xl inline-block text-center">Contact Us</h1>
             <form className="flex flex-col gap-2"onSubmit={onSubmit}>
-              <label htmlFor="name" className="text-sm font-bold text-gray-700 text-left">Name</label>
+              <label htmlFor="name" 
+              className={`text-sm font-bold text-left font-color`}>Name</label>
               <input 
                 type="text" 
                 name="name" 
                 required 
                 placeholder="Name"
                 className="border bg-[#b0e0e68f] shadow text-black p-4 border-transparent rounded-lg p-2"/>
-              <label htmlFor="email" className="text-sm font-bold text-gray-700 text-left">Email</label>
+              <label htmlFor="email" className="text-sm font-bold font-color text-left">Email</label>
               <input 
                 type="email" 
                 name="email" 
                 placeholder="Email" 
                 required
                 className="border bg-[#b0e0e68f] shadow text-black p-4 border-transparent rounded-lg p-2"/>            
-              <label htmlFor="message" className="text-sm font-bold text-gray-700 text-left">Message</label>
+              <label htmlFor="message" className="text-sm font-bold font-color text-left">Message</label>
               <textarea 
                 name="message" 
                 placeholder="Write your message" 
@@ -59,7 +62,7 @@ export default function App() {
               </textarea>
               <button 
               type="submit" 
-              className="brown text-black shadow m-5 py-1 px-5 rounded-lg max-w-fit place-self-center">
+              className="brown text-black btn-shadow shadow m-5 py-1 px-5 rounded-lg max-w-fit place-self-center">
               Submit
               </button>
             </form>
