@@ -94,7 +94,7 @@ export default function Home() {
 
     return (
         <div>
-            <Header />
+            <Header/>
             {/*For now, we're just displaying the results. Nothing fancy, search bar should be in here in future*/}
             {/*I am well aware this doesn't look good but it was more so just to get something displayed somewhere */}
             <div className="m-20">

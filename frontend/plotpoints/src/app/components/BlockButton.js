@@ -32,7 +32,7 @@ export default function BlockButton({ profileId, currentUserId, jwtToken }) {
             <>
                 <button
                     onClick={() => setShowConfirm(true)}
-                    className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-red-600 hover:bg-red-700 h-10"
+                    className="px-4 py-2 w-3/5 rounded-md text-[#F3E9DC] flex flex-row justify-center place-self-center transition cursor-pointer bg-red-600 hover:bg-red-700 h-10"
                 >
                     {/* Block icon */}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 mr-2">
@@ -50,9 +50,9 @@ export default function BlockButton({ profileId, currentUserId, jwtToken }) {
                             Are you sure you want to block this user?
                         </p>
 
-                        <div className="flex gap-4 justify-center">
+                        <div className="flex flex-row w-full justify-around items-center">
                             <button
-                                className="px-4 py-2 bg-red-600 text-white rounded"
+                                className="px-4 py-2 bg-red-600 text-[#F3E9DC] rounded-md transition hover:cursor-pointer hover:bg-red-700"
                                 onClick={async () => {
                                     await blockUser(profileId, jwtToken);
                                     window.location.reload();
@@ -62,7 +62,8 @@ export default function BlockButton({ profileId, currentUserId, jwtToken }) {
                             </button>
 
                             <button
-                                className="px-4 py-2 bg-gray-300 rounded"
+                                className={`px-4 py-2 bg-gray-300 text-black rounded-md transition hover:cursor-pointer hover:bg-gray-400
+                                    `}
                                 onClick={() => setShowConfirm(false)}
                             >
                                 Cancel
@@ -81,7 +82,7 @@ export default function BlockButton({ profileId, currentUserId, jwtToken }) {
                     await unblockUser(profileId, jwtToken);
                     window.location.reload();
                 }}
-                className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-gray-600 hover:bg-gray-700 h-10"
+                className="px-4 py-2 w-3/5 rounded-md text-white flex flex-row justify-center place-self-center transition cursor-pointer bg-gray-600 hover:bg-gray-700 h-10"
             >
                 {/* Unblock icon */}
                 <svg

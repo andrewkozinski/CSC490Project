@@ -1,10 +1,13 @@
 "use client";
 import React, {useState, useContext, createContext } from 'react';
 import "./Filter.css";
+import { useSettings } from "../context/SettingsProvider";
 
 const FilterContext = createContext();
 
 export default function Filter( {filters, handleFilterChange} ) {
+
+    
 
     const media = [
         
@@ -36,9 +39,11 @@ export default function Filter( {filters, handleFilterChange} ) {
 };
 const FilterControls = () => {
     const { filters, handleFilterChange } = useContext(FilterContext);
+    const { darkMode: darkOn} = useSettings();
+
     return (
         <div className="filter-container">
-            <select className="select-filter"
+            <select className={`select-filter ${darkOn ? "text-[#282828]" : ""}`}
                 name="type"
                 value={filters.type}
                 onChange={handleFilterChange}>
@@ -49,7 +54,7 @@ const FilterControls = () => {
                 <option value="Books">Books</option>
             </select>
             <select 
-                className="select-filter"
+                className={`select-filter ${darkOn ? "text-[#282828]" : ""}`}
                 name="genre" 
                 value={filters.genre}
                 onChange={handleFilterChange}>

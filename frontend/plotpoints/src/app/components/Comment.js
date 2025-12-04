@@ -11,6 +11,8 @@ import CommentList from "./CommentList.js";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { isBlocked } from "@/lib/blocking";
+import "@/app/components/Header.css";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function Comment({
   removeCommentFromList = () => {},
@@ -44,6 +46,8 @@ export default function Comment({
 
   //For refreshing comments after reply
   const [refreshKey, setRefreshKey] = useState(0);
+
+  const { darkMode: darkOn} = useSettings();
 
   //Fetch user voting status
   useEffect(() => {
@@ -261,11 +265,13 @@ return (
             onClick={() => (window.location.href = `/profile/${userId}`)}>
             {displayUsername}
           </p>
-          <p className="text-sm text-black">{displayText}</p>
+          <p className={`text-sm 
+            ${darkOn ? "text-[#F3E9DC]": "text-black"}`}>{displayText}</p>
         </div>
         {/* Rating controls under the text */}
         <div className="flex items-center w-full mt-2 space-x-2">
-          <p className="text-sm text-gray-700">{upvotes}</p>
+          <p className={`text-sm 
+            ${darkOn ? "text-[#F3E9DC]": "text-black"}`}>{upvotes}</p>
 
           {/* plus */}
           <button
@@ -292,7 +298,8 @@ return (
 
           <p>|</p>
 
-          <p className="group text-sm text-gray-700 ">{downvotes}</p>
+          <p className={`text-sm 
+            ${darkOn ? "text-[#F3E9DC]": "text-black"}`}>{downvotes}</p>
 
           {/* minus */}
           <button
@@ -349,9 +356,8 @@ return (
             maxLength={200}
           />
           <button
-            className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+            className="cursor-pointer self-end reply-btn brown shadow mt-3 px-6 py-2 rounded-md text-sm"
             type="submit"
-            style={{ backgroundColor: "var(--color-brown)" }}
             onClick={handleSubmitEdit}
           >
             Post
@@ -373,13 +379,13 @@ return (
           placeholder="Write your reply..."
           className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
           maxLength={200}
-          // value={displayText}
+          //value={displayText}
           onChange={onCommentTextChange}
         />
         <button
-          className="cursor-pointer self-end shadow-xl mt-3 px-6 py-2 rounded-sm text-sm"
+          className="cursor-pointer self-end reply-btn brown shadow mt-3 px-6 py-2 rounded-md text-sm"
           type="submit"
-          style={{ backgroundColor: "var(--color-brown)" }}
+          
         >
           Reply
         </button>

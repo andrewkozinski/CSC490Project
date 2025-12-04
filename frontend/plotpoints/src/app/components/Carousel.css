@@ -14,8 +14,8 @@
     margin-right: 1;
 }
 
-body.dark .slick-dots li ::before {
-    color: white;
+html.dark .slick-dots li ::before {
+    color: #F3E9DC;
 }
 .slick-list {
     padding-left: 20;

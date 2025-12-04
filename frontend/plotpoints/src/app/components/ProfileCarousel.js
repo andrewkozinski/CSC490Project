@@ -2,9 +2,21 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Profile.css";
-import React from "react";
+import React, { useEffect, useRef } from 'react';
 
-const ProfileCarousel = ({children}) => {
+
+export default function ProfileCarousel({children}) {
+    const sliderRef = useRef(null);
+
+    useEffect(() => {
+    // Force slick to reinitialize after component mounts
+    if (sliderRef.current) {
+      setTimeout(() => {
+        sliderRef.current.slickGoTo(0);
+        }, 100);
+        }
+    }, []);
+
     const settings = {
         infinite: true,
         dots: true,
@@ -32,4 +44,3 @@ const ProfileCarousel = ({children}) => {
         </div>
     );
 };
-export default ProfileCarousel;

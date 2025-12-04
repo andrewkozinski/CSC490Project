@@ -12,6 +12,13 @@
   cursor: pointer;
 }
 
+html.dark .image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #F3E9DC;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
 .bookmark {
   max-width: 110px;
   max-height: 175px;
@@ -26,10 +33,28 @@
   cursor: pointer;
 }
 
-.red {
-  background-color: #ff3131d8;
+html.dark .bookmark:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #F3E9DC;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
+
+/* .red {
+  background-color: #ff3131d8;
+} */
 
 .green {
   background-color: #31ff6bd8;
+}
+
+.img-effect:hover {
+  outline-color: black;
+  outline-offset: 3;
+  outline-width: 1;
+}
+html.dark .img-effect:hover {
+  outline-color: #F3E9DC;
+  outline-offset: 3;
+  outline-width: 1;
 }

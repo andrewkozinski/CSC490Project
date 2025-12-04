@@ -6,7 +6,8 @@ import "./Profile.css";
 import Link from "next/link";
 import {useRouter} from 'next/navigation';
 import { getNotifications, getNotifCount, readNotification } from "@/lib/notifications";
-import Image from "next/image";
+import { useSettings } from "../context/SettingsProvider";
+
 
 export default function Header() {
   const [showNotifications] = useState(false);
@@ -14,8 +15,25 @@ export default function Header() {
   const router = useRouter();
 
   const [notificationsList, setNotificationsList] = useState([]);
+  const { darkMode: darkOn} = useSettings();
 
+  // Check if there are unread notifications
+  const unreadCount = notificationsList.filter(
+  notification => notification.is_read === 0
+  ).length;
 
+  const hasUnread = unreadCount > 0;
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const closeNotification = () => {
+    setIsVisible(false);
+  };
+  
   useEffect(() => {
     // Fetch notifications for the user
     const fetchNotifications = async () => {
@@ -76,10 +94,19 @@ export default function Header() {
           <div className="notification">
             {/*Notification bell */}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-8">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0 " />
+              {hasUnread > 0 ? 
+              <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" strokeWidth="0" stroke="fill-red" className="size-8 fill-red">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M 16.858710562414302 8.340192043895755 A 3.5 3.5 0 1 1 16.8687105624143 8.340192043895755" />
+              </svg>
+              : <div/>}
+             
+            
             </svg>
+            
 
-            <div className="notification-content -ml-79 mt-3">
+             {/* M 16.858710562414302 8.340192043895755 A 2.7 2.7 0 1 1 16.8687105624143 8.340192043895755 */}
+            <div className="notification-content -ml-87 mt-3">
               {/* Notification list perhaps */}
               <h1 className="text-lg font-bold p-4">Notifications</h1>
               {/* <Link className ="hover:rounded-tr-sm hover:rounded-tl-sm" href={`/profile/${session?.user?.id}`}>SOMEONE has commented on your post.</Link>
@@ -91,6 +118,7 @@ export default function Header() {
                 
                 notificationsList.map((notification, index) => (
                   
+                    
                   <Link 
                     key={index}
                     className=""
@@ -103,22 +131,16 @@ export default function Header() {
                       }
                     }}
                   >
-                    {/* <Image src={notification.img} alt="Notification" className="icon" width={100} height={100} /> */}
-                    {/* {notification.is_read == 1 ? (
+                    <div className="flex flex-row items-center">
+                      {/* {notification.is_read == 1 ? <div/> : 
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" strokeWidth="" stroke="fill-red" className="flex size-11 fill-red items-center">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M 16.858710562414302 8.340192043895755 A 3 3 0 1 1 16.8687105624143 8.340192043895755" />
+                      </svg>
+                      } */}
                       <p>{notification.notif_message}</p>
-
-                    ) : (
-                      <div className="flex flex-row gap-5">
-                          <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="0" cy="0" r="10" fill="red"/>
-                          </svg>
-                          <p>{notification.notif_message}</p>
-
-                      </div>
-                      
-                    )} */}
-                    <p>{notification.notif_message}</p>
-                    <p className="font-bold">{notification.is_read == 1 ? "Read" : "Unread"}</p> {/*Read == 1, unread == 0 */}
+                    </div>
+                    
+                    <p className="font-bold text-red-500">{notification.is_read == 1 ? "" : "Unread"}</p> 
                   </Link>
                   
                 ))
@@ -142,11 +164,13 @@ export default function Header() {
           </div>
 
         </div>
-        <div className="fields grid grid-cols-2 shadow search blue mt-2 mr-5 items-center">
+        <div className={`fields grid grid-cols-2 shadow search mt-2 mr-5 items-center
+            ${darkOn ? "bg-[#B0E0E6]": "blue" }
+          `}>
           <img className="h-4 w-4 -ml-2" src="/images/search.svg">
           </img>
           <input 
-            className="-ml-30"
+            className="-ml-30 text-[#282828]"
             placeholder="Search"
             onKeyDown={e => {
               if (e.key === 'Enter' && e.target.value.trim() !== '') {

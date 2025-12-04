@@ -3,6 +3,8 @@ import { useSession } from "next-auth/react";
 import Star from "./Star";
 import fetchUserReview from "@/utils/fetchUserReview";
 import SpoilerText from './SpoilerText';
+import { useSettings } from "../context/SettingsProvider";
+import "../components/Header.css";
 
 export default function Rating({
   label,
@@ -16,6 +18,7 @@ export default function Rating({
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
   const { data: session, status } = useSession();
+  const { darkMode: darkOn} = useSettings();
 
   // Debug logs
   console.log("Rating Component Rendered");
@@ -79,8 +82,8 @@ export default function Rating({
             <Star
               key={value}
               className={`w-8 h-8 ${value <= avgRating
-                ? "fill-black dark:fill-white stroke-black dark:stroke-black"
-                : "fill-transparent stroke-black dark:stroke-black"
+                ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                 }`}
             />
           );
@@ -100,8 +103,8 @@ export default function Rating({
                     <Star
                       key={value}
                       className={`w-8 h-8 ${value <= userReview.rating
-                        ? "fill-black dark:fill-white stroke-black dark:stroke-black"
-                        : "fill-transparent stroke-black dark:stroke-black"
+                        ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                        : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                         }`}
                     />
                   );
@@ -129,8 +132,8 @@ export default function Rating({
                     >
                       <Star
                         className={`w-8 h-8 ${value <= (hover || rating)
-                          ? "fill-black dark:fill-white stroke-black dark:stroke-black"
-                          : "fill-transparent stroke-black dark:stroke-black"
+                          ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                          : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                           }`}
                       />
                     </button>
@@ -158,7 +161,7 @@ export default function Rating({
 
               {/* Post button */}
               <button
-                className="cursor-pointer brown text-sm shadow mt-3 py-2 px-6 rounded-sm transition"
+                className="cursor-pointer blue text-sm btn-post shadow mt-3 py-2 px-6 rounded-md transition hover:bg-blue"
                 onClick={handlePost}
               >
                 Post!

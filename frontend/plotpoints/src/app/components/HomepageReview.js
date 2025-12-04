@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { isBlocked } from "@/lib/blocking";
 import { useSession } from "next-auth/react";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function HomepageReview({ reviewData }) {
     const {
@@ -37,6 +38,9 @@ export default function HomepageReview({ reviewData }) {
     const [pfp, setPfp] = useState(profile_pic_url);
     const [isBlockedUser, setIsBlockedUser] = useState(false);
 
+    const { reviewText: showReviewText } = useSettings();
+    const { darkMode: darkOn} = useSettings();
+
     useEffect(() => {
         const testImg = new window.Image();
         testImg.src = profile_pic_url;
@@ -59,7 +63,7 @@ export default function HomepageReview({ reviewData }) {
     }, [user_id, currentUserId]);
 
     const displayUsername = isBlockedUser ? "Blocked User" : username;
-    const displayText = isBlockedUser ? "This message is from a blocked user" : review_text;
+    const displayText = isBlockedUser ? "This review is from a blocked user." : review_text;
     const displayPfp = isBlockedUser
         ? "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
         : pfp;
@@ -69,7 +73,11 @@ export default function HomepageReview({ reviewData }) {
             <img
                 src={img}
                 title={title}
-                className="max-w-27 max-h-42 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
+                className={`max-w-27 max-h-42 rounded-sm hover:cursor-pointer
+                    ${ darkOn ? 
+                        "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
+                      : "hover:outline-1 hover:outline-black hover:outline-offset-3"
+                    }`}
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block">
@@ -104,15 +112,18 @@ export default function HomepageReview({ reviewData }) {
                                 <Star
                                     key={value}
                                     className={`w-6 h-6 ${value <= rating
-                                        ? "fill-black stroke-black dark:fill-white dark:stroke-black"
-                                        : "fill-transparent stroke-black dark:fill-transparent dark:stroke-black"
+                                        ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black" 
+                                        : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                                         }`}
                                 />
                             );
                         })}
                     </div>
                 </div>
+                {showReviewText == true ? 
                 <ReviewText className="max-w-80 text-sm pt-2" content={displayText} />
+                : <div/> }
+                
             </div>
         </div>
     );

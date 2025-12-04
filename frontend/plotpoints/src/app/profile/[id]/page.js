@@ -19,6 +19,7 @@ import { getFollowers, getFollowing } from "@/lib/following";
 import { getBookmarksByUserId } from "@/lib/bookmarks";
 import { getFavoritesByUserId } from "@/lib/favorites";
 import "@/app/components/Profile.css";
+import { useSettings } from "@/app/context/SettingsProvider";
 
 export default function ProfilePage( {params} ){
 
@@ -47,6 +48,9 @@ export default function ProfilePage( {params} ){
     const [modalBio, setModalBio] = useState("");
     const { data: session } = useSession();
     console.log("User session data:", session);
+
+    // Dark Mode
+    const { darkMode: darkOn} = useSettings();
 
     // State for the image file
     const [imageFile, setImageFile] = useState(null);
@@ -194,21 +198,36 @@ export default function ProfilePage( {params} ){
             <div className="flex flex-row gap-5 justify-center min-h-screen">
                 <div className="grid mt-10 ml-10 w-1/5 max-h-fit">
                     <Image 
-                    className="aspect-square rounded-full place-self-center mb-2 border-2 border-[#000000]" 
+                    className={`aspect-square rounded-full place-self-center mb-2 border-2 
+                        ${darkOn ? "border-[#F3E9DC]" : "border-black"}`} 
                     src={profilePicture}
                     alt="User Image"
                     width="230"
                     height="230">
                     </Image>
+            
+
                     {/* Get username */}
                     <div className="grid grid-rows-5 gap-2">
                         <div className="flex flex-row justify-center items-center">
-                            <h1 className="text-3xl text-center inria-serif-regular">{profileDetails?.username || "Error: Username not found"}</h1>
+                            <h1 className="text-3xl text-center inria-serif-regular pr-3">{profileDetails?.username || "Error: Username not found"}</h1>
                             
                             {/*Verify current page is the current users profile*/}
                             {profileDetails?.user_id === session?.user?.id && (
-                            <img className="w-8 h-8 ml-3 hover:cursor-pointer hover:scale-110" src="/images/pencil.svg"
-                                onClick={() => setShowModal(true)}/> )}
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                fill="none" 
+                                viewBox="0 0 24 24" 
+                                strokeWidth="1" 
+                                stroke="currentColor" 
+                                className="size-9 transition-transform ease-in-out place-self-center will-change-transform hover:scale-115 hover:cursor-pointer origin-center"
+                                onClick={() => setShowModal(true)}>
+                                <path 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" 
+                                />
+                            </svg> )}
 
                                 {showModal &&
                                 <Modal onClose={() => setShowModal(false)}>
@@ -216,7 +235,8 @@ export default function ProfilePage( {params} ){
                                     <div className="flex flex-col w-full">   
                                         <div className="flex flex-row w-full justify-around items-center mt-5">
                                             <Image 
-                                                className="aspect-square rounded-full mb-5 border-2 border-[#000000]" 
+                                                className={`aspect-square rounded-full mb-5 border-2 
+                                                     ${darkOn ? "border-[#F3E9DC]" : "border-black"}`}
                                                 src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
                                                 alt="User Image"
                                                 width="170"
@@ -225,7 +245,8 @@ export default function ProfilePage( {params} ){
 
                                             {/*File input for images, hidden*/}
                                             <input type="file" id="profileImageUpload" name="profileImageUpload" accept="image/png, image/jpeg" className="hidden" onChange={handleImageChange}/>
-                                            <button className="blue text-sm shadow py-1 px-5 w-fit h-fit rounded-sm"
+                                            <button className={`blue text-sm btn-shadow py-1 px-5 w-fit h-fit rounded-md transition hover:cursor-pointer hover:bg-[#B0E0E6]
+                                                ${ darkOn ? "text-black": ""}`}
                                             onClick={async () => {
                                                 document.getElementById('profileImageUpload').click();
                                             }}
@@ -233,15 +254,16 @@ export default function ProfilePage( {params} ){
                                             Choose image...
                                             </button>
                                         </div>
-                                        <p className="text-sm font-bold text-gray-700 ml-9">Bio</p>                               
+                                        <p className="text-sm font-bold ml-9">Bio</p>                               
                                         <textarea
                                         placeholder="Write a bio"
                                         value={modalBio}
                                         onChange={(e) => setModalBio(e.target.value)}
-                                        className="w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
+                                        className={`w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center
+                                            ${ darkOn ? "bg-black" : "bg-[#dfcdb59e]"}`}
                                         />
                                         <button
-                                        className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                                        className="blue text-sm text-black btn-shadow m-4 py-1 px-5 w-fit rounded-md place-self-center"
                                         //onClick to save image and bio
                                         onClick={async () => {
 

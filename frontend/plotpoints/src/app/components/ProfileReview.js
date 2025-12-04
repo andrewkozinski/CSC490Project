@@ -1,6 +1,8 @@
 import Star from "./Star";
 import ReviewText from "./ReviewText";
 import { useSettings } from "../context/SettingsProvider";
+import { useState, useEffect } from "react";
+import "./Profile.css";
 
 export default function ProfileReview({ reviewData }) {
 
@@ -16,12 +18,34 @@ export default function ProfileReview({ reviewData }) {
     // const showReviewText = true;
     const { reviewText: showReviewText } = useSettings();
 
+    const { darkMode: darkOn} = useSettings();
+
+    const [isBlockedUser, setIsBlockedUser] = useState(false);
+
+    //   useEffect(() => {
+    //     if (!currentUserId || !jwtToken || userId === currentUserId) return;
+    
+    //     const fetchBlockedStatus = async () => {
+    //       try {
+    //         const data = await isBlocked(userId, currentUserId);
+    //         setIsBlockedUser(data.is_blocked);
+    //       } catch (err) {
+    //         console.error("Error checking block status:", err);
+    //       }
+    //     };
+    //     fetchBlockedStatus();
+    //   }, [userId, currentUserId, jwtToken]);
+
     return (
         <div className="flex flex-row rounded-[1px] max-w-full gap-4">
             <img
                 src={img}
                 title={title}
-                className="min-w-27 min-h-37 max-w-27 min-h-37 rounded-sm hover:outline-1 hover:outline-black hover:outline-offset-3 hover:cursor-pointer"
+                className={`max-w-27 max-h-37 min-w-27 max-w-37 rounded-sm hover:cursor-pointer
+                    ${ darkOn ? 
+                        "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
+                      : "hover:outline-1 hover:outline-black hover:outline-offset-3"
+                    }`}
                 onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
             />
             <div className="grid grid-rows-2 inline-block ">
@@ -34,8 +58,8 @@ export default function ProfileReview({ reviewData }) {
                             key={value}
                             className={`w-6 h-6
                                 ${value <= rating
-                                ? "fill-black dark:fill-white stroke-neutral-950 dark:stroke-black"
-                                : "fill-transparent dark:fill-transparent stroke-neutral-950 dark:stroke-black"
+                                ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                                : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
                                 }`}
                             />
 
@@ -43,9 +67,14 @@ export default function ProfileReview({ reviewData }) {
                                 })}
                     </div>
                     {/* <p className="w-full text-sm">{review_text}</p> */}
-                    {showReviewText == true ? 
-                    <ReviewText className="w-full text-sm" content={review_text} /> 
+                    {/* show review and blocked, show review and */}
+                    {showReviewText ? 
+                        isBlockedUser ? 
+                        <div/> 
+                        :
+                        <ReviewText className="w-full text-sm" content={review_text}/> 
                     : <div/> }
+                    
                     
             </div>    
             
