@@ -34,7 +34,7 @@ export default function ProfileReview({ reviewData }) {
                             key={value}
                             className={`w-6 h-6
                                 ${value <= rating
-                                ? "fill-black dark:fill-white stroke-neutral-950 dark:stroke-black"
+                                ? "fill-black"// "fill-black dark:fill-white stroke-neutral-950 dark:stroke-black"
                                 : "fill-transparent dark:fill-transparent stroke-neutral-950 dark:stroke-black"
                                 }`}
                             />
