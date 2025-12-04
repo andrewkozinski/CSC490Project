@@ -32,7 +32,7 @@ export default function BlockButton({ profileId, currentUserId, jwtToken }) {
             <>
                 <button
                     onClick={() => setShowConfirm(true)}
-                    className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-red-600 hover:bg-red-700 h-10"
+                    className="px-4 py-2 w-3/5 rounded text-white flex flex-row justify-center place-self-center transition cursor-pointer bg-red-600 hover:bg-red-700 h-10"
                 >
                     {/* Block icon */}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 mr-2">
@@ -81,7 +81,7 @@ export default function BlockButton({ profileId, currentUserId, jwtToken }) {
                     await unblockUser(profileId, jwtToken);
                     window.location.reload();
                 }}
-                className="px-4 py-2 rounded text-white flex flex-row justify-center transition cursor-pointer bg-gray-600 hover:bg-gray-700 h-10"
+                className="px-4 py-2 w-3/5 rounded text-white flex flex-row justify-center place-self-center transition cursor-pointer bg-gray-600 hover:bg-gray-700 h-10"
             >
                 {/* Unblock icon */}
                 <svg
