@@ -39,7 +39,7 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
           await followUser(profileId, jwtToken);
           window.location.reload();
         }}
-        className="px-4 py-2 w-3/5 rounded-sm text-white flex flex-row justify-center place-self-center transition cursor-pointer bg-[var(--color-brown)] h-10 hover:bg-[#7e675bd0]"
+        className="px-4 py-2 w-3/5 rounded-md text-white flex flex-row justify-center place-self-center transition cursor-pointer bg-[var(--color-brown)] h-10 hover:bg-[#7e675bd0]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@ export default function FollowButton({ profileId, currentUserId, jwtToken }) {
           await unfollowUser(profileId, jwtToken);
           window.location.reload();
         }}
-        className="px-4 py-2 w-3/5 rounded-sm text-white flex justify-center place-self-center transition cursor-pointer bg-[var(--color-brown)] h-10 hover:bg-[#7e675bd0]"
+        className="px-4 py-2 w-3/5 rounded-md text-white flex justify-center place-self-center transition cursor-pointer bg-[var(--color-brown)] h-10 hover:bg-[#7e675bd0]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

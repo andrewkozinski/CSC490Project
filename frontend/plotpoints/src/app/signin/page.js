@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import TextField from "../components/TextField";
+import "../components/Homepage.css";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -68,7 +69,7 @@ export default function SignIn() {
           <div className="flex justify-center">
             <button
               onClick={loading ? undefined : handleSignIn}
-              className="brown text-black shadow m-4 py-1 px-5 rounded-lg"
+              className="brown text-black btn-shadow m-4 py-1 px-5 rounded-lg"
               disabled={loading}
             >
               {loading ? "Submitting..." : "Submit"}

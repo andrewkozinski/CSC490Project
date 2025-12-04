@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import Switch from "../components/Switch";
 import Modal from "../components/Modal";
 import "../components/Homepage.css";
+import "../components/Header.css";
 import { useSession } from "next-auth/react";
 import { deleteAccount } from "@/lib/delete";
 import { signOut } from "next-auth/react";
@@ -20,7 +21,7 @@ export default function Settings() {
 
   return (
     <div>
-      <Header />
+      <Header/>
       <div className="flex items-center justify-center max-h-screen">
         <div className="w-3/4 h-full bottom-0 text-center mb-3 outline-transparent">
           <h1 className="text-3xl font-bold text-center mt-10">Settings</h1>
@@ -53,7 +54,7 @@ export default function Settings() {
 
           <div className="flex flex-row w-full items-center justify-center gap-38 p-5 pb-20">
             <button
-              className="red text-black shadow m-4 px-4 py-2 rounded-lg hover:cursor-pointer"
+              className="bg-red-600 text-[#F3E9DC] btn-shadow m-4 px-4 py-2 rounded-lg hover:cursor-pointer"
               onClick={() => setShowModal(true)}>
               Delete Account
             </button>
@@ -72,12 +73,12 @@ export default function Settings() {
                   </p>
                   <div className="flex flex-row w-full justify-around items-center">
                     <button
-                      className="blue text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                      className="green text-sm text-black btn-shadow m-4 py-1 px-5 w-fit rounded-md place-self-center"
                       onClick={() => setShowModal(false)}>
                       Cancel
                     </button>
                     <button
-                      className="red text-sm text-black shadow m-4 py-1 px-5 w-fit rounded-sm place-self-center"
+                      className="bg-red-600 text-sm text-[#F3E9DC] btn-shadow m-4 py-1 px-5 w-fit rounded-md place-self-center"
                       onClick={async () => {
                         setShowModal(false);
                         if (session?.accessToken) {
