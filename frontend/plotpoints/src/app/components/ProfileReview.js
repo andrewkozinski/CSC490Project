@@ -16,6 +16,8 @@ export default function ProfileReview({ reviewData }) {
     // const showReviewText = true;
     const { reviewText: showReviewText } = useSettings();
 
+    const { darkMode: darkOn} = useSettings();
+
     return (
         <div className="flex flex-row rounded-[1px] max-w-full gap-4">
             <img
@@ -34,8 +36,8 @@ export default function ProfileReview({ reviewData }) {
                             key={value}
                             className={`w-6 h-6
                                 ${value <= rating
-                                ? "fill-black"// "fill-black dark:fill-white stroke-neutral-950 dark:stroke-black"
-                                : "fill-transparent dark:fill-transparent stroke-neutral-950 dark:stroke-black"
+                                ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
+                                : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
                                 }`}
                             />
 

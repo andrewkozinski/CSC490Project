@@ -11,8 +11,8 @@
 }
 
 .dark {
-  --background: #1F1F1F;
-  --foreground: #F0F0F0;
+  --background: #363636;
+  --foreground: #F3E9DC;
 }
 
 
@@ -79,4 +79,8 @@ body {
   white-space: pre-line;
   font-size: 1rem;
   line-height: 1.5;
+}
+
+.beige {
+  background-color: #F3E9DC;
 }

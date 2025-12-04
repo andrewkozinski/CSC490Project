@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import Star from "./Star";
 import fetchUserReview from "@/utils/fetchUserReview";
 import SpoilerText from './SpoilerText';
+import { useSettings } from "../context/SettingsProvider";
 
 export default function Rating({
   label,
@@ -16,6 +17,7 @@ export default function Rating({
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
   const { data: session, status } = useSession();
+  const { darkMode: darkOn} = useSettings();
 
   // Debug logs
   console.log("Rating Component Rendered");
@@ -79,8 +81,8 @@ export default function Rating({
             <Star
               key={value}
               className={`w-8 h-8 ${value <= avgRating
-                ? "fill-black dark:fill-white stroke-black dark:stroke-black"
-                : "fill-transparent stroke-black dark:stroke-black"
+                ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
+                : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
                 }`}
             />
           );
@@ -100,8 +102,8 @@ export default function Rating({
                     <Star
                       key={value}
                       className={`w-8 h-8 ${value <= userReview.rating
-                        ? "fill-black dark:fill-white stroke-black dark:stroke-black"
-                        : "fill-transparent stroke-black dark:stroke-black"
+                        ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
+                        : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
                         }`}
                     />
                   );
@@ -129,8 +131,8 @@ export default function Rating({
                     >
                       <Star
                         className={`w-8 h-8 ${value <= (hover || rating)
-                          ? "fill-black dark:fill-white stroke-black dark:stroke-black"
-                          : "fill-transparent stroke-black dark:stroke-black"
+                          ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
+                          : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
                           }`}
                       />
                     </button>

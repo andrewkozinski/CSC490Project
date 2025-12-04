@@ -33,3 +33,14 @@
 .green {
   background-color: #31ff6bd8;
 }
+
+.img-effect:hover {
+  outline-color: black;
+  outline-offset: 3;
+  outline-width: 1;
+}
+html.dark .img-effect:hover {
+  outline-color: white;
+  outline-offset: 3;
+  outline-width: 1;
+}

@@ -27,6 +27,8 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
   // const showReviewText = false;
   const { reviewText: showReviewText } = useSettings();
 
+  const { darkMode: darkOn} = useSettings();
+
   //Fetch user voting status
   useEffect(() => {
     const fetchVoteStatus = async () => {
@@ -263,14 +265,15 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             <div className="flex flex-row">
               <p onClick={() => (window.location.href = `/profile/${userId}`)} className="underline underline-offset-4 mr-3 cursor-pointer">{displayUsername}</p>
               <div className="flex flex-row justify-center mb-3">
+      
                 {[...Array(5)].map((_, i) => {
                   const value = i + 1;
                   return (
                     <Star
                       key={value}
                       className={`w-6 h-6 ${value <= rating
-                        ? "fill-black"// "fill-black dark:fill-white stroke-black dark:stroke-black"
-                        : "fill-transparent stroke-black"// "fill-transparent stroke-black dark:stroke-black"
+                        ? darkOn ? "fill-white stroke-white" : "fill-black stroke-black"
+                        : darkOn ? "fill-transparent stroke-white" : "fill-transparent stroke-black"
                         }`}
                     />
                   );
