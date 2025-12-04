@@ -46,7 +46,7 @@ export default function SignIn() {
       <Header />
       <div className="flex flex-1 justify-center items-center">
         <div className="flex flex-col gap-4 w-1/5">
-          <h1 className="text-2xl inline-block text-center">Sign In</h1>
+          <h1 className="text-2xl inline-block text-center font-color">Sign In</h1>
           <TextField
             type="email"
             name="email"
