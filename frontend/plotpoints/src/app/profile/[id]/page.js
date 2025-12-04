@@ -259,7 +259,8 @@ export default function ProfilePage( {params} ){
                                         placeholder="Write a bio"
                                         value={modalBio}
                                         onChange={(e) => setModalBio(e.target.value)}
-                                        className="w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center"
+                                        className={`w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center
+                                            ${ darkOn ? "bg-black" : "bg-[#dfcdb59e]"}`}
                                         />
                                         <button
                                         className="blue text-sm text-black btn-shadow m-4 py-1 px-5 w-fit rounded-md place-self-center"

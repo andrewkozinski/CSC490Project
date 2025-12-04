@@ -207,7 +207,7 @@ async def get_review_data(media_type: str, media_id: str):
 
 @router.get("/get_recent_reviews")
 @cache(namespace="recent_reviews", expire=300)  # Cache for 5 minutes
-async def get_recent_reviews(limit: int = 3):
+async def get_recent_reviews(limit: int = 7):
     recent_reviews = reviews.get_recent_reviews(limit)
     if recent_reviews is None:
         return {"reviews": []}
@@ -254,7 +254,7 @@ async def get_recent_reviews(limit: int = 3):
 
 @router.get("/get_recent_reviews/by_user/{user_id}")
 @cache(namespace="recent_reviews_user_{user_id}", expire=300)  # Cache for 5 minutes needs to tested more
-async def get_recent_reviews_by_user_id(user_id: int, limit: int = 3):
+async def get_recent_reviews_by_user_id(user_id: int, limit: int = 7):
     user_reviews = reviews.get_recent_reviews_by_user_id(user_id, limit)
     if user_reviews is None:
         raise HTTPException(status_code=404, detail="Review not found")
