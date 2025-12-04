@@ -431,7 +431,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
 
       {/* Comments below review */}
       {showReviewText == true ?
-        <div className="flex w-full ml-27 mb-6">
+        <div className="flex w-10/11 ml-27 mb-6">
           <CommentList
             parentId={reviewId}
             parentType="review"
