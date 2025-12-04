@@ -1,6 +1,7 @@
 import Star from "./Star";
 import ReviewText from "./ReviewText";
 import { useSettings } from "../context/SettingsProvider";
+import { useState, useEffect } from "react";
 import "./Profile.css";
 
 export default function ProfileReview({ reviewData }) {
@@ -18,6 +19,22 @@ export default function ProfileReview({ reviewData }) {
     const { reviewText: showReviewText } = useSettings();
 
     const { darkMode: darkOn} = useSettings();
+
+    const [isBlockedUser, setIsBlockedUser] = useState(false);
+
+    //   useEffect(() => {
+    //     if (!currentUserId || !jwtToken || userId === currentUserId) return;
+    
+    //     const fetchBlockedStatus = async () => {
+    //       try {
+    //         const data = await isBlocked(userId, currentUserId);
+    //         setIsBlockedUser(data.is_blocked);
+    //       } catch (err) {
+    //         console.error("Error checking block status:", err);
+    //       }
+    //     };
+    //     fetchBlockedStatus();
+    //   }, [userId, currentUserId, jwtToken]);
 
     return (
         <div className="flex flex-row rounded-[1px] max-w-full gap-4">
@@ -50,9 +67,14 @@ export default function ProfileReview({ reviewData }) {
                                 })}
                     </div>
                     {/* <p className="w-full text-sm">{review_text}</p> */}
-                    {showReviewText == true ? 
-                    <ReviewText className="w-full text-sm" content={review_text} /> 
+                    {/* show review and blocked, show review and */}
+                    {showReviewText ? 
+                        isBlockedUser ? 
+                        <div/> 
+                        :
+                        <ReviewText className="w-full text-sm" content={review_text}/> 
                     : <div/> }
+                    
                     
             </div>    
             

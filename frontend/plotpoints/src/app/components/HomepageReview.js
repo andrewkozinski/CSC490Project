@@ -63,7 +63,7 @@ export default function HomepageReview({ reviewData }) {
     }, [user_id, currentUserId]);
 
     const displayUsername = isBlockedUser ? "Blocked User" : username;
-    const displayText = isBlockedUser ? "This message is from a blocked user" : review_text;
+    const displayText = isBlockedUser ? "This review is from a blocked user." : review_text;
     const displayPfp = isBlockedUser
         ? "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
         : pfp;

@@ -92,7 +92,10 @@ html.dark .notification-content a:hover {
   padding: 10;
 }
 
+html.dark .slick-dots li ::before {
+    color: #F3E9DC;
+}
 
-/* .beige {
-  background-color: #F3E9DC;
-} */
+html.dark .slick-dots li.slick-active button:before {
+    color:#F3E9DC !important;
+}
