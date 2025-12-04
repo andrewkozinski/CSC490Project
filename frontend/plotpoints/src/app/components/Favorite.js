@@ -3,11 +3,14 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { checkIfFavorited, addFavorite, removeFavorite } from "@/lib/favorites";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function Favorite({mediaType, mediaId}) {
 
   const { data: session } = useSession();
   const [isFavorited, setIsFavorited] = useState(false);
+  const { darkMode } = useSettings();
+
 
   useEffect(() => {
     const checkFavoriteStatus = async () => {
@@ -54,7 +57,15 @@ export default function Favorite({mediaType, mediaId}) {
         viewBox="0 0 24 24"
         strokeWidth="1"
         stroke="currentColor"
-        className={isFavorited === true ? "size-8 fill-black cursor-pointer" : "size-8 hover:fill-black cursor-pointer"}
+        className={`size-8 cursor-pointer ${
+          isFavorited
+            ? darkMode
+              ? "fill-white stroke-white"
+              : "fill-black stroke-black"
+            : darkMode
+            ? "hover:fill-white stroke-white fill-transparent"
+            : "hover:fill-black stroke-black fill-transparent"
+        }`}
         onClick={handleFavorite}
       >
         <path 

@@ -6,6 +6,7 @@ export function parseSpoilers(text) {
       key: 0
     }];
   }
+
   const parts = text.split(/(\|\|.*?\|\|)/g);
 
   return parts.map((part, i) => {

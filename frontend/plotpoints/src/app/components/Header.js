@@ -15,11 +15,6 @@ export default function Header() {
 
   const [notificationsList, setNotificationsList] = useState([]);
 
-  //Since header is on every page, added this check for dark mode
-  useEffect(() => {
-  const savedDark = localStorage.getItem("darkMode") === "true";
-  document.body.classList.toggle("dark", savedDark);
-  }, []);
 
   useEffect(() => {
     // Fetch notifications for the user

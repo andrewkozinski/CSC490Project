@@ -238,19 +238,24 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
           onClick={() => (window.location.href = `/profile/${user_id}`)}
         >
           <Image
-            src={profilePicture}
-            title={username}
-            alt="profile picture"
-            width={50}
-            height={50}
-            className="rounded-full w-13 h-13 items-center justify-center"
-            onClick={() => (window.location.href = `/profile/${userId}`)}
-            onError={() =>
-              setProfilePicture(
-                "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
-              )
-            }
-          />
+  src={
+    isBlockedUser
+      ? "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+      : profilePicture
+  }
+  title={username}
+  alt="profile picture"
+  width={50}
+  height={50}
+  className="rounded-full w-13 h-13 items-center justify-center"
+  onClick={() => (window.location.href = `/profile/${userId}`)}
+  onError={() =>
+    setProfilePicture(
+      "https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg"
+    )
+  }
+/>
+
         </div>
         {/* Example review content */}
         <div className="flex flex-col mx-3 justify-between h-full grow">
@@ -264,8 +269,8 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
                     <Star
                       key={value}
                       className={`w-6 h-6 ${value <= rating
-                          ? "fill-black stroke-neutral-950"
-                          : "fill-transparent stroke-neutral-950"
+                        ? "fill-black dark:fill-white stroke-black dark:stroke-black"
+                        : "fill-transparent stroke-black dark:stroke-black"
                         }`}
                     />
                   );
@@ -274,11 +279,13 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             </div>
             {/* <p className="underline underline-offset-4">{username}</p> */}
             {/* <p className="mt-1  text-sm">{reviewText}</p> */}
-            {showReviewText == true ?
+            {showReviewText == true &&
               <ReviewText
-                className="mt-1  text-sm"
-                content={reviewText}
+                className="mt-1 text-sm"
+                content={isBlockedUser ? "This message is from a blocked user" : reviewText}
               />
+            }
+
               : <div/>}
             {/* <ReviewText
               className="mt-1  text-sm"

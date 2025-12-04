@@ -8,9 +8,6 @@
     display: inline-block;
 }
 
-body.dark .header{
-    background-color: white;
-}
 
 .hoverCat {
     transition: all 0.2s ease-in-out;

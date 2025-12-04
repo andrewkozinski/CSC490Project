@@ -3,12 +3,13 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { checkIfBookmarked, addBookmark, removeBookmark } from "@/lib/bookmarks";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function Bookmark({mediaType, mediaId}) {
 
   const { data: session } = useSession();
   const [isBookmarked, setIsBookmarked] = useState(false);
-
+  const { darkMode } = useSettings();
   useEffect(() => {
     const checkBookmarkStatus = async () => {
       if (session && session.user && session.user.id) {
@@ -54,7 +55,15 @@ export default function Bookmark({mediaType, mediaId}) {
         viewBox="0 0 24 24"
         strokeWidth="1"
         stroke="currentColor"
-        className={isBookmarked === true ? "size-8 fill-black cursor-pointer" : "size-8 hover:fill-black cursor-pointer"}
+        className={`size-8 cursor-pointer ${
+          isBookmarked
+            ? darkMode
+              ? "fill-white stroke-white"
+              : "fill-black stroke-black"
+            : darkMode
+            ? "hover:fill-white stroke-white fill-transparent"
+            : "hover:fill-black stroke-black fill-transparent"
+        }`}
         onClick={handleBookmark}
       >
         <path

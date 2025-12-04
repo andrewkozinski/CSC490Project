@@ -31,13 +31,14 @@ export default function ProfileReview({ reviewData }) {
                         const value = i + 1;
                         return (
                             <Star
-                                key={value}
-                                className={`w-6 h-6 ${
-                                value <= rating
-                                    ? "fill-black stroke-neutral-950"
-                                    : "fill-transparent stroke-neutral-950"
+                            key={value}
+                            className={`w-6 h-6
+                                ${value <= rating
+                                ? "fill-black dark:fill-white stroke-neutral-950 dark:stroke-black"
+                                : "fill-transparent dark:fill-transparent stroke-neutral-950 dark:stroke-black"
                                 }`}
-                                />
+                            />
+
                                 );
                                 })}
                     </div>
