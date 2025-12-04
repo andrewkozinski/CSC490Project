@@ -285,7 +285,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
                 content={isBlockedUser ? "This message is from a blocked user" : reviewText}
               />
             }
-            <div />
+            {/* <div /> No idea why this is here, just commented it out */}
             {/* <ReviewText
               className="mt-1  text-sm"
               content={displayText}
