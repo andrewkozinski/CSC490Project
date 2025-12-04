@@ -395,7 +395,7 @@ return (
     )}
 
     {/* Comments below comment */}
-    <div className="flex w-5/6 ml-27 mb-6">
+    <div className="flex max-w-8/9 ml-27 mb-6">
       <CommentList
         reviewId={reviewId}
         parentId={commentId}
