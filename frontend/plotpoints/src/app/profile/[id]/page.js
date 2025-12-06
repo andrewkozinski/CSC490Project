@@ -258,6 +258,7 @@ export default function ProfilePage( {params} ){
                                         <textarea
                                         placeholder="Write a bio"
                                         value={modalBio}
+                                        maxLength={144}
                                         onChange={(e) => setModalBio(e.target.value)}
                                         className={`w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center
                                             ${ darkOn ? "bg-black" : "bg-[#dfcdb59e]"}`}
@@ -311,7 +312,9 @@ export default function ProfilePage( {params} ){
                                 </Modal>
                                 }
                         </div>
-                        <p className="text-center border-y-1 self-center">{profileDetails?.bio || "No description."}</p>
+                        <div className="">
+                            <p className="text-center border-y-1 self-center">{profileDetails?.bio || "No description."}</p>
+                        </div>
                         <div className="grid grid-cols-2">
                             <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/followers`}>{followers.length}<br></br>Followers</Link>
                             <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/following`}>{following.length}<br></br>Following</Link>

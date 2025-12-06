@@ -2,6 +2,7 @@ import Image from "next/image";
 import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 import { useState, useEffect } from "react";
 import BlockButton from "./BlockButton";
+import { useSettings } from "../context/SettingsProvider";
 
 export default function FollowProfile({
   name,
@@ -27,11 +28,14 @@ export default function FollowProfile({
     }
   }, [user_id, currentUserId, jwtToken]);
 
+  const { darkMode: darkOn} = useSettings();
+
   return (
     <div
-      className="group m-2 mt-5 p-4 rounded-xl shadow-md blue 
+      className={`group m-2 mt-5 p-4 rounded-xl shadow-md
                  hover:shadow-xl hover:-translate-y-1 transition-all duration-300
-                 flex justify-between" 
+                 flex justify-between
+                 ${darkOn ? "bg-[#101010]": "blue"}`} 
     >
       {/* Profile Left Side */}
       <div className="flex flex-row items-center">
@@ -50,7 +54,7 @@ export default function FollowProfile({
           <p className="text-lg underline underline-offset-3">
             {name || "Your Name"}
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm">
             {desc || "Your Description"}
           </p>
         </div>
@@ -66,13 +70,13 @@ export default function FollowProfile({
                 await unfollowUser(user_id, jwtToken);
                 window.location.reload();
               }}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              className="px-3 py-1 bg-[var(--color-brown)] rounded-md transition hover:bg-[#7e675bd0] hover:cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                strokeWidth="1"
                 stroke="currentColor"
                 className="size-8"
               >
@@ -92,13 +96,13 @@ export default function FollowProfile({
                 await followUser(user_id, jwtToken);
                 window.location.reload();
               }}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              className="px-3 py-1 bg-[var(--color-brown)] rounded-md hover:bg-[#7e675bd0] hover:cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                strokeWidth="1"
                 stroke="currentColor"
                 className="size-8"
               >
