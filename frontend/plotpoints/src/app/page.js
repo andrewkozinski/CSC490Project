@@ -9,6 +9,7 @@ import './components/Homepage.css';
 import Carousel from "./components/Carousel";
 import SkeletonImage from "./components/SkeletonImage";
 import HomepageReviewSkeleton from "./components/HomepageReviewSkeleton";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -67,7 +68,10 @@ export default function Home() {
         <div className="w-2/3">
           <Carousel label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
-              <img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => window.location.href = `/movies/review/${movie.id}`} style={{ cursor: 'pointer' }}/>
+              <Link href={`/movies/review/${movie.id}`} key={movie.id} className="image-link">
+                <img className="image" src={movie.img} alt={movie.title} />
+              </Link>
+              //<img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => window.location.href = `/movies/review/${movie.id}`} style={{ cursor: 'pointer' }}/>
             ))}
             {loading && (
               Array.from({ length: 20 }).map((_, index) => (
@@ -77,7 +81,10 @@ export default function Home() {
           </Carousel>
           <Carousel label="Trending Shows">
             {trendingShows?.results?.map((show) => (
-              <img key={show.id} className="image" src={show.img} alt={show.title} onClick={() => window.location.href = `/tv/review/${show.id}`} style={{ cursor: 'pointer' }}/>
+              <Link href={`/tv/review/${show.id}`} key={show.id} className="image-link">
+                <img className="image" src={show.img} alt={show.title} />
+              </Link>
+              //<img key={show.id} className="image" src={show.img} alt={show.title} onClick={() => window.location.href = `/tv/review/${show.id}`} style={{ cursor: 'pointer' }}/>
             ))}
             {loading && (
               Array.from({ length: 20 }).map((_, index) => (
@@ -88,7 +95,10 @@ export default function Home() {
           </Carousel>
           <Carousel label="Trending Books">
             {trendingBooks?.results?.map((book) => (
-              <Image key={book.id} className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} onClick={() => window.location.href = `/books/review/${book.id}`} style={{ cursor: 'pointer' }} alt={book.title} width={1000} height={1500}/>
+              <Link href={`/books/review/${book.id}`} key={book.id} className="image-link">
+                <img className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} alt={book.title} />
+              </Link>
+              //<Image key={book.id} className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} onClick={() => window.location.href = `/books/review/${book.id}`} style={{ cursor: 'pointer' }} alt={book.title} width={1000} height={1500}/>
             ))}
             {loading && (
               Array.from({ length: 20 }).map((_, index) => (
