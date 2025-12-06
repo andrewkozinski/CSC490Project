@@ -45,6 +45,15 @@ export default function Test2() {
     return(
       <div>
       <Header/>
+
+      <img
+        src="/images/spr_tenna_dance_cabbage_big.gif"
+        alt="Dancing Tenna"
+        className="absolute left-1/2 -translate-x-1/2 animate-fall"
+        style={{ width: "1000px", height: "1000px" }}
+      />
+
+
       <div className="flex grid-cols-2 items-center p-15">
         <div className="items-top float:right place-items-top -mt-140">
           <h1 className="text-4xl inria-serif-regular whitespace-nowrap">Welcome to Tenna Points!</h1>
@@ -58,7 +67,7 @@ export default function Test2() {
             <Image src="/images/spr_tenna_t_pose_big.gif" alt="Loading" width={500} height={300} />
             <Image src="/images/spr_tenna_t_pose_big.gif" alt="Loading" width={500} height={300} />
           </GenreContainer>
-          <GenreContainer label="Loading...">
+          <GenreContainer label="Tenna...">
             <Image src="/images/spr_tenna_t_pose_big.gif" alt="Loading" width={500} height={300} />
             <Image src="/images/spr_tenna_t_pose_big.gif" alt="Loading" width={500} height={300} />
             <Image src="/images/spr_tenna_t_pose_big.gif" alt="Loading" width={500} height={300} />
@@ -75,6 +84,20 @@ export default function Test2() {
         </div>
       </div>
       <Footer/>
+
+      <style jsx>{`
+        @keyframes fall {
+          0% {
+            top: -5000px;
+          }
+          100% {
+            top: 120vh; /* goes past viewport */
+          }
+        }
+        .animate-fall {
+          animation: fall 20s linear infinite;
+        }
+      `}</style>
       
     </div>
     );
