@@ -1,10 +1,12 @@
 export async function GET(request, context) {
     const params = await context.params;
     const { id } = params;
+    const url = new URL(request.url);
+    const limit = url.searchParams.get('limit');
 
-    console.log(`Fetching recent reviews for user id: ${id}`);
+    console.log(`Fetching recent reviews for user id: ${id} with limit: ${limit}`);
 
-    const res = await fetch(`${process.env.API_URL}/reviews/get_recent_reviews/by_user/${id}`);
+    const res = await fetch(`${process.env.API_URL}/reviews/get_recent_reviews/by_user/${id}?limit=${limit}`);
     if (!res.ok) {
         return new Response("Failed to fetch recent reviews womp womp", { status: 500 });
     }

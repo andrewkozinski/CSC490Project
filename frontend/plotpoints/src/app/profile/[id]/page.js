@@ -85,7 +85,7 @@ export default function ProfilePage( {params} ){
 
         const fetchRecentReviews = async () => {
             try {
-                const response = await fetch(`/api/profiles/get/${id}/recent_reviews`);
+                const response = await fetch(`/api/profiles/get/${id}/recent_reviews?limit=3`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch recent reviews");
                 }
