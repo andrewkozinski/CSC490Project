@@ -19,6 +19,7 @@ export default function Rating({
   const [review, setReview] = useState("");
   const { data: session, status } = useSession();
   const { darkMode: darkOn} = useSettings();
+  const [posting, setPosting] = useState(false);
 
   // Debug logs
   console.log("Rating Component Rendered");
@@ -42,6 +43,7 @@ export default function Rating({
 
   // Handle posting a new review
   const handlePost = async () => {
+    setPosting(true);
     console.log(`Post for ${id}:`);
     console.log(`Rating: ${rating} stars`);
     console.log(`Review: ${review}`);
@@ -161,10 +163,11 @@ export default function Rating({
 
               {/* Post button */}
               <button
-                className="cursor-pointer blue text-sm btn-post shadow mt-3 py-2 px-6 rounded-md transition hover:bg-blue"
+                className={`text-sm btn-post shadow mt-3 py-2 px-6 rounded-md transition blue ${posting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer  hover:bg-blue'}`}
                 onClick={handlePost}
+                disabled={posting}
               >
-                Post!
+                {posting ? "Posting..." : "Post!"}
               </button>
             </>
           )}
