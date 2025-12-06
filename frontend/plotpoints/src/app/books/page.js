@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
@@ -57,78 +57,93 @@ export default function Books() {
     <div>
       <Header />
       <main className="p-10">
-      
+
         {/* Genre Containers */}
-        
+
         <Carousel label="Romance Books">
-                  {romanceBooks.map((book) => (
-                    <Image
-                      key={book.id}
-                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
-                      title={book.title}
-                      alt={book.title}
-                      className="image"
-                      onClick={() => window.location.href = `/books/review/${book.id}`}
-                      style={{ cursor: 'pointer' }}
-                      width={1000}
-                      height={1500}
-                    />
-                  ))}
+          {romanceBooks.map((book) => (
+            <Image
+              key={book.id}
+              src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
+              title={book.title}
+              alt={book.title}
+              className="image"
+              onClick={() => window.location.href = `/books/review/${book.id}`}
+              style={{ cursor: 'pointer' }}
+              width={1000}
+              height={1500}
+            />
+          ))}
+          {romanceBooks.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
         <Carousel label="Crime Books">
-                  {crimeBooks.map((book) => (
-                    <Image
-                      key={book.id}
-                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
-                      title={book.title}
-                      alt={book.title}
-                      className="image"
-                      onClick={() => window.location.href = `/books/review/${book.id}`}
-                      style={{ cursor: 'pointer' }}
-                      width={1000}
-                      height={1500}
-                    />
-                  ))}
+          {crimeBooks.map((book) => (
+            <Image
+              key={book.id}
+              src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
+              title={book.title}
+              alt={book.title}
+              className="image"
+              onClick={() => window.location.href = `/books/review/${book.id}`}
+              style={{ cursor: 'pointer' }}
+              width={1000}
+              height={1500}
+            />
+          ))}
+          {crimeBooks.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
         <Carousel label="Fantasy Books">
-                  {fantasyBooks.map((book) => (
-                    <Image
-                      key={book.id}
-                      src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
-                      title={book.title}
-                      alt={book.title}
-                      className="image"
-                      onClick={() => window.location.href = `/books/review/${book.id}`}
-                      style={{ cursor: 'pointer' }}
-                      width={1000}
-                      height={1500}
-                    />
-                  ))}
+          {fantasyBooks.map((book) => (
+            <Image
+              key={book.id}
+              src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
+              title={book.title}
+              alt={book.title}
+              className="image"
+              onClick={() => window.location.href = `/books/review/${book.id}`}
+              style={{ cursor: 'pointer' }}
+              width={1000}
+              height={1500}
+            />
+          ))}
+          {fantasyBooks.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
 
         {/* Check if user is logged in, if so show recommendations */}
         {session?.user && (
           <Carousel label="Recommended Books">
-          {/* If 0 show skeleton cards */}
-          {recommendedBooks.length === 0 ? (
-            Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} />
-            ))
-          ) : (
-            recommendedBooks.map((book) => (  
-              <img
-                key={book.id}
-                src={book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
-                title={book.name}
-                className="image"
-                onClick={() => window.location.href = `/books/review/${book.id}`}
-                style={{ cursor: 'pointer' }}
-              />
-            ))
-          )}
+            {/* If 0 show skeleton cards */}
+            {recommendedBooks.length === 0 ? (
+              Array.from({ length: 20 }).map((_, index) => (
+                <SkeletonImage key={index} useTennaImage={true} />
+              ))
+            ) : (
+              recommendedBooks.map((book) => (
+                <img
+                  key={book.id}
+                  src={book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
+                  title={book.name}
+                  className="image"
+                  onClick={() => window.location.href = `/books/review/${book.id}`}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))
+            )}
           </Carousel>
         )}
 

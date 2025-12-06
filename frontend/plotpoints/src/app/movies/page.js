@@ -102,6 +102,11 @@ export default function Movies() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {upcomingMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
         <Carousel label="Horror Movies">
           {horrorMovies.map((movie) => (
@@ -114,6 +119,11 @@ export default function Movies() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {horrorMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
         <Carousel label="Comedy Movies">
           {comedyMovies.map((movie) => (
@@ -126,6 +136,11 @@ export default function Movies() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {comedyMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
         <Carousel label="Science Fiction Movies">
           {sciFiMovies.map((movie) => (
@@ -138,6 +153,11 @@ export default function Movies() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {sciFiMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
         <Carousel label="History Movies">
           {historyMovies.map((movie) => (
@@ -150,6 +170,11 @@ export default function Movies() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {historyMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
         {/* Check if user is logged in, if so show recommendations */}
@@ -158,7 +183,7 @@ export default function Movies() {
           {/* If 0 show skeleton cards */}
           {recommendedMovies.length === 0 ? (
             Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} />
+              <SkeletonImage key={index} useTennaImage={true} />
             ))
           ) : (
             recommendedMovies.map((movie) => (  

@@ -93,10 +93,19 @@ async def fetch_all_comments():
 #@cache(namespace="comments_{review_id}", expire=3600)
 async def fetch_comments_for_review(review_id: int):
     comments = get_comments_by_review_id(review_id)
+    print('requested comments for review id:', review_id)
     if comments is not None:
+
+        returned_comments = []
 
         #For each comment, add a username field by looking up the user id
         for comment in comments:
+
+            #Skip and remove from comments
+            if comment["parent_comm_id"] is not None:
+                print("Comment reply found, skipping:", comment["comm_id"])
+                continue
+
             user_id = comment["user_id"]
             print(user_id)
             if user_id:
@@ -109,7 +118,10 @@ async def fetch_comments_for_review(review_id: int):
             votes = vote.get_vote_by_comment_id(comment["comm_id"])
             comment["votes"] = votes if votes else {"upvotes": 0, "downvotes": 0}
 
-        return {"comments": comments}
+            #Add to returned comments
+            returned_comments.append(comment)
+
+        return {"comments": returned_comments}
     else:
         return {"comments": []}
 

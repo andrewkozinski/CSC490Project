@@ -6,6 +6,7 @@ import Image from "next/image";
 import Filter from "@/app/components/Filter";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { randomTennaLoading } from "@/lib/random_tenna_loading";
 
 
 export default function Home() {
@@ -61,7 +62,9 @@ export default function Home() {
     });
 
 
+    const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
     useEffect(() => {
+        setLoadingImage(randomTennaLoading());
         const fetchSearchResults = async () => {
             try {
                 const response = await fetch(`/api/search/${encodeURIComponent(decodedQuery)}`);
@@ -86,7 +89,10 @@ export default function Home() {
         return (
             <div>
                 <Header />
-                <p className="m-10 min-h-screen">Loading...</p>
+                <div className="flex flex-col items-center justify-center h-4/5 mt-7 mb-7">
+                    <h1 className="text-2xl mb-4">Loading...</h1>
+                    <Image src={loadingImage} alt="Loading" width={500} height={300} />
+                </div>
                 <Footer />
             </div>
         );

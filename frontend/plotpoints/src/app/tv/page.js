@@ -79,6 +79,12 @@ export default function TV() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {/* Show skeleton cards if 0 */}
+          {airingTodayShows.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
         <Carousel label ="Drama Shows">
           {dramaShows.map((show) => (
@@ -91,6 +97,12 @@ export default function TV() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {/* Show skeleton cards if 0 */}
+          {dramaShows.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
         <Carousel label ="Comedy Shows">
           {comedyShows.map((show) => (
@@ -103,6 +115,12 @@ export default function TV() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {/* Show skeleton cards if 0 */}
+          {comedyShows.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
         <Carousel label ="Kids Shows">
           {kidsShows.map((show) => (
@@ -115,6 +133,13 @@ export default function TV() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {/* Show skeleton cards if 0 */}
+          {kidsShows.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+
         </Carousel>
         <Carousel label ="Crime Shows">
           {crimeShows.map((show) => (
@@ -127,6 +152,12 @@ export default function TV() {
               style={{ cursor: 'pointer' }}
             />
           ))}
+          {/* Show skeleton cards if 0 */}
+          {crimeShows.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
         {/* Check if user is logged in, if so show recommendations */}
@@ -135,7 +166,7 @@ export default function TV() {
           {/* If 0 show skeleton cards */}
           {recommendedShows.length === 0 ? (
             Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} />
+              <SkeletonImage key={index} useTennaImage={true} />
             ))
           ) : (
             recommendedShows.map((show) => (  
