@@ -88,7 +88,7 @@ export default function Test2() {
       <style jsx>{`
         @keyframes fall {
           0% {
-            top: -5000px;
+            top: -4000px;
           }
           100% {
             top: 120vh; /* goes past viewport */
