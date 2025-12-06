@@ -23,6 +23,7 @@ def add_user_vote(user_id, vote_id, vote_type):
         return {
             "user_id": user_id,
             "vote_id": vote_id,
+            "code": 200
         }
 
     except oracledb.IntegrityError as e:
@@ -55,6 +56,7 @@ def delete_user_vote(user_id, vote_id):
 
         return {
             "Success": True,
+            "code": 200
         }
 
     except oracledb.IntegrityError as e:
