@@ -313,8 +313,8 @@ export default function ProfilePage( {params} ){
                                 </Modal>
                                 }
                         </div>
-                        <div className="">
-                            <p className="text-center border-y-1 self-center">{profileDetails?.bio || "No description."}</p>
+                        <div className="overflow-y-auto max-w-xs">
+                            <p className="text-center border-y-1 self-center break-words">{profileDetails?.bio || "No description."}</p>
                         </div>
                         <div className="grid grid-cols-2">
                             <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/followers`}>{followers.length}<br></br>Followers</Link>
