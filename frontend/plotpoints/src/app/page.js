@@ -8,7 +8,7 @@ import Review from "./components/HomepageReview";
 import './components/Homepage.css';
 import Carousel from "./components/Carousel";
 import SkeletonImage from "./components/SkeletonImage";
-
+import HomepageReviewSkeleton from "./components/HomepageReviewSkeleton";
 
 export default function Home() {
 
@@ -108,6 +108,11 @@ export default function Home() {
                 reviewData={review}
               />
             ))}
+            {loading && (
+              Array.from({ length: 6 }).map((_, index) => (
+                <HomepageReviewSkeleton key={index} useTennaImage={false} />
+              ))
+            )}
           </div>
         </div>
       
