@@ -9,6 +9,7 @@ import { getRecommendedMovies } from "@/lib/recommendations";
 import { useSession } from "next-auth/react";
 import SkeletonImage from "../components/SkeletonImage";
 import { Skeleton } from "@mui/material";
+import Link from "next/link";
 
 export default function Movies() {
 
@@ -93,14 +94,16 @@ export default function Movies() {
         */}
         <Carousel label="Upcoming Movies">
           {upcomingMovies.map((movie) => (
-            <img
-              key={movie.id}
-              src={movie.img}
-              title={movie.title}
-              className="image"
-              onClick={() => window.location.href = `/movies/review/${movie.id}`}
-              style={{ cursor: 'pointer' }}
-            />
+            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
+              <img
+                // key={movie.id}
+                src={movie.img}
+                title={movie.title}
+                className="image"
+                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
           ))}
           {upcomingMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -110,14 +113,16 @@ export default function Movies() {
         </Carousel>
         <Carousel label="Horror Movies">
           {horrorMovies.map((movie) => (
-            <img 
-              key={movie.id}
-              src={movie.img}
-              title={movie.title}
-              className="image"
-              onClick={() => window.location.href = `/movies/review/${movie.id}`}
-              style={{ cursor: 'pointer' }}
-            />
+            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
+              <img 
+                // key={movie.id}
+                src={movie.img}
+                title={movie.title}
+                className="image"
+                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
           ))}
           {horrorMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -127,14 +132,16 @@ export default function Movies() {
         </Carousel>
         <Carousel label="Comedy Movies">
           {comedyMovies.map((movie) => (
-            <img
-              key={movie.id}
-              src={movie.img}
-              title={movie.title}
-              className="image"
-              onClick={() => window.location.href = `/movies/review/${movie.id}`}
-              style={{ cursor: 'pointer' }}
-            />
+            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
+              <img
+                // key={movie.id}
+                src={movie.img}
+                title={movie.title}
+                className="image"
+                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
           ))}
           {comedyMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -144,14 +151,16 @@ export default function Movies() {
         </Carousel>
         <Carousel label="Science Fiction Movies">
           {sciFiMovies.map((movie) => (
+            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
             <img
-              key={movie.id}
+              // key={movie.id}
               src={movie.img}
               title={movie.title}
               className="image"
-              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              // onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
+            </Link>
           ))}
           {sciFiMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -161,14 +170,16 @@ export default function Movies() {
         </Carousel>
         <Carousel label="History Movies">
           {historyMovies.map((movie) => (
-            <img
-              key={movie.id}
-              src={movie.img}
-              title={movie.title}
-              className="image"
-              onClick={() => window.location.href = `/movies/review/${movie.id}`}
-              style={{ cursor: 'pointer' }}
-            />
+            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
+              <img
+                // key={movie.id}
+                src={movie.img}
+                title={movie.title}
+                className="image"
+                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
           ))}
           {historyMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -187,14 +198,16 @@ export default function Movies() {
             ))
           ) : (
             recommendedMovies.map((movie) => (  
+              <Link href={`/movies/review/${movie.id}`} key={movie.id}>
               <img
-                key={movie.id}
+                // key={movie.id}
                 src={movie.img}
                 title={movie.title}
                 className="image"
-                onClick={() => window.location.href = `/movies/review/${movie.id}`}
+                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
                 style={{ cursor: 'pointer' }}
               />
+              </Link>
             ))
           )}
           </Carousel>
