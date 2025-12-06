@@ -4,6 +4,11 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Image from "next/image";
 import Footer from "../components/Footer";
+import { checkIfBookmarked, getBookmarksByUserId,addBookmark,removeBookmark } from "@/lib/bookmarks";
+import { getNotifications, getNotifCount, readNotification} from "@/lib/notifications";
+import { getRecommendedMedia } from "@/lib/recommendations";
+import { blockUser, unblockUser, isBlocked, isBlockedByOtherUser } from "@/lib/blocking";
+import { isReviewTextEnabled, updateReviewTextSetting } from "@/lib/settings";
 
 export default function SessionInfo() {
   const { data: session, status } = useSession();
@@ -31,9 +36,27 @@ export default function SessionInfo() {
 
   const testFunction = async () => {
     //const res = await fetch("/api/tv/details/1405/stream_links");
-    const res = await fetch("/api/movies/details/634649/stream_links");
-    const data = await res.json();
-    console.log(data);
+    //const res = await fetch("/api/movies/details/634649/stream_links");
+    //const data = await res.json();
+    //console.log(data);
+    // const media_type = "movie";
+    // const bookmarkId = 11; 
+    // console.log(await addBookmark("movie", `${11}`, session?.accessToken));
+    // console.log(await checkIfBookmarked("movie", `${11}`, session?.user?.id));
+    // console.log(await getBookmarksByUserId(session?.user?.id, 5));
+    //console.log(await getNotifications(session?.user?.id));
+    // // console.log(await readNotification(123, session?.accessToken));
+    // console.log(await getRecommendedMedia("tvshows", session?.user?.id));
+    // console.log(await getRecommendedMedia("movies", session?.user?.id));
+    // console.log(await getRecommendedMedia("books", session?.user?.id));
+    // console.log(await unblockUser(6, session?.accessToken));
+    // console.log(await isBlocked(6, session?.user?.id));
+    // console.log(await isReviewTextEnabled(session?.accessToken));
+    // console.log(await updateReviewTextSetting(true, session?.accessToken));
+    // console.log(await isReviewTextEnabled(session?.accessToken));
+    // console.log(await updateReviewTextSetting(false, session?.accessToken));
+    // console.log(await isReviewTextEnabled(session?.accessToken));
+    console.log(await isBlockedByOtherUser(6, session?.user?.id));
   };
 
   return (
@@ -44,7 +67,6 @@ export default function SessionInfo() {
        If the value is true, it returns the value to the right of the colon. 
        If the value is false, it returns the value to the right of the colon.
        */}
-
         {status === "loading" ? 
         
         (
@@ -98,8 +120,12 @@ export default function SessionInfo() {
           </div>
         )
         }
-
-        {/*<button onClick={testFunction} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Testing Button (currently testing responses from streaming links)</button>*/}
+        {/* <Image src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/profiles/user_5_9d808a2d-5f50-4e3e-b120-f6b05414bcfa.jpg"
+        width={250}
+        height={250}
+        alt={"Test Image from Oracle Cloud"}
+        /> */}
+        <button onClick={testFunction} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Testing Button</button>
       </div>
       <Footer />
     </>

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Star from "./Star";
 import fetchUserReview from "@/utils/fetchUserReview";
+import SpoilerText from './SpoilerText';
+import { useSettings } from "../context/SettingsProvider";
+import "../components/Header.css";
 
 export default function Rating({
   label,
@@ -15,6 +18,7 @@ export default function Rating({
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
   const { data: session, status } = useSession();
+  const { darkMode: darkOn} = useSettings();
 
   // Debug logs
   console.log("Rating Component Rendered");
@@ -77,11 +81,10 @@ export default function Rating({
           return (
             <Star
               key={value}
-              className={`w-8 h-8 ${
-                value <= avgRating
-                  ? "fill-[#FFFC00] stroke-neutral-950"
-                  : "fill-transparent stroke-neutral-950"
-              }`}
+              className={`w-8 h-8 ${value <= avgRating
+                ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
+                }`}
             />
           );
         })}
@@ -92,23 +95,22 @@ export default function Rating({
           {/* If the user already has a review, show their rating */}
           {userReview ? (
             <div className="text-center">
-              <p className="text-black text-md">Your Rating</p>
+              <p className="text-md">Your Rating</p>
               <div className="flex flex-row justify-center mb-2">
                 {[...Array(5)].map((_, i) => {
                   const value = i + 1;
                   return (
                     <Star
                       key={value}
-                      className={`w-8 h-8 ${
-                        value <= userReview.rating
-                          ? "fill-[#FFFC00] stroke-neutral-950"
-                          : "fill-transparent stroke-neutral-950"
-                      }`}
+                      className={`w-8 h-8 ${value <= userReview.rating
+                        ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                        : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
+                        }`}
                     />
                   );
                 })}
               </div>
-              <p className="text-black-800 text-xs">
+              <p className="text-xs">
                 (You rated {userReview.rating}/5)
               </p>
             </div>
@@ -126,14 +128,16 @@ export default function Rating({
                       onClick={() => setRating(value)}
                       onMouseEnter={() => setHover(value)}
                       onMouseLeave={() => setHover(0)}
-                      className={`cursor-pointer ${
-                        value <= (hover || rating)
-                          ? "fill-[#FFFC00] stroke-neutral-950"
-                          : "fill-transparent stroke-neutral-950"
-                      }`}
+                      className="cursor-pointer"
                     >
-                      <Star className="w-8 h-8" />
+                      <Star
+                        className={`w-8 h-8 ${value <= (hover || rating)
+                          ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                          : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
+                          }`}
+                      />
                     </button>
+
                   );
                 })}
               </div>
@@ -146,9 +150,18 @@ export default function Rating({
                 maxLength={200}
               />
 
+              <p className="text-xs text-center w-full pb-5 pt-2">
+                Place two vertical bars around any text to mark it as a spoiler when your review is posted.
+              </p>
+              <p className="text-xs text-center w-full pb-2">
+                {"||This text is a spoiler|| will be posted as "}
+                <SpoilerText text="This text is a spoiler" />
+              </p>
+
+
               {/* Post button */}
               <button
-                className="cursor-pointer brown text-black font-medium shadow mt-3 py-2 px-6 rounded-sm transition"
+                className="cursor-pointer blue text-sm btn-post shadow mt-3 py-2 px-6 rounded-md transition hover:bg-blue"
                 onClick={handlePost}
               >
                 Post!

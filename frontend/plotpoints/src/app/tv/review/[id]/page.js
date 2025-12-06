@@ -11,6 +11,10 @@ import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 import fetchStreamLinks from "@/utils/fetchStreamLinks";
 import Link from "next/link";
+import Bookmark from "@/app/components/Bookmark";
+import Favorite from "@/app/components/Favorite";
+import { randomTennaLoading } from "@/lib/random_tenna_loading";
+import Image from "next/image";
 
 function TvReviewPage({ params }) {
   //Grab the ID from the URL
@@ -30,8 +34,15 @@ function TvReviewPage({ params }) {
   //Stream links, if available
   const [streamLinks, setStreamLinks] = useState([]);
 
+  //Loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");  
+
   // Need to fetch data using this ID to get the details of the TV show
   useEffect(() => {
+
+    setLoadingImage(randomTennaLoading());
+
     const fetchTvDetails = async () => {
       try {
         const response = await fetch(`/api/tv/details/${id}`);
@@ -41,8 +52,11 @@ function TvReviewPage({ params }) {
         const data = await response.json();
         console.log("Fetched TV Show Details:", data);
         setTvDetails(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching TV show details:", error);
+        setTvDetails(null);
+        setIsLoading(false);
       }
     };
 
@@ -61,12 +75,29 @@ function TvReviewPage({ params }) {
     }
   }, [reviews, session]);
 
-  if (!tvDetails) {
+  if (isLoading) {
     return (
-      <>
+      <div>
         <Header />
-        <p>Loading TV Show Details...</p>
-      </>
+        <div className="flex flex-col items-center justify-center h-4/5 mt-7 mb-7">
+          <h1 className="text-2xl mb-4">Loading...</h1>
+          <Image src={loadingImage} alt="Loading" width={500} height={300} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isLoading && !tvDetails) {
+    return (
+      <div>
+        <Header />
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Error: Failed to load TV show details.</h1>
+          <Image src="/images/spr_tenna_grasp_anim_big.gif" alt="Error" width={500} height={300} />
+        </div>
+        <Footer />
+      </div>
     );
   }
 
@@ -85,6 +116,14 @@ function TvReviewPage({ params }) {
             alt={tvDetails ? tvDetails.title : "TV Show Poster"}
             className="w-56 h-86 rounded-sm mb-5"
           />
+          {/*Only show bookmarking if user is logged in */}
+          {session && session.user && (
+            <div className="flex flex-col items-center">
+              <Bookmark mediaType="tvshow" mediaId={id} />
+              <Favorite mediaType="tvshow" mediaId={id} />
+            </div>
+          )}
+
           <div>
             {/*description box*/}
             {/* <p className="text-lg">Description:</p> */}
@@ -147,7 +186,7 @@ function TvReviewPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-sm shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border rounded-sm shadow-xl">
           <Rating
             id={id}
             placeholder="Write a review!"
@@ -157,7 +196,7 @@ function TvReviewPage({ params }) {
           >
           </Rating>
           <div>
-            <p>Reviews:</p>
+            {/* <p>Reviews:</p> */}
             <ReviewList reviewData={reviews} />
           </div>
         </div>

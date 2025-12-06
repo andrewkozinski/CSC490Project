@@ -1,27 +1,60 @@
-.scroll-container {
-  background-color: #ffffff00;
-  overflow: auto;
-  white-space: nowrap;
-  padding: 10px;
-}
-
-.scroll-container img {
-  padding: 10px;
-}
-
 .image {
-    max-width: 140;
-    max-height: 209;
-    border-radius: 5;
-    transition: all 0.3s ease-in-out;
+  max-width: 130px;
+  max-height: 195px;
+  border-radius: 5;
+  transition: all 0.3s ease-in-out;
 }
 
 .image:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
-    transition: all 0.3s ease-in-out;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
-.wrapper {
-    width: 980;
+html.dark .image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #F3E9DC;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.bookmark {
+  max-width: 110px;
+  max-height: 175px;
+  border-radius: 5;
+  transition: all 0.3s ease-in-out;
+}
+
+.bookmark:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+html.dark .bookmark:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #F3E9DC;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+/* .red {
+  background-color: #ff3131d8;
+} */
+
+.green {
+  background-color: #31ff6bd8;
+}
+
+.img-effect:hover {
+  outline-color: black;
+  outline-offset: 3;
+  outline-width: 1;
+}
+html.dark .img-effect:hover {
+  outline-color: #F3E9DC;
+  outline-offset: 3;
+  outline-width: 1;
 }

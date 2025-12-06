@@ -1,0 +1,113 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #F3E9DC;
+  min-width: 140px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: smaller;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #dfcdb5;
+}
+
+.notification {
+  position: relative;
+  display: inline-block;
+}
+
+.notification::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: transparent;
+  z-index: 1;
+}
+
+
+.notification-content {
+  display: none;
+  position: absolute;
+  background-color: #F3E9DC;
+  min-width: 380px;
+  min-height: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.notification-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: smaller;
+}
+
+.notification:hover .notification-content {
+  display: block;
+}
+
+.notification-content a:hover {
+  background-color: #dfcdb5;
+}
+
+html.dark .dropdown-content,
+html.dark .notification-content {
+  background-color: #222;
+}
+
+html.dark .dropdown-content a,
+html.dark .notification-content a {
+  color: #F3E9DC;
+}
+
+html.dark .dropdown-content a:hover,
+html.dark .notification-content a:hover {
+  background-color: #333;
+}
+
+.profile-carousel .slick-slide {
+    padding-top: 8px;
+    padding-left: 20px;
+    height: 210;
+}
+
+.profile-carousel .slick-slide > div {
+  margin-top: 8px;
+  padding-top: 8px;
+  
+}
+
+.img-body {
+  padding: 10;
+}
+
+html.dark .slick-dots li ::before {
+    color: #F3E9DC;
+}
+
+html.dark .slick-dots li.slick-active button:before {
+    color:#F3E9DC !important;
+}

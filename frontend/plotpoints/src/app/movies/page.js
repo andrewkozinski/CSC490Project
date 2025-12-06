@@ -2,15 +2,24 @@
 
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
-import GenreContainer from "../components/GenreContainer";
 import Footer from "../components/Footer";
+import Carousel from "../components/CategoryCarousel";
+import "../components/Homepage.css";
+import { getRecommendedMovies } from "@/lib/recommendations";
+import { useSession } from "next-auth/react";
+import SkeletonImage from "../components/SkeletonImage";
+import { Skeleton } from "@mui/material";
 
 export default function Movies() {
+
+  const { data: session } = useSession();
 
   const [horrorMovies, setHorrorMovies] = useState([]);
   const [historyMovies, setHistoryMovies] = useState([]);
   const [comedyMovies, setComedyMovies] = useState([]);
   const [sciFiMovies, setSciFiMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [recommendedMovies, setRecommendedMovies] = useState([]);
 
   //Handles fetching movies from the backend
   useEffect(() => {
@@ -27,20 +36,49 @@ export default function Movies() {
         console.error(err);
       }
     };
-    
+
+    const fetchUpcomingMovies = async () => {
+      try {
+        const res = await fetch(`/api/movies/upcoming`);
+        if (!res.ok) throw new Error("Failed to fetch upcoming movies");
+        const data = await res.json();
+        setUpcomingMovies(data.results || []);
+        console.log("UPCOMING MOVIES:");
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     // Fetch movies for each genre
     fetchMovies("horror", setHorrorMovies);
     fetchMovies("history", setHistoryMovies);
     fetchMovies("comedy", setComedyMovies);
     fetchMovies("science fiction", setSciFiMovies);
-
-    
+    fetchUpcomingMovies();
   }, []);
+
+  // Fetch recommended movies based on user ID
+  useEffect(() => {
+    const fetchRecommendedMovies = async () => {
+      console.log("Fetching recommended movies for user:", session?.user?.id);
+      if (session?.user?.id) {
+        try {
+          const data = await getRecommendedMovies(session.user.id);
+          setRecommendedMovies(data || []);
+          console.log("RECOMMENDED MOVIES:");
+          console.log(data);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+    fetchRecommendedMovies();
+  }, [session?.user]);
 
   return (
     <div>
       <Header />
-      <main className="p-6">
+      <main className="p-10">
 
         {/* Takes the response out of the backend and uses the images from the response in the backend */}
         {/*
@@ -53,185 +91,90 @@ export default function Movies() {
         }
         
         */}
-        <GenreContainer label="Horror Movies">
+        <Carousel label="Upcoming Movies">
+          {upcomingMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </Carousel>
+        <Carousel label="Horror Movies">
           {horrorMovies.map((movie) => (
             <img 
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
-        <GenreContainer label="Comedy Movies">
+        </Carousel>
+        <Carousel label="Comedy Movies">
           {comedyMovies.map((movie) => (
             <img
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
-        <GenreContainer label="Science Fiction Movies">
+        </Carousel>
+        <Carousel label="Science Fiction Movies">
           {sciFiMovies.map((movie) => (
             <img
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
-        <GenreContainer label="History Movies">
+        </Carousel>
+        <Carousel label="History Movies">
           {historyMovies.map((movie) => (
             <img
               key={movie.id}
               src={movie.img}
               title={movie.title}
-              className="cover"
+              className="image"
               onClick={() => window.location.href = `/movies/review/${movie.id}`}
               style={{ cursor: 'pointer' }}
             />
           ))}
-        </GenreContainer>
+        </Carousel>
+
+        {/* Check if user is logged in, if so show recommendations */}
+        {session?.user && (
+          <Carousel label="Recommended Movies">
+          {/* If 0 show skeleton cards */}
+          {recommendedMovies.length === 0 ? (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} />
+            ))
+          ) : (
+            recommendedMovies.map((movie) => (  
+              <img
+                key={movie.id}
+                src={movie.img}
+                title={movie.title}
+                className="image"
+                onClick={() => window.location.href = `/movies/review/${movie.id}`}
+                style={{ cursor: 'pointer' }}
+              />
+            ))
+          )}
+          </Carousel>
+        )}
         
-        {/* OLD PLACEHOLDER CONTENT
-        <GenreContainer label="Horror Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        <GenreContainer label="Drama Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        <GenreContainer label="Comedy Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        <GenreContainer label="Science Fiction Movies">
-          <img
-            src="https://image.tmdb.org/t/p/w500/22AouvwlhlXbe3nrFcjzL24bvWH.jpg"
-            title="Kpop Demon Hunters"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wPLysNDLffQLOVebZQCbXJEv6E6.jpg"
-            title="Superman 2025"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/cpf7vsRZ0MYRQcnLWteD5jK9ymT.jpg"
-            title="Weapons"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/wobVTa99eW0ht6c1rNNzLkazPtR.jpg"
-            title="The Long Walk"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/m1jFoahEbeQXtx4zArT2FKdbNIj.jpg"
-            title="One Battle After Another"
-            className="cover"
-          />
-          <img
-            src="https://image.tmdb.org/t/p/w500/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"
-            title="Demon Slayer"
-            className="cover"
-          />
-        </GenreContainer>
-        */}
       </main>
       <Footer />
     </div>

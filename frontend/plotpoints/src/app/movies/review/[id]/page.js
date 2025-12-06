@@ -10,6 +10,11 @@ import fetchReviews from "@/utils/fetchReviews";
 import fetchAvgRating from "@/utils/fetchAvgRating";
 import fetchStreamLinks from "@/utils/fetchStreamLinks";
 import Link from "next/link";
+import { randomTennaLoading } from "@/lib/random_tenna_loading";
+import Image from "next/image";
+import Bookmark from "@/app/components/Bookmark";
+import Favorite from "@/app/components/Favorite";
+import { useSession } from "next-auth/react";
 
 
 function MovieReviewPage({ params }) {
@@ -25,8 +30,18 @@ function MovieReviewPage({ params }) {
   //Stream links, if available
   const [streamLinks, setStreamLinks] = useState([]);
 
+  //Loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
+
+  //User session
+  const { data: session } = useSession();
+
   // Need to fetch data using this ID to get the details of the movie
   useEffect(() => {
+
+    setLoadingImage(randomTennaLoading());
+
     const fetchMovieDetails = async () => {
       try {
         const response = await fetch(`/api/movies/details/${id}`);
@@ -36,9 +51,11 @@ function MovieReviewPage({ params }) {
         const data = await response.json();
         console.log("Fetched Movie Details:", data);
         setMovieDetails(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching movie details:", error);
         setMovieDetails(null);
+        setIsLoading(false);
       }
     };
 
@@ -48,12 +65,29 @@ function MovieReviewPage({ params }) {
     fetchStreamLinks("movies", id, setStreamLinks);
   }, []);
 
-  if (!movieDetails) {
+  if (isLoading) {
     return (
-      <>
+      <div>
         <Header />
-        <p>Loading Movie Details...</p>
-      </>
+        <div className="flex flex-col items-center justify-center h-4/5 mt-7 mb-7">
+          <h1 className="text-2xl mb-4">Loading...</h1>
+          <Image src={loadingImage} alt="Loading" width={500} height={300} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isLoading && !movieDetails) {
+    return (
+      <div>
+        <Header />
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl mb-4">Error: Failed to load Movie details.</h1>
+          <Image src="/images/spr_tenna_grasp_anim_big.gif" alt="Error" width={500} height={300} />
+        </div>
+        <Footer />
+      </div>
     );
   }
 
@@ -72,6 +106,15 @@ function MovieReviewPage({ params }) {
             alt={movieDetails ? movieDetails.title : "Movie Poster"}
             className="w-56 h-86 rounded-sm mb-5"
           />
+          
+          {/*Only show bookmarking if user is logged in */}
+          {session && session.user && (
+            <div className="flex flex-col items-center">
+              <Bookmark mediaType="movie" mediaId={id} />
+              <Favorite mediaType="movie" mediaId={id} />
+            </div>
+          )}
+
           <div>
             {/*description box*/}
             {/* <p className="text-lg">Description:</p> */}
@@ -86,7 +129,6 @@ function MovieReviewPage({ params }) {
               <div className="pt-5">
                 <p>Director: {movieDetails.director}</p>
                 <p>Date Released: {movieDetails.release_date}</p>
-                
                 {streamLinks.length > 0 && (
                   <div className="mt-2">
                     <p>Streaming Links:</p>
@@ -124,7 +166,7 @@ function MovieReviewPage({ params }) {
             </div>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-gray-500 rounded-sm shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-black-100 rounded-sm  shadow-xl">
           <Rating
             id={id}
             placeholder="Write a review!"
@@ -133,7 +175,7 @@ function MovieReviewPage({ params }) {
             reviews={reviews}
           />
           <div>
-            <p>Reviews:</p>
+            {/* <p>Reviews:</p> */}
             <ReviewList reviewData={reviews} />
           </div>
         </div>
