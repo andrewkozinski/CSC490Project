@@ -8,8 +8,13 @@ import Image from "next/image";
 import { isBlocked } from "@/lib/blocking";
 import { useSession } from "next-auth/react";
 import { useSettings } from "../context/SettingsProvider";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function HomepageReview({ reviewData }) {
+
+    const router = useRouter();
+
     const {
         title,
         img,
@@ -70,16 +75,20 @@ export default function HomepageReview({ reviewData }) {
 
     return (
         <div className="flex flex-row rounded-[1px] w-max gap-4">
-            <img
-                src={img}
-                title={title}
-                className={`max-w-27 max-h-42 rounded-sm hover:cursor-pointer
-                    ${ darkOn ? 
-                        "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
-                      : "hover:outline-1 hover:outline-black hover:outline-offset-3"
-                    }`}
-                onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
-            />
+            <Link href={`/${media_type}/review/${media_id}`}>
+                <img
+                    src={img}
+                    title={title}
+                    className={`max-w-27 max-h-42 rounded-sm hover:cursor-pointer
+                        ${ darkOn ? 
+                            "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
+                        : "hover:outline-1 hover:outline-black hover:outline-offset-3"
+                        }`}
+                    // onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
+                    // onClick={() => router.push(`/${media_type}/review/${media_id}`)}
+                />
+            </Link>
+            
             <div className="grid grid-rows-2 inline-block">
                 <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
                 <div className="flex flex-row items-center gap-2">
