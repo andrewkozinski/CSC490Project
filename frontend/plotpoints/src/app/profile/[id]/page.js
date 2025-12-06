@@ -322,7 +322,7 @@ export default function ProfilePage( {params} ){
                         <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/followers`}>{followers.length}<br></br>Followers</Link>
                         <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/following`}>{following.length}<br></br>Following</Link>
                     </div>
-                    
+
                     <FollowButton profileId={id} currentUserId={session?.user?.id} jwtToken={session?.accessToken}></FollowButton>
                     <BlockButton profileId={id} currentUserId={session?.user?.id} jwtToken={session?.accessToken}></BlockButton>
                     
@@ -353,16 +353,18 @@ export default function ProfilePage( {params} ){
                             <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
                         ) : (
                             bookmarks.map((bookmark, index) => (
-                                <Image
-                                    key={index}
-                                    alt={bookmark.title}
-                                    src={bookmark.img}
-                                    title={bookmark.title}
-                                    height={200}
-                                    width={200}
-                                    className="bookmark"
-                                    onClick={() => window.location.href = `/${bookmark.media_type}/review/${bookmark.media_id}`}
-                                />
+                                <Link key={index} href={`/${bookmark.media_type}/review/${bookmark.media_id}`}>
+                                    <Image
+                                        //key={index}
+                                        alt={bookmark.title}
+                                        src={bookmark.img}
+                                        title={bookmark.title}
+                                        height={200}
+                                        width={200}
+                                        className="bookmark"
+                                    //onClick={() => window.location.href = `/${bookmark.media_type}/review/${bookmark.media_id}`}
+                                    />
+                                </Link>
                             ))
                         )}  
                         
@@ -373,17 +375,18 @@ export default function ProfilePage( {params} ){
                             <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no favorites yet!</h1>
                         ) : (
                             favorites.map((favorite, index) => (
-                                <Image
-
-                                    key={index}
-                                    alt={favorite.title}
-                                    src={favorite.img}
-                                    title={favorite.title}
-                                    height={200}
-                                    width={200}
-                                    className="bookmark"
-                                    onClick={() => window.location.href = `/${favorite.media_type}/review/${favorite.media_id}`}
-                                />
+                                <Link key={index} href={`/${favorite.media_type}/review/${favorite.media_id}`}>
+                                    <Image
+                                        //key={index}
+                                        alt={favorite.title}
+                                        src={favorite.img}
+                                        title={favorite.title}
+                                        height={200}
+                                        width={200}
+                                        className="bookmark"
+                                        //onClick={() => window.location.href = `/${favorite.media_type}/review/${favorite.media_id}`}
+                                    />
+                                </Link>  
                             ))
                         )}
                     </Carousel>
