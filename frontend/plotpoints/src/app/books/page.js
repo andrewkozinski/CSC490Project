@@ -74,6 +74,11 @@ export default function Books() {
               height={1500}
             />
           ))}
+          {romanceBooks.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
         <Carousel label="Crime Books">
@@ -90,6 +95,11 @@ export default function Books() {
               height={1500}
             />
           ))}
+          {crimeBooks.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
         <Carousel label="Fantasy Books">
@@ -106,6 +116,11 @@ export default function Books() {
               height={1500}
             />
           ))}
+          {fantasyBooks.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
         </Carousel>
 
 
