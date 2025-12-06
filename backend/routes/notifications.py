@@ -73,6 +73,7 @@ async def get_notifications_by_user_id(user_id: str):
                     notif["link"] = f"/{media_type}/review/{review["media_id"]}"
 
             if notif["comment_id"]:
+                print("Notif info: ", notif)
                 comment = get_comment_by_comm_id(notif["comment_id"])
                 if comment:
                     notif["comment_content"] = comment
@@ -88,7 +89,7 @@ async def get_notifications_by_user_id(user_id: str):
                         action_user_info = await get_user_info_by_id(notif["action_user_id"])
                         if action_user_info:
                             notif["action_username"] = action_user_info["username"]
-                            notif["notif_message"] = base_message + f"received a new comment from \"{action_user_info['username']}\""
+                            notif["notif_message"] = base_message + f"received a new reply from \"{action_user_info['username']}\""
                             notif["img"] = action_user_info["profile_pic_url"]
                         else:
                             notif["notif_message"] = base_message + " has a new comment."
