@@ -130,13 +130,18 @@ function TvReviewPage({ params }) {
             <div className="flex p-4 border-1 rounded-sm min-h-[25vh] max-h-fit grow my-2 flex-col">
               {/* <p className="text-lg">Title:<br /></p> */}
               <p className="text-2xl font-bold inria-serif-bold"> {tvDetails.title}</p>
-              <p className="flex grow">
+              <p className="font-bold">TV Show</p>
+              
+              <p className="flex grow mt-5">
                 {tvDetails && tvDetails.description
                   ? tvDetails.description
                   : "No description available."}
               </p>
+
+              
               <div className="pt-5">
                 {/* Formats arrays */}
+                
                 <p>
                   Created by:{" "}
                   {Array.isArray(tvDetails.created_by)
@@ -148,7 +153,7 @@ function TvReviewPage({ params }) {
                 <p>Seasons: {tvDetails.seasons}</p>
                 <p>Episodes: {tvDetails.episodes}</p>
                 {streamLinks.length > 0 && (
-                  <div className="mt-2">
+                  <div className="">
                     <p>Streaming Links:</p>
                     <div className="flex flex-wrap gap-4 mt-2">
                       {streamLinks.map((provider, idx) => (

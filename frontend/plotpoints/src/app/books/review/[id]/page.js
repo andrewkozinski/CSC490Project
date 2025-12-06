@@ -121,11 +121,9 @@ function BookReviewPage({ params }) {
             <div className="p-4 border-1 rounded-sm w-auto my-2 min-h-fit">
               {/* <p className="text-lg">Title:</p> */}
               <p className="text-2xl font-bold inria-serif-bold">{bookDetails.title}</p>
-              <p>Authors: {bookDetails.authors}</p>
-              <p className="mb-2">
-                Date published: {formatDate(bookDetails.date_published)}
-              </p>
-              <div className="flex grow prose w-full">
+              
+              <p className="font-bold mb-5">Book</p>
+              <div className="flex grow prose w-full mb-5">
                 {/*
                 <ReactMarkdown>
                   {bookDetails.description || "No description available."}
@@ -133,10 +131,15 @@ function BookReviewPage({ params }) {
                 <div className="markdown-content">
                   {bookDetails.description || "No description available."}
                 </div>
+                
             </div>
+            <p>Authors: {bookDetails.authors}</p>
+              <p>
+                Date published: {formatDate(bookDetails.date_published)}
+              </p>
           </div>
         </div>
-        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border border-black rounded-sm shadow-xl">
+        <div className="p-10 m-5 ml-10 mt-10 w-full flex flex-col border rounded-sm shadow-xl">
           <Rating
             id={id}
             placeholder="Write a review!"
