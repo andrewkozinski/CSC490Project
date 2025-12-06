@@ -171,6 +171,7 @@ export default function ProfilePage( {params} ){
                 <Header/>
                 <div className="flex flex-col items-center justify-center min-h-screen">
                     <h1 className="text-2xl mb-4">Error: Profile not found.</h1>
+                    <Image src="/images/spr_tenna_failure.gif" alt="Error" width={500} height={300} />
                 </div>
                 <Footer/>
             </div>
