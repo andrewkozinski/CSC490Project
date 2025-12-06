@@ -204,8 +204,8 @@ export default function ProfilePage( {params} ){
                     src={profilePicture}
                     alt="User Image"
                     width="230"
-                    height="230">
-                    </Image>
+                    height="230"/>
+                    
             
 
                     {/* Get username */}
