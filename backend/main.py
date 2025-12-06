@@ -43,7 +43,7 @@ caches.set_config({
     },
     "recent_reviews": {
         "cache": "aiocache.SimpleMemoryCache",
-        "ttl": 300, #5 minutes
+        "ttl": 3600, #5 minutes
     }
 })
 
