@@ -63,13 +63,29 @@ export function SettingsProvider({ children }) {
     }
   }, [reviewText, session]);
 
+  //Function to reset settings to defaults
+  const resetSettings = useCallback(() => {
+    toggleDark(false);
+    toggleReviewText(true);
+    localStorage.setItem("darkMode", false);
+    localStorage.setItem("reviewText", true);
+  }, []);
+
+  //Reset to defaults on logout
+  useEffect(() => {
+    if (!session) {
+      resetSettings();
+    }
+  }, [session, resetSettings]);
+
   return (
     <SettingsContext.Provider value={{
       darkMode,
       reviewText,
       loaded,
       setDarkMode: toggleDark,
-      setReviewText: toggleReviewText
+      setReviewText: toggleReviewText,
+      resetSettings: resetSettings
     }}>
       {children}
     </SettingsContext.Provider>
