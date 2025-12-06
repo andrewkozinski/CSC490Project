@@ -195,10 +195,10 @@ export default function ProfilePage( {params} ){
     return (
         <div>   
             <Header/>
-            <div className="flex flex-row gap-5 justify-center min-h-screen">
-                <div className="grid mt-10 ml-10 w-1/5 max-h-fit">
+            <div className="flex flex-row gap-5 min-h-screen">
+                <div className="flex flex-cols mt-10 ml-10 max-w-1/5 max-h-fit border place-items-start">
                     <Image 
-                    className={`aspect-square rounded-full place-self-center mb-2 border-2 
+                    className={`flex aspect-square rounded-full mb-2 border-2 justify-center
                         ${darkOn ? "border-[#F3E9DC]" : "border-black"}`} 
                     src={profilePicture}
                     alt="User Image"
@@ -209,7 +209,7 @@ export default function ProfilePage( {params} ){
 
                     {/* Get username */}
                     <div className="grid grid-rows-5 gap-2">
-                        <div className="flex flex-row justify-center items-center">
+                        <div className="flex flex-row justify-center items-center w-1/5">
                             <h1 className="text-3xl text-center inria-serif-regular pr-3">{profileDetails?.username || "Error: Username not found"}</h1>
                             
                             {/*Verify current page is the current users profile*/}
