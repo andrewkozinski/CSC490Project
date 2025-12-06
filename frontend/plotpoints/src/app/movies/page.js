@@ -158,7 +158,7 @@ export default function Movies() {
           {/* If 0 show skeleton cards */}
           {recommendedMovies.length === 0 ? (
             Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} />
+              <SkeletonImage key={index} useTennaImage={true} />
             ))
           ) : (
             recommendedMovies.map((movie) => (  

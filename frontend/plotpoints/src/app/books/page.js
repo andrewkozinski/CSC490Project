@@ -115,7 +115,7 @@ export default function Books() {
           {/* If 0 show skeleton cards */}
           {recommendedBooks.length === 0 ? (
             Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} />
+              <SkeletonImage key={index} useTennaImage={true} />
             ))
           ) : (
             recommendedBooks.map((book) => (  

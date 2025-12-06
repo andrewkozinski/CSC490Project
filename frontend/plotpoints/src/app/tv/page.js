@@ -135,7 +135,7 @@ export default function TV() {
           {/* If 0 show skeleton cards */}
           {recommendedShows.length === 0 ? (
             Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} />
+              <SkeletonImage key={index} useTennaImage={true} />
             ))
           ) : (
             recommendedShows.map((show) => (  
