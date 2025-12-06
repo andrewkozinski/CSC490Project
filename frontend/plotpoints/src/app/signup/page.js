@@ -117,7 +117,7 @@ export default function SignUp() {
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-center">
             <button
-              className="brown text-black shadow m-4 py-1 px-5 rounded-lg justify-center"
+              className="brown text-black btn-shadow m-4 py-1 px-5 rounded-lg justify-center"
               onClick={loading ? undefined : handleSignUp}
             >
               {loading ? "Submitting..." : "Submit"}
