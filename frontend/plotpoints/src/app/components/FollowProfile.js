@@ -3,6 +3,7 @@ import { followUser, unfollowUser, isFollowing } from "@/lib/following";
 import { useState, useEffect } from "react";
 import BlockButton from "./BlockButton";
 import { useSettings } from "../context/SettingsProvider";
+import { useRouter } from "next/navigation";
 
 export default function FollowProfile({
   name,
@@ -12,6 +13,7 @@ export default function FollowProfile({
   currentUserId,
   jwtToken,
 }) {
+  const router = useRouter();
   const [isUserFollowing, setIsUserFollowing] = useState(false);
   useEffect(() => {
     const checkFollowStatus = async () => {
@@ -46,7 +48,7 @@ export default function FollowProfile({
             width={64}
             height={64}
             className="w-16 h-16 rounded-full object-cover"
-            onClick={() => (window.location.href = `/profile/${user_id}`)}
+            onClick={() => router.push(`/profile/${user_id}`)}
           />
         </div>
 
