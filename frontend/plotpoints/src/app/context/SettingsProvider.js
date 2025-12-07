@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import { useSession, signOut } from "next-auth/react";
 import { getUserSettings, updateReviewTextSetting, updateDarkModeSetting } from "@/lib/settings";
 import SessionModal from "../components/SessionModal";
+import { useRef } from "react";
 
 const SettingsContext = createContext(null);
 
@@ -11,6 +12,7 @@ export function SettingsProvider({ children }) {
   const [reviewText, setReviewText] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [showExpiredSessionModal, setShowExpiredSessionModal] = useState(false);
+  const expiryTimerRef = useRef(null);
 
   //initialize from localStorage
   useEffect(() => {
@@ -85,19 +87,57 @@ export function SettingsProvider({ children }) {
   }, [session, resetSettings]);
 
   //Check if the JWT token has expired
+  // useEffect(() => {
+  //   if (!session?.accessToken) return;
+
+  //   const { exp } = JSON.parse(atob(session.accessToken.split(".")[1]));
+  //   console.log("Token expiration time (epoch):", exp);
+  //   const now = Date.now() / 1000;
+
+  //   if (now >= exp) {
+  //     console.log("Session has expired, showing modal.");
+  //     setShowExpiredSessionModal(true);
+  //   }
+  // }, [session, session?.accessToken, reviewText, darkMode]);
+
+  //Timer to show modal 5 seconds before expiration
   useEffect(() => {
-  if (!session?.accessToken) return;
+    if (!session?.accessToken) return;
 
-  const { exp } = JSON.parse(atob(session.accessToken.split(".")[1]));
-  console.log("Token expiration time (epoch):", exp);
-  const now = Date.now() / 1000;
+    // clear any previous timer
+    if (expiryTimerRef.current) {
+      clearTimeout(expiryTimerRef.current);
+      expiryTimerRef.current = null;
+    }
 
-  if (now >= exp) {
-    console.log("Session has expired, showing modal.");
+    let expSec;
+    try {
+      const payload = JSON.parse(atob(session.accessToken.split(".")[1]));
+      expSec = payload?.exp;
+    } catch (e) {
+      console.error("Failed to parse JWT:", e);
+    }
+    if (!expSec) return;
 
-    setShowExpiredSessionModal(true);
-  }
-}, [session, session?.accessToken]);
+    const msToExpiry = expSec * 1000 - Date.now() - 5000; // 5s early
+    if (msToExpiry <= 0) {
+      setShowExpiredSessionModal(true);
+      return;
+    }
+
+    expiryTimerRef.current = setTimeout(() => {
+      setShowExpiredSessionModal(true);
+    }, msToExpiry);
+
+    return () => {
+      if (expiryTimerRef.current) {
+        clearTimeout(expiryTimerRef.current);
+        expiryTimerRef.current = null;
+      }
+    };
+  }, [session?.accessToken]);
+
+
 
   return (
     <SettingsContext.Provider value={{
