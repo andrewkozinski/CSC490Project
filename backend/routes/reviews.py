@@ -207,7 +207,7 @@ async def get_review_data(media_type: str, media_id: str):
 
 @router.get("/get_recent_reviews")
 @cache(namespace="recent_reviews", expire=300)  # Cache for 5 minutes
-async def get_recent_reviews(limit: int = 7):
+async def get_recent_reviews(limit: int = 8):
     recent_reviews = reviews.get_recent_reviews(limit)
     if recent_reviews is None:
         return {"reviews": []}
