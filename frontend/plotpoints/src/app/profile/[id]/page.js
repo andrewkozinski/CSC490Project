@@ -318,7 +318,7 @@ export default function ProfilePage( {params} ){
                         <p className="">{profileDetails?.bio || "No description."}</p>
                     </div>
 
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-2 w-full">
                         <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/followers`}>{followers.length}<br></br>Followers</Link>
                         <Link className="text-center m-1 hover:text-[#ffa2e9]" href={`/profile/${id}/following`}>{following.length}<br></br>Following</Link>
                     </div>
