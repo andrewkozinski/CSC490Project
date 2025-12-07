@@ -52,9 +52,17 @@ Make sure to create a `.env` file in the `backend` directory with the following 
 ```
 TMDB_API_KEY=your_tmdb_api_key_here
 TMBD_API_READ_ACCESS_TOKEN=your_tmdb_read_access_token_here
+SECRET_KEY=your_secret_key_val_here
 DB_USER=(VAL HERE)
 DB_PASS=(VAL HERE)
 DB_DSN=(VAL HERE)
+OCI_USER=(VAL HERE)
+OCI_FINGERPRINT=(VAL HERE)
+OCI_TENANCY=(VAL HERE)
+OCI_REGION=(VAL HERE)
+OCI_PRIVATE_KEY=(VAL HERE)
+OCI_BUCKET_NAME=(VAL HERE)
+OCI_NAMESPACE=(VAL HERE)
 ```
 
 The keys can be found in the Discord in #environment-files or you can create your own account on https://www.themoviedb.org/ and generate your own API keys.
@@ -65,12 +73,12 @@ The backend is deployed on Render. It will be set up to automatically deploy whe
 The deployed backend (which points to the main branch) can be accessed at:
 https://csc490project.onrender.com/
 
-Since we are using the **free tier** of Render, the server typically takes on average 30 seconds (at most a minute) to wake up if it has been inactive for a while. Usually the server will spin down after 15 minutes of inactivity.
+Since we are using the **free tier** of Render, the server typically takes on average 30 seconds (at most a minute) to wake up if it has been inactive for a while. Usually, the server will spin down after 15 minutes of inactivity.
 
 **Beta version** of the backend is also deployed at:
 https://beta-csc490project.onrender.com/
 
-This beta version will point to the beta version of the backend and will be used for testing prior to merging into main. Just like the main version, it will automatically deploy when changes are pushed to the current sprint's backend branch.
+This beta version refers to an in-development branch of the backend and is used for testing purposes before being merged into the main branch. Just like the main version, it will automatically deploy when changes are pushed to the current sprint's backend branch.
 If you wish to change the branch that the beta version deploys from, contact Andrew. Currently, the beta deployment is using the 'sprint5-backend' branch.
 
 # Frontend
@@ -102,17 +110,11 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+The frontend is hosted on Vercel. 
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## .env File:
+Make sure to create a `.env` file in the `frontend` directory with the following content:
+```
+API_URL=https://beta-csc490project.onrender.com/
+NEXTAUTH_SECRET=(YOUR_VAL_HERE)
+```
