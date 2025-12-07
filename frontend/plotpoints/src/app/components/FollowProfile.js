@@ -56,7 +56,7 @@ export default function FollowProfile({
           <p className="text-lg underline underline-offset-3">
             {name || "Your Name"}
           </p>
-          <p className="text-sm">
+          <p className="text-sm break-words max-w-md">
             {desc || "Your Description"}
           </p>
         </div>
