@@ -2,9 +2,9 @@ import Modal from "@/app/components/Modal";
 import Link from "next/link";
 import "./Header.css";
 
-export default function SessionModal() {
+export default function SessionModal({ onClose }) {
     return (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal onClose={onClose}>
             <h1 className="text-2xl text-center">Expired Session</h1>
             <div className="flex flex-col w-full">   
                 <p className="pb-10 pt-10 text-center">

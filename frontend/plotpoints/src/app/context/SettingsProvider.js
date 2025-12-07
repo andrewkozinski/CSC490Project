@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { getUserSettings, updateReviewTextSetting, updateDarkModeSetting } from "@/lib/settings";
+import SessionModal from "../components/SessionModal";
 
 const SettingsContext = createContext(null);
 
@@ -9,6 +10,7 @@ export function SettingsProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
   const [reviewText, setReviewText] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [showExpiredSessionModal, setShowExpiredSessionModal] = useState(false);
 
   //initialize from localStorage
   useEffect(() => {
@@ -33,6 +35,10 @@ export function SettingsProvider({ children }) {
         }
       } catch (e) {
         console.error("Failed to fetch settings:", e);
+        if(e?.response?.status === 401) {
+          // Unauthorized, likely due to expired token
+          setShowExpiredSessionModal(true);
+        }
       }
     }
     fetchSettings();
@@ -78,6 +84,21 @@ export function SettingsProvider({ children }) {
     }
   }, [session, resetSettings]);
 
+  //Check if the JWT token has expired
+  useEffect(() => {
+  if (!session?.accessToken) return;
+
+  const { exp } = JSON.parse(atob(session.accessToken.split(".")[1]));
+  console.log("Token expiration time (epoch):", exp);
+  const now = Date.now() / 1000;
+
+  if (now >= exp) {
+    console.log("Session has expired, showing modal.");
+
+    setShowExpiredSessionModal(true);
+  }
+}, [session, session?.accessToken]);
+
   return (
     <SettingsContext.Provider value={{
       darkMode,
@@ -85,9 +106,18 @@ export function SettingsProvider({ children }) {
       loaded,
       setDarkMode: toggleDark,
       setReviewText: toggleReviewText,
-      resetSettings: resetSettings
+      resetSettings: resetSettings,
+      setShowExpiredSessionModal: setShowExpiredSessionModal,
     }}>
       {children}
+      {showExpiredSessionModal && (
+        <SessionModal onClose={() => {
+          setShowExpiredSessionModal(false); 
+          //Now sign out the user
+          signOut();
+          resetSettings();
+        }} />
+      )}
     </SettingsContext.Provider>
   );
 }
