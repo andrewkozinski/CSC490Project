@@ -8,8 +8,11 @@ import Carousel from "../components/CategoryCarousel";
 import "../components/Homepage.css";
 import SkeletonImage from "../components/SkeletonImage";
 import { getRecommendedTVShows } from "@/lib/recommendations";
+import { useRouter } from "next/navigation";
 
 export default function TV() {
+
+  const router = useRouter();
 
   const { data: session } = useSession();
 
@@ -52,7 +55,7 @@ export default function TV() {
     fetchShows("kids", setKidsShows);
     fetchShows("drama", setDramaShows);
     fetchShows("comedy", setComedyShows);
-    fetchShows("crime", setCrimeShows);    
+    fetchShows("crime", setCrimeShows);
     fetchAiringTodayShows();
   }, []);
 
@@ -68,14 +71,14 @@ export default function TV() {
       <Header />
       <main className="p-10">
 
-        <Carousel label ="Airing Today">
+        <Carousel label="Airing Today">
           {airingTodayShows.map((show) => (
             <img
               key={show.id}
               src={show.img}
               title={show.name}
               className="image"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              onClick={() => router.push(`/tv/review/${show.id}`)}
               style={{ cursor: 'pointer' }}
             />
           ))}
@@ -86,14 +89,14 @@ export default function TV() {
             ))
           )}
         </Carousel>
-        <Carousel label ="Drama Shows">
+        <Carousel label="Drama Shows">
           {dramaShows.map((show) => (
             <img
               key={show.id}
               src={show.img}
               title={show.name}
               className="image"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              onClick={() => router.push(`/tv/review/${show.id}`)}
               style={{ cursor: 'pointer' }}
             />
           ))}
@@ -104,14 +107,14 @@ export default function TV() {
             ))
           )}
         </Carousel>
-        <Carousel label ="Comedy Shows">
+        <Carousel label="Comedy Shows">
           {comedyShows.map((show) => (
             <img
               key={show.id}
               src={show.img}
               title={show.name}
               className="image"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              onClick={() => router.push(`/tv/review/${show.id}`)}
               style={{ cursor: 'pointer' }}
             />
           ))}
@@ -122,14 +125,14 @@ export default function TV() {
             ))
           )}
         </Carousel>
-        <Carousel label ="Kids Shows">
+        <Carousel label="Kids Shows">
           {kidsShows.map((show) => (
             <img
               key={show.id}
               src={show.img}
               title={show.name}
               className="image"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              onClick={() => router.push(`/tv/review/${show.id}`)}
               style={{ cursor: 'pointer' }}
             />
           ))}
@@ -141,14 +144,14 @@ export default function TV() {
           )}
 
         </Carousel>
-        <Carousel label ="Crime Shows">
+        <Carousel label="Crime Shows">
           {crimeShows.map((show) => (
             <img
               key={show.id}
               src={show.img}
               title={show.name}
               className="image"
-              onClick={() => window.location.href = `/tv/review/${show.id}`}
+              onClick={() => router.push(`/tv/review/${show.id}`)}
               style={{ cursor: 'pointer' }}
             />
           ))}
@@ -163,26 +166,26 @@ export default function TV() {
         {/* Check if user is logged in, if so show recommendations */}
         {session?.user && (
           <Carousel label="Recommended Shows">
-          {/* If 0 show skeleton cards */}
-          {recommendedShows.length === 0 ? (
-            Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} useTennaImage={true} />
-            ))
-          ) : (
-            recommendedShows.map((show) => (  
-              <img
-                key={show.id}
-                src={show.img}
-                title={show.name}
-                className="image"
-                onClick={() => window.location.href = `/tv/review/${show.id}`}
-                style={{ cursor: 'pointer' }}
-              />
-            ))
-          )}
+            {/* If 0 show skeleton cards */}
+            {recommendedShows.length === 0 ? (
+              Array.from({ length: 20 }).map((_, index) => (
+                <SkeletonImage key={index} useTennaImage={true} />
+              ))
+            ) : (
+              recommendedShows.map((show) => (
+                <img
+                  key={show.id}
+                  src={show.img}
+                  title={show.name}
+                  className="image"
+                  onClick={() => router.push(`/tv/review/${show.id}`)}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))
+            )}
           </Carousel>
         )}
-        
+
       </main>
       <Footer />
     </div>
