@@ -1,5 +1,3 @@
-<img width="1854" height="921" alt="image" src="https://github.com/user-attachments/assets/dc45d736-4ce2-4df7-a632-10c794d635f6" /><img width="1854" height="921" alt="image" src="https://github.com/user-attachments/assets/c3472880-47c4-4494-8b78-db7f0602bc4e" /><img width="1854" height="921" alt="image" src="https://github.com/user-attachments/assets/e1a59749-8334-421d-8cf4-7f573d112c33" /><img width="1854" height="921" alt="image" src="https://github.com/user-attachments/assets/0185eafc-13c1-4259-b1b9-00b4a5854d1b" /># What is PlotPoints?
-
 Plot Points is a unified movie, TV show, and book review site. This project was developed with the aim to help individuals share their thoughts and opinions on movies and shows they’ve seen or books they’ve read with their friends, family, and anyone else online. This will help individuals looking at the media ratings to have a better idea as to where they should choose to spend their time on certain content over another.
 
 [Homepage](https://i.imgur.com/Mjcemty.png)
