@@ -9,9 +9,12 @@ import { getRecommendedMovies } from "@/lib/recommendations";
 import { useSession } from "next-auth/react";
 import SkeletonImage from "../components/SkeletonImage";
 import { Skeleton } from "@mui/material";
-import Link from "next/link";
+// import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Movies() {
+  
+  const router = useRouter();
 
   const { data: session } = useSession();
 
@@ -94,16 +97,14 @@ export default function Movies() {
         */}
         <Carousel label="Upcoming Movies">
           {upcomingMovies.map((movie) => (
-            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
-              <img
-                // key={movie.id}
-                src={movie.img}
-                title={movie.title}
-                className="image"
-                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
-                style={{ cursor: 'pointer' }}
-              />
-            </Link>
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
           ))}
           {upcomingMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -113,16 +114,14 @@ export default function Movies() {
         </Carousel>
         <Carousel label="Horror Movies">
           {horrorMovies.map((movie) => (
-            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
-              <img 
-                // key={movie.id}
-                src={movie.img}
-                title={movie.title}
-                className="image"
-                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
-                style={{ cursor: 'pointer' }}
-              />
-            </Link>
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
           ))}
           {horrorMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -132,16 +131,14 @@ export default function Movies() {
         </Carousel>
         <Carousel label="Comedy Movies">
           {comedyMovies.map((movie) => (
-            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
-              <img
-                // key={movie.id}
-                src={movie.img}
-                title={movie.title}
-                className="image"
-                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
-                style={{ cursor: 'pointer' }}
-              />
-            </Link>
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
           ))}
           {comedyMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -151,16 +148,14 @@ export default function Movies() {
         </Carousel>
         <Carousel label="Science Fiction Movies">
           {sciFiMovies.map((movie) => (
-            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
             <img
-              // key={movie.id}
+              key={movie.id}
               src={movie.img}
               title={movie.title}
               className="image"
-              // onClick={() => window.location.href = `/movies/review/${movie.id}`}
+              onClick={() => Router.push(`/movies/review/${movie.id}`)}
               style={{ cursor: 'pointer' }}
             />
-            </Link>
           ))}
           {sciFiMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -170,16 +165,14 @@ export default function Movies() {
         </Carousel>
         <Carousel label="History Movies">
           {historyMovies.map((movie) => (
-            <Link href={`/movies/review/${movie.id}`} key={movie.id}>
-              <img
-                // key={movie.id}
-                src={movie.img}
-                title={movie.title}
-                className="image"
-                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
-                style={{ cursor: 'pointer' }}
-              />
-            </Link>
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
           ))}
           {historyMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
@@ -191,28 +184,26 @@ export default function Movies() {
         {/* Check if user is logged in, if so show recommendations */}
         {session?.user && (
           <Carousel label="Recommended Movies">
-          {/* If 0 show skeleton cards */}
-          {recommendedMovies.length === 0 ? (
-            Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} useTennaImage={true} />
-            ))
-          ) : (
-            recommendedMovies.map((movie) => (  
-              <Link href={`/movies/review/${movie.id}`} key={movie.id}>
-              <img
-                // key={movie.id}
-                src={movie.img}
-                title={movie.title}
-                className="image"
-                // onClick={() => window.location.href = `/movies/review/${movie.id}`}
-                style={{ cursor: 'pointer' }}
-              />
-              </Link>
-            ))
-          )}
+            {/* If 0 show skeleton cards */}
+            {recommendedMovies.length === 0 ? (
+              Array.from({ length: 20 }).map((_, index) => (
+                <SkeletonImage key={index} useTennaImage={true} />
+              ))
+            ) : (
+              recommendedMovies.map((movie) => (
+                <img
+                  key={movie.id}
+                  src={movie.img}
+                  title={movie.title}
+                  className="image"
+                  onClick={() => router.push(`/movies/review/${movie.id}`)}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))
+            )}
           </Carousel>
         )}
-        
+
       </main>
       <Footer />
     </div>
