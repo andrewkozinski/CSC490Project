@@ -264,7 +264,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
         <div className="flex flex-col mx-3 justify-between h-full grow">
           <div>
             <div className="flex flex-row">
-              <p onClick={() => (window.location.href = `/profile/${userId}`)} className="underline underline-offset-4 mr-3 cursor-pointer">{displayUsername}</p>
+              <p onClick={() => (window.location.href = `/profile/${userId}`)} className="mr-2 underline underline-offset-4 hover:text-[#ffa2e9] hover:cursor-pointer">{displayUsername}</p>
               <div className="flex flex-row justify-center mb-3">
       
                 {[...Array(5)].map((_, i) => {
