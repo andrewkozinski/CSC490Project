@@ -283,6 +283,7 @@ return (
               userVote === "up" ? "text-green-600" : ""
             }`}
             onClick={handleUpvote}
+            disabled={isBlockedUser}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -311,6 +312,7 @@ return (
               userVote === "down" ? "text-red-600" : ""
             }`}
             onClick={handleDownvote}
+            disabled={isBlockedUser}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -333,6 +335,7 @@ return (
       <button
         onClick={() => setShowReplyBox((prev) => !prev)}
         className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+        disabled={isBlockedUser}
       >
         Reply
       </button>
