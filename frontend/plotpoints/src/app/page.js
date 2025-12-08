@@ -9,8 +9,12 @@ import './components/Homepage.css';
 import Carousel from "./components/Carousel";
 import SkeletonImage from "./components/SkeletonImage";
 import HomepageReviewSkeleton from "./components/HomepageReviewSkeleton";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
+  const router = useRouter();
 
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [trendingShows, setTrendingShows] = useState([]);
@@ -67,7 +71,7 @@ export default function Home() {
         <div className="w-2/3">
           <Carousel label="Trending Movies">
             {trendingMovies?.results?.map((movie) => (
-              <img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => window.location.href = `/movies/review/${movie.id}`} style={{ cursor: 'pointer' }}/>
+              <img key={movie.id} className="image" src={movie.img} alt={movie.title} onClick={() => router.push(`/movies/review/${movie.id}`)} style={{ cursor: 'pointer' }}/>
             ))}
             {loading && (
               Array.from({ length: 20 }).map((_, index) => (
@@ -77,7 +81,7 @@ export default function Home() {
           </Carousel>
           <Carousel label="Trending Shows">
             {trendingShows?.results?.map((show) => (
-              <img key={show.id} className="image" src={show.img} alt={show.title} onClick={() => window.location.href = `/tv/review/${show.id}`} style={{ cursor: 'pointer' }}/>
+              <img key={show.id} className="image" src={show.img} alt={show.title} onClick={() => router.push(`/tv/review/${show.id}`)} style={{ cursor: 'pointer' }}/>
             ))}
             {loading && (
               Array.from({ length: 20 }).map((_, index) => (
@@ -88,7 +92,7 @@ export default function Home() {
           </Carousel>
           <Carousel label="Trending Books">
             {trendingBooks?.results?.map((book) => (
-              <Image key={book.id} className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} onClick={() => window.location.href = `/books/review/${book.id}`} style={{ cursor: 'pointer' }} alt={book.title} width={1000} height={1500}/>
+              <Image key={book.id} className="image" src={book.thumbnailExtraLargeUrl || book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"} onClick={() => router.push(`/books/review/${book.id}`)} style={{ cursor: 'pointer' }} alt={book.title} width={1000} height={1500}/>
             ))}
             {loading && (
               Array.from({ length: 20 }).map((_, index) => (

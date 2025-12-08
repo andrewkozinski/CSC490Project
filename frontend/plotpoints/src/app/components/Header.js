@@ -161,7 +161,7 @@ export default function Header() {
               <h1 className="text-lg font-bold p-4">My Account</h1>
               <Link className ="" href={`/profile/${session?.user?.id}`}>My Profile</Link>
               <Link href="/settings">Settings</Link>
-              <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="/" onClick={() => signOut()} >Sign Out</Link>
+              <Link className ="hover:rounded-br-sm hover:rounded-bl-sm" href="" onClick={() => {signOut({ callbackUrl: "/" })}} >Sign Out</Link>
             </div>
           </div>
 

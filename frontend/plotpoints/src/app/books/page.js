@@ -10,8 +10,11 @@ import Carousel from "../components/CategoryCarousel";
 import "../components/Homepage.css";
 import { getRecommendedBooks } from "@/lib/recommendations";
 import SkeletonImage from "../components/SkeletonImage";
+import { useRouter } from "next/navigation";
 
 export default function Books() {
+
+  const router = useRouter();
 
   const { data: session } = useSession();
 
@@ -68,7 +71,7 @@ export default function Books() {
               title={book.title}
               alt={book.title}
               className="image"
-              onClick={() => window.location.href = `/books/review/${book.id}`}
+              onClick={() => router.push(`/books/review/${book.id}`)}
               style={{ cursor: 'pointer' }}
               width={1000}
               height={1500}
@@ -89,7 +92,7 @@ export default function Books() {
               title={book.title}
               alt={book.title}
               className="image"
-              onClick={() => window.location.href = `/books/review/${book.id}`}
+              onClick={() => router.push(`/books/review/${book.id}`)}
               style={{ cursor: 'pointer' }}
               width={1000}
               height={1500}
@@ -110,7 +113,7 @@ export default function Books() {
               title={book.title}
               alt={book.title}
               className="image"
-              onClick={() => window.location.href = `/books/review/${book.id}`}
+              onClick={() => router.push(`/books/review/${book.id}`)}
               style={{ cursor: 'pointer' }}
               width={1000}
               height={1500}
@@ -139,7 +142,7 @@ export default function Books() {
                   src={book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
                   title={book.name}
                   className="image"
-                  onClick={() => window.location.href = `/books/review/${book.id}`}
+                  onClick={() => router.push(`/books/review/${book.id}`)}
                   style={{ cursor: 'pointer' }}
                 />
               ))

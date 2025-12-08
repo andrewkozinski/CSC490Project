@@ -121,6 +121,7 @@ function MovieReviewPage({ params }) {
             <div className="flex p-4 border-1 rounded-sm min-h-[25vh] max-h-fit grow my-2 flex-col">
               {/* <p className="text-lg">Title:</p> */}
               <p className="text-2xl font-bold inria-serif-bold"> {movieDetails.title}</p>
+              <p className="font-bold mb-3">Movie</p>
               <p className="flex grow">
                 {movieDetails && movieDetails.overview
                   ? movieDetails.overview
@@ -130,7 +131,7 @@ function MovieReviewPage({ params }) {
                 <p>Director: {movieDetails.director}</p>
                 <p>Date Released: {movieDetails.release_date}</p>
                 {streamLinks.length > 0 && (
-                  <div className="mt-2">
+                  <div className="">
                     <p>Streaming Links:</p>
                     <div className="flex flex-wrap gap-4 mt-2">
                       {streamLinks.map((provider, idx) => (

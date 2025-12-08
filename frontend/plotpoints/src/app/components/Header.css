@@ -66,8 +66,8 @@ html.dark .shadow {
 }
 
 .btn-post:hover {
-    cursor: pointer;
-    background-color: #aadfe6;
+    /* cursor: pointer; */
+    background-color: rgb(139, 184, 190)b6;
     transition: all 0.2s ease-in-out;
 }
 
