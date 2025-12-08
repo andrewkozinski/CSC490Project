@@ -163,7 +163,9 @@ export default function Rating({
 
               {/* Post button */}
               <button
-                className={`text-sm btn-post shadow mt-3 py-2 px-6 rounded-md transition blue ${posting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer  hover:bg-blue'}`}
+                className={`text-sm btn-post shadow mt-3 py-2 px-6 rounded-md transition blue 
+                  ${posting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer  hover:bg-blue'}
+                  ${darkOn ? 'text-[#282828]' : 'text-black'}`}
                 onClick={handlePost}
                 disabled={posting}
               >
