@@ -23,3 +23,12 @@ html.dark .slick-dots li ::before {
     padding-bottom: 20;
     height: 250;
 }
+.slick-prev:before,
+.slick-next:before {
+    color: #000 !important;
+    opacity: 1;
+}
+html.dark .slick-prev:before,
+html.dark .slick-next:before {
+    color: #F3E9DC !important;
+}
