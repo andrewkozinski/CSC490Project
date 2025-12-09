@@ -11,8 +11,8 @@ export default function SessionModal({ onClose }) {
                 You must be signed in to continue.
                 </p>
                 <div className="flex flex-row justify-center items-center pb-5">
-                    <Link className="text fields blue btn-shadow mr-10 mt-1" href="/signup">Sign Up</Link>
-                    <Link className="text fields blue btn-shadow -ml-5" href="/signin">Sign In</Link>
+                    <Link className="text fields blue btn-shadow mr-10 mt-1" href="/signup" onClick={() => onClose()}>Sign Up</Link>
+                    <Link className="text fields blue btn-shadow -ml-5" href="/signin" onClick={() => onClose()}>Sign In</Link>
                 </div>
 
             </div>
