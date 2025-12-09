@@ -102,8 +102,7 @@ async def fetch_all_comments():
     raise HTTPException(status_code=500, detail="Error fetching comments")
 
 @router.get("/from_review/{review_id}")
-#@cache(namespace="comments_{review_id}", expire=3600)
-@cached(namespace="comments", expire=3600, key_builder=lambda f, *args, **kwargs: f"comments_{kwargs['review_id']}")
+@cached(namespace="comments", ttl=3600, key_builder=lambda f, *args, **kwargs: f"comments_{kwargs['review_id']}")
 async def fetch_comments_for_review(review_id: int):
     comments = get_comments_by_review_id(review_id)
     print('requested comments for review id:', review_id)
@@ -139,7 +138,7 @@ async def fetch_comments_for_review(review_id: int):
         return {"comments": []}
 
 @router.get("/from_comment/{parent_comm_id}")
-@cached(namespace="comments", expire=3600, key_builder=lambda f, *args, **kwargs: f"replies_{kwargs['parent_comm_id']}")
+@cached(namespace="comments", ttl=3600, key_builder=lambda f, *args, **kwargs: f"replies_{kwargs['parent_comm_id']}")
 async def fetch_replies_to_comment(parent_comm_id: int):
     comments = get_comments_by_parent_comm_id(parent_comm_id)
     if comments is not None:
