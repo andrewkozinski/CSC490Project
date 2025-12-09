@@ -1,3 +1,4 @@
+from aiocache import cached, caches
 from fastapi import APIRouter, HTTPException
 from fastapi_cache import FastAPICache
 from fastapi_cache.decorator import cache
@@ -50,6 +51,11 @@ async def create_comment(comment: ReviewComment):
         #Also initialize votes for the comment
         vote_result = vote.add_vote(None, comm_id, 0, 0)
 
+        #Now clear caches
+        caches.get("comments").delete(f"comments_{comment.review_id}")
+        if comment.parent_comm_id is not None:
+            caches.get("comments").delete(f"replies_{comment.parent_comm_id}")
+
         return {"message": "Comment created successfully", "comm_id": comm_id}
     else:
         HTTPException(status_code=500, detail="Failed to create comment. Please try again.")
@@ -63,6 +69,12 @@ async def edit_comment_request(comment: EditCommentRequest):
 
     if result is False:
         raise HTTPException(status_code=404, detail="Comment not found")
+
+    #Clear caches
+    caches.get("comments").delete(f"comments_{comment.review_id}")
+    if comment.parent_comm_id is not None:
+        caches.get("comments").delete(f"replies_{comment.parent_comm_id}")
+
     return {"message": "Comment edited successfully"}
 
 @router.delete("/delete/")
@@ -91,6 +103,7 @@ async def fetch_all_comments():
 
 @router.get("/from_review/{review_id}")
 #@cache(namespace="comments_{review_id}", expire=3600)
+@cached(namespace="comments", expire=3600, key_builder=lambda f, *args, **kwargs: f"comments_{kwargs['review_id']}")
 async def fetch_comments_for_review(review_id: int):
     comments = get_comments_by_review_id(review_id)
     print('requested comments for review id:', review_id)
@@ -126,6 +139,7 @@ async def fetch_comments_for_review(review_id: int):
         return {"comments": []}
 
 @router.get("/from_comment/{parent_comm_id}")
+@cached(namespace="comments", expire=3600, key_builder=lambda f, *args, **kwargs: f"replies_{kwargs['parent_comm_id']}")
 async def fetch_replies_to_comment(parent_comm_id: int):
     comments = get_comments_by_parent_comm_id(parent_comm_id)
     if comments is not None:
