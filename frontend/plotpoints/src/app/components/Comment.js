@@ -168,6 +168,8 @@ export default function Comment({
 
   const deleteComment = async () => {
     console.log(`Deleting comment ${commentText}`);
+    //remove from commentList
+    removeCommentFromList(commentId);
     try {
     const res = await fetch(`/api/comments/delete/${commentId}`, {
       method: 'DELETE',
@@ -180,8 +182,7 @@ export default function Comment({
     if (!res.ok) {
       throw new Error(data.error || 'Failed to delete comment');
     }
-    //remove from commentList
-    removeCommentFromList(commentId);
+    
 
   } catch (error) {
     console.error(error.message);

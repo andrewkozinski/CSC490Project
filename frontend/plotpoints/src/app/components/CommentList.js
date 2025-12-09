@@ -14,9 +14,9 @@ export default function CommentsList({reviewId = 0, parentId = 0, parentType = "
 
   const [comments, setComments] = useState([]); 
 
-  const removeCommentFromList = (reviewId) => {
-    console.log(`Removing review ${reviewId} from list`);
-    setComments((prevReviews) => prevReviews.filter((r) => r.review_id !== reviewId));
+  const removeCommentFromList = (commentId) => {
+    console.log(`Removing comment ${commentId} from list`);
+    setComments((prevComments) => prevComments.filter((c) => c.comm_id !== commentId));
   }
 
   // Fetch comments for the parent review
