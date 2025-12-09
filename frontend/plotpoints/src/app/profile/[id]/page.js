@@ -346,7 +346,7 @@ export default function ProfilePage( {params} ){
                 <div className="grid w-150 m-15 h-fit">
                     <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
-                        {true ? (
+                        {isReviewLoading ? (
                             Array.from({ length: 3 }).map((_, index) => (
                                 <ProfileReviewSkeleton key={index} />
                             ))
