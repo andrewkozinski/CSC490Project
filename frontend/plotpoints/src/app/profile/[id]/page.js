@@ -20,6 +20,8 @@ import { getBookmarksByUserId } from "@/lib/bookmarks";
 import { getFavoritesByUserId } from "@/lib/favorites";
 import "@/app/components/Profile.css";
 import { useSettings } from "@/app/context/SettingsProvider";
+import SkeletonImage from "@/app/components/SkeletonImage";
+import ProfileReviewSkeleton from "@/app/components/ProfileReviewSkeleton";
 
 export default function ProfilePage( {params} ){
 
@@ -30,18 +32,23 @@ export default function ProfilePage( {params} ){
 
     const [profileDetails, setProfileDetails] = useState(null);
     const [profilePicture, setProfilePicture] = useState("http://www.w3.org/2000/svg")
-    const [recentReviews, setRecentReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [loadingImage, setLoadingImage] = useState("/images/spr_tenna_t_pose_big.gif");
     // Following/follower numbers
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
-    
+
+    //Reviews state
+    const [recentReviews, setRecentReviews] = useState([]);
+    const [isReviewLoading, setIsReviewLoading] = useState(true);
+
     //Bookmarks state
     const [bookmarks, setBookmarks] = useState([]);
+    const [isBookmarkLoading, setIsBookmarkLoading] = useState(true);
 
     //Favorites state
     const [favorites, setFavorites] = useState([]);
+    const [isFavoriteLoading, setIsFavoriteLoading] = useState(true);
 
     // Modal state
     const [showModal, setShowModal] = useState(false);
@@ -97,6 +104,9 @@ export default function ProfilePage( {params} ){
                 console.error("Error fetching recent reviews:", error);
                 setRecentReviews([]);
             }
+            finally {
+                setIsReviewLoading(false);
+            }
         }
 
         const fetchBookmarks = async () => {
@@ -107,6 +117,9 @@ export default function ProfilePage( {params} ){
             } catch (error) {
                 console.error("Error fetching bookmarks:", error);
                 setBookmarks([]);
+            }
+            finally {
+                setIsBookmarkLoading(false);
             }
         }
 
@@ -119,10 +132,13 @@ export default function ProfilePage( {params} ){
                 console.error("Error fetching favorites:", error);
                 setFavorites([]);
             }
+            finally {
+                setIsFavoriteLoading(false);
+            }
         }
 
         Promise.all([fetchProfileDetails(), fetchRecentReviews(), fetchBookmarks(), fetchFavorites()])
-            .then(() => setIsLoading(false));
+            .finally(() => setIsLoading(false));
 
     }, []);
 
@@ -330,8 +346,12 @@ export default function ProfilePage( {params} ){
                 <div className="grid w-150 m-15 h-fit">
                     <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
-                        {/*If no recent reviews, then display text stating the user hasn't made any reviews*/}
-                        {recentReviews?.length === 0 ? (
+                        {isReviewLoading ? (
+                            Array.from({ length: 3 }).map((_, index) => (
+                                <ProfileReviewSkeleton key={index} />
+                            ))
+                        ) :
+                        recentReviews?.length === 0 ? (
                             <p className="font-bold">{"This user hasn't made any reviews yet!"}</p>
                         ) : (
                             recentReviews?.map((review, idx) => (
@@ -348,7 +368,12 @@ export default function ProfilePage( {params} ){
                     <h1 className="text-md whitespace-nowrap ml-4">Bookmarks</h1>
                     <Carousel >
                         
-                        {bookmarks.length === 0 ? (
+                        {isBookmarkLoading ? (
+                            Array.from({ length: 3 }).map((_, index) => (
+                                <SkeletonImage key={index} useTennaImage={false} />
+                            ))
+                        ) : 
+                        bookmarks.length === 0 ? (
                             <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
                         ) : (
                             bookmarks.map((bookmark, index) => (
@@ -370,22 +395,17 @@ export default function ProfilePage( {params} ){
                     </Carousel>
                     <h1 className="text-md whitespace-nowrap ml-4 mt-10">Favorites</h1>
                     <Carousel >
-                        {favorites.length === 0 ? (
+                        {isFavoriteLoading ? (
+                            Array.from({ length: 3 }).map((_, index) => (
+                                <SkeletonImage key={index} useTennaImage={false} />
+                            ))
+                        ) : favorites.length === 0 ? (
                             <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no favorites yet!</h1>
                         ) : (
                             favorites.map((favorite, index) => (
                                 <Link key={index} href={`/${favorite.media_type}/review/${favorite.media_id}`}>
-                                    <Image
-                                        //key={index}
-                                        alt={favorite.title}
-                                        src={favorite.img}
-                                        title={favorite.title}
-                                        height={200}
-                                        width={200}
-                                        className="bookmark"
-                                        //onClick={() => window.location.href = `/${favorite.media_type}/review/${favorite.media_id}`}
-                                    />
-                                </Link>  
+                                    <Image alt={favorite.title} src={favorite.img} title={favorite.title} height={200} width={200} className="bookmark" />
+                                </Link>
                             ))
                         )}
                     </Carousel>

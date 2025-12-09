@@ -168,6 +168,8 @@ export default function Comment({
 
   const deleteComment = async () => {
     console.log(`Deleting comment ${commentText}`);
+    //remove from commentList
+    removeCommentFromList(commentId);
     try {
     const res = await fetch(`/api/comments/delete/${commentId}`, {
       method: 'DELETE',
@@ -180,8 +182,7 @@ export default function Comment({
     if (!res.ok) {
       throw new Error(data.error || 'Failed to delete comment');
     }
-    //remove from commentList
-    removeCommentFromList(commentId);
+    
 
   } catch (error) {
     console.error(error.message);
@@ -283,6 +284,7 @@ return (
               userVote === "up" ? "text-green-600" : ""
             }`}
             onClick={handleUpvote}
+            disabled={isBlockedUser}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -311,6 +313,7 @@ return (
               userVote === "down" ? "text-red-600" : ""
             }`}
             onClick={handleDownvote}
+            disabled={isBlockedUser}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -333,6 +336,7 @@ return (
       <button
         onClick={() => setShowReplyBox((prev) => !prev)}
         className="absolute bottom-2 right-3 text-sm underline underline-offset-3 cursor-pointer"
+        disabled={isBlockedUser}
       >
         Reply
       </button>

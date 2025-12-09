@@ -156,7 +156,9 @@ export function SettingsProvider({ children }) {
           //Now sign out the user
           signOut();
           resetSettings();
-        }} />
+          }} 
+          setShowExpiredSessionModal={setShowExpiredSessionModal} 
+          />
       )}
     </SettingsContext.Provider>
   );

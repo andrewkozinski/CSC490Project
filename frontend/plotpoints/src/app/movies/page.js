@@ -153,7 +153,7 @@ export default function Movies() {
               src={movie.img}
               title={movie.title}
               className="image"
-              onClick={() => Router.push(`/movies/review/${movie.id}`)}
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
               style={{ cursor: 'pointer' }}
             />
           ))}
