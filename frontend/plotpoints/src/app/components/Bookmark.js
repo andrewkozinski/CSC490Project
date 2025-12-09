@@ -42,6 +42,8 @@ export default function Bookmark({mediaType, mediaId}) {
       }
     } catch (error) {
       console.error("Error toggling bookmark:", error);
+      // Revert optimistic update on error
+      setIsBookmarked(!isBookmarked);
     }
   };
 
