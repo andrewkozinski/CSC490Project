@@ -3,8 +3,11 @@ import ReviewText from "./ReviewText";
 import { useSettings } from "../context/SettingsProvider";
 import { useState, useEffect } from "react";
 import "./Profile.css";
+import {useRouter} from "next/navigation";
 
 export default function ProfileReview({ reviewData }) {
+
+    const router = useRouter();
 
     const {title, img, review_text, rating, media_type, media_id} = reviewData || {
         title: "Superman",
@@ -46,7 +49,8 @@ export default function ProfileReview({ reviewData }) {
                         "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
                       : "hover:outline-1 hover:outline-black hover:outline-offset-3"
                     }`}
-                onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
+                // onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
+                onClick={() => router.push(`/${media_type}/review/${media_id}`)}
             />
             <div className="grid grid-rows-2 inline-block ">
                     <h1 className="text-2xl text-start inria-serif-regular mb-2">{title}</h1>
