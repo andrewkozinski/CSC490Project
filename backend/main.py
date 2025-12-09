@@ -49,6 +49,10 @@ caches.set_config({
         "cache": "aiocache.SimpleMemoryCache",
         "ttl": 3600, #1 hour
     },
+    "blocking": {
+        "cache": "aiocache.SimpleMemoryCache",
+        "ttl": 600, #10 minutes
+    }
 })
 
 from fastapi import FastAPI

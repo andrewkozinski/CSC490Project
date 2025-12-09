@@ -1,3 +1,4 @@
+from aiocache import cached, Cache, caches
 from fastapi import APIRouter, HTTPException
 from routes.auth import verify_jwt_token, get_user_id_from_token
 from database import block
@@ -17,7 +18,8 @@ async def block_user(user_id_to_block: int, jwt_token: str):
 
     if result["code"] != 201:
         raise HTTPException(status_code=result["code"], detail=result["error"])
-
+    #Clear cache
+    caches.get("blocking").delete(f"is_blocked_{user_id}_{user_id_to_block}")
     return {"message": f"User {user_id_to_block} has been blocked."}
 
 #Unblock a user
@@ -33,11 +35,13 @@ async def unblock_user(user_id_to_unblock: int, jwt_token: str):
 
     if result["code"] != 200:
         raise HTTPException(status_code=result["code"], detail=result["error"])
-
+    #Clear cache
+    caches.get("blocking").delete(f"is_blocked_{user_id}_{user_id_to_unblock}")
     return {"message": f"User {user_id_to_unblock} has been unblocked."}
 
 #Check if a user is blocked
 @router.get("/is_blocked/user_id/{user_id_to_check}")
+@cached(alias="blocking", ttl=600, cache=Cache.MEMORY, key_builder=lambda f, user_id_to_check, user_id: f"is_blocked_{user_id}_{user_id_to_check}")
 async def is_user_blocked(user_id_to_check: int, user_id: int):
 
     result = block.is_user_blocked(user_id, user_id_to_check)
