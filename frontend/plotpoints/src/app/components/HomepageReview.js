@@ -44,7 +44,7 @@ export default function HomepageReview({ reviewData }) {
     const [isBlockedUser, setIsBlockedUser] = useState(false);
 
     const { reviewText: showReviewText } = useSettings();
-    const { darkMode: darkOn} = useSettings();
+    const { darkMode: darkOn } = useSettings();
 
     useEffect(() => {
         const testImg = new window.Image();
@@ -75,77 +75,80 @@ export default function HomepageReview({ reviewData }) {
 
     return (
         <>
-        <div className="flex flex-row rounded-[1px] w-max gap-4">
-            <Link href={`/${media_type}/review/${media_id}`}>
-                <img
-                    src={img}
-                    title={title}
-                    className={`max-w-27 max-h-42 rounded-sm hover:cursor-pointer
-                        ${ darkOn ? 
-                            "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3" 
-                        : "hover:outline-1 hover:outline-black hover:outline-offset-3"
-                        }`}
+            <div className="flex flex-row rounded-[1px] w-max gap-4">
+                <Link href={`/${media_type}/review/${media_id}`}>
+                    <img
+                        src={img}
+                        title={title}
+                        className={`max-w-27 max-h-42 rounded-sm hover:cursor-pointer
+                        ${darkOn ?
+                                "hover:outline-1 hover:outline-[#F3E9DC] hover:outline-offset-3"
+                                : "hover:outline-1 hover:outline-black hover:outline-offset-3"
+                            }`}
                     // onClick={() => window.location.href = `/${media_type}/review/${media_id}`}
                     // onClick={() => router.push(`/${media_type}/review/${media_id}`)}
-                />
-            </Link>
-            
-            <div className="grid grid-rows-2 inline-block">
-                <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
-                <div className="flex flex-col justify-start">
-                    <div className="flex flex-row items-center gap-2">
-                    <Link href={`/profile/${user_id}`}>
-                        <div
-                            className="group flex items-center justify-center self-center w-11 h-11 rounded-full  bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
-                        // onClick={() => window.location.href = `/profile/${user_id}`}
-                        >
-                            <Image
-                                src={displayPfp}
-                                title={username}
-                                alt="profile picture"
-                                width={50}
-                                height={50}
-                                className="rounded-full w-10 h-10 object-cover"
-                                onError={() =>
-                                    setPfp("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
-                                }
-                            />
-                        </div>
-                    </Link>
-                    
-                    <Link href={`/profile/${user_id}`}>
-                        <p
-                            // onClick={() => window.location.href = `/profile/${user_id}`}
-                            className="-ml-1 underline underline-offset-4 hover:text-[#ffa2e9] hover:cursor-pointer"
-                        >
-                            {displayUsername}
-                        </p>
+                    />
+                </Link>
 
-                    </Link>
+                <div className="grid grid-rows-2 inline-block">
+                    <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
+                    <div className="flex flex-col justify-start">
+                        <div className="flex flex-row items-center gap-2">
+                            <Link href={`/profile/${user_id}`}>
+                                <div
+                                    className="group flex items-center justify-center self-center w-11 h-11 rounded-full  bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
+                                // onClick={() => window.location.href = `/profile/${user_id}`}
+                                >
+                                    <Image
+                                        src={displayPfp}
+                                        title={username}
+                                        alt="profile picture"
+                                        width={50}
+                                        height={50}
+                                        className="rounded-full w-10 h-10 object-cover"
+                                        onError={() =>
+                                            setPfp("https://objectstorage.us-ashburn-1.oraclecloud.com/n/idmldn7fblfn/b/plotpoint-profile-pic/o/def_profile/Default_pfp.jpg")
+                                        }
+                                    />
+                                </div>
+                            </Link>
+
+                            <Link href={`/profile/${user_id}`}>
+                                <p
+                                    // onClick={() => window.location.href = `/profile/${user_id}`}
+                                    className="-ml-1 underline underline-offset-4 hover:text-[#ffa2e9] hover:cursor-pointer"
+                                >
+                                    {displayUsername}
+                                </p>
+
+                            </Link>
+                        </div>
+
+                        <div className="flex flex-row ml-2 mt-1">
+                            {[...Array(5)].map((_, i) => {
+                                const value = i + 1;
+                                return (
+                                    <Star
+                                        key={value}
+                                        className={`w-6 h-6 ${value <= rating
+                                            ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black"
+                                            : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
+                                            }`}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
-                    
-                    <div className="flex flex-row ml-2 mt-1">
-                        {[...Array(5)].map((_, i) => {
-                            const value = i + 1;
-                            return (
-                                <Star
-                                    key={value}
-                                    className={`w-6 h-6 ${value <= rating
-                                        ? darkOn ? "fill-[#F3E9DC] stroke-[#F3E9DC]" : "fill-black stroke-black" 
-                                        : darkOn ? "fill-transparent stroke-[#F3E9DC]" : "fill-transparent stroke-black"
-                                        }`}
-                                />
-                            );
-                        })}
-                    </div>
+                    {showReviewText == true ?
+                        <ReviewText className="max-w-80 text-sm pt-2 ml-2" content={displayText} />
+                        : <div />}
+
                 </div>
-                {showReviewText == true ? 
-                <ReviewText className="max-w-80 text-sm pt-2 ml-2" content={displayText} />
-                : <div/> }
-                
             </div>
-        </div>
-        <div className="w-full h-[1px] bg-zinc-950 opacity-50 my-1"></div>
-    </>
+            <div
+                className={`w-full h-[1px] my-4 opacity ${darkOn ? "bg-[#F3E9DC]" : "bg-gray-950"
+                    }`}
+            />
+        </>
     );
 }
