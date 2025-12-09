@@ -32,13 +32,18 @@ export default function Bookmark({mediaType, mediaId}) {
     }
     try {
       if (isBookmarked) {
+        //optimistic update
+        setIsBookmarked(false);
         await removeBookmark(mediaType, mediaId, session?.accessToken);
       } else {
+        //optimistic update
+        setIsBookmarked(true);
         await addBookmark(mediaType, mediaId, session?.accessToken);
       }
-      setIsBookmarked(!isBookmarked);
     } catch (error) {
       console.error("Error toggling bookmark:", error);
+      // Revert optimistic update on error
+      setIsBookmarked(!isBookmarked);
     }
   };
 

@@ -34,13 +34,18 @@ export default function Favorite({mediaType, mediaId}) {
     }
     try {
       if (isFavorited) {
+        //optimistic update
+        setIsFavorited(false);
         await removeFavorite(mediaType, mediaId, session?.accessToken);
       } else {
+        //optimistic update
+        setIsFavorited(true);
         await addFavorite(mediaType, mediaId, session?.accessToken);
       }
-      setIsFavorited(!isFavorited);
     } catch (error) {
       console.error("Error toggling favorite:", error);
+      // Revert optimistic update on error
+      setIsFavorited(!isFavorited);
     }
   };
 
