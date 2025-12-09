@@ -21,6 +21,7 @@ import { getFavoritesByUserId } from "@/lib/favorites";
 import "@/app/components/Profile.css";
 import { useSettings } from "@/app/context/SettingsProvider";
 import SkeletonImage from "@/app/components/SkeletonImage";
+import ProfileReviewSkeleton from "@/app/components/ProfileReviewSkeleton";
 
 export default function ProfilePage( {params} ){
 
@@ -347,7 +348,7 @@ export default function ProfilePage( {params} ){
                     <div className="flex flex-col gap-5">
                         {true ? (
                             Array.from({ length: 3 }).map((_, index) => (
-                                <SkeletonImage key={index} useTennaImage={false} />
+                                <ProfileReviewSkeleton key={index} />
                             ))
                         ) :
                         recentReviews?.length === 0 ? (
