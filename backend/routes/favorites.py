@@ -51,8 +51,8 @@ async def is_favorited(media_type:str, media_id:str, user_id: int):
     return {"is_favorited": result}
 
 @router.get("/all_favorites/user/{user_id}")
-@cached(ttl=300, cache=Cache.MEMORY, alias="user_favorites", key_builder=lambda f, *args, **kwargs: f"user_bookmarks_{kwargs['user_id']}")
-async def get_user_bookmarks(user_id: int, limit: int = 3):
+@cached(ttl=300, cache=Cache.MEMORY, alias="user_favorites", key_builder=lambda f, *args, **kwargs: f"user_favorites_{kwargs['user_id']}")
+async def get_user_favorites(user_id: int, limit: int = 3):
     favorite_list = favorites.get_user_favorites(user_id, limit)
     if favorite_list is not None:
 

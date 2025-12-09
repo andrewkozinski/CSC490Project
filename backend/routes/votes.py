@@ -42,7 +42,11 @@ async def upvote(vote_id: int, jwt_token: str):
 
     if existing_vote is None:
         #Add user vote record
-        add_user_vote(user_id, vote_id, "U")
+        vote_success = add_user_vote(user_id, vote_id, "U")
+
+        if vote_success["code"] != 200:
+            raise HTTPException(status_code=vote_success["code"], detail=vote_success["error"])
+
         result = increment_upvote(vote_id)
         #Check if there was an error
         if result is False:
@@ -111,7 +115,11 @@ async def downvote(vote_id : int, jwt_token: str):
 
     if existing_vote is None:
         #Add user vote record
-        add_user_vote(user_id, vote_id, "D")
+        add_success = add_user_vote(user_id, vote_id, "D")
+
+        if add_success["code"] != 200:
+            raise HTTPException(status_code=add_success["code"], detail=add_success["error"])
+
         result = increment_downvote(vote_id)
         #Check if there was an error
         if result is False:
@@ -126,7 +134,11 @@ async def downvote(vote_id : int, jwt_token: str):
     elif existing_vote == "U":
         #User had upvoted before, remove upvote and add downvote
         delete_user_vote(user_id, vote_id)
-        add_user_vote(user_id, vote_id, "D")
+
+        vote_success = add_user_vote(user_id, vote_id, "D")
+        if vote_success["code"] != 200:
+            raise HTTPException(status_code=vote_success["code"], detail=vote_success["error"])
+
         decrement_upvote(vote_id)
         result = increment_downvote(vote_id)
         if result is False:

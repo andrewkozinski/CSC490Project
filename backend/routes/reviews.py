@@ -207,7 +207,7 @@ async def get_review_data(media_type: str, media_id: str):
 
 @router.get("/get_recent_reviews")
 @cache(namespace="recent_reviews", expire=300)  # Cache for 5 minutes
-async def get_recent_reviews(limit: int = 7):
+async def get_recent_reviews(limit: int = 8):
     recent_reviews = reviews.get_recent_reviews(limit)
     if recent_reviews is None:
         return {"reviews": []}
@@ -248,6 +248,12 @@ async def get_recent_reviews(limit: int = 7):
             print(f"Error fetching media data for review ID {review['review_id']}: {e}")
             review["img"] = "https://placehold.co/100x150?text=Error"
             review["title"] = "N/A"
+            if review["media_type"] == "book":
+                review["media_type"] = "books"
+            elif review["media_type"] == "movie":
+                review["media_type"] = "movies"
+            elif review["media_type"] == "tvshow":
+                review["media_type"] = "tv"
 
 
     return {"reviews": recent_reviews}
