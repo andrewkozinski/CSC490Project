@@ -44,6 +44,8 @@ export default function Favorite({mediaType, mediaId}) {
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);
+      // Revert optimistic update on error
+      setIsFavorited(!isFavorited);
     }
   };
 
