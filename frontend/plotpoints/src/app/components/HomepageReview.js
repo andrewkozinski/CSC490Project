@@ -74,6 +74,7 @@ export default function HomepageReview({ reviewData }) {
         : pfp;
 
     return (
+        <>
         <div className="flex flex-row rounded-[1px] w-max gap-4">
             <Link href={`/${media_type}/review/${media_id}`}>
                 <img
@@ -91,10 +92,11 @@ export default function HomepageReview({ reviewData }) {
             
             <div className="grid grid-rows-2 inline-block">
                 <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
-                <div className="flex flex-row items-center gap-2">
+                <div className="flex flex-col justify-start">
+                    <div className="flex flex-row items-center gap-2">
                     <Link href={`/profile/${user_id}`}>
                         <div
-                            className="group flex items-center justify-center w-11 h-11 rounded-full bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
+                            className="group flex items-center justify-center self-center w-11 h-11 rounded-full  bg-transparent border-2 m-2 cursor-pointer shrink-0 transition-transform duration-200 hover:scale-115"
                         // onClick={() => window.location.href = `/profile/${user_id}`}
                         >
                             <Image
@@ -120,8 +122,9 @@ export default function HomepageReview({ reviewData }) {
                         </p>
 
                     </Link>
+                    </div>
                     
-                    <div className="flex flex-row justify-start">
+                    <div className="flex flex-row ml-2 mt-1">
                         {[...Array(5)].map((_, i) => {
                             const value = i + 1;
                             return (
@@ -137,10 +140,12 @@ export default function HomepageReview({ reviewData }) {
                     </div>
                 </div>
                 {showReviewText == true ? 
-                <ReviewText className="max-w-80 text-sm pt-2" content={displayText} />
+                <ReviewText className="max-w-80 text-sm pt-2 ml-2" content={displayText} />
                 : <div/> }
                 
             </div>
         </div>
+        <div className="w-full h-[1px] bg-zinc-950 opacity-50 my-1"></div>
+    </>
     );
 }
