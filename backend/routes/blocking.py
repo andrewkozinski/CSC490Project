@@ -49,3 +49,17 @@ async def is_user_blocked(user_id_to_check: int, user_id: int):
         "user_id_checked": user_id_to_check,
         "is_blocked": result
     }
+
+#Get all users a user has been blocked by
+@router.get("/blocked_by/user_id/{user_id}")
+async def get_blocked_by(user_id: int):
+
+    result = block.get_blocked_by(user_id)
+
+    if result is None:
+        raise HTTPException(status_code=500, detail="Error fetching blocked by list")
+
+    return {
+        "user_id": user_id,
+        "blocked_by": result
+    }
