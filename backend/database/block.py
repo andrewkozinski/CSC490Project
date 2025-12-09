@@ -95,3 +95,34 @@ def is_user_blocked(user_id, blocked_user_id):
 
     finally:
         connect.stop_connection(connection, cursor)
+
+#Get all users who have blocked a specific user
+def get_blocked_by(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+
+    try:
+        cursor.execute(
+            """
+            SELECT USER_ID 
+            FROM ADMIN.BLOCK
+            WHERE BLOCKED_USER_ID = :1
+            """,
+            (user_id,)
+        )
+
+        results = cursor.fetchall()
+
+        blocked_by_users = [row[0] for row in results]
+
+        return blocked_by_users
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print(f"Database error fetching blocked by users: {error_obj.message}")
+        return None
+
+    finally:
+        connect.stop_connection(connection, cursor)
