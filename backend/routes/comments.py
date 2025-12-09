@@ -52,9 +52,9 @@ async def create_comment(comment: ReviewComment):
         vote_result = vote.add_vote(None, comm_id, 0, 0)
 
         #Now clear caches
-        caches.get("comments").delete(f"comments_{comment.review_id}")
-        if comment.parent_comm_id is not None:
-            caches.get("comments").delete(f"replies_{comment.parent_comm_id}")
+        # caches.get("comments").delete(f"comments_{comment.review_id}")
+        # if comment.parent_comm_id is not None:
+        #     caches.get("comments").delete(f"replies_{comment.parent_comm_id}")
 
         return {"message": "Comment created successfully", "comm_id": comm_id}
     else:
@@ -102,7 +102,7 @@ async def fetch_all_comments():
     raise HTTPException(status_code=500, detail="Error fetching comments")
 
 @router.get("/from_review/{review_id}")
-@cached(alias="comments", ttl=3600, key_builder=lambda f, *args, **kwargs: f"comments_{kwargs['review_id']}")
+# @cached(alias="comments", ttl=3600, key_builder=lambda f, *args, **kwargs: f"comments_{kwargs['review_id']}")
 async def fetch_comments_for_review(review_id: int):
     comments = get_comments_by_review_id(review_id)
     print('requested comments for review id:', review_id)
@@ -138,7 +138,7 @@ async def fetch_comments_for_review(review_id: int):
         return {"comments": []}
 
 @router.get("/from_comment/{parent_comm_id}")
-@cached(alias="comments", ttl=3600, key_builder=lambda f, *args, **kwargs: f"replies_{kwargs['parent_comm_id']}")
+# @cached(alias="comments", ttl=3600, key_builder=lambda f, *args, **kwargs: f"replies_{kwargs['parent_comm_id']}")
 async def fetch_replies_to_comment(parent_comm_id: int):
     comments = get_comments_by_parent_comm_id(parent_comm_id)
     if comments is not None:
