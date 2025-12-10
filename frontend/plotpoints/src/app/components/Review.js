@@ -393,7 +393,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
             defaultValue={reviewText}
             onChange={(e) => setEditText(e.target.value)}
-            maxLength={200}
+            maxLength={400}
           />
           <button
             className="cursor-pointer self-end shadow mt-3 px-6 py-2 rounded-sm text-sm"
@@ -417,7 +417,7 @@ export default function Review({ reviewId = 0, username = "Anonymous", text = "N
             className="w-full border text-sm rounded-sm p-2 resize-none focus:outline-none"
             value={commentText}
             onChange={onCommentTextChange}
-            maxLength={200}
+            maxLength={400}
           />
           <button
             className="cursor-pointer self-end shadow reply-btn brown mt-3 px-6 py-2 rounded-md text-sm"

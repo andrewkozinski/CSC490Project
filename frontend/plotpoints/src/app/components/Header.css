@@ -28,6 +28,12 @@
     @apply rounded-lg inline-block items-baseline;
 }
 
+.text2 {
+    color:#000000;
+    font-size: 15px;
+    @apply rounded-lg inline-block items-baseline;
+}
+
 html.dark .text {
     color: #F3E9DC;
 }
