@@ -13,6 +13,7 @@ import Image from "next/image";
 import { isBlocked } from "@/lib/blocking";
 import "@/app/components/Header.css";
 import { useSettings } from "../context/SettingsProvider";
+import ReviewText from "./ReviewText.js";
 
 export default function Comment({
   removeCommentFromList = () => {},
@@ -270,8 +271,11 @@ return (
             onClick={() => (window.location.href = `/profile/${userId}`)}>
             {displayUsername}
           </p>
-          <p className={`text-sm 
-            ${darkOn ? "text-[#F3E9DC]": "text-black"}`}>{displayText}</p>
+          {/* <p className={`text-sm 
+            ${darkOn ? "text-[#F3E9DC]" : "text-black"}`}>
+            {displayText}
+          </p> */}
+          <ReviewText content={displayText} className={darkOn ? "text-sm text-[#F3E9DC]" : "text-sm text-black"} />
         </div>
         {/* Rating controls under the text */}
         <div className="flex items-center w-full mt-2 space-x-2">
