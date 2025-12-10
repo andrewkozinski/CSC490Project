@@ -95,6 +95,29 @@ export default function Movies() {
         }
         
         */}
+        {/* Check if user is logged in, if so show recommendations */}
+        {session?.user && (
+          <Carousel label="Recommended Movies">
+            {/* If 0 show skeleton cards */}
+            {recommendedMovies.length === 0 ? (
+              Array.from({ length: 20 }).map((_, index) => (
+                <SkeletonImage key={index} useTennaImage={true} />
+              ))
+            ) : (
+              recommendedMovies.map((movie) => (
+                <img
+                  key={movie.id}
+                  src={movie.img}
+                  title={movie.title}
+                  className="image"
+                  onClick={() => router.push(`/movies/review/${movie.id}`)}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))
+            )}
+          </Carousel>
+        )}
+        
         <Carousel label="Upcoming Movies">
           {upcomingMovies.map((movie) => (
             <img
@@ -107,23 +130,6 @@ export default function Movies() {
             />
           ))}
           {upcomingMovies.length === 0 && (
-            Array.from({ length: 20 }).map((_, index) => (
-              <SkeletonImage key={index} useTennaImage={false} />
-            ))
-          )}
-        </Carousel>
-        <Carousel label="Horror Movies">
-          {horrorMovies.map((movie) => (
-            <img
-              key={movie.id}
-              src={movie.img}
-              title={movie.title}
-              className="image"
-              onClick={() => router.push(`/movies/review/${movie.id}`)}
-              style={{ cursor: 'pointer' }}
-            />
-          ))}
-          {horrorMovies.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
               <SkeletonImage key={index} useTennaImage={false} />
             ))
@@ -146,6 +152,24 @@ export default function Movies() {
             ))
           )}
         </Carousel>
+        <Carousel label="Horror Movies">
+          {horrorMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+          {horrorMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+        </Carousel>
+        
         <Carousel label="Science Fiction Movies">
           {sciFiMovies.map((movie) => (
             <img
@@ -181,28 +205,7 @@ export default function Movies() {
           )}
         </Carousel>
 
-        {/* Check if user is logged in, if so show recommendations */}
-        {session?.user && (
-          <Carousel label="Recommended Movies">
-            {/* If 0 show skeleton cards */}
-            {recommendedMovies.length === 0 ? (
-              Array.from({ length: 20 }).map((_, index) => (
-                <SkeletonImage key={index} useTennaImage={true} />
-              ))
-            ) : (
-              recommendedMovies.map((movie) => (
-                <img
-                  key={movie.id}
-                  src={movie.img}
-                  title={movie.title}
-                  className="image"
-                  onClick={() => router.push(`/movies/review/${movie.id}`)}
-                  style={{ cursor: 'pointer' }}
-                />
-              ))
-            )}
-          </Carousel>
-        )}
+        
 
       </main>
       <Footer />

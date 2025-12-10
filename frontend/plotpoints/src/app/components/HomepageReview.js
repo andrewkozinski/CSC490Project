@@ -92,7 +92,7 @@ export default function HomepageReview({ reviewData }) {
 
                 <div className="grid grid-rows-2 inline-block">
                     <h1 className="text-2xl text-start inria-serif-regular mb-2 w-80">{title}</h1>
-                    <div className="flex flex-col justify-start">
+                    <div className="flex flex-col justify-start -ml-1">
                         <div className="flex flex-row items-center gap-2">
                             <Link href={`/profile/${user_id}`}>
                                 <div
@@ -140,13 +140,13 @@ export default function HomepageReview({ reviewData }) {
                         </div>
                     </div>
                     {showReviewText == true ?
-                        <ReviewText className="max-w-80 text-sm pt-2 ml-2" content={displayText} />
+                        <ReviewText className="max-w-80 text-sm pt-2 " content={displayText} />
                         : <div />}
 
                 </div>
             </div>
             <div
-                className={`w-full h-[1px] my-4 opacity ${darkOn ? "bg-[#F3E9DC]" : "bg-gray-950"
+                className={`w-full h-[1px] my-1 opacity ${darkOn ? "bg-[#F3E9DC]" : "bg-black"
                     }`}
             />
         </>

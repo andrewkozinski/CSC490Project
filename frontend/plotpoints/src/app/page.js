@@ -20,6 +20,7 @@ export default function Home() {
   const [trendingShows, setTrendingShows] = useState([]);
   const [trendingBooks, setTrendingBooks] = useState([]);
   const [recentReviews, setRecentReviews] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,6 +40,32 @@ export default function Home() {
           reviewRes.json()
         ]);
 
+        const fetchMovies = async (genre, setMovies) => {
+      try {
+        const res = await fetch(`/api/movies/genre/${genre}`);
+        if (!res.ok) throw new Error("Failed to fetch movies");
+        const data = await res.json();
+        setMovies(data.results || []);
+        console.log("GENRE: " + genre);
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    const fetchUpcomingMovies = async () => {
+      try {
+        const res = await fetch(`/api/movies/upcoming`);
+        if (!res.ok) throw new Error("Failed to fetch upcoming movies");
+        const data = await res.json();
+        setUpcomingMovies(data.results || []);
+        console.log("UPCOMING MOVIES:");
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
         console.log(moviesData);
         console.log(showsData);
         console.log(booksData);
@@ -48,6 +75,8 @@ export default function Home() {
         setTrendingShows(showsData);
         setTrendingBooks(booksData);
         setRecentReviews(reviewsData.reviews);
+        fetchUpcomingMovies();
+
       } catch (error) {
         console.error("Error fetching trending data:", error);
       }
@@ -100,7 +129,23 @@ export default function Home() {
               ))
             )}
           </Carousel>
-         
+          <Carousel label="Upcoming Movies">
+          {upcomingMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+          {upcomingMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+        </Carousel>
     
         </div>
         <div className="w-1/3 pb-10 -ml-5">
