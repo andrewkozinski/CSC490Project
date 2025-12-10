@@ -22,6 +22,7 @@ import "@/app/components/Profile.css";
 import { useSettings } from "@/app/context/SettingsProvider";
 import SkeletonImage from "@/app/components/SkeletonImage";
 import ProfileReviewSkeleton from "@/app/components/ProfileReviewSkeleton";
+import fetchReviewsByUser from "@/utils/fetchReviewsByUser";
 
 export default function ProfilePage( {params} ){
 
@@ -84,13 +85,9 @@ export default function ProfilePage( {params} ){
 
         const fetchAllReviews = async () => {
             try {
-                const response = await fetch(`/api/profiles/get/${id}/`);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch all reviews");
-                }
-                const data = await response.json();
-                console.log("Fetched Reviews:", data);
-                setAllReviews(data.reviews || []);
+                const reviews = await fetchReviewsByUser(id);
+                console.log("Fetched Reviews via fetchReviewsByUser:", reviews);
+                setAllReviews(reviews);
             }
             catch (error) {
                 console.error("Error fetching all reviews:", error);
