@@ -329,7 +329,7 @@ export default function ProfilePage( {params} ){
                 </div> {/*End of left profile column*/}
                 
                 <div className="grid w-150 m-15 h-fit">
-                    <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
+                    <h1 className="text-lg text-start font-bold whitespace-nowrap mb-5">Recent Reviews</h1>
                     <div className="flex flex-col gap-5">
                         {isReviewLoading ? (
                             Array.from({ length: 3 }).map((_, index) => (
@@ -337,16 +337,20 @@ export default function ProfilePage( {params} ){
                             ))
                         ) :
                         recentReviews?.length === 0 ? (
-                            <p className="font-bold">{"This user hasn't made any reviews yet!"}</p>
+                            <p className="">{"This user hasn't made any reviews yet!"}</p>
                         ) : (
-                            recentReviews?.map((review, idx) => (
+                            <div>
+                                {recentReviews?.map((review, idx) => (
                                 <Review
                                     key={review?.id ?? idx}
                                     reviewData={review}
                                 />
-                        )))}
+                                ))}
+                                <Link className="mt-5 hover:text-[#ffa2e9] text-end" href={`/profile/${id}/allreviews`}>See All Reviews</Link>
+
+                            </div>
+                            )}
                     </div>
-                    <Link className="mt-5 hover:text-[#ffa2e9] text-end" href={`/profile/${id}/allreviews`}>See All Reviews</Link>
 
                 </div>
 
@@ -354,7 +358,7 @@ export default function ProfilePage( {params} ){
                 <div className="w-1/3 h-fit mt-15 mr-10">
                     {/* 
                     <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>*/}
-                    <h1 className="text-md whitespace-nowrap ml-4">Bookmarks</h1>
+                    <h1 className="text-lg text-start font-bold whitespace-nowrap mb-5">Bookmarks</h1>
                     <Carousel >
                         
                         {isBookmarkLoading ? (
@@ -363,7 +367,7 @@ export default function ProfilePage( {params} ){
                             ))
                         ) : 
                         bookmarks.length === 0 ? (
-                            <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
+                            <h1 className="text-md -ml-37 whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
                         ) : (
                             bookmarks.map((bookmark, index) => (
                                 <Link key={index} href={`/${bookmark.media_type}/review/${bookmark.media_id}`}>
@@ -382,14 +386,14 @@ export default function ProfilePage( {params} ){
                         )}  
                         
                     </Carousel>
-                    <h1 className="text-md whitespace-nowrap ml-4 mt-10">Favorites</h1>
+                    <h1 className="text-lg text-start font-bold whitespace-nowrap mb-5">Favorites</h1>
                     <Carousel >
                         {isFavoriteLoading ? (
                             Array.from({ length: 3 }).map((_, index) => (
                                 <SkeletonImage key={index} useTennaImage={false} />
                             ))
                         ) : favorites.length === 0 ? (
-                            <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no favorites yet!</h1>
+                            <h1 className="text-md -ml-37 whitespace-nowrap mb-5">This user has no favorites yet!</h1>
                         ) : (
                             favorites.map((favorite, index) => (
                                 <Link key={index} href={`/${favorite.media_type}/review/${favorite.media_id}`}>
