@@ -146,8 +146,8 @@ export default function Rating({
 
               <textarea
                 value={review}
-                onChange={(e) => setReview(e.target.value.slice(0, 200))}
-                className="w-3/4 my-3 py-2 px-3 h-30 border border-gray-400 rounded-sm resize-none text-sm focus:outline-none"
+                onChange={(e) => setReview(e.target.value.slice(0, 400))}
+                className="w-full my-3 py-2 px-3 h-30 border border-gray-400 rounded-sm resize-none text-sm focus:outline-none"
                 placeholder={placeholder}
                 maxLength={400}
               />

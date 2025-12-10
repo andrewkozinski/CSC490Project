@@ -140,7 +140,7 @@ export default function HomepageReview({ reviewData }) {
                         </div>
                     </div>
                     {showReviewText == true ?
-                        <ReviewText className="max-w-80 text-sm pt-2 ml-1" content={displayText} />
+                        <ReviewText className="max-w-80 text-sm pt-2 ml-1 text-container" content={displayText} />
                         : <div />}
 
                 </div>
