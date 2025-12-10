@@ -147,7 +147,8 @@ async def get_reviews_by_media_type_and_id(media_type: str, media_id: str):
 #namespace by specific user id to avoid wiping cache for all users when one user adds a review
 @cache(namespace="recent_reviews_user_{user_id}", expire=300)  # Cache for 5 minutes
 async def get_reviews_by_user(user_id: int):
-    reviews_by_user = reviews.get_reviews_by_user_id(user_id)
+    # reviews_by_user = reviews.get_reviews_by_user_id(user_id)
+    reviews_by_user = reviews.get_reviews_by_user_id_ordered(user_id)
 
     #Attach vote information to each review
     for review in reviews_by_user:

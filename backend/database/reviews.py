@@ -227,6 +227,31 @@ def get_reviews_by_user_id(user_id):
     finally:
         connect.stop_connection(connection, cursor)
 
+#get reviews written by the user in order of posting
+def get_reviews_by_user_id_ordered(user_id):
+    connection, cursor = connect.start_connection()
+    if not connection or not cursor:
+        print("Failed to connect to database.")
+        return None
+    try:
+        cursor.execute("SELECT * FROM ADMIN.REVIEWS WHERE USER_ID = :1 ORDER BY REVIEW_ID DESC", (user_id,))
+        rows = cursor.fetchall()
+
+        reviews = []
+
+        for row in rows:
+            review = format_review(row)
+            reviews.append(review)
+        return reviews
+
+    except oracledb.Error as e:
+        error_obj, = e.args
+        print("Database error fetching reviews by user ID ordered:", error_obj.message)
+        return None
+    finally:
+        connect.stop_connection(connection, cursor)
+
+
 #get all reviews by user id and media type.It finds all reviews that users have written for the specific item.
 def get_reviews_by_user_id_and_media_type(user_id, media_type):
     connection, cursor = connect.start_connection()
