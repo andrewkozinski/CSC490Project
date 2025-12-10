@@ -13,11 +13,11 @@ export default function SessionModal({ onClose, setShowExpiredSessionModal }) {
                 You must be signed in to continue.
                 </p>
                 <div className="flex flex-row justify-center items-center pb-5">
-                    <div className="text fields blue btn-shadow mr-10 mt-1" href="/signup" onClick={() => {
+                    <div className="text2 fields blue text-black btn-shadow mr-10 mt-1" href="/signup" onClick={() => {
                         signOut({"callbackUrl": "/signup"});
                         setShowExpiredSessionModal(false);
                     }}>Sign Up</div>
-                    <div className="text fields blue btn-shadow -ml-5" href="/signin" onClick={() => {
+                    <div className="text2 fields blue text-black btn-shadow -ml-5" href="/signin" onClick={() => {
                         signOut({"callbackUrl": "/signin"});
                         setShowExpiredSessionModal(false);
                     }}>Sign In</div>

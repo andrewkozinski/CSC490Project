@@ -149,7 +149,7 @@ export default function Rating({
                 onChange={(e) => setReview(e.target.value.slice(0, 200))}
                 className="w-3/4 my-3 py-2 px-3 h-30 border border-gray-400 rounded-sm resize-none text-sm focus:outline-none"
                 placeholder={placeholder}
-                maxLength={200}
+                maxLength={400}
               />
 
               <p className="text-xs text-center w-full pb-5 pt-2">

@@ -291,7 +291,9 @@ export default function ProfilePage( {params} ){
                 </div> {/*End of left profile column*/}
                 
                 <div className="grid w-200 m-15 h-fit">
-                    <h1 className="text-md text-start whitespace-nowrap mb-5">All Reviews</h1>
+                    <h1 className="text-lg font-bold text-start whitespace-nowrap mb-5">All Reviews</h1>
+                    <Link className="hover:text-[#ffa2e9] text-end" href={`/profile/${id}`}>Back to Profile</Link>
+                    
                     <div className="flex flex-col gap-5">
                         {isReviewLoading ? (
                             Array.from({ length: 3 }).map((_, index) => (
