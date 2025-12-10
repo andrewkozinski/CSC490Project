@@ -1,6 +1,8 @@
 import Modal from "@/app/components/Modal";
 import Link from "next/link";
 import "./Header.css";
+import { signOut } from "next-auth/react";
+import { sign } from "crypto";
 
 export default function SessionModal({ onClose, setShowExpiredSessionModal }) {
     return (
@@ -11,8 +13,14 @@ export default function SessionModal({ onClose, setShowExpiredSessionModal }) {
                 You must be signed in to continue.
                 </p>
                 <div className="flex flex-row justify-center items-center pb-5">
-                    <Link className="text fields blue btn-shadow mr-10 mt-1" href="/signup" onClick={() => setShowExpiredSessionModal(false)}>Sign Up</Link>
-                    <Link className="text fields blue btn-shadow -ml-5" href="/signin" onClick={() => setShowExpiredSessionModal(false)}>Sign In</Link>
+                    <Link className="text fields blue btn-shadow mr-10 mt-1" href="/signup" onClick={() => {
+                        signOut({"callbackUrl": "/signup"});
+                        setShowExpiredSessionModal(false);
+                    }}>Sign Up</Link>
+                    <Link className="text fields blue btn-shadow -ml-5" href="/signin" onClick={() => {
+                        signOut({"callbackUrl": "/signin"});
+                        setShowExpiredSessionModal(false);
+                    }}>Sign In</Link>
                 </div>
 
             </div>
