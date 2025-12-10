@@ -22,8 +22,9 @@ import "@/app/components/Profile.css";
 import { useSettings } from "@/app/context/SettingsProvider";
 import SkeletonImage from "@/app/components/SkeletonImage";
 import ProfileReviewSkeleton from "@/app/components/ProfileReviewSkeleton";
+import { isBlocked } from "@/lib/blocking";
 
-export default function ProfilePage( {params} ){
+export default function ProfilePage( {reviewData, params} ){
 
      //Grab the ID from the URL
     const unwrappedParams = React.use(params);
@@ -58,6 +59,16 @@ export default function ProfilePage( {params} ){
 
     // Dark Mode
     const { darkMode: darkOn} = useSettings();
+
+    // Blocking
+    const [isBlockedUser, setIsBlockedUser] = useState(false);
+    const currentUserId = session?.user?.id;
+
+    const {
+        user_id
+    } = reviewData || {
+        user_id: 5
+    };
 
     // State for the image file
     const [imageFile, setImageFile] = useState(null);
@@ -148,6 +159,21 @@ export default function ProfilePage( {params} ){
         }
     }, [profileDetails]);
 
+
+    useEffect(() => {
+              if (!currentUserId || user_id === currentUserId) return;
+      
+              const fetchBlockedStatus = async () => {
+                  try {
+                      const data = await isBlocked(user_id, currentUserId);
+                      setIsBlockedUser(data.is_blocked);
+                  } catch (err) {
+                      console.error("Error checking block status:", err);
+                  }
+              };
+      
+              fetchBlockedStatus();
+          }, [user_id, currentUserId]);
 
       useEffect(() => {
         async function fetchFollowInfo() {
@@ -346,8 +372,11 @@ export default function ProfilePage( {params} ){
                                     reviewData={review}
                                 />
                                 ))}
-                            
-                            <Link className="hover:text-[#ffa2e9] text-end" href={`/profile/${id}/allreviews`}>See All Reviews</Link>
+                            {isBlockedUser ? <div/> : 
+                            <Link 
+                            className="hover:text-[#ffa2e9] text-end" 
+                            href={`/profile/${id}/allreviews`}
+                            >See All Reviews</Link>}
 
                             </div>
                             )}

@@ -58,6 +58,7 @@ export default function ProfileReview({ reviewData }) {
 
           const displayText = isBlockedUser ? "This review is from a blocked user." : review_text;
     return (
+        <>
         <div className="flex flex-row rounded-[1px] max-w-full gap-4">
             <img
                 src={img}
@@ -91,13 +92,19 @@ export default function ProfileReview({ reviewData }) {
                     {/* <p className="w-full text-sm">{review_text}</p> */}
                     {/* show review and blocked, show review and */}
                     {showReviewText == true ?
-                        <ReviewText className="max-w-80 text-sm pt-2 ml-1 text-container" content={displayText} />
+                        <ReviewText className="text-sm pt-2 ml-1 text-container" content={displayText} />
                         : <div />}
                     
                     
             </div>    
             
         </div>
+        <div
+                className={`w-full h-[1px] my-1 opacity ${darkOn ? "bg-[#F3E9DC]" : "bg-black"
+                    }`}
+            />
+        </>
+        
         
     );
 }
