@@ -22,6 +22,10 @@ export default function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     
+    if(username.length > 20) {
+      setError("Username must be less than 20 characters.")
+    }
+
     if(!isValidEmail(email)) {
       setError("Please enter a valid email address.");
       return;
@@ -78,15 +82,21 @@ export default function SignUp() {
       <div className="flex flex-1 justify-center items-center">
         <div className="flex flex-col gap-4 w-1/5">
           <h1 className="text-2xl inline-block text-center">Sign Up</h1>
-          <TextField
-            label="Username"
-            type="text"
-            name="username"
-            placeholder="Username" 
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={handleEnterKey}
-          />
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-bold font-color text-left">
+              Username
+            </label>
+            <input
+              type="username"
+              name="username"
+              placeholder="Username"
+              className="border blue shadow text-black p-4 border-transparent rounded-lg p-2"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={handleEnterKey}
+              maxLength={20}
+            />
+          </div>
           <TextField 
             label="Email" 
             type="email" 
@@ -95,6 +105,7 @@ export default function SignUp() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={handleEnterKey}
+            maxLength={100}
           />
           <TextField 
             label="Password" 
@@ -109,7 +120,7 @@ export default function SignUp() {
             label="Confirm Password" 
             type="password" 
             name="confirmPassword" 
-            placeholder="Confirm password" 
+            placeholder="Confirm Password" 
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             onKeyDown={handleEnterKey}
