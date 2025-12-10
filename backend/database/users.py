@@ -31,10 +31,16 @@ def add_user(username, hashed_password, email):
         error_obj, = e.args
         if "ORA-00001" in error_obj.message:
             if "USERNAME" in error_obj.message:
-                return {"error": f"USERNAME '{username}' already exists.", "code": 409}
+                return {"error": f"Username '{username}' already exists.", "code": 409}  
             elif "EMAIL" in error_obj.message:
-                return {"error": f"EMAIL '{email}' already exists.", "code": 409}
-        return {"error": "Integrity error: " + error_obj.message, "code": 400}
+                return {"error": f"Email '{email}' already exists.", "code": 409}
+
+            return {"error": "Integrity error: " + error_obj.message, "code": 400}
+
+    # except oracledb.Error as e:
+    #     error_obj, = e.args            
+    #     if "ORA-12899" in error_obj.message:
+    #             return {"error": "Username must be 20 or less characters.", "code": 409}  
 
     except oracledb.Error as e:
         error_obj, = e.args

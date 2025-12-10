@@ -1,7 +1,7 @@
-export default function TextField({ label, type = "text", name, placeholder, value, onChange, onKeyDown=() => { },}) {
+export default function TextField({ label, type = "text", name, placeholder, value, onChange, onKeyDown=() => { }, length}) {
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={name} className="text-sm font-bold font-color text-gray-700 text-left">
+      <label htmlFor={name} className="text-sm font-bold font-color text-left">
         {label}
       </label>
       <input
@@ -13,6 +13,7 @@ export default function TextField({ label, type = "text", name, placeholder, val
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
+        maxLength={length}
       />
     </div>
   );
