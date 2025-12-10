@@ -70,11 +70,11 @@ export default function TV() {
     <div>
       <Header />
       <main className="p-10">
-        <h1 className="text-3xl inria-serif-regular text-center text-bold pb-2">TV Shows</h1>
+        <h1 className="text-3xl inria-serif-bold text-center pb-2">TV Shows</h1>
 
         {/* Check if user is logged in, if so show recommendations */}
         {session?.user && (
-          <Carousel label="Recommended Shows">
+          <Carousel label="Recommended">
             {/* If 0 show skeleton cards */}
             {recommendedShows.length === 0 ? (
               Array.from({ length: 20 }).map((_, index) => (
@@ -113,7 +113,7 @@ export default function TV() {
             ))
           )}
         </Carousel>
-        <Carousel label="Drama Shows">
+        <Carousel label="Drama">
           {dramaShows.map((show) => (
             <img
               key={show.id}
@@ -131,7 +131,7 @@ export default function TV() {
             ))
           )}
         </Carousel>
-        <Carousel label="Comedy Shows">
+        <Carousel label="Comedy">
           {comedyShows.map((show) => (
             <img
               key={show.id}
@@ -149,7 +149,7 @@ export default function TV() {
             ))
           )}
         </Carousel>
-        <Carousel label="Kids Shows">
+        <Carousel label="Kids">
           {kidsShows.map((show) => (
             <img
               key={show.id}
@@ -168,7 +168,7 @@ export default function TV() {
           )}
 
         </Carousel>
-        <Carousel label="Crime Shows">
+        <Carousel label="Crime">
           {crimeShows.map((show) => (
             <img
               key={show.id}

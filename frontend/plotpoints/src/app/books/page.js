@@ -60,13 +60,13 @@ export default function Books() {
     <div>
       <Header />
       <main className="p-10">
-        <h1 className="text-3xl inria-serif-regular text-center text-bold pb-2">Books</h1>
+        <h1 className="text-3xl inria-serif-bold text-center pb-2">Books</h1>
 
         {/* Genre Containers */}
 
         {/* Check if user is logged in, if so show recommendations */}
         {session?.user && (
-          <Carousel label="Recommended Books">
+          <Carousel label="Recommended">
             {/* If 0 show skeleton cards */}
             {recommendedBooks.length === 0 ? (
               Array.from({ length: 20 }).map((_, index) => (
@@ -86,7 +86,7 @@ export default function Books() {
             )}
           </Carousel>
         )}
-        <Carousel label="Romance Books">
+        <Carousel label="Romance">
           {romanceBooks.map((book) => (
             <Image
               key={book.id}
@@ -107,7 +107,7 @@ export default function Books() {
           )}
         </Carousel>
 
-        <Carousel label="Crime Books">
+        <Carousel label="Crime">
           {crimeBooks.map((book) => (
             <Image
               key={book.id}
@@ -128,7 +128,7 @@ export default function Books() {
           )}
         </Carousel>
 
-        <Carousel label="Fantasy Books">
+        <Carousel label="Fantasy">
           {fantasyBooks.map((book) => (
             <Image
               key={book.id}

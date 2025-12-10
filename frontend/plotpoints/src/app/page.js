@@ -180,9 +180,9 @@ export default function Home() {
         </Carousel>
     
         </div>
-        <div className="w-1/3 pb-10 -ml-5">
+        <div className="w-1/3 pb-5 -ml-5">
           <h2 className="text-2xl font-bold pl-10 whitespace-nowrap">Recent Reviews</h2>
-          <div className="flex flex-col items-start gap-8 pt-9 ml-10 max-w-full">
+          <div className="flex flex-col items-start gap-8 pt-8 ml-10 max-w-full">
             {recentReviews?.map((review, idx) => (
               <Review 
                 key={review?.id ?? idx}
