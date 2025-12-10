@@ -222,7 +222,7 @@ export default function ProfilePage( {params} ){
                     width="230"
                     height="230"/>
 
-                    {/*Username details & edit modal stuff*/}
+                    {/* profileDetails?.username */}
                     <div className="flex items-center gap-2">
                         <h1 className="text-3xl text-center inria-serif-regular">{profileDetails?.username || "Error: Username not found"}</h1>
 
@@ -245,89 +245,7 @@ export default function ProfilePage( {params} ){
                         )}
                     </div>
 
-                    {/*Edit modal*/}
-                    {showModal &&
-                        <Modal onClose={() => setShowModal(false)}>
-                            <h1 className="text-2xl text-center">Edit Profile</h1>
-                            <div className="flex flex-col w-full">
-                                <div className="flex flex-row w-full justify-around items-center mt-5">
-                                    <Image
-                                        className={`aspect-square rounded-full mb-5 border-2 
-                                                     ${darkOn ? "border-[#F3E9DC]" : "border-black"}`}
-                                        src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
-                                        alt="User Image"
-                                        width="170"
-                                        height="170">
-                                    </Image>
-
-                                    {/*File input for images, hidden*/}
-                                    <input type="file" id="profileImageUpload" name="profileImageUpload" accept="image/png, image/jpeg" className="hidden" onChange={handleImageChange} />
-                                    <button className={`blue text-sm btn-shadow py-1 px-5 w-fit h-fit rounded-md transition hover:cursor-pointer hover:bg-[#B0E0E6]
-                                                ${darkOn ? "text-black" : ""}`}
-                                        onClick={async () => {
-                                            document.getElementById('profileImageUpload').click();
-                                        }}
-                                    >
-                                        Choose image...
-                                    </button>
-                                </div>
-                                <p className="text-sm font-bold ml-9">Bio</p>
-                                <textarea
-                                    placeholder="Write a bio"
-                                    value={modalBio}
-                                    maxLength={144}
-                                    onChange={(e) => setModalBio(e.target.value)}
-                                    className={`w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center
-                                            ${darkOn ? "bg-black" : "bg-[#dfcdb59e]"}`}
-                                />
-                                <button
-                                    className="blue text-sm text-black btn-shadow m-4 py-1 px-5 w-fit rounded-md place-self-center"
-                                    //onClick to save image and bio
-                                    onClick={async () => {
-
-                                        //Profile picture update goes here
-                                        if (imageFile) {
-
-                                            try {
-                                                const result = await uploadProfilePicture(imageFile, session?.accessToken);
-                                                console.log("Profile picture uploaded successfully:", result);
-                                                setProfilePicture(result.pfp_url);
-                                            } catch (error) {
-                                                console.error("Error uploading profile picture:", error);
-                                            }
-
-                                        }
-
-                                        //Check if bio has changed
-                                        if (modalBio !== profileDetails?.bio) {
-                                            //API call to save bio
-                                            const response = await fetch('/api/profiles/update/bio', {
-                                                method: 'PUT',
-                                                headers: { 'Content-Type': 'application/json' },
-                                                body: JSON.stringify({ new_bio: modalBio, jwt_token: session?.accessToken })
-                                            });
-
-                                            if (!response.ok) {
-                                                console.error("Failed to update bio");
-                                                return;
-                                            }
-
-                                            //Now update local profile details state
-                                            setProfileDetails((prevDetails) => ({
-                                                ...prevDetails,
-                                                bio: modalBio
-                                            }));
-
-                                        }
-
-                                        //close modal
-                                        setShowModal(false);
-                                    }}
-                                >
-                                    Save </button>
-                            </div>
-                        </Modal>
-                    } {/*End of edit modal*/}
+            
 
                     <div className="text-center px-2 break-words w-full border-y py-2">
                         <p className="">{profileDetails?.bio || "No description."}</p>
@@ -361,59 +279,8 @@ export default function ProfilePage( {params} ){
                                 />
                         )))}
                     </div>
-                    <Link className="mt-5 hover:text-[#ffa2e9]" href={`/profile/${id}/allreviews`}>See All Reviews</Link>
-
                 </div>
-
-
-                <div className="w-1/3 h-fit mt-15 mr-10">
-                    {/* 
-                    <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>*/}
-                    <h1 className="text-md whitespace-nowrap ml-4">Bookmarks</h1>
-                    <Carousel >
-                        
-                        {isBookmarkLoading ? (
-                            Array.from({ length: 3 }).map((_, index) => (
-                                <SkeletonImage key={index} useTennaImage={false} />
-                            ))
-                        ) : 
-                        bookmarks.length === 0 ? (
-                            <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
-                        ) : (
-                            bookmarks.map((bookmark, index) => (
-                                <Link key={index} href={`/${bookmark.media_type}/review/${bookmark.media_id}`}>
-                                    <Image
-                                        //key={index}
-                                        alt={bookmark.title}
-                                        src={bookmark.img}
-                                        title={bookmark.title}
-                                        height={200}
-                                        width={200}
-                                        className="bookmark"
-                                    //onClick={() => window.location.href = `/${bookmark.media_type}/review/${bookmark.media_id}`}
-                                    />
-                                </Link>
-                            ))
-                        )}  
-                        
-                    </Carousel>
-                    <h1 className="text-md whitespace-nowrap ml-4 mt-10">Favorites</h1>
-                    <Carousel >
-                        {isFavoriteLoading ? (
-                            Array.from({ length: 3 }).map((_, index) => (
-                                <SkeletonImage key={index} useTennaImage={false} />
-                            ))
-                        ) : favorites.length === 0 ? (
-                            <h1 className="text-md -ml-37 font-bold whitespace-nowrap mb-5">This user has no favorites yet!</h1>
-                        ) : (
-                            favorites.map((favorite, index) => (
-                                <Link key={index} href={`/${favorite.media_type}/review/${favorite.media_id}`}>
-                                    <Image alt={favorite.title} src={favorite.img} title={favorite.title} height={200} width={200} className="bookmark" />
-                                </Link>
-                            ))
-                        )}
-                    </Carousel>
-                </div> 
+             
                 
             </div>
             <Footer/>

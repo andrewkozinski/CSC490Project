@@ -67,9 +67,9 @@ export default function Header() {
       // User is not logged in
       (
         <nav className ="grid grid-rows-2 mr-5 justify-end">
-          <div>
+          <div className="">
           <Link className="text fields blue btn-shadow mr-10 mt-1" href="/signup">Sign Up</Link>
-          <Link className="text fields blue btn-shadow -ml-5" href="/signin">Sign In</Link>
+          <Link className="text fields blue btn-shadow -ml-4" href="/signin">Sign In</Link>
           </div>
           <div className="fields grid grid-cols-2 shadow search blue mt-2 items-center">
             <img className="h-4 w-4 -ml-2" src="/images/search.svg">
