@@ -20,7 +20,7 @@ const CatCarousel = ({ label, children }) => {
     return (
         <div className="pb-10">
             <div>
-                <h2 className="text-2xl font-bold pl-4 pb-3">{label}</h2>
+                <h2 className="text-xl font-bold pl-5 ">{label}</h2>
             </div>
             <div className="">
                 <Slider {...settings}>
