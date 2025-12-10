@@ -39,16 +39,8 @@ export default function ProfilePage( {params} ){
     const [following, setFollowing] = useState([]);
 
     //Reviews state
-    const [recentReviews, setRecentReviews] = useState([]);
+    const [allReviews, setAllReviews] = useState([]);
     const [isReviewLoading, setIsReviewLoading] = useState(true);
-
-    //Bookmarks state
-    const [bookmarks, setBookmarks] = useState([]);
-    const [isBookmarkLoading, setIsBookmarkLoading] = useState(true);
-
-    //Favorites state
-    const [favorites, setFavorites] = useState([]);
-    const [isFavoriteLoading, setIsFavoriteLoading] = useState(true);
 
     // Modal state
     const [showModal, setShowModal] = useState(false);
@@ -90,54 +82,26 @@ export default function ProfilePage( {params} ){
             }
         }
 
-        const fetchRecentReviews = async () => {
+        const fetchAllReviews = async () => {
             try {
-                const response = await fetch(`/api/profiles/get/${id}/recent_reviews?limit=3`);
+                const response = await fetch(`/api/profiles/get/${id}/`);
                 if (!response.ok) {
-                    throw new Error("Failed to fetch recent reviews");
+                    throw new Error("Failed to fetch all reviews");
                 }
                 const data = await response.json();
-                console.log("Fetched Recent Reviews:", data);
-                setRecentReviews(data.reviews || []);
+                console.log("Fetched Reviews:", data);
+                setAllReviews(data.reviews || []);
             }
             catch (error) {
-                console.error("Error fetching recent reviews:", error);
-                setRecentReviews([]);
+                console.error("Error fetching all reviews:", error);
+                setAllReviews([]);
             }
             finally {
                 setIsReviewLoading(false);
             }
         }
 
-        const fetchBookmarks = async () => {
-            try {
-                const data = await getBookmarksByUserId(id, 10); // Fetch up to 10 bookmarks
-                console.log("fetched bookmarks: ", data.bookmarks);
-                setBookmarks(data.bookmarks || []);
-            } catch (error) {
-                console.error("Error fetching bookmarks:", error);
-                setBookmarks([]);
-            }
-            finally {
-                setIsBookmarkLoading(false);
-            }
-        }
-
-        const fetchFavorites = async () => {
-            try {
-                const data = await getFavoritesByUserId(id, 10); // Fetch up to 10 favorites
-                console.log("fetched favorites: ", data.favorites);
-                setFavorites(data.favorites || []);
-            } catch (error) {
-                console.error("Error fetching favorites:", error);
-                setFavorites([]);
-            }
-            finally {
-                setIsFavoriteLoading(false);
-            }
-        }
-
-        Promise.all([fetchProfileDetails(), fetchRecentReviews(), fetchBookmarks(), fetchFavorites()])
+        Promise.all([fetchProfileDetails(), fetchAllReviews()])
             .finally(() => setIsLoading(false));
 
     }, []);
@@ -194,20 +158,6 @@ export default function ProfilePage( {params} ){
         );
     }
 
-    //If no session exists, redirect to login
-    //Can also be replaced with a forced redirect using useRouter from next/navigation
-    // if (!session) {
-    //     return (
-    //         <div>
-    //             <Header/>
-    //             <div className="flex flex-col items-center justify-center min-h-screen">
-    //                 <h1 className="text-2xl mb-4">You must be logged in to view your profile!</h1>
-    //                 <Link href="/signin" className="text-blue-500 underline">Go to Login</Link>
-    //             </div>
-    //             <Footer/>
-    //         </div>
-    //     );
-    // }
 
     return (
         <div>   
@@ -245,7 +195,89 @@ export default function ProfilePage( {params} ){
                         )}
                     </div>
 
-            
+                    {/*Edit modal*/}
+                    {showModal &&
+                        <Modal onClose={() => setShowModal(false)}>
+                            <h1 className="text-2xl text-center">Edit Profile</h1>
+                            <div className="flex flex-col w-full">
+                                <div className="flex flex-row w-full justify-around items-center mt-5">
+                                    <Image
+                                        className={`aspect-square rounded-full mb-5 border-2 
+                                                     ${darkOn ? "border-[#F3E9DC]" : "border-black"}`}
+                                        src={imageFile ? URL.createObjectURL(imageFile) : profilePicture} /*If the user selects a file, use the selected file*/
+                                        alt="User Image"
+                                        width="170"
+                                        height="170">
+                                    </Image>
+
+                                    {/*File input for images, hidden*/}
+                                    <input type="file" id="profileImageUpload" name="profileImageUpload" accept="image/png, image/jpeg" className="hidden" onChange={handleImageChange} />
+                                    <button className={`blue text-sm btn-shadow py-1 px-5 w-fit h-fit rounded-md transition hover:cursor-pointer hover:bg-[#B0E0E6]
+                                                ${darkOn ? "text-black" : ""}`}
+                                        onClick={async () => {
+                                            document.getElementById('profileImageUpload').click();
+                                        }}
+                                    >
+                                        Choose image...
+                                    </button>
+                                </div>
+                                <p className="text-sm font-bold ml-9">Bio</p>
+                                <textarea
+                                    placeholder="Write a bio"
+                                    value={modalBio}
+                                    maxLength={144}
+                                    onChange={(e) => setModalBio(e.target.value)}
+                                    className={`w-6/7 text-sm bg-[#dfcdb59e] rounded-sm h-30 p-2 resize-none focus:outline-none place-self-center
+                                            ${darkOn ? "bg-black" : "bg-[#dfcdb59e]"}`}
+                                />
+                                <button
+                                    className="blue text-sm text-black btn-shadow m-4 py-1 px-5 w-fit rounded-md place-self-center"
+                                    //onClick to save image and bio
+                                    onClick={async () => {
+
+                                        //Profile picture update goes here
+                                        if (imageFile) {
+
+                                            try {
+                                                const result = await uploadProfilePicture(imageFile, session?.accessToken);
+                                                console.log("Profile picture uploaded successfully:", result);
+                                                setProfilePicture(result.pfp_url);
+                                            } catch (error) {
+                                                console.error("Error uploading profile picture:", error);
+                                            }
+
+                                        }
+
+                                        //Check if bio has changed
+                                        if (modalBio !== profileDetails?.bio) {
+                                            //API call to save bio
+                                            const response = await fetch('/api/profiles/update/bio', {
+                                                method: 'PUT',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ new_bio: modalBio, jwt_token: session?.accessToken })
+                                            });
+
+                                            if (!response.ok) {
+                                                console.error("Failed to update bio");
+                                                return;
+                                            }
+
+                                            //Now update local profile details state
+                                            setProfileDetails((prevDetails) => ({
+                                                ...prevDetails,
+                                                bio: modalBio
+                                            }));
+
+                                        }
+
+                                        //close modal
+                                        setShowModal(false);
+                                    }}
+                                >
+                                    Save </button>
+                            </div>
+                        </Modal>
+                    } {/*End of edit modal*/}
 
                     <div className="text-center px-2 break-words w-full border-y py-2">
                         <p className="">{profileDetails?.bio || "No description."}</p>
@@ -261,18 +293,18 @@ export default function ProfilePage( {params} ){
                     
                 </div> {/*End of left profile column*/}
                 
-                <div className="grid w-150 m-15 h-fit">
-                    <h1 className="text-md text-start whitespace-nowrap mb-5">Recent Reviews</h1>
+                <div className="grid w-200 m-15 h-fit">
+                    <h1 className="text-md text-start whitespace-nowrap mb-5">All Reviews</h1>
                     <div className="flex flex-col gap-5">
                         {isReviewLoading ? (
                             Array.from({ length: 3 }).map((_, index) => (
                                 <ProfileReviewSkeleton key={index} />
                             ))
                         ) :
-                        recentReviews?.length === 0 ? (
+                        allReviews?.length === 0 ? (
                             <p className="font-bold">{"This user hasn't made any reviews yet!"}</p>
                         ) : (
-                            recentReviews?.map((review, idx) => (
+                            allReviews?.map((review, idx) => (
                                 <Review
                                     key={review?.id ?? idx}
                                     reviewData={review}

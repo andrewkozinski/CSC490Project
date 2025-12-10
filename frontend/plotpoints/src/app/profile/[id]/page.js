@@ -194,21 +194,6 @@ export default function ProfilePage( {params} ){
         );
     }
 
-    //If no session exists, redirect to login
-    //Can also be replaced with a forced redirect using useRouter from next/navigation
-    // if (!session) {
-    //     return (
-    //         <div>
-    //             <Header/>
-    //             <div className="flex flex-col items-center justify-center min-h-screen">
-    //                 <h1 className="text-2xl mb-4">You must be logged in to view your profile!</h1>
-    //                 <Link href="/signin" className="text-blue-500 underline">Go to Login</Link>
-    //             </div>
-    //             <Footer/>
-    //         </div>
-    //     );
-    // }
-
     return (
         <div>   
             <Header/>
@@ -361,7 +346,7 @@ export default function ProfilePage( {params} ){
                                 />
                         )))}
                     </div>
-                    <Link className="mt-5 hover:text-[#ffa2e9]" href={`/profile/${id}/allreviews`}>See All Reviews</Link>
+                    <Link className="mt-5 hover:text-[#ffa2e9] text-end" href={`/profile/${id}/allreviews`}>See All Reviews</Link>
 
                 </div>
 
