@@ -22,6 +22,13 @@ export default function Movies() {
   const [historyMovies, setHistoryMovies] = useState([]);
   const [comedyMovies, setComedyMovies] = useState([]);
   const [sciFiMovies, setSciFiMovies] = useState([]);
+  const [actionMovies, setActionMovies] = useState([]);
+  const [romanceMovies, setRomanceMovies] = useState([]);
+  const [adventureMovies, setAdventureMovies] = useState([]);
+  const [animationMovie, setAnimationMovies] = useState([]);
+  const [dramaMovies, setDramaMovies] = useState([]);
+  const [fantasy, setFantasy] = useState([]);
+  const [music, setMusic] = useState([]);
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [recommendedMovies, setRecommendedMovies] = useState([]);
 
@@ -58,6 +65,14 @@ export default function Movies() {
     fetchMovies("history", setHistoryMovies);
     fetchMovies("comedy", setComedyMovies);
     fetchMovies("science fiction", setSciFiMovies);
+    fetchMovies("action", setActionMovies);
+    fetchMovies("romance", setRomanceMovies);
+    fetchMovies("adventure", setAdventureMovies);
+    fetchMovies("animation", setAnimationMovies);
+    fetchMovies("drama", setDramaMovies);
+    fetchMovies("fantasy", setFantasy);
+    fetchMovies("music", setMusic);
+
     fetchUpcomingMovies();
   }, []);
 
@@ -83,7 +98,7 @@ export default function Movies() {
     <div>
       <Header />
       <main className="p-10">
-
+        <h1 className="text-3xl inria-serif-regular text-center text-bold pb-2">Movies</h1>
         {/* Takes the response out of the backend and uses the images from the response in the backend */}
         {/*
         Example of how responses look like right now and are stored in the state variables above:
@@ -97,7 +112,7 @@ export default function Movies() {
         */}
         {/* Check if user is logged in, if so show recommendations */}
         {session?.user && (
-          <Carousel label="Recommended Movies">
+          <Carousel label="Recommended">
             {/* If 0 show skeleton cards */}
             {recommendedMovies.length === 0 ? (
               Array.from({ length: 20 }).map((_, index) => (
@@ -118,7 +133,7 @@ export default function Movies() {
           </Carousel>
         )}
         
-        <Carousel label="Upcoming Movies">
+        <Carousel label="Upcoming">
           {upcomingMovies.map((movie) => (
             <img
               key={movie.id}
@@ -135,7 +150,58 @@ export default function Movies() {
             ))
           )}
         </Carousel>
-        <Carousel label="Comedy Movies">
+        <Carousel label="Action">
+          {actionMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+          {actionMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+        </Carousel>
+        <Carousel label="Adventure">
+          {adventureMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+          {adventureMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+        </Carousel>
+        <Carousel label="Animated">
+          {animationMovie.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+          {animationMovie.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+        </Carousel>
+        <Carousel label="Comedy">
           {comedyMovies.map((movie) => (
             <img
               key={movie.id}
@@ -152,7 +218,7 @@ export default function Movies() {
             ))
           )}
         </Carousel>
-        <Carousel label="Horror Movies">
+        <Carousel label="Horror">
           {horrorMovies.map((movie) => (
             <img
               key={movie.id}
@@ -170,7 +236,7 @@ export default function Movies() {
           )}
         </Carousel>
         
-        <Carousel label="Science Fiction Movies">
+        <Carousel label="Science Fiction">
           {sciFiMovies.map((movie) => (
             <img
               key={movie.id}
@@ -187,7 +253,7 @@ export default function Movies() {
             ))
           )}
         </Carousel>
-        <Carousel label="History Movies">
+        <Carousel label="History">
           {historyMovies.map((movie) => (
             <img
               key={movie.id}
@@ -204,6 +270,24 @@ export default function Movies() {
             ))
           )}
         </Carousel>
+        <Carousel label="Romance">
+          {romanceMovies.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+          {romanceMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+        </Carousel>
+        
 
         
 

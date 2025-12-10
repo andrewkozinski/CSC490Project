@@ -60,9 +60,32 @@ export default function Books() {
     <div>
       <Header />
       <main className="p-10">
+        <h1 className="text-3xl inria-serif-regular text-center text-bold pb-2">Books</h1>
 
         {/* Genre Containers */}
 
+        {/* Check if user is logged in, if so show recommendations */}
+        {session?.user && (
+          <Carousel label="Recommended Books">
+            {/* If 0 show skeleton cards */}
+            {recommendedBooks.length === 0 ? (
+              Array.from({ length: 20 }).map((_, index) => (
+                <SkeletonImage key={index} useTennaImage={true} />
+              ))
+            ) : (
+              recommendedBooks.map((book) => (
+                <img
+                  key={book.id}
+                  src={book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
+                  title={book.name}
+                  className="image"
+                  onClick={() => router.push(`/books/review/${book.id}`)}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))
+            )}
+          </Carousel>
+        )}
         <Carousel label="Romance Books">
           {romanceBooks.map((book) => (
             <Image
@@ -127,28 +150,7 @@ export default function Books() {
         </Carousel>
 
 
-        {/* Check if user is logged in, if so show recommendations */}
-        {session?.user && (
-          <Carousel label="Recommended Books">
-            {/* If 0 show skeleton cards */}
-            {recommendedBooks.length === 0 ? (
-              Array.from({ length: 20 }).map((_, index) => (
-                <SkeletonImage key={index} useTennaImage={true} />
-              ))
-            ) : (
-              recommendedBooks.map((book) => (
-                <img
-                  key={book.id}
-                  src={book.thumbnailUrl || "https://placehold.co/100x100?text=No+Image"}
-                  title={book.name}
-                  className="image"
-                  onClick={() => router.push(`/books/review/${book.id}`)}
-                  style={{ cursor: 'pointer' }}
-                />
-              ))
-            )}
-          </Carousel>
-        )}
+        
 
       </main>
       <Footer />

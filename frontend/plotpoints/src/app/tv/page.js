@@ -70,6 +70,30 @@ export default function TV() {
     <div>
       <Header />
       <main className="p-10">
+        <h1 className="text-3xl inria-serif-regular text-center text-bold pb-2">TV Shows</h1>
+
+        {/* Check if user is logged in, if so show recommendations */}
+        {session?.user && (
+          <Carousel label="Recommended Shows">
+            {/* If 0 show skeleton cards */}
+            {recommendedShows.length === 0 ? (
+              Array.from({ length: 20 }).map((_, index) => (
+                <SkeletonImage key={index} useTennaImage={true} />
+              ))
+            ) : (
+              recommendedShows.map((show) => (
+                <img
+                  key={show.id}
+                  src={show.img}
+                  title={show.name}
+                  className="image"
+                  onClick={() => router.push(`/tv/review/${show.id}`)}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))
+            )}
+          </Carousel>
+        )}
 
         <Carousel label="Airing Today">
           {airingTodayShows.map((show) => (
@@ -163,28 +187,7 @@ export default function TV() {
           )}
         </Carousel>
 
-        {/* Check if user is logged in, if so show recommendations */}
-        {session?.user && (
-          <Carousel label="Recommended Shows">
-            {/* If 0 show skeleton cards */}
-            {recommendedShows.length === 0 ? (
-              Array.from({ length: 20 }).map((_, index) => (
-                <SkeletonImage key={index} useTennaImage={true} />
-              ))
-            ) : (
-              recommendedShows.map((show) => (
-                <img
-                  key={show.id}
-                  src={show.img}
-                  title={show.name}
-                  className="image"
-                  onClick={() => router.push(`/tv/review/${show.id}`)}
-                  style={{ cursor: 'pointer' }}
-                />
-              ))
-            )}
-          </Carousel>
-        )}
+        
 
       </main>
       <Footer />

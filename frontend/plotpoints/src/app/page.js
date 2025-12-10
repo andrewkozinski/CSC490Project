@@ -21,6 +21,8 @@ export default function Home() {
   const [trendingBooks, setTrendingBooks] = useState([]);
   const [recentReviews, setRecentReviews] = useState([]);
   const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [airingTodayShows, setAiringTodayShows] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -66,6 +68,18 @@ export default function Home() {
       }
     };
 
+    const fetchAiringTodayShows = async () => {
+      try {
+        const res = await fetch(`/api/tv/airing_today`);
+        if (!res.ok) throw new Error("Failed to fetch airing today TV shows");
+        const data = await res.json();
+        setAiringTodayShows(data.results || []);
+        console.log("AIRING TODAY SHOWS:");
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
         console.log(moviesData);
         console.log(showsData);
         console.log(booksData);
@@ -76,6 +90,7 @@ export default function Home() {
         setTrendingBooks(booksData);
         setRecentReviews(reviewsData.reviews);
         fetchUpcomingMovies();
+        fetchAiringTodayShows();
 
       } catch (error) {
         console.error("Error fetching trending data:", error);
@@ -141,6 +156,23 @@ export default function Home() {
             />
           ))}
           {upcomingMovies.length === 0 && (
+            Array.from({ length: 20 }).map((_, index) => (
+              <SkeletonImage key={index} useTennaImage={false} />
+            ))
+          )}
+        </Carousel>
+        <Carousel label="Airing TV Shows">
+          {airingTodayShows.map((movie) => (
+            <img
+              key={movie.id}
+              src={movie.img}
+              title={movie.title}
+              className="image"
+              onClick={() => router.push(`/movies/review/${movie.id}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+          {airingTodayShows.length === 0 && (
             Array.from({ length: 20 }).map((_, index) => (
               <SkeletonImage key={index} useTennaImage={false} />
             ))
