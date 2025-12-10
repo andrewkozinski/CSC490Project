@@ -58,3 +58,8 @@ html.dark .img-effect:hover {
   outline-offset: 3;
   outline-width: 1;
 }
+
+.text-container {
+  overflow-wrap: anywhere;
+  word-wrap: anywhere; /* fallback */
+}
