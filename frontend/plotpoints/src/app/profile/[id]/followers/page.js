@@ -29,26 +29,33 @@ export default function Followers({ params }) {
   }, []);
 
   return (
-    <div>
-      <Header></Header>
-      <h1 className="text-2xl text-center p-10">Followers</h1>
-
-      <div className="flex items-center justify-center h-screen">
-        
-        <div className="w-1/3 h-full bottom-0 text-center mb-3 outline-transparent">
+    <div className="flex flex-col min-h-screen">
+  <Header/>
+  <div className="flex-1 flex flex-col">
+    <h1 className="text-2xl text-center p-10">Followers</h1>
+    <div className="flex flex-row items-center justify-center">
+      <div className="w-1/3 bottom-0 text-center mb-15 outline-transparent">
         {followersData.length === 0 ? (
-            <p className="text-gray-500 mt-10">
-              This user has no followers yet.
-            </p>
-          ) : (
+          <p className="text-gray-500 mt-10">
+            This user has no followers yet.
+          </p>
+        ) : (
           followersData.map((user, index) => (
-            <FollowProfile key={index} name={user.username} desc={user.bio} user_id={user.user_id} pfp_url={user.profile_pic_url} jwtToken ={session?.accessToken} currentUserId={session?.user?.id}></FollowProfile>
-          )))
-        }
-
-        </div>
+            <FollowProfile 
+              key={index} 
+              name={user.username} 
+              desc={user.bio} 
+              user_id={user.user_id} 
+              pfp_url={user.profile_pic_url} 
+              jwtToken={session?.accessToken} 
+              currentUserId={session?.user?.id}
+            />
+          ))
+        )}
       </div>
-      <Footer></Footer>
     </div>
+  </div>
+  <Footer/>
+</div>
   );
 }

@@ -31,12 +31,13 @@ export default function Following({ params }) {
   }, []);
 
   return (
-        <div>
-          <Header></Header>
+        <div className="flex flex-col min-h-screen">
+          <Header/>
+          <div className="flex-1 flex flex-col">
           <h1 className="text-2xl text-center p-10">Following</h1>
-          <div className="flex flex-row items-center justify-center h-screen">
+          <div className="flex flex-row items-center justify-center">
       
-            <div className="w-1/3 h-full bottom-0 text-center mb-3 outline-transparent">
+            <div className="w-1/3 bottom-0 text-center mb-15 outline-transparent">
             {followingData.length === 0 ? (
                 <p className="text-gray-500 mt-10">
                   This user isnt following anyone yet.
@@ -49,7 +50,9 @@ export default function Following({ params }) {
             </div>
             
           </div>
-      <Footer></Footer>
+          </div>
+        <Footer/>
     </div>
+    
   );
 }
