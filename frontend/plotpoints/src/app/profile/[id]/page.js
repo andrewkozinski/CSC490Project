@@ -388,10 +388,9 @@ export default function ProfilePage( {reviewData, params} ){
 
 
                 <div className="w-1/3 h-fit mt-15 mr-10">
-                    {/* 
-                    <h1 className="text-md text-start font-bold whitespace-nowrap mb-5">No Bookmarks</h1>*/}
+                    
                     <h1 className="text-lg text-start font-bold whitespace-nowrap ml-5">Bookmarks</h1>
-                    <Carousel >
+                    <Carousel>
                         
                         {isBookmarkLoading ? (
                             Array.from({ length: 3 }).map((_, index) => (
@@ -399,7 +398,9 @@ export default function ProfilePage( {reviewData, params} ){
                             ))
                         ) : 
                         bookmarks.length === 0 ? (
-                            <h1 className="text-md -ml-35 whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
+                            // <div className="min-w-fit border-1">
+                            <h1 className="text-md  -ml-36 whitespace-nowrap mb-5">This user has no bookmarks yet!</h1>
+                            // </div>
                         ) : (
                             bookmarks.map((bookmark, index) => (
                                 <Link key={index} href={`/${bookmark.media_type}/review/${bookmark.media_id}`}>
@@ -425,7 +426,7 @@ export default function ProfilePage( {reviewData, params} ){
                                 <SkeletonImage key={index} useTennaImage={false} />
                             ))
                         ) : favorites.length === 0 ? (
-                            <h1 className="text-md -ml-35 whitespace-nowrap mb-5">This user has no favorites yet!</h1>
+                            <h1 className="text-md -ml-36 whitespace-nowrap mb-5">This user has no favorites yet!</h1>
                         ) : (
                             favorites.map((favorite, index) => (
                                 <Link key={index} href={`/${favorite.media_type}/review/${favorite.media_id}`}>
