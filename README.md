@@ -78,8 +78,7 @@ Since we are using the **free tier** of Render, the server typically takes on av
 **Beta version** of the backend is also deployed at:
 https://beta-csc490project.onrender.com/
 
-This beta version refers to an in-development branch of the backend and is used for testing purposes before being merged into the main branch. Just like the main version, it will automatically deploy when changes are pushed to the current sprint's backend branch.
-If you wish to change the branch that the beta version deploys from, contact Andrew. Currently, the beta deployment is using the 'sprint5-backend' branch.
+This beta version refers to an in-development branch of the backend and is used for testing purposes before being merged into the main branch. Just like the main version, it will automatically deploy when changes are pushed to the current sprint's backend branch. Currently, the beta deployment is using the 'sprint5-backend' branch.
 
 # Setting up the frontend
 
