@@ -8,9 +8,9 @@ Plot Points is a unified movie, TV show, and book review site. This project was 
 
 The project is split into two directories, frontend and backend.
 
-Anything React / UI related should is located in frontend. 
+Anything Frontend & UI related should is located in frontend. 
 
-Anything backend, database or FastAPI related should go into backend.
+Anything backend, database or FastAPI related is located in backend.
 
 # Setting up the backend
 
@@ -81,7 +81,7 @@ https://beta-csc490project.onrender.com/
 This beta version refers to an in-development branch of the backend and is used for testing purposes before being merged into the main branch. Just like the main version, it will automatically deploy when changes are pushed to the current sprint's backend branch.
 If you wish to change the branch that the beta version deploys from, contact Andrew. Currently, the beta deployment is using the 'sprint5-backend' branch.
 
-# Frontend
+# Setting Up The Frontend
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
