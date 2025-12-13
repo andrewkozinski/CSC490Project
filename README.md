@@ -47,7 +47,7 @@ Activate the virtual environment:
     - API Root (should just show a json response of hello world): `http://127.0.0.1:8000/`
     - API Docs (fancy API documentation): `http://127.0.0.1:8000/docs`
 
-## .env File:
+### Backend .env File:
 Make sure to create a `.env` file in the `backend` directory with the following content:
 ```
 TMDB_API_KEY=your_tmdb_api_key_here
@@ -111,7 +111,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 The frontend is hosted on Vercel. 
 
-## .env File:
+### Frontend .env File:
 Make sure to create a `.env` file in the `frontend` directory with the following content:
 ```
 API_URL=https://beta-csc490project.onrender.com/
