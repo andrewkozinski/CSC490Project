@@ -2,7 +2,7 @@
 
 Plot Points is a unified movie, TV show, and book review site. This project was developed with the aim to help individuals share their thoughts and opinions on movies and shows they’ve seen or books they’ve read with their friends, family, and anyone else online. This will help individuals looking at the media ratings to have a better idea as to where they should choose to spend their time on certain content over another.
 
-![Homepage](https://i.imgur.com/Mjcemty.png)
+![Homepage](https://i.imgur.com/wHWTPQC.png)
 
 # Project Setup
 
