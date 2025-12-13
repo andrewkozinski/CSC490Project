@@ -81,7 +81,7 @@ https://beta-csc490project.onrender.com/
 This beta version refers to an in-development branch of the backend and is used for testing purposes before being merged into the main branch. Just like the main version, it will automatically deploy when changes are pushed to the current sprint's backend branch.
 If you wish to change the branch that the beta version deploys from, contact Andrew. Currently, the beta deployment is using the 'sprint5-backend' branch.
 
-# Setting Up The Frontend
+# Setting up the frontend
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
