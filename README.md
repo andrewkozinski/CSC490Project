@@ -65,7 +65,7 @@ OCI_BUCKET_NAME=(VAL HERE)
 OCI_NAMESPACE=(VAL HERE)
 ```
 
-The keys can be found in the Discord in #environment-files or you can create your own account on https://www.themoviedb.org/ and generate your own API keys.
+To get your own The Movie Database API keys, visit https://www.themoviedb.org/ to generate your own keys.
 
 ## Render Deployment:
 The backend is deployed on Render. It will be set up to automatically deploy when changes are pushed to the main branch. 
